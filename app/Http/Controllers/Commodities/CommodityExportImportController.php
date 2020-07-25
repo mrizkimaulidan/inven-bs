@@ -22,8 +22,11 @@ class CommodityExportImportController extends Controller
 
     public function import()
     {
-        Excel::import(new Import, request()->file('file'));
-
-        return redirect()->back()->with('sukses', 'Import barang Berhasil');
+        try {
+            Excel::import(new Import, request()->file('file'));
+            return redirect()->back()->with('sukses', 'Import barang Berhasil');
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors('Gagal, Pastikan Import Data Anda Sesuai');
+        }
     }
 }
