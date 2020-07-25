@@ -16,13 +16,16 @@
     margin-left: auto;
     margin-right: auto;
   }
+  .page-break {
+    page-break-after: always;
+  }
 </style>
 
 <body>
     @foreach($commodities as $key => $commodity)
     <table class="center" border="1" cellpadding="10" cellspacing="0">
       <tr>
-        <td colspan="2">Barang Milik Sekolah</td>
+        <td colspan="2">Barang Milik {{$sekolah}}</td>
       </tr>
       <tr>
         <th>Kode Barang : </th>
@@ -37,7 +40,13 @@
         <td>{{ $commodity->school_operational_assistance->name }}</td>
       </tr>
     </table>
-    <hr>
+    <br>
+    @if ($key!=0)
+      @if (($key+1) % 4==0)
+        <div class="page-break"></div>
+        {{-- {{dd($key)}} --}}
+      @endif
+    @endif
     @endforeach
 </body>
 

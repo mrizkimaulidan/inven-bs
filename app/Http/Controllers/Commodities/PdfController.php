@@ -12,7 +12,8 @@ class PdfController extends Controller
     public function generatePdf()
     {
         $commodities = Commodity::all();
-        $pdf = PDF::loadView('commodities.pdf', compact('commodities'))->setPaper('a4');
+        $sekolah = env('NAMA_SEKOLAH', 'Barang Milik Sekolah');
+        $pdf = PDF::loadView('commodities.pdf', compact(['commodities', 'sekolah']))->setPaper('a4');
 
         return $pdf->stream('print.pdf');
     }
