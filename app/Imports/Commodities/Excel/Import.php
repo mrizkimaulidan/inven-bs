@@ -19,9 +19,9 @@ class Import implements ToModel
     {
         $commodity_location = CommodityLocation::where('name', $row[7])->first();
         $school_operational = SchoolOperationalAssistance::where('name', $row[6])->first();
-
+// dd($row);
         return new Commodity([
-            'register' => $row[1],
+            // 'register' => $row[1],
             'item_code' => $row[2],
             'name' => $row[3],
             'brand' => $row[4],

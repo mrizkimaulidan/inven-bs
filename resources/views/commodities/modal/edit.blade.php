@@ -12,21 +12,14 @@
                 <form name="commodity_edit">
                     @csrf
                     <div class="row">
-                        <div class="col-lg-4">
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="item_code_edit">Kode Barang</label>
                                 <input type="text" name="item_code_edit" class="form-control" id="item_code_edit">
                             </div>
                         </div>
 
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <label for="register_edit">Register</label>
-                                <input type="text" name="register_edit" class="form-control" id="register_edit">
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4">
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="acquisition">Asal Perolehan</label>
                                 <select class="custom-select" id="school_operational_assistance_id_edit">
