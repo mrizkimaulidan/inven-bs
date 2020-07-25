@@ -82,7 +82,7 @@
               </td>
               @endif
               <td class="text-center">
-                <a data-id="{{ $commodity->id }}" class="btn btn-sm btn-info text-white show_modal" data-toggle="modal" data-target="#show_commodity">
+                <a data-id="{{ $commodity->id }}" class="btn btn-sm btn-info text-white show_modal" data-toggle="modal" data-target="#show_commodity" title="Lihat Detail">
                   <i class="fas fa-fw fa-search"></i>
                 </a>
                 <a data-id="{{ $commodity->id }}" class="btn btn-sm btn-success text-white swal-edit-button" data-toggle="modal" data-target="#edit_commodity" data-placement="top" title="Ubah data">
