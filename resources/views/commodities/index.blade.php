@@ -88,6 +88,9 @@
                 <a data-id="{{ $commodity->id }}" class="btn btn-sm btn-success text-white swal-edit-button" data-toggle="modal" data-target="#edit_commodity" data-placement="top" title="Ubah data">
                   <i class="fas fa-fw fa-edit"></i>
                 </a>
+                <a href="{{ route('barang.print.one', $commodity->id) }}" class="btn btn-sm text-white btn-primary" data-toggle="tooltip" title="Print">
+                  <i class="fas fa-fw fa-print"></i>
+                </a>
                 <a data-id="{{ $commodity->id }}" class="btn btn-sm btn-danger text-white swal-delete-button" data-toggle="tooltip" data-placement="top" title="Hapus data">
                   <i class="fas fa-fw fa-trash-alt"></i>
                 </a>
