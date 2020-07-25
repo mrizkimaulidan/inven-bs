@@ -14,6 +14,17 @@
     </div>
   @endif
 
+  @if (session()->has('sukses'))
+    <div class="alert alert-success alert-dismissible show fade">
+      <div class="alert-body">
+        <button class="close" data-dismiss="alert">
+          <span>×</span>
+        </button>
+        {{session()->get('sukses')}}
+      </div>
+    </div>
+  @endif
+
   <div class="row">
     <div class="col-lg-12">
       <a href="{{ route('barang.print') }}" class="btn btn-success float-right mt-3 mx-3" data-toggle="tooltip" title="Print">
