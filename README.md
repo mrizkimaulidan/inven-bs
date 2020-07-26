@@ -27,16 +27,16 @@ _Tampilan Login_
 ![Image 1](https://i.imgur.com/RsiRp1O.png)
 
 _Dashboard_
-![Image 2](https://i.imgur.com/w8tPYOq.png)
+![Image 2](https://i.imgur.com/Rf1yOGY.png)
 
 _Daftar Barang_
-![Image 3](https://i.imgur.com/On2W9jM.png)
+![Image 3](https://i.imgur.com/FZa1VKv.png)
 
 _Daftar Bantuan Operasional Sekolah_
-![Image 4](https://i.imgur.com/mEYJc2j.png)
+![Image 4](https://i.imgur.com/kPG2KK2.png)
 
 _Daftar Ruangan_
-![Image 5](https://i.imgur.com/d7S5IMV.png)
+![Image 5](https://i.imgur.com/xGncl4B.png)
 
 ### Langkah-langkah instalasi
 
