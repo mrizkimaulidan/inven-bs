@@ -14,6 +14,7 @@
             <label for="item_code"><b>Kode Barang</b></label>
             <input type="text" name="" class="form-control" id="item_code" placeholder="" disabled>
           </div>
+        </div>
         <hr>
         <div class="row">
           <table class="table">
@@ -92,7 +93,6 @@
             </div>
           </div>
         </div>
-
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
