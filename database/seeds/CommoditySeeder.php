@@ -70,7 +70,6 @@ class CommoditySeeder extends Seeder
                 'school_operational_assistance_id' => mt_rand(1, 2),
                 'commodity_location_id' => mt_rand(1, count($commodity_locations)),
                 'item_code' => 'BRG-' . mt_rand(1000, 9000) . mt_rand(100, 900),
-                'register' => 'RGS-' . mt_rand(1000, 9000) . mt_rand(100, 900),
                 'name' => $commodities[array_rand($commodities)],
                 'brand' => $brands[array_rand($brands)],
                 'material' => $materials[array_rand($materials)],
