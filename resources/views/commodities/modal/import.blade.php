@@ -11,6 +11,11 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-12">
+                        <small>*Asal Perolehan dan Lokasi bersifat Case Sensitive. <br> Pastikan Namanya sesuai dengan Data BOS dan Data Ruangan di Sistem</small>
+                        <br>
+                        <a href="/import.xlsx" class="btn btn-primary mb-3">Template</a>
+                    </div>
+                    <div class="col-lg-12">
                         <form action="{{ route('excel.barang.import') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="file" name="file" id="file" class="form-control">

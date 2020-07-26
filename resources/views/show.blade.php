@@ -10,15 +10,10 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-lg-12">
             <label for="item_code"><b>Kode Barang</b></label>
             <input type="text" name="" class="form-control" id="item_code" placeholder="" disabled>
           </div>
-          <div class="col-lg-6">
-            <label for="register"><b>Register</b></label>
-            <input type="text" name="" class="form-control" id="register" placeholder="" disabled>
-          </div>
-        </div>
         <hr>
         <div class="row">
           <table class="table">

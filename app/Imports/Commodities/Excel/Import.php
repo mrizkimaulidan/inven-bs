@@ -7,8 +7,9 @@ use App\CommodityLocation;
 use App\SchoolOperationalAssistance;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class Import implements ToModel
+class Import implements ToModel, WithHeadingRow
 {
     /**
      * @param array $row
@@ -17,23 +18,23 @@ class Import implements ToModel
      */
     public function model(array $row)
     {
-        $commodity_location = CommodityLocation::where('name', $row[7])->first();
-        $school_operational = SchoolOperationalAssistance::where('name', $row[6])->first();
-
+        // dd($row);
+        $commodity_location = CommodityLocation::where('name', $row['lokasi'])->first();
+        $school_operational = SchoolOperationalAssistance::where('name', $row['asal_perolehan'])->first();
+        // dd($school_operational);
         return new Commodity([
-            'register' => $row[1],
-            'item_code' => $row[2],
-            'name' => $row[3],
-            'brand' => $row[4],
-            'material' => $row[5],
+            'item_code' => $row['kode_barang'],
+            'name' => $row['nama_barang'],
+            'brand' => $row['merek'],
+            'material' => $row['bahan'],
             'school_operational_assistance_id' => $school_operational->id,
             'commodity_location_id' => $commodity_location->id,
-            'year_of_purchase' => $row[8],
-            'condition' => $this->checkCommodityConditions($row[9]),
-            'quantity' => $row[10],
-            'price' => $row[11],
-            'price_per_item' => $row[12],
-            'note' => $row[13]
+            'year_of_purchase' => $row['tahun_pembelian'],
+            'condition' => $this->checkCommodityConditions($row['kondisi']),
+            'quantity' => $row['kuantitas'],
+            'price' => $row['harga'],
+            'price_per_item' => $row['harga_satuan'],
+            'note' => $row['keterangan']
         ]);
     }
 

@@ -27,7 +27,6 @@ class Export implements FromCollection, WithHeadings, ShouldAutoSize
         return [
             'No.',
             'Kode Barang',
-            'Register',
             'Nama Barang',
             'Merek',
             'Bahan',
@@ -58,7 +57,6 @@ class Export implements FromCollection, WithHeadings, ShouldAutoSize
         foreach ($model as $key => $commodity) {
             $data[$key]['no'] = $key + 1;
             $data[$key]['item_code'] = $commodity->item_code;
-            $data[$key]['register'] = $commodity->register;
             $data[$key]['name'] = $commodity->name;
             $data[$key]['brand'] = $commodity->brand;
             $data[$key]['material'] = $commodity->material;

@@ -14,7 +14,6 @@ class CommodityAjaxController extends Controller
         $commodities->school_operational_assistance_id = $request->school_operational_assistance_id;
         $commodities->commodity_location_id = $request->commodity_location_id;
         $commodities->item_code = $request->item_code;
-        $commodities->register = $request->register;
         $commodities->name = $request->name;
         $commodities->brand = $request->brand;
         $commodities->material = $request->material;
@@ -37,7 +36,6 @@ class CommodityAjaxController extends Controller
             'school_operational_assistance_id' => $commodity->school_operational_assistance->name,
             'commodity_location_id' => $commodity->commodity_location->name,
             'item_code' => $commodity->item_code,
-            'register' => $commodity->register,
             'name' => $commodity->name,
             'brand' => $commodity->brand,
             'material' => $commodity->material,
@@ -61,7 +59,6 @@ class CommodityAjaxController extends Controller
             'school_operational_assistance_id' => $commodity->school_operational_assistance_id,
             'commodity_location_id' => $commodity->commodity_location_id,
             'item_code' => $commodity->item_code,
-            'register' => $commodity->register,
             'name' => $commodity->name,
             'brand' => $commodity->brand,
             'material' => $commodity->material,
@@ -83,7 +80,6 @@ class CommodityAjaxController extends Controller
         $commodities->school_operational_assistance_id = $request->school_operational_assistance_id;
         $commodities->commodity_location_id = $request->commodity_location_id;
         $commodities->item_code = $request->item_code;
-        $commodities->register = $request->register;
         $commodities->name = $request->name;
         $commodities->brand = $request->brand;
         $commodities->material = $request->material;

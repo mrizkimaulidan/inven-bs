@@ -12,21 +12,14 @@
         <form name="commodity_create">
           @csrf
           <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-6">
               <div class="form-group">
                 <label for="item_code">Kode Barang</label>
                 <input type="text" name="item_code" class="form-control" id="item_code_create">
               </div>
             </div>
 
-            <div class="col-lg-4">
-              <div class="form-group">
-                <label for="register">Register</label>
-                <input type="text" name="register" class="form-control" id="register_create">
-              </div>
-            </div>
-
-            <div class="col-lg-4">
+            <div class="col-lg-6">
               <div class="form-group">
                 <label for="acquisition">Asal Perolehan</label>
                 <select class="custom-select" id="school_operational_assistance_id_create">

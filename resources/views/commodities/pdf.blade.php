@@ -16,25 +16,38 @@
     margin-left: auto;
     margin-right: auto;
   }
+  .page-break {
+    page-break-after: always;
+  }
 </style>
 
 <body>
-  <table class="center" border="1" cellpadding="10" cellspacing="0">
     @foreach($commodities as $key => $commodity)
-    <tr>
-      <th>Kode Register : </th>
-      <td>{{ $commodity->register }}</td>
-    </tr>
-    <tr>
-      <th>Nama Barang : </th>
-      <td>{{ $commodity->name }}</td>
-    </tr>
-    <tr>
-      <th>Asal Perolehan : </th>
-      <td>{{ $commodity->school_operational_assistance->name }}</td>
-    </tr>
+    <table class="center" border="1" cellpadding="10" cellspacing="0">
+      <tr>
+        <td colspan="2">Barang Milik {{$sekolah}}</td>
+      </tr>
+      <tr>
+        <th>Kode Barang : </th>
+        <td>{{ $commodity->item_code }}</td>
+      </tr>
+      <tr>
+        <th>Nama Barang : </th>
+        <td>{{ $commodity->name }}</td>
+      </tr>
+      <tr>
+        <th>Asal Perolehan : </th>
+        <td>{{ $commodity->school_operational_assistance->name }}</td>
+      </tr>
+    </table>
+    <br>
+    @if ($key!=0)
+      @if (($key+1) % 4==0)
+        <div class="page-break"></div>
+        {{-- {{dd($key)}} --}}
+      @endif
+    @endif
     @endforeach
-  </table>
 </body>
 
 </html>

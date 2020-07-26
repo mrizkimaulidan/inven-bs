@@ -2,10 +2,31 @@
 
 @section('content')
 <div class="card">
+
+  @if ($errors->any())
+    <div class="alert alert-danger alert-dismissible show fade">
+      <div class="alert-body">
+        <button class="close" data-dismiss="alert">
+          <span>×</span>
+        </button>
+        {{$errors->first()}}
+      </div>
+    </div>
+  @endif
+
+  @if (session()->has('sukses'))
+    <div class="alert alert-success alert-dismissible show fade">
+      <div class="alert-body">
+        <button class="close" data-dismiss="alert">
+          <span>×</span>
+        </button>
+        {{session()->get('sukses')}}
+      </div>
+    </div>
+  @endif
+
   <div class="row">
     <div class="col-lg-12">
-
-
       <a href="{{ route('barang.print') }}" class="btn btn-success float-right mt-3 mx-3" data-toggle="tooltip" title="Print">
         <i class="fas fa-fw fa-print"></i>
       </a>
@@ -20,13 +41,9 @@
         Import
       </button>
 
-
       <a href="{{ route('excel.barang.export') }}" class="btn btn-success float-right mt-3 mx-3" data-toggle="tooltip" title="Export Excel">
         <i class="fas fa-fw fa-file-excel"></i>
       </a>
-
-
-
 
     </div>
   </div>
@@ -34,7 +51,6 @@
     <div class="col-lg-12">
       <div class="table-responsive">
         <table class="table table-bordered table-hover" id="datatable">
-
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -66,11 +82,14 @@
               </td>
               @endif
               <td class="text-center">
-                <a data-id="{{ $commodity->id }}" class="btn btn-sm btn-info text-white show_modal" data-toggle="modal" data-target="#show_commodity">
+                <a data-id="{{ $commodity->id }}" class="btn btn-sm btn-info text-white show_modal" data-toggle="modal" data-target="#show_commodity" title="Lihat Detail">
                   <i class="fas fa-fw fa-search"></i>
                 </a>
                 <a data-id="{{ $commodity->id }}" class="btn btn-sm btn-success text-white swal-edit-button" data-toggle="modal" data-target="#edit_commodity" data-placement="top" title="Ubah data">
                   <i class="fas fa-fw fa-edit"></i>
+                </a>
+                <a href="{{ route('barang.print.one', $commodity->id) }}" class="btn btn-sm text-white btn-primary" data-toggle="tooltip" title="Print">
+                  <i class="fas fa-fw fa-print"></i>
                 </a>
                 <a data-id="{{ $commodity->id }}" class="btn btn-sm btn-danger text-white swal-delete-button" data-toggle="tooltip" data-placement="top" title="Hapus data">
                   <i class="fas fa-fw fa-trash-alt"></i>
