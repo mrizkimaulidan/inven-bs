@@ -4,25 +4,25 @@
 <div class="card">
 
   @if ($errors->any())
-    <div class="alert alert-danger alert-dismissible show fade">
-      <div class="alert-body">
-        <button class="close" data-dismiss="alert">
-          <span>×</span>
-        </button>
-        {{$errors->first()}}
-      </div>
+  <div class="alert alert-danger alert-dismissible show fade">
+    <div class="alert-body">
+      <button class="close" data-dismiss="alert">
+        <span>×</span>
+      </button>
+      {{$errors->first()}}
     </div>
+  </div>
   @endif
 
   @if (session()->has('sukses'))
-    <div class="alert alert-success alert-dismissible show fade">
-      <div class="alert-body">
-        <button class="close" data-dismiss="alert">
-          <span>×</span>
-        </button>
-        {{session()->get('sukses')}}
-      </div>
+  <div class="alert alert-success alert-dismissible show fade">
+    <div class="alert-body">
+      <button class="close" data-dismiss="alert">
+        <span>×</span>
+      </button>
+      {{session()->get('sukses')}}
     </div>
+  </div>
   @endif
 
   <div class="row">
@@ -38,11 +38,13 @@
 
       <!-- Button trigger modal -->
       <button type="button" class="btn btn-primary float-right mt-3 mx-3" data-toggle="modal" data-target="#excel_menu">
-        Import
+        <i class="fas fa-fw fa-upload"></i>
+        Import Excel
       </button>
 
       <a href="{{ route('excel.barang.export') }}" class="btn btn-success float-right mt-3 mx-3" data-toggle="tooltip" title="Export Excel">
-        <i class="fas fa-fw fa-file-excel"></i>
+        <i class="fas fa-fw fa-download"></i>
+        Export Excel
       </a>
 
     </div>
