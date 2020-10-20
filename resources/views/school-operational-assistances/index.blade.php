@@ -31,7 +31,7 @@
               <th scope="row">{{ $loop->iteration }}</th>
               <td>{{ $school_operational_assistance->name }}</td>
               <td>{{ Str::limit($school_operational_assistance->description, 55, '...') }}</td>
-              <td>{{ $school_operational_assistance->created_at }}</td>
+              <td>{{ date('m/d/Y H:i A', strtotime($school_operational_assistance->created_at)) }}</td>
               <td class="text-center">
                 <a data-id="{{ $school_operational_assistance->id }}" class="btn btn-sm btn-info text-white show_modal" data-toggle="modal" data-target="#show_school_operational_assistance">
                   <i class="fas fa-fw fa-search"></i>

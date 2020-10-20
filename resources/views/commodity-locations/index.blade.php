@@ -31,7 +31,7 @@
               <th scope="row">{{ $loop->iteration }}</th>
               <td>{{ $commodity_location->name }}</td>
               <td>{{ Str::limit($commodity_location->description, 55, '...') }}</td>
-              <td>{{ $commodity_location->created_at }}</td>
+              <td>{{ date('d/m/Y H:i A', strtotime($commodity_location->created_at)) }}</td>
               <td class="text-center">
                 <a data-id="{{ $commodity_location->id }}" class="btn btn-sm btn-info text-white show_modal" data-toggle="modal" data-target="#show_commodity_location">
                   <i class="fas fa-fw fa-search"></i>
