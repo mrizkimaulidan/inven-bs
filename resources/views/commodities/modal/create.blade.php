@@ -1,5 +1,6 @@
 <!-- Modal -->
-<div class="modal fade" id="commodity_create_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="commodity_create_modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+  role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -22,10 +23,12 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label for="acquisition">Asal Perolehan</label>
-                <select class="custom-select" id="school_operational_assistance_id_create">
+                <select class="select2-select-dropdown" id="school_operational_assistance_id_create"
+                  style="width: 100%;">
                   <option selected>Pilih</option>
                   @foreach($school_operational_assistances as $school_operational_assistance)
-                  <option value="{{ $school_operational_assistance->id }}">{{ $school_operational_assistance->name }}</option>
+                  <option value="{{ $school_operational_assistance->id }}">{{ $school_operational_assistance->name }}
+                  </option>
                   @endforeach
                 </select>
               </div>
@@ -66,7 +69,7 @@
             <div class="col-lg-4">
               <div class="form-group">
                 <label for="location">Lokasi</label>
-                <select class="custom-select" id="commodity_location_id_create">
+                <select class="select2-select-dropdown" id="commodity_location_id_create" style="width: 100%;">
                   <option selected>Pilih</option>
                   @foreach($commodity_locations as $commodity_location)
                   <option value="{{ $commodity_location->id }}">{{ $commodity_location->name }}</option>
@@ -78,9 +81,9 @@
             <div class="col-lg-3">
               <div class="form-group">
                 <label for="condition">Kondisi Barang</label>
-                <select class="custom-select" id="condition_create">
+                <select class="select2-select-dropdown" id="condition_create" style="width: 100%;">
                   <option selected>Pilih</option>
-                  <option value="1">Baik</option>
+                  <option value=" 1">Baik</option>
                   <option value="2">Kurang Baik</option>
                   <option value="3">Rusak Ringan</option>
                 </select>
