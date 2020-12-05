@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Commodities\Ajax;
 
 use App\Commodity;
+use App\CommodityLocation;
 use App\Http\Controllers\Controller;
+use App\SchoolOperationalAssistance;
 use Illuminate\Http\Request;
 
 class CommodityAjaxController extends Controller
@@ -55,7 +57,7 @@ class CommodityAjaxController extends Controller
     {
         $commodity = Commodity::findOrFail($id);
 
-        $data = [
+        $commodity = [
             'school_operational_assistance_id' => $commodity->school_operational_assistance_id,
             'commodity_location_id' => $commodity->commodity_location_id,
             'item_code' => $commodity->item_code,
@@ -70,7 +72,16 @@ class CommodityAjaxController extends Controller
             'note' => $commodity->note,
         ];
 
-        return response()->json(['status' => 200, 'message' => 'Success', 'data' => $data], 200);
+        return response()->json(['status' => 200, 'message' => 'Success', 'data' => [
+            'commodity' => $commodity,
+            'school_operational_assistances' => SchoolOperationalAssistance::all(),
+            'commodity_locations' => CommodityLocation::all(),
+            'conditions' => [
+                'Baik',
+                'Kurang Baik',
+                'Rusak Berat'
+            ]
+        ]], 200);
     }
 
     public function update(Request $request, $id)

@@ -98,19 +98,36 @@
                     _token: token
                 },
                 success: function(data) {
-                    $("#school_operational_assistance_id_edit").val(data.data.school_operational_assistance_id)
-                    $("#commodity_location_id_edit").val(data.data.commodity_location_id)
-                    $("#item_code_edit").val(data.data.item_code)
-                    $("#register_edit").val(data.data.register)
-                    $("#name_edit").val(data.data.name)
-                    $("#brand_edit").val(data.data.brand)
-                    $("#material_edit").val(data.data.material)
-                    $("#year_of_purchase_edit").val(data.data.year_of_purchase)
-                    $("#condition_edit").val(data.data.condition)
-                    $("#quantity_edit").val(data.data.quantity)
-                    $("#price_edit").val(data.data.price)
-                    $("#price_per_item_edit").val(data.data.price_per_item)
-                    $("#note_edit").val(data.data.note)
+                    const {
+                        commodity: commodity,
+                        commodity_locations,
+                        school_operational_assistances,
+                        conditions
+                    } = data.data;
+
+                    school_operational_assistances.forEach(function(school_operational_assistance) {
+                        $('#school_operational_assistance_id_edit').append(`<option value="${school_operational_assistance.id}"${school_operational_assistance.id === commodity.school_operational_assistance_id ? ' selected' : ''}>${school_operational_assistance.name}</option>`)
+                    });
+
+                    conditions.forEach(function(condition, index) {
+                        i = index + 1
+                        $('#condition_edit').append(`<option value="${i}"${i === commodity.condition ? ' selected' : ''}>${condition}</option>`)
+                    });
+
+                    commodity_locations.forEach(function(commodity_location) {
+                        $('#commodity_location_id_edit').append(`<option value="${commodity_location.id}"${commodity_location.id === commodity.commodity_location_id ? ' selected' : ''}>${commodity_location.name}</option>`)
+                    });
+
+                    $("#item_code_edit").val(commodity.item_code)
+                    $("#register_edit").val(commodity.register)
+                    $("#name_edit").val(commodity.name)
+                    $("#brand_edit").val(commodity.brand)
+                    $("#material_edit").val(commodity.material)
+                    $("#year_of_purchase_edit").val(commodity.year_of_purchase)
+                    $("#quantity_edit").val(commodity.quantity)
+                    $("#price_edit").val(commodity.price)
+                    $("#price_per_item_edit").val(commodity.price_per_item)
+                    $("#note_edit").val(commodity.note)
                 },
                 error: function(data) {
                     Swal.fire("Gagal!", "Tidak dapat melihat info kategori buku.", "warning");

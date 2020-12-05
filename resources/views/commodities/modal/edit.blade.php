@@ -1,6 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="edit_commodity" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="edit_commodity" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -23,13 +22,8 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="acquisition">Asal Perolehan</label>
-                                <select class="select2-select-dropdown" id="school_operational_assistance_id_edit"
-                                    style="width: 100%;">
+                                <select class="select2-select-dropdown" id="school_operational_assistance_id_edit" style="width: 100%;">
                                     <option selected>Pilih</option>
-                                    @foreach($school_operational_assistances as $school_operational_assistance)
-                                    <option value="{{ $school_operational_assistance->id }}">
-                                        {{ $school_operational_assistance->name }}</option>
-                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -69,13 +63,9 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="commodity_location_id_edit">Lokasi</label>
-                                <select class="select2-select-dropdown" id="commodity_location_id_edit"
-                                    style="width: 100%;">
+                                <select class="select2-select-dropdown" id="commodity_location_id_edit" style="width: 100%;">
                                     <option selected>Pilih</option>
-                                    @foreach($commodity_locations as $commodity_location)
-                                    <option value="{{ $commodity_location->id }}">{{ $commodity_location->name }}
-                                    </option>
-                                    @endforeach
+
                                 </select>
                             </div>
                         </div>
@@ -85,9 +75,7 @@
                                 <label for="condition_edit">Kondisi Barang</label>
                                 <select class="select2-select-dropdown" id="condition_edit" style="width: 100%;">
                                     <option selected>Pilih</option>
-                                    <option value="1">Baik</option>
-                                    <option value="2">Kurang Baik</option>
-                                    <option value="3">Rusak Berat</option>
+
                                 </select>
                             </div>
                         </div>
