@@ -79,20 +79,3 @@ Password    : admin
 ### Dibuat dengan
 
 -   [Laravel](https://laravel.com) - Web Framework
-
-### Kontribusi
-
-Silahkan request melalui kolom `Pull Requests` jika ingin melakukan kontribusi
-
-### Pembuat
-
--   **Muhammad Rizki Maulidan** - _Programmer_ - [mrizkimaulidan](https://github.com/mrizkimaulidan)
-
-### Lisensi
-
-Aplikasi ini boleh untuk dibagi dan diubah. Mohon tidak untuk diperjualbelikan!
-
-### Ucapan terima kasih
-
--   Stackoverflow
--   Google
