@@ -118,7 +118,7 @@
             <div class="col-lg-12">
               <div class="form-group">
                 <label for="note">Keterangan</label>
-                <textarea class="form-control" id="note_create" rows="3"></textarea>
+                <textarea class="form-control" id="note_create" rows="3" style="height: 100px;"></textarea>
               </div>
             </div>
           </div>
