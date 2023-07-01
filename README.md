@@ -1,14 +1,14 @@
 # Inven BS
 
-Aplikasi inventaris barang sekolah menggunakan Framework Laravel 7
+Aplikasi inventaris barang sekolah menggunakan Framework Laravel 9.
 
 ### Prasyarat
 
 Berikut beberapa hal yang perlu diinstal terlebih dahulu:
 
 -   Composer (https://getcomposer.org/)
--   PHP 7.2.x
--   MySQL 14.5.x
+-   PHP ^8.0.2
+-   MySQL
 -   XAMPP
 
 Jika Anda menggunakan XAMPP, untuk PHP dan MySQL sudah menjadi 1 (bundle) didalam aplikasi XAMPP
