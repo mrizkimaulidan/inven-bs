@@ -3,6 +3,7 @@
 @section('content')
 <div class="card">
 	<div class="card-body">
+		@include('utilities.alert')
 		<div class="d-flex justify-content-end mb-3">
 			<button type="button" class="btn btn-primary" data-toggle="modal"
 				data-target="#school_operational_assistance_create_modal">

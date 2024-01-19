@@ -4,27 +4,7 @@
 <div class="card">
 	<div class="card-body">
 
-		@if ($errors->any())
-		<div class="alert alert-danger alert-dismissible show fade">
-			<div class="alert-body">
-				<button class="close" data-dismiss="alert">
-					<span>×</span>
-				</button>
-				{{$errors->first()}}
-			</div>
-		</div>
-		@endif
-
-		@if (session()->has('sukses'))
-		<div class="alert alert-success alert-dismissible show fade">
-			<div class="alert-body">
-				<button class="close" data-dismiss="alert">
-					<span>×</span>
-				</button>
-				{{session()->get('sukses')}}
-			</div>
-		</div>
-		@endif
+		@include('utilities.alert')
 
 		<div class="d-flex justify-content-end mb-3">
 			<div class="btn-group">

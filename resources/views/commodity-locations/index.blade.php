@@ -3,6 +3,7 @@
 @section('content')
 <div class="card">
 	<div class="card-body">
+		@include('utilities.alert')
 		<div class="d-flex justify-content-end mb-3">
 			<div class="btn-group">
 				<button type="button" class="btn btn-primary" data-toggle="modal"
