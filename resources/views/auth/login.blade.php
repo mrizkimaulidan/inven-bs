@@ -62,10 +62,6 @@
 									Login
 								</button>
 							</div>
-
-							<div class="mt-5 text-center">
-								Belum punya akun? <a href="{{ route('register') }}">Buat Akun</a>
-							</div>
 						</form>
 					</div>
 				</div>
