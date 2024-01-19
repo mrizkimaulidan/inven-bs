@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('barang', CommodityController::class)->except('create', 'edit', 'show')->parameter('barang', 'commodity');
     Route::prefix('barang')->name('barang.')->group(function () {
         Route::get('/print', [CommodityController::class, 'generatePDF'])->name('print');
+        Route::get('/print/{id}', [CommodityController::class, 'generatePDFIndividually'])->name('print-individual');
         Route::get('/export', [CommodityController::class, 'export'])->name('export');
         Route::get('/import', [CommodityController::class, 'export'])->name('import');
     });

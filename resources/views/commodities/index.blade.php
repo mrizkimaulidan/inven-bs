@@ -76,6 +76,11 @@
 											<i class="fas fa-fw fa-edit"></i>
 										</a>
 
+										<a href="{{ route('barang.print-individual', $commodity->id) }}"
+											class="btn btn-sm text-white btn-primary mr-2">
+											<i class="fas fa-fw fa-print"></i>
+										</a>
+
 										<form action="{{ route('barang.destroy', $commodity) }}" method="POST">
 											@csrf
 											@method('DELETE')
@@ -83,11 +88,6 @@
 													class="fas fa-fw fa-trash-alt"></i></button>
 										</form>
 									</div>
-
-									{{-- <a href="{{ route('barang.print.one', $commodity->id) }}"
-										class="btn btn-sm text-white btn-primary" data-toggle="tooltip" title="Print">
-										<i class="fas fa-fw fa-print"></i>
-									</a> --}}
 								</td>
 							</tr>
 							@endforeach
