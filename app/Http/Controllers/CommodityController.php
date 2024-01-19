@@ -42,7 +42,7 @@ class CommodityController extends Controller
     {
         $commodity->update($request->all());
 
-        return to_route('barang.index')->with('success', 'Data berhasil ditambahkan!');
+        return to_route('barang.index')->with('success', 'Data berhasil diubah!');
     }
 
     /**
