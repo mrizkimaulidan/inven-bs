@@ -10,7 +10,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<form action="{{ route('ruangan.index') }}" method="POST">
+				<form action="{{ route('ruangan.store') }}" method="POST">
 					@csrf
 					<div class="row">
 						<div class="col-lg-12">

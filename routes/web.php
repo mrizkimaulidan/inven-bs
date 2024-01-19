@@ -42,6 +42,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/ruangan', [CommodityLocationController::class, 'index'])->name('ruangan.index');
     Route::post('/ruangan', [CommodityLocationController::class, 'store'])->name('ruangan.store');
+    Route::put('/ruangan/{commodity_location}', [CommodityLocationController::class, 'update'])->name('ruangan.update');
+    Route::delete('/ruangan/{commodity_location}', [CommodityLocationController::class, 'destroy'])->name('ruangan.destroy');
 });
 
 // Route::group(['prefix' => 'excel', 'as' => 'excel.barang.', 'middleware' => 'auth'], function () {

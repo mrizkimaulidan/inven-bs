@@ -54,16 +54,20 @@ class CommodityLocationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, CommodityLocation $commodityLocation)
     {
-        //
+        $commodityLocation->update($request->all());
+
+        return to_route('ruangan.index')->with('success', 'Data berhasil diubah!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(CommodityLocation $commodityLocation)
     {
-        //
+        $commodityLocation->delete();
+
+        return to_route('ruangan.index')->with('success', 'Data berhasil dihapus!');
     }
 }
