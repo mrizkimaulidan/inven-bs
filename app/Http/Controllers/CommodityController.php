@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Commodity;
 use App\CommodityLocation;
 use App\SchoolOperationalAssistance;
-use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Exports\Commodities\Excel\Export;
 use App\Imports\Commodities\Excel\Import;
@@ -59,7 +59,7 @@ class CommodityController extends Controller
     {
         $commodities = Commodity::all();
         $sekolah = env('NAMA_SEKOLAH', 'Barang Milik Sekolah');
-        $pdf = PDF::loadView('commodities.pdf', compact(['commodities', 'sekolah']))->setPaper('a4');
+        $pdf = Pdf::loadView('commodities.pdf', compact(['commodities', 'sekolah']))->setPaper('a4');
 
         return $pdf->download('print.pdf');
     }
@@ -68,7 +68,7 @@ class CommodityController extends Controller
     {
         $commodity = Commodity::find($id);
         $sekolah = env('NAMA_SEKOLAH', 'Barang Milik Sekolah');
-        $pdf = PDF::loadView('commodities.pdfone', compact(['commodity', 'sekolah']))->setPaper('a4');
+        $pdf = Pdf::loadView('commodities.pdfone', compact(['commodity', 'sekolah']))->setPaper('a4');
 
         return $pdf->download('print.pdf');
     }
