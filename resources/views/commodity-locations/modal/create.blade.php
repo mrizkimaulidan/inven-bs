@@ -4,7 +4,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="staticBackdropLabel">Tambah Data</h5>
+				<h5 class="modal-title" id="staticBackdropLabel">Tambah Data Ruangan</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -15,14 +15,14 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="form-group">
-								<label for="name">Nama</label>
+								<label for="name">Nama Ruangan</label>
 								<input type="text" name="name" id="name" class="form-control" placeholder="Masukan nama..">
 							</div>
 						</div>
 
 						<div class="col-lg-12">
 							<div class="form-group">
-								<label for="description">Deskripsi</label>
+								<label for="description">Deskripsi Ruangan</label>
 								<textarea name="description" class="form-control" id="description"
 									placeholder="Masukan deskripsi (opsional).." style="height: 100px;"></textarea>
 							</div>
@@ -30,7 +30,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-						<button type="submit" class="btn btn-primary">Tambah Data</button>
+						<button type="submit" class="btn btn-success">Tambah</button>
 					</div>
 				</form>
 			</div>

@@ -3,7 +3,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="modalLabel">Ubah</h5>
+				<h5 class="modal-title" id="modalLabel">Ubah Data Ruangan</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -22,7 +22,7 @@
 						</div>
 						<div class="col-lg-12">
 							<div class="form-group">
-								<label for="description">Deskripsi</label>
+								<label for="description">Deskripsi Ruangan</label>
 								<textarea class="form-control" name="description" id="description" style="height: 100px"></textarea>
 							</div>
 						</div>
