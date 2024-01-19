@@ -34,21 +34,26 @@
 								<td>{{ Str::limit($school_operational_assistance->description, 55, '...') }}</td>
 								<td>{{ date('m/d/Y H:i A', strtotime($school_operational_assistance->created_at)) }}</td>
 								<td class="text-center">
-									<a data-id="{{ $school_operational_assistance->id }}"
-										class="btn btn-sm btn-info text-white show_modal" data-toggle="modal"
-										data-target="#show_school_operational_assistance">
-										<i class="fas fa-fw fa-search"></i>
-									</a>
-									<a data-id="{{ $school_operational_assistance->id }}"
-										class="btn btn-sm btn-success text-white swal-edit-button" data-toggle="modal"
-										data-target="#school_operational_assistance_edit_modal" data-placement="top" title="Ubah data">
-										<i class="fas fa-fw fa-edit"></i>
-									</a>
-									<a data-id="{{ $school_operational_assistance->id }}"
-										class="btn btn-sm btn-danger text-white swal-delete-button" data-toggle="tooltip"
-										data-placement="top" title="Hapus data">
-										<i class="fas fa-fw fa-trash-alt"></i>
-									</a>
+									<div class="btn-group">
+										<a data-id="{{ $school_operational_assistance->id }}"
+											class="btn btn-sm btn-info text-white show-modal mr-2" data-toggle="modal"
+											data-target="#show_school_operational_assistance">
+											<i class="fas fa-fw fa-search"></i>
+										</a>
+										<a data-id="{{ $school_operational_assistance->id }}"
+											class="btn btn-sm btn-success text-white edit-modal mr-2" data-toggle="modal"
+											data-target="#school_operational_assistance_edit_modal">
+											<i class="fas fa-fw fa-edit"></i>
+										</a>
+										<form action="{{ route('bantuan-dana-operasional.destroy', $school_operational_assistance->id) }}"
+											method="POST">
+											@csrf
+											@method('DELETE')
+											<button type="submit" class="btn btn-sm btn-danger delete-button">
+												<i class="fas fa-fw fa-trash-alt"></i>
+											</button>
+										</form>
+									</div>
 								</td>
 							</tr>
 							@endforeach

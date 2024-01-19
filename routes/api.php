@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\CommodityController;
 use App\Http\Controllers\API\CommodityLocationController;
+use App\Http\Controllers\API\SchoolOperationalAssistanceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,4 +24,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::name('api.')->group(function () {
     Route::get('/barang/{commodity}', [CommodityController::class, 'show'])->name('barang.show');
     Route::get('/ruangan/{commodity_location}', [CommodityLocationController::class, 'show'])->name('ruangan.show');
+    Route::get(
+        '/bantuan-dana-operasional/{school_operational_assistance}',
+        [SchoolOperationalAssistanceController::class, 'show']
+    )->name('bantuan-dana-operasional.show');
 });

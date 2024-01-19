@@ -41,6 +41,10 @@ Route::middleware('auth')->group(function () {
         ->name('bantuan-dana-operasional.index');
     Route::post('/bantuan-dana-operasional', [SchoolOperationalAssistanceController::class, 'store'])
         ->name('bantuan-dana-operasional.store');
+    Route::put('/bantuan-dana-operasional/{school_operational_assistance}', [SchoolOperationalAssistanceController::class, 'update'])
+        ->name('bantuan-dana-operasional.update');
+    Route::delete('/bantuan-dana-operasional/{school_operational_assistance}', [SchoolOperationalAssistanceController::class, 'destroy'])
+        ->name('bantuan-dana-operasional.destroy');
 
     Route::get('/ruangan', [CommodityLocationController::class, 'index'])->name('ruangan.index');
     Route::post('/ruangan', [CommodityLocationController::class, 'store'])->name('ruangan.store');

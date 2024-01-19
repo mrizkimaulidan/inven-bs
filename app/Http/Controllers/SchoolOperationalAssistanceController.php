@@ -54,16 +54,20 @@ class SchoolOperationalAssistanceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, SchoolOperationalAssistance $schoolOperationalAssistance)
     {
-        //
+        $schoolOperationalAssistance->update($request->all());
+
+        return to_route('bantuan-dana-operasional.index')->with('success', 'Data berhasil diubah!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(SchoolOperationalAssistance $schoolOperationalAssistance)
     {
-        //
+        $schoolOperationalAssistance->delete();
+
+        return to_route('bantuan-dana-operasional.index')->with('success', 'Data berhasil dihapus!');
     }
 }
