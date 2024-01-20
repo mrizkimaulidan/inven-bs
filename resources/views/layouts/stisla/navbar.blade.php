@@ -9,14 +9,17 @@
 				<i class="fas fa-cog"></i> Pengaturan Profil
 			</a>
 			<div class="dropdown-divider"></div>
-			<a class="dropdown-item has-icon text-danger" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+			{{-- <a class="dropdown-item has-icon text-danger" href="{{ route('logout') }}">
 				<i class="fas fa-sign-out-alt"></i>
 				{{ __('Logout') }}
-			</a>
-
-			<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+			</a> --}}
+			<form id="logout-form" action="{{ route('logout') }}" method="POST">
 				@csrf
+
+
+				<button type="submit" class="dropdown-item has-icon btn-link text-danger logout">
+					Logout
+				</button>
 			</form>
 		</div>
 	</li>

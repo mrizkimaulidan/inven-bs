@@ -36,13 +36,11 @@
 		</ul>
 
 		<div class="mt-4 mb-4 p-3 hide-sidebar-mini">
-			<a class="btn btn-danger btn-lg btn-block btn-icon-split" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-				<i class="fas fa-fw fa-sign-out-alt"></i>
-				{{ __('Logout') }}
-			</a>
-
-			<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+			<form id="logout-form" action="{{ route('logout') }}" method="POST">
+				<button type="submit" class="btn btn-danger btn-lg btn-block btn-icon-split logout">
+					<i class="fas fa-fw fa-sign-out-alt"></i>
+					Logout
+				</button>
 				@csrf
 			</form>
 		</div>
