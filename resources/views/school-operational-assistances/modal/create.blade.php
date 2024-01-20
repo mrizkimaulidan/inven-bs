@@ -16,15 +16,27 @@
 						<div class="col-lg-12">
 							<div class="form-group">
 								<label for="name">Nama BOS</label>
-								<input type="text" name="name" class="form-control" id="name" placeholder="Masukan nama..">
+								<input type="text" name="name" class="form-control @error('name', 'store') is-invalid @enderror"
+									id="name" value="{{ old('name') }}" placeholder="Masukan nama..">
+								@error('name', 'store')
+								<div class="d-block invalid-feedback">
+									{{ $message }}
+								</div>
+								@enderror
 							</div>
 						</div>
 
 						<div class="col-lg-12">
 							<div class="form-group">
 								<label for="description">Deskripsi BOS</label>
-								<textarea name="description" class="form-control" id="description" style="height: 100px;"
-									placeholder="Masukan deskripsi (opsional).."></textarea>
+								<textarea name="description" class="form-control @error('description', 'store') is-invalid @enderror"
+									name="description" id="description" style="height: 100px;"
+									placeholder="Masukan deskripsi (opsional)..">{{ old('description') }}</textarea>
+								@error('description', 'store')
+								<div class="d-block invalid-feedback">
+									{{ $message }}
+								</div>
+								@enderror
 							</div>
 						</div>
 					</div>

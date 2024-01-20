@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSchoolOperationalAssistanceRequest;
+use App\Http\Requests\UpdateSchoolOperationalAssistanceRequest;
 use App\SchoolOperationalAssistance;
 use Illuminate\Http\Request;
 
@@ -28,9 +30,9 @@ class SchoolOperationalAssistanceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreSchoolOperationalAssistanceRequest $request)
     {
-        SchoolOperationalAssistance::create($request->all());
+        SchoolOperationalAssistance::create($request->validated());
 
         return to_route('bantuan-dana-operasional.index')->with('success', 'Data berhasil ditambahkan!');
     }
@@ -54,9 +56,9 @@ class SchoolOperationalAssistanceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SchoolOperationalAssistance $schoolOperationalAssistance)
+    public function update(UpdateSchoolOperationalAssistanceRequest $request, SchoolOperationalAssistance $schoolOperationalAssistance)
     {
-        $schoolOperationalAssistance->update($request->all());
+        $schoolOperationalAssistance->update($request->validated());
 
         return to_route('bantuan-dana-operasional.index')->with('success', 'Data berhasil diubah!');
     }
