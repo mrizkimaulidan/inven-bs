@@ -47,9 +47,9 @@ class StoreCommodityRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'school_operational_assistance_id.required' => 'Kolom asal wajib diisi!',
-            'school_operational_assistance_id.numeric' => 'Kolom asal yang dipilih tidak valid!',
-            'school_operational_assistance_id.exists' => 'Kolom asal yang dipilih tidak valid!',
+            'school_operational_assistance_id.required' => 'Kolom asal perolehan wajib diisi!',
+            'school_operational_assistance_id.numeric' => 'Kolom asal perolehan yang dipilih tidak valid!',
+            'school_operational_assistance_id.exists' => 'Kolom asal perolehan yang dipilih tidak valid!',
 
             'commodity_location_id.required' => 'Kolom lokasi barang wajib diisi!',
             'commodity_location_id.numeric' => 'Kolom lokasi barang yang dipilih tidak valid!',

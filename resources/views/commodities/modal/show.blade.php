@@ -25,7 +25,7 @@
 					</div>
 					<div class="col-lg-4">
 						<div class="form-group">
-							<label for="commodity_location_id">Lokasi</label>
+							<label for="commodity_location_id">Lokasi Barang</label>
 							<input type="text" class="form-control" id="commodity_location_id" disabled>
 						</div>
 					</div>
@@ -57,7 +57,7 @@
 					</div>
 					<div class="col-lg-4 col-6">
 						<div class="form-group">
-							<label for="school_operational_assistance_id">Asal</label>
+							<label for="school_operational_assistance_id">Asal Perolehan</label>
 							<input type="text" class="form-control" id="school_operational_assistance_id" disabled>
 						</div>
 					</div>
