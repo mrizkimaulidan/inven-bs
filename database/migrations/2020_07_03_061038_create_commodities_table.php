@@ -17,7 +17,7 @@ class CreateCommoditiesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('school_operational_assistance_id');
             $table->unsignedBigInteger('commodity_location_id');
-            $table->string('item_code');
+            $table->string('item_code')->unique();
             $table->string('register');
             $table->string('name');
             $table->string('brand');
