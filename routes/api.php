@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\CommodityController;
 use App\Http\Controllers\API\CommodityLocationController;
 use App\Http\Controllers\API\SchoolOperationalAssistanceController;
+use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,4 +29,5 @@ Route::name('api.')->group(function () {
         '/bantuan-dana-operasional/{school_operational_assistance}',
         [SchoolOperationalAssistanceController::class, 'show']
     )->name('bantuan-dana-operasional.show');
+    Route::get('/pengguna/{user}', [UserController::class, 'show'])->name('pengguna.show');
 });

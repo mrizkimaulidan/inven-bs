@@ -24,6 +24,10 @@
 				<a href="{{ route('ruangan.index') }}" class="nav-link"><i class="fas fa-th"></i> <span>Data
 						Ruangan</span></a>
 			</li>
+			<li class="nav-item dropdown{{ request()->routeIs('pengguna.index') ? ' active' : '' }}">
+				<a href="{{ route('pengguna.index') }}" class="nav-link"><i class="fas fa-users"></i> <span>Data
+						Pengguna</span></a>
+			</li>
 		</ul>
 
 		<div class="mt-4 mb-4 p-3 hide-sidebar-mini">
