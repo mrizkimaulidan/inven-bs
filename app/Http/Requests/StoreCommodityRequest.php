@@ -51,9 +51,9 @@ class StoreCommodityRequest extends FormRequest
             'school_operational_assistance_id.numeric' => 'Kolom asal yang dipilih tidak valid!',
             'school_operational_assistance_id.exists' => 'Kolom asal yang dipilih tidak valid!',
 
-            'commodity_location_id.required' => 'Kolom lokasi komoditas wajib diisi!',
-            'commodity_location_id.numeric' => 'Kolom lokasi komoditas yang dipilih tidak valid!',
-            'commodity_location_id.exists' => 'Kolom lokasi komoditas yang dipilih tidak valid!',
+            'commodity_location_id.required' => 'Kolom lokasi barang wajib diisi!',
+            'commodity_location_id.numeric' => 'Kolom lokasi barang yang dipilih tidak valid!',
+            'commodity_location_id.exists' => 'Kolom lokasi barang yang dipilih tidak valid!',
 
             'item_code.required' => 'Kolom kode barang wajib diisi!',
             'item_code.unique' => 'Kode barang sudah digunakan. Pilih kode barang lain.',
