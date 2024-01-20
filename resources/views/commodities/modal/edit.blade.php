@@ -134,7 +134,7 @@
 							<div class="form-group">
 								<label for="note">Keterangan</label>
 								<textarea class="form-control" name="note" id="note" style="height: 100px;"
-									placeholder="Masukan nama barang.."></textarea>
+									placeholder="Masukan keterangan (opsional).."></textarea>
 							</div>
 						</div>
 					</div>

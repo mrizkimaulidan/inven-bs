@@ -8,6 +8,8 @@ use App\SchoolOperationalAssistance;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Exports\Commodities\Excel\Export;
+use App\Http\Requests\StoreCommodityRequest;
+use App\Http\Requests\UpdateCommodityRequest;
 use App\Imports\Commodities\Excel\Import;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -28,9 +30,9 @@ class CommodityController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCommodityRequest $request)
     {
-        Commodity::create($request->all());
+        Commodity::create($request->validated());
 
         return to_route('barang.index')->with('success', 'Data berhasil ditambahkan!');
     }
@@ -38,7 +40,7 @@ class CommodityController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Commodity $commodity)
+    public function update(UpdateCommodityRequest $request, Commodity $commodity)
     {
         $commodity->update($request->all());
 
