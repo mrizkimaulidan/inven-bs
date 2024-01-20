@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\CommodityLocation;
+use App\Http\Requests\StoreCommodityLocationRequest;
+use App\Http\Requests\UpdateCommodityLocationRequest;
 use Illuminate\Http\Request;
 
 class CommodityLocationController extends Controller
@@ -28,9 +30,9 @@ class CommodityLocationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCommodityLocationRequest $request)
     {
-        CommodityLocation::create($request->all());
+        CommodityLocation::create($request->validated());
 
         return to_route('ruangan.index')->with('success', 'Data berhasil ditambahkan!');
     }
@@ -54,7 +56,7 @@ class CommodityLocationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CommodityLocation $commodityLocation)
+    public function update(UpdateCommodityLocationRequest $request, CommodityLocation $commodityLocation)
     {
         $commodityLocation->update($request->all());
 
