@@ -20,14 +20,6 @@ class SchoolOperationalAssistanceController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreSchoolOperationalAssistanceRequest $request)
@@ -35,22 +27,6 @@ class SchoolOperationalAssistanceController extends Controller
         SchoolOperationalAssistance::create($request->validated());
 
         return to_route('bantuan-dana-operasional.index')->with('success', 'Data berhasil ditambahkan!');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**
