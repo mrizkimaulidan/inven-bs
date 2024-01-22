@@ -1,25 +1,29 @@
 # Inven BS
 
-Aplikasi inventaris barang sekolah menggunakan Framework Laravel 9.
+Aplikasi inventaris barang sekolah menggunakan Framework Laravel 10. Aplikasi ini cocok untuk digunakan untuk di sekolah.
+
+Beberapa CRUD menggunakan modal dan AJAX untuk pengambilan data agar mengurangi penggunaan pindah halaman.
 
 ### Prasyarat
 
 Berikut beberapa hal yang perlu diinstal terlebih dahulu:
 
 -   Composer (https://getcomposer.org/)
--   PHP ^8.0.2
+-   PHP ^8.3
 -   MySQL
 -   XAMPP
 
-Jika Anda menggunakan XAMPP, untuk PHP dan MySQL sudah menjadi 1 (bundle) didalam aplikasi XAMPP
+Jika Anda menggunakan XAMPP, untuk PHP dan MySQL sudah menjadi 1 (bundle) di dalam aplikasi XAMPP
 
 ### Fitur
 
--   CRUD Barang
+-   CRUD Data Barang
 -   Import/export excel barang
--   Print
--   CRUD BOS (Bantuan Operasional Sekolah)
--   CRUD Ruangan
+-   Print barang (seluruh/individual)
+-   CRUD Data BOS (Bantuan Operasional Sekolah)
+-   CRUD Data Ruangan
+-   CRUD Data Pengguna
+-   Pengaturan Profil
 
 ### Preview Gambar
 
@@ -27,53 +31,61 @@ _Tampilan Login_
 ![Image 1](https://i.imgur.com/RsiRp1O.png)
 
 _Dashboard_
-![Image 2](https://i.imgur.com/Rf1yOGY.png)
+![Image 2](https://i.imgur.com/rMNHBGW.png)
 
 _Daftar Barang_
-![Image 3](https://i.imgur.com/FZa1VKv.png)
+![Image 3](https://i.imgur.com/9DnEC3U.png)
+
+_Print_
+![Image 4](https://i.imgur.com/a7yj6Or.png)
+
+_Print Individual_
+![Image 5](https://i.imgur.com/Spjtxpv.png)
 
 _Daftar Bantuan Operasional Sekolah_
-![Image 4](https://i.imgur.com/kPG2KK2.png)
+![Image 6](https://i.imgur.com/7IAFGxh.png)
 
 _Daftar Ruangan_
-![Image 5](https://i.imgur.com/xGncl4B.png)
+![Image 7](https://i.imgur.com/jxRDwnW.png)
+
+_Daftar Pengguna_
+![Image 8](https://i.imgur.com/B8WXHrI.png)
+
+_Pengaturan Profil_
+![Image 9](https://i.imgur.com/bsfTDBz.png)
 
 ### Langkah-langkah instalasi
 
 -   Clone repository ini
 
-```
-https://github.com/mrizkimaulidan/inven-bs.git
-```
-
-```
-git@github.com:mrizkimaulidan/inven-bs.git
+```bash
+$ git https://github.com/mrizkimaulidan/inven-bs.git
 ```
 
 -   Install seluruh packages yang dibutuhkan
 
-```
-composer install
+```bash
+$ composer install
 ```
 
 -   Siapkan database dan atur file .env sesuai dengan konfigurasi Anda
 -   Jika sudah, migrate seluruh migrasi dan seeding data
 
-```
-php artisan migrate --seed
+```bash
+$ php artisan migrate --seed
 ```
 
 -   Jalankan local server
 
 ```
-php artisan serve
+$ php artisan serve
 ```
 
 -   User default aplikasi untuk login
 
 ```
 Email       : admin@mail.com
-Password    : admin
+Password    : secret
 ```
 
 ### Dibuat dengan
