@@ -30,7 +30,7 @@
 							<div class="form-group">
 								<label for="email">Email</label>
 								<input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email"
-									tabindex="1" value="admin@mail.com" required autofocus>
+									tabindex="1" placeholder="Masukan alamat email.." required autofocus>
 
 								@error('email')
 								<span class="invalid-feedback" role="alert">
@@ -45,7 +45,7 @@
 									<label for="password" class="control-label">Password</label>
 								</div>
 								<input id="password" type="password" class="form-control @error('password') @enderror" name="password"
-									tabindex="2" value="secret" required>
+									tabindex="2" placeholder="Masukan kata sandi.." required>
 								<div class="invalid-feedback">
 									Mohon masukkan password!
 								</div>
