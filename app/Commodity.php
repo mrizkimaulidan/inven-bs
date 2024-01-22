@@ -28,4 +28,19 @@ class Commodity extends Model
     {
         return number_format($value, 2, ',', '.');
     }
+
+    public function getConditionName()
+    {
+        if ($this->condition === 1) {
+            return 'Baik';
+        }
+
+        if ($this->condition === 2) {
+            return 'Kurang Baik';
+        }
+
+        if ($this->condition === 3) {
+            return 'Rusak Berat';
+        }
+    }
 }

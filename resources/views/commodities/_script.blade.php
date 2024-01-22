@@ -21,14 +21,14 @@
 					$("#show_commodity #material").val(res.data.material);
 					$("#show_commodity #brand").val(res.data.brand);
 					$("#show_commodity #year_of_purchase").val(res.data.year_of_purchase);
-					$("#show_commodity #condition").val(res.data.condition);
+					$("#show_commodity #condition").val(res.data.condition_name);
 					$("#show_commodity #school_operational_assistance_id").val(
 						res.data.school_operational_assistance.name
 					);
 					$("#show_commodity #note").val(res.data.note);
 					$("#show_commodity #quantity").val(res.data.quantity);
-					$("#show_commodity #price").val(res.data.price);
-					$("#show_commodity #price_per_item").val(res.data.price_per_item);
+					$("#show_commodity #price").val(res.data.price_formatted);
+					$("#show_commodity #price_per_item").val(res.data.price_per_item_formatted);
 				},
 				error: (err) => {
 					alert("error occured, check console");
