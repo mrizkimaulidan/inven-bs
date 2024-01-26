@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/print', [CommodityController::class, 'generatePDF'])->name('print');
         Route::get('/print/{id}', [CommodityController::class, 'generatePDFIndividually'])->name('print-individual');
         Route::get('/export', [CommodityController::class, 'export'])->name('export');
-        Route::get('/import', [CommodityController::class, 'export'])->name('import');
+        Route::post('/import', [CommodityController::class, 'import'])->name('import');
     });
 
     Route::resource('bantuan-dana-operasional', SchoolOperationalAssistanceController::class)

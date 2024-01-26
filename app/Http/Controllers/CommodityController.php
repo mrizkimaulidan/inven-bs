@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use App\Exports\Commodities\Excel\Export;
 use App\Http\Requests\StoreCommodityRequest;
 use App\Http\Requests\UpdateCommodityRequest;
-use App\Imports\Commodities\Excel\Import;
+use App\Imports\CommoditiesImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CommodityController extends Controller
@@ -84,13 +84,10 @@ class CommodityController extends Controller
         return redirect()->back()->withInput()->withErrors('Tidak ada Barang');
     }
 
-    public function import()
+    public function import(Request $request)
     {
-        try {
-            Excel::import(new Import, request()->file('file'));
-            return redirect()->back()->with('sukses', 'Import barang Berhasil');
-        } catch (\Throwable $th) {
-            return redirect()->back()->withErrors('Gagal, Pastikan Import Data Anda Sesuai');
-        }
+        Excel::import(new CommoditiesImport, $request->file('file'));
+
+        return to_route('barang.index')->with('success', 'Data barang berhasil diimpor!');
     }
 }

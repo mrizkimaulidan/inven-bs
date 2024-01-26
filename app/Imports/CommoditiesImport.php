@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Imports\Commodities\Excel;
+namespace App\Imports;
 
 use App\Commodity;
 use App\CommodityLocation;
 use App\SchoolOperationalAssistance;
-use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithUpserts;
 
-class Import implements ToModel, WithHeadingRow
+class CommoditiesImport implements ToModel, WithHeadingRow, WithUpserts
 {
     /**
      * @param array $row
@@ -18,10 +18,9 @@ class Import implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
-        // dd($row);
         $commodity_location = CommodityLocation::where('name', $row['lokasi'])->first();
         $school_operational = SchoolOperationalAssistance::where('name', $row['asal_perolehan'])->first();
-        // dd($school_operational);
+
         return new Commodity([
             'item_code' => $row['kode_barang'],
             'name' => $row['nama_barang'],
@@ -30,7 +29,7 @@ class Import implements ToModel, WithHeadingRow
             'school_operational_assistance_id' => $school_operational->id,
             'commodity_location_id' => $commodity_location->id,
             'year_of_purchase' => $row['tahun_pembelian'],
-            'condition' => $this->checkCommodityConditions($row['kondisi']),
+            'condition' => $this->translateConditionNameToNumber($row['kondisi']),
             'quantity' => $row['kuantitas'],
             'price' => $row['harga'],
             'price_per_item' => $row['harga_satuan'],
@@ -38,16 +37,17 @@ class Import implements ToModel, WithHeadingRow
         ]);
     }
 
-    public function checkCommodityConditions($condition)
+    public function translateConditionNameToNumber($conditionName)
     {
-        if ($condition === 'Baik') {
-            $condition = 1;
-        } elseif ($condition === 'Kurang Baik') {
-            $condition = 2;
-        } else {
-            $condition = 3;
-        }
+        return match ($conditionName) {
+            'Baik' => 1,
+            'Kurang Baik' => 2,
+            'Rusak Berat' => 3,
+        };
+    }
 
-        return $condition;
+    public function uniqueBy()
+    {
+        return 'item_code';
     }
 }
