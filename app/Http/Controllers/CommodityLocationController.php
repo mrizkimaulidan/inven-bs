@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CommodityLocation;
+use App\Http\Requests\CommodityLocationImportRequest;
 use App\Http\Requests\StoreCommodityLocationRequest;
 use App\Http\Requests\UpdateCommodityLocationRequest;
 use App\Imports\CommodityLocationsImport;
@@ -51,7 +52,7 @@ class CommodityLocationController extends Controller
         return to_route('ruangan.index')->with('success', 'Data berhasil dihapus!');
     }
 
-    public function import(Request $request)
+    public function import(CommodityLocationImportRequest $request)
     {
         Excel::import(new CommodityLocationsImport, $request->file('file'));
 

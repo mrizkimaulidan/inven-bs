@@ -8,6 +8,7 @@ use App\SchoolOperationalAssistance;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Exports\Commodities\Excel\Export;
+use App\Http\Requests\CommodityImportRequest;
 use App\Http\Requests\StoreCommodityRequest;
 use App\Http\Requests\UpdateCommodityRequest;
 use App\Imports\CommoditiesImport;
@@ -84,7 +85,7 @@ class CommodityController extends Controller
         return redirect()->back()->withInput()->withErrors('Tidak ada Barang');
     }
 
-    public function import(Request $request)
+    public function import(CommodityImportRequest $request)
     {
         Excel::import(new CommoditiesImport, $request->file('file'));
 
