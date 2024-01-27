@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('barang')->name('barang.')->group(function () {
         Route::get('/print', [CommodityController::class, 'generatePDF'])->name('print');
         Route::get('/print/{id}', [CommodityController::class, 'generatePDFIndividually'])->name('print-individual');
-        Route::get('/export', [CommodityController::class, 'export'])->name('export');
+        Route::post('/export', [CommodityController::class, 'export'])->name('export');
         Route::post('/import', [CommodityController::class, 'import'])->name('import');
     });
 

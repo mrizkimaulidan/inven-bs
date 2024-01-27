@@ -8,6 +8,7 @@ use App\SchoolOperationalAssistance;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Exports\Commodities\Excel\Export;
+use App\Exports\CommoditiesExport;
 use App\Http\Requests\CommodityImportRequest;
 use App\Http\Requests\StoreCommodityRequest;
 use App\Http\Requests\UpdateCommodityRequest;
@@ -78,11 +79,7 @@ class CommodityController extends Controller
 
     public function export()
     {
-        $commodities = Commodity::all();
-
-        if (count($commodities) != 0)
-            return Excel::download(new Export, 'daftar-barang-' . date('d-m-Y') . '.xlsx');
-        return redirect()->back()->withInput()->withErrors('Tidak ada Barang');
+        return Excel::download(new CommoditiesExport, 'daftar-barang-' . date('d-m-Y') . '.xlsx');
     }
 
     public function import(CommodityImportRequest $request)
