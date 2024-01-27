@@ -2,19 +2,19 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="excel_menu_label">Import Excel Barang</h5>
+				<h5 class="modal-title" id="excel_menu_label">Import Excel Ruangan</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<form action="{{ route('barang.import') }}" method="POST" enctype="multipart/form-data">
+				<form action="{{ route('ruangan.import') }}" method="POST" enctype="multipart/form-data">
 					@csrf
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="alert alert-info" role="alert">
-								Untuk melakukan impor excel barang. Anda harus unduh template excel dengan klik <a
-									href="{{ asset('import-barang-template.xlsx') }}" class="alert-link"><i class="fas fa-download"></i>
+								Untuk melakukan impor excel ruangan. Anda harus unduh template excel dengan klik <a
+									href="{{ asset('import-ruangan-template.xlsx') }}" class="alert-link"><i class="fas fa-download"></i>
 									di
 									sini</a>
 							</div>
