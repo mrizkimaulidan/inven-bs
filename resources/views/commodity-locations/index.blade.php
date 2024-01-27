@@ -1,4 +1,4 @@
-@extends('layouts.stisla.index', ['title' => 'Halaman Data Ruangan', 'page_heading' => 'Daftar Ruangan'])
+@extends('layouts.index', ['title' => 'Halaman Data Ruangan', 'page_heading' => 'Daftar Ruangan'])
 
 @section('content')
 <div class="card">
@@ -35,19 +35,23 @@
 								<td>{{ date('d/m/Y H:i A', strtotime($commodity_location->created_at)) }}</td>
 								<td class="text-center">
 									<div class="btn-group" role="group" aria-label="Basic example">
-										<a data-id="{{ $commodity_location->id }}" class="btn btn-sm btn-info text-white show-modal mr-2"
-											data-toggle="modal" data-target="#show_commodity_location">
+										<a data-id="{{ $commodity_location->id }}"
+											class="btn btn-sm btn-info text-white show-modal mr-2" data-toggle="modal"
+											data-target="#show_commodity_location">
 											<i class="fas fa-fw fa-search"></i>
 										</a>
-										<a data-id="{{ $commodity_location->id }}" class="btn btn-sm btn-success text-white edit-modal mr-2"
-											data-toggle="modal" data-target="#commodity_location_edit_modal" data-placement="top"
-											title="Ubah data">
+										<a data-id="{{ $commodity_location->id }}"
+											class="btn btn-sm btn-success text-white edit-modal mr-2"
+											data-toggle="modal" data-target="#commodity_location_edit_modal"
+											data-placement="top" title="Ubah data">
 											<i class="fas fa-fw fa-edit"></i>
 										</a>
-										<form action="{{ route('ruangan.destroy', $commodity_location->id) }}" method="POST">
+										<form action="{{ route('ruangan.destroy', $commodity_location->id) }}"
+											method="POST">
 											@csrf
 											@method('DELETE')
-											<button type="submit" class="btn btn-sm btn-danger text-white delete-button">
+											<button type="submit"
+												class="btn btn-sm btn-danger text-white delete-button">
 												<i class="fas fa-fw fa-trash-alt"></i>
 											</button>
 										</form>

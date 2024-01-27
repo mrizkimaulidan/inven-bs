@@ -1,4 +1,4 @@
-@extends('layouts.stisla.index', ['title' => 'Halaman Data Barang', 'page_heading' => 'Daftar Barang'])
+@extends('layouts.index', ['title' => 'Halaman Data Barang', 'page_heading' => 'Daftar Barang'])
 
 @section('content')
 <div class="card">
@@ -18,7 +18,8 @@
 					Export Excel
 				</a>
 
-				<button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#commodity_create_modal">
+				<button type="button" class="btn btn-primary mr-2" data-toggle="modal"
+					data-target="#commodity_create_modal">
 					<i class="fas fa-fw fa-plus"></i>
 					Tambah Data
 				</button>
@@ -66,12 +67,14 @@
 								@endif
 								<td class="text-center">
 									<div class="btn-group" role="group" aria-label="Basic example">
-										<a data-id="{{ $commodity->id }}" class="btn btn-sm btn-info text-white show-modal mr-2"
-											data-toggle="modal" data-target="#show_commodity" title="Lihat Detail">
+										<a data-id="{{ $commodity->id }}"
+											class="btn btn-sm btn-info text-white show-modal mr-2" data-toggle="modal"
+											data-target="#show_commodity" title="Lihat Detail">
 											<i class="fas fa-fw fa-search"></i>
 										</a>
 
-										<a data-id="{{ $commodity->id }}" class="btn btn-sm btn-success text-white edit-modal mr-2"
+										<a data-id="{{ $commodity->id }}"
+											class="btn btn-sm btn-success text-white edit-modal mr-2"
 											data-toggle="modal" data-target="#edit_commodity" title="Ubah data">
 											<i class="fas fa-fw fa-edit"></i>
 										</a>

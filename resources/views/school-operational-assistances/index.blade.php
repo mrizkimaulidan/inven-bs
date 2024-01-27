@@ -1,4 +1,4 @@
-@extends('layouts.stisla.index', ['title' => 'Halaman Data BOS', 'page_heading' => 'Daftar BOS'])
+@extends('layouts.index', ['title' => 'Halaman Data BOS', 'page_heading' => 'Daftar BOS'])
 
 @section('content')
 <div class="card">
@@ -32,7 +32,8 @@
 								<th scope="row">{{ $loop->iteration }}</th>
 								<td>{{ $school_operational_assistance->name }}</td>
 								<td>{{ Str::limit($school_operational_assistance->description, 55, '...') }}</td>
-								<td>{{ date('m/d/Y H:i A', strtotime($school_operational_assistance->created_at)) }}</td>
+								<td>{{ date('m/d/Y H:i A', strtotime($school_operational_assistance->created_at)) }}
+								</td>
 								<td class="text-center">
 									<div class="btn-group">
 										<a data-id="{{ $school_operational_assistance->id }}"
@@ -41,11 +42,12 @@
 											<i class="fas fa-fw fa-search"></i>
 										</a>
 										<a data-id="{{ $school_operational_assistance->id }}"
-											class="btn btn-sm btn-success text-white edit-modal mr-2" data-toggle="modal"
-											data-target="#school_operational_assistance_edit_modal">
+											class="btn btn-sm btn-success text-white edit-modal mr-2"
+											data-toggle="modal" data-target="#school_operational_assistance_edit_modal">
 											<i class="fas fa-fw fa-edit"></i>
 										</a>
-										<form action="{{ route('bantuan-dana-operasional.destroy', $school_operational_assistance->id) }}"
+										<form
+											action="{{ route('bantuan-dana-operasional.destroy', $school_operational_assistance->id) }}"
 											method="POST">
 											@csrf
 											@method('DELETE')

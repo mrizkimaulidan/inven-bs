@@ -1,4 +1,4 @@
-@extends('layouts.stisla.index', ['title' => 'Admin Dashboard', 'page_heading' => 'Dashboard'])
+@extends('layouts.index', ['title' => 'Admin Dashboard', 'page_heading' => 'Dashboard'])
 
 @section('content')
 <div class="row">
@@ -75,8 +75,9 @@
 					<li class="media">
 						<!-- <img class="mr-3 rounded-circle" width="50" src="../assets/img/avatar/avatar-1.png" alt="avatar"> -->
 						<div class="media-body">
-							<button data-id="{{ $order_by_price->id }}" class="float-right btn btn-info btn-sm show-modal"
-								data-toggle="modal" data-target="#show_commodity">Detail</button>
+							<button data-id="{{ $order_by_price->id }}"
+								class="float-right btn btn-info btn-sm show-modal" data-toggle="modal"
+								data-target="#show_commodity">Detail</button>
 							<div class="media-title">{{ $order_by_price->name }}</div>
 							<span class="text-small text-muted">Harga: Rp{{
 								$order_by_price->indonesian_currency($order_by_price->price) }}</span>

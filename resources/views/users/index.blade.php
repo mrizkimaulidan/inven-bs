@@ -1,4 +1,4 @@
-@extends('layouts.stisla.index', ['title' => 'Halaman Data Pengguna', 'page_heading' => 'Daftar Pengguna'])
+@extends('layouts.index', ['title' => 'Halaman Data Pengguna', 'page_heading' => 'Daftar Pengguna'])
 
 @section('content')
 <div class="card">
@@ -34,8 +34,9 @@
 								<td>{{ date('m/d/Y H:i A', strtotime($user->created_at)) }}</td>
 								<td class="text-center">
 									<div class="btn-group">
-										<a data-id="{{ $user->id }}" class="btn btn-sm btn-info text-white show-modal mr-2"
-											data-toggle="modal" data-target="#show_user">
+										<a data-id="{{ $user->id }}"
+											class="btn btn-sm btn-info text-white show-modal mr-2" data-toggle="modal"
+											data-target="#show_user">
 											<i class="fas fa-fw fa-search"></i>
 										</a>
 									</div>
