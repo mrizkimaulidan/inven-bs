@@ -6,8 +6,6 @@ use App\Commodity;
 use App\CommodityLocation;
 use App\SchoolOperationalAssistance;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Http\Request;
-use App\Exports\Commodities\Excel\Export;
 use App\Exports\CommoditiesExport;
 use App\Http\Requests\CommodityImportRequest;
 use App\Http\Requests\StoreCommodityRequest;
@@ -59,6 +57,9 @@ class CommodityController extends Controller
         return to_route('barang.index')->with('success', 'Data berhasil dihapus!');
     }
 
+    /**
+     * Generate PDF for all commodities.
+     */
     public function generatePDF()
     {
         $commodities = Commodity::all();
@@ -68,6 +69,9 @@ class CommodityController extends Controller
         return $pdf->download('print.pdf');
     }
 
+    /**
+     * Generate PDF for a specific commodity.
+     */
     public function generatePDFIndividually($id)
     {
         $commodity = Commodity::find($id);
@@ -77,11 +81,17 @@ class CommodityController extends Controller
         return $pdf->download('print.pdf');
     }
 
+    /**
+     * Export commodities data to Excel.
+     */
     public function export()
     {
         return Excel::download(new CommoditiesExport, 'daftar-barang-' . date('d-m-Y') . '.xlsx');
     }
 
+    /**
+     * Import commodities data from Excel.
+     */
     public function import(CommodityImportRequest $request)
     {
         Excel::import(new CommoditiesImport, $request->file('file'));

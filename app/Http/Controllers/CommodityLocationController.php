@@ -52,6 +52,9 @@ class CommodityLocationController extends Controller
         return to_route('ruangan.index')->with('success', 'Data berhasil dihapus!');
     }
 
+    /**
+     * Import commodity locations data from Excel.
+     */
     public function import(CommodityLocationImportRequest $request)
     {
         Excel::import(new CommodityLocationsImport, $request->file('file'));

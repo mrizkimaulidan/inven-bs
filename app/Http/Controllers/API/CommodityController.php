@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Commodity;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ShowCommodityResource;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class CommodityController extends Controller

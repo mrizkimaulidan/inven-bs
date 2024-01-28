@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API;
 
 use App\CommodityLocation;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class CommodityLocationController extends Controller

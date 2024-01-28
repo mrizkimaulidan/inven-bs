@@ -37,6 +37,9 @@ class CommoditiesImport implements ToModel, WithHeadingRow, WithUpserts
         ]);
     }
 
+    /**
+     * Translate condition name to the corresponding number.
+     */
     public function translateConditionNameToNumber($conditionName)
     {
         return match ($conditionName) {
@@ -46,6 +49,9 @@ class CommoditiesImport implements ToModel, WithHeadingRow, WithUpserts
         };
     }
 
+    /**
+     * Specify the unique column used for upsert operations.
+     */
     public function uniqueBy()
     {
         return 'item_code';

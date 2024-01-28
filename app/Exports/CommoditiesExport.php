@@ -18,6 +18,9 @@ class CommoditiesExport implements FromCollection, WithHeadings, WithMapping, Sh
         return Commodity::all();
     }
 
+    /**
+     * Specify the headings for the exported file.
+     */
     public function headings(): array
     {
         return [
@@ -37,6 +40,9 @@ class CommoditiesExport implements FromCollection, WithHeadings, WithMapping, Sh
         ];
     }
 
+    /**
+     * Map each row of the collection to an array for export.
+     */
     public function map($row): array
     {
         static $i = 0;

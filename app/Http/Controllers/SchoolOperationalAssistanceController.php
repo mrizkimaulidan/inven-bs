@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSchoolOperationalAssistanceRequest;
 use App\Http\Requests\UpdateSchoolOperationalAssistanceRequest;
 use App\SchoolOperationalAssistance;
-use Illuminate\Http\Request;
 
 class SchoolOperationalAssistanceController extends Controller
 {
