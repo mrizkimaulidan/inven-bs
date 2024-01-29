@@ -25,8 +25,7 @@
 
 <script src="{{ asset('js/scripts.js') }}"></script>
 
-<livewire:scripts></livewire:scripts>
-
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 <script>
 	$(document).ready(function() {

@@ -64,10 +64,19 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-lg-12 col-md-12 col-12 col-sm-12">
+	<div class="col-lg-8">
+		<div class="card">
+			<x-bar-chart chartTitle="Grafik Barang Berdasarkan Kondisi" chartID="chartCommodityCondition"
+				:series="$commodity_condition_count_chart['series']"
+				:categories="$commodity_condition_count_chart['categories']" :colors="['#47C363', '#FFA426', '#FC544B']">
+			</x-bar-chart>
+		</div>
+	</div>
+
+	<div class="col-lg-4">
 		<div class="card">
 			<div class="card-header">
-				<h4>Barang Termahal</h4>
+				<h4>5 Barang Termahal</h4>
 			</div>
 			<div class="card-body">
 				@foreach($commodity_order_by_price as $key => $order_by_price)
@@ -75,9 +84,8 @@
 					<li class="media">
 						<!-- <img class="mr-3 rounded-circle" width="50" src="../assets/img/avatar/avatar-1.png" alt="avatar"> -->
 						<div class="media-body">
-							<button data-id="{{ $order_by_price->id }}"
-								class="float-right btn btn-info btn-sm show-modal" data-toggle="modal"
-								data-target="#show_commodity">Detail</button>
+							<button data-id="{{ $order_by_price->id }}" class="float-right btn btn-info btn-sm show-modal"
+								data-toggle="modal" data-target="#show_commodity">Detail</button>
 							<div class="media-title">{{ $order_by_price->name }}</div>
 							<span class="text-small text-muted">Harga: Rp{{
 								$order_by_price->indonesian_currency($order_by_price->price) }}</span>
