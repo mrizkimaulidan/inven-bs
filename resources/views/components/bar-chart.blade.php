@@ -11,34 +11,36 @@
 
 @push('js')
 <script>
-	const chartID = "#{{ $chartID }}";
-	const categories = @json($categories);
-	const series = @json($series);
+	$(function() {
+		const chartID = "#{{ $chartID }}";
+		const categories = @json($categories);
+		const series = @json($series);
 
-	let options = {
-		chart: {
-			height: 350,
-			type: "bar",
-		},
-		plotOptions: {
-			bar: {
-				distributed: true,
-			}
-		},
-		series: [
-			{
-				data: series,
+		let options = {
+			chart: {
+				height: 350,
+				type: "bar",
 			},
-		],
-		xaxis: {
-			categories: categories,
-		},
-	};
+			plotOptions: {
+				bar: {
+					distributed: true,
+				}
+			},
+			series: [
+				{
+					data: series,
+				},
+			],
+			xaxis: {
+				categories: categories,
+			},
+		};
 
-	@isset($colors)
-		options.colors = @json($colors)
-	@endisset
+		@isset($colors)
+			options.colors = @json($colors)
+		@endisset
 
-	new ApexCharts(document.querySelector(chartID), options).render();
+		new ApexCharts(document.querySelector(chartID), options).render();
+	});
 </script>
 @endpush
