@@ -16,7 +16,7 @@ class BarChart extends Component
         public string $chartID,
         public $series,
         public $categories,
-        public array $colors,
+        public ?array $colors = null,
     ) {
         //
     }
