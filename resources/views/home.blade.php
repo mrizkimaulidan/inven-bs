@@ -102,6 +102,15 @@
 		</div>
 	</div>
 </div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<x-bar-chart chartTitle="Grafik Jumlah Barang Berdasarkan Tahun Pembelian" chartID="chartCommodityCountEachYear"
+			:series="$commodity_each_year_of_purchase_count_chart['series']"
+			:categories="$commodity_each_year_of_purchase_count_chart['categories']">
+		</x-bar-chart>
+	</div>
+</div>
 @endsection
 
 @push('modal')

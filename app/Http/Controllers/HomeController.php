@@ -46,6 +46,16 @@ class HomeController extends Controller
             'series' => $commodity_condition_count->pluck('count'),
         ];
 
+        $commodity_each_year_of_purchase_count = Commodity::selectRaw('COUNT(`year_of_purchase`) AS count, year_of_purchase')
+            ->groupBy('year_of_purchase')
+            ->orderBy('year_of_purchase')
+            ->get();
+
+        $commodity_each_year_of_purchase_count_chart = [
+            'categories' => $commodity_each_year_of_purchase_count->pluck('year_of_purchase'),
+            'series' => $commodity_each_year_of_purchase_count->pluck('count'),
+        ];
+
         return view(
             'home',
             compact(
@@ -54,7 +64,8 @@ class HomeController extends Controller
                 'commodity_condition_good_count',
                 'commodity_condition_not_good_count',
                 'commodity_condition_heavily_damage_count',
-                'commodity_condition_count_chart'
+                'commodity_condition_count_chart',
+                'commodity_each_year_of_purchase_count_chart',
             )
         );
     }
