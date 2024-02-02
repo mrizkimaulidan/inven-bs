@@ -1,29 +1,37 @@
 @if ($errors->store->any())
-@foreach ($errors->store->all() as $message)
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
+<div class="alert alert-light alert-dismissible fade show border border-danger" role="alert">
 	<strong>
 		<i class="fas fa-exclamation"></i>
-		Perhatian!
-	</strong> {{ $message }}
+		Data gagal ditambahkan!
+	</strong>
+
+	<ul>
+		@foreach ($errors->store->all() as $message)
+		<li>{{ $message }}</li>
+		@endforeach
+	</ul>
 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 		<span aria-hidden="true">&times;</span>
 	</button>
 </div>
-@endforeach
 @endif
 
 @if ($errors->update->any())
-@foreach ($errors->update->all() as $message)
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
+<div class="alert alert-light alert-dismissible fade show border border-danger" role="alert">
 	<strong>
 		<i class="fas fa-exclamation"></i>
-		Perhatian!
-	</strong> {{ $message }}
+		Data gagal diubah!
+	</strong>
+
+	<ul>
+		@foreach ($errors->update->all() as $message)
+		<li>{{ $message }}</li>
+		@endforeach
+	</ul>
 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 		<span aria-hidden="true">&times;</span>
 	</button>
 </div>
-@endforeach
 @endif
 
 @session('success')
