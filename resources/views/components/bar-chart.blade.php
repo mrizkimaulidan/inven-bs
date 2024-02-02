@@ -31,6 +31,13 @@
 					data: series,
 				},
 			],
+			yaxis: {
+				labels: {
+					formatter: function(val) {
+						return val.toFixed(0);
+					}
+				}
+			},
 			xaxis: {
 				categories: categories,
 			},
