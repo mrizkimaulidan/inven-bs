@@ -57,15 +57,23 @@
 								<td>{{ $commodity->year_of_purchase }}</td>
 								@if($commodity->condition === 1)
 								<td>
-									<span class="badge badge-pill badge-success" title="Baik">Baik</span>
+									<span class="badge badge-pill badge-success" title="Baik">
+										<i class="fas fa-fw fa-check-circle"></i>
+										Baik
+									</span>
 								</td>
 								@elseif($commodity->condition === 2)
 								<td>
-									<span class="badge badge-pill badge-warning" title="Kurang Baik">Kurang Baik</span>
+									<span class="badge badge-pill badge-warning" title="Kurang Baik">
+										<i class="fa fa-fw fa-exclamation-circle"></i>
+										Kurang Baik
+									</span>
 								</td>
 								@else
 								<td>
-									<span class="badge badge-pill badge-danger" title="Rusak Berat">Rusak Berat</span>
+									<span class="badge badge-pill badge-danger" title="Rusak Berat">
+										<i class="fa fa-fw fa-times-circle"></i>
+										Rusak Berat</span>
 								</td>
 								@endif
 								<td class="text-center">
