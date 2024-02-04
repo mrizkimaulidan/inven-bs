@@ -67,8 +67,8 @@
 	<div class="col-lg-8">
 		<div class="card">
 			<x-bar-chart chartTitle="Grafik Barang Berdasarkan Kondisi" chartID="chartCommodityCondition"
-				:series="$commodity_condition_count_chart['series']"
-				:categories="$commodity_condition_count_chart['categories']" :colors="['#47C363', '#FFA426', '#FC544B']">
+				:series="$charts['commodity_condition_count']['series']"
+				:categories="$charts['commodity_condition_count']['categories']" :colors="['#47C363', '#FFA426', '#FC544B']">
 			</x-bar-chart>
 		</div>
 	</div>
@@ -106,8 +106,8 @@
 <div class="row">
 	<div class="col-lg-12">
 		<x-bar-chart chartTitle="Grafik Jumlah Barang Berdasarkan Tahun Pembelian" chartID="chartCommodityCountEachYear"
-			:series="$commodity_each_year_of_purchase_count_chart['series']"
-			:categories="$commodity_each_year_of_purchase_count_chart['categories']">
+			:series="$charts['commodity_each_year_of_purchase_count']['series']"
+			:categories="$charts['commodity_each_year_of_purchase_count']['categories']">
 		</x-bar-chart>
 	</div>
 </div>

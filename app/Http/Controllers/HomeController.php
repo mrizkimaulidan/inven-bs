@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Commodity;
+use App\Repositories\CommodityRepository;
+use App\Services\CommodityService;
 
 class HomeController extends Controller
 {
@@ -11,8 +13,9 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct(
+        public CommodityRepository $commodityRepository
+    ) {
         $this->middleware('auth');
     }
 
@@ -31,29 +34,24 @@ class HomeController extends Controller
 
         $commodity_order_by_price = Commodity::orderBy('price', 'DESC')->take(5)->get();
 
-        $commodity_condition_count = Commodity::selectRaw('`condition`, COUNT(`condition`) AS count')
-            ->groupBy('condition')
-            ->get()
-            ->map(function ($item) {
-                return collect([
-                    'condition_name' => $item->getConditionName(),
-                    'count' => $item->count
-                ]);
-            });
+        $commodity_condition_count = $this->commodityRepository->countCommodityCondition()->map(function ($commodity) {
+            return collect([
+                'condition_name' => $commodity->getConditionName(),
+                'count' => $commodity->count
+            ]);
+        });
 
-        $commodity_condition_count_chart = [
-            'categories' => $commodity_condition_count->pluck('condition_name'),
-            'series' => $commodity_condition_count->pluck('count'),
-        ];
+        $commodity_each_year_of_purchase_count = $this->commodityRepository->countCommodityEachYear();
 
-        $commodity_each_year_of_purchase_count = Commodity::selectRaw('COUNT(`year_of_purchase`) AS count, year_of_purchase')
-            ->groupBy('year_of_purchase')
-            ->orderBy('year_of_purchase')
-            ->get();
-
-        $commodity_each_year_of_purchase_count_chart = [
-            'categories' => $commodity_each_year_of_purchase_count->pluck('year_of_purchase'),
-            'series' => $commodity_each_year_of_purchase_count->pluck('count'),
+        $charts = [
+            'commodity_condition_count' => [
+                'categories' => $commodity_condition_count->pluck('condition_name'),
+                'series' => $commodity_condition_count->pluck('count')
+            ],
+            'commodity_each_year_of_purchase_count' => [
+                'categories' => $commodity_each_year_of_purchase_count->pluck('year_of_purchase'),
+                'series' => $commodity_each_year_of_purchase_count->pluck('count')
+            ]
         ];
 
         return view(
@@ -64,8 +62,7 @@ class HomeController extends Controller
                 'commodity_condition_good_count',
                 'commodity_condition_not_good_count',
                 'commodity_condition_heavily_damage_count',
-                'commodity_condition_count_chart',
-                'commodity_each_year_of_purchase_count_chart',
+                'charts'
             )
         );
     }
