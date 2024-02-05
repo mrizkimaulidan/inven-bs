@@ -27,10 +27,13 @@
 					Tambah Data
 				</button>
 
-				<a href="{{ route('barang.print') }}" class="btn btn-success">
-					<i class="fas fa-fw fa-print"></i>
-					Print
-				</a>
+				<form action="{{ route('barang.print') }}" method="POST">
+					@csrf
+					<button type="submit" class="btn btn-success">
+						<i class="fas fa-fw fa-print"></i>
+						Print
+					</button>
+				</form>
 			</div>
 		</div>
 
@@ -88,10 +91,12 @@
 											<i class="fas fa-fw fa-edit"></i>
 										</a>
 
-										<a href="{{ route('barang.print-individual', $commodity->id) }}"
-											class="btn btn-sm text-white btn-primary mr-2">
-											<i class="fas fa-fw fa-print"></i>
-										</a>
+										<form action="{{ route('barang.print-individual', $commodity->id) }}" method="POST">
+											@csrf
+											<button type="submit" class="btn btn-sm btn-primary mr-2">
+												<i class="fas fa-fw fa-print"></i>
+											</button>
+										</form>
 
 										<form action="{{ route('barang.destroy', $commodity) }}" method="POST">
 											@csrf
