@@ -11,6 +11,15 @@
 					Import Excel
 				</button>
 
+				<form action="{{ route('ruangan.export') }}" method="POST">
+					@csrf
+
+					<button type="submit" class="btn btn-success mr-2">
+						<i class="fas fa-fw fa-download"></i>
+						Export Excel
+					</button>
+				</form>
+
 				<button type="button" class="btn btn-primary" data-toggle="modal"
 					data-target="#commodity_location_create_modal">
 					<i class="fas fa-fw fa-plus"></i>

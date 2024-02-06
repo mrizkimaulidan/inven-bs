@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('ruangan', CommodityLocationController::class)->except('create', 'edit', 'show')
         ->parameter('ruangan', 'commodity_location');
     Route::post('/ruangan/import', [CommodityLocationController::class, 'import'])->name('ruangan.import');
+    Route::post('/ruangan/export', [CommodityLocationController::class, 'export'])->name('ruangan.export');
 
     Route::resource('pengguna', UserController::class)->except('create', 'edit', 'show', 'update', 'destroy')
         ->parameter('pengguna', 'user');

@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\CommodityLocation;
+use App\Exports\CommodityLocationsExport;
 use App\Http\Requests\CommodityLocationImportRequest;
 use App\Http\Requests\StoreCommodityLocationRequest;
 use App\Http\Requests\UpdateCommodityLocationRequest;
 use App\Imports\CommodityLocationsImport;
-use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CommodityLocationController extends Controller
@@ -50,6 +50,14 @@ class CommodityLocationController extends Controller
         $commodityLocation->delete();
 
         return to_route('ruangan.index')->with('success', 'Data berhasil dihapus!');
+    }
+
+    /**
+     * Export commodities data to Excel.
+     */
+    public function export()
+    {
+        return Excel::download(new CommodityLocationsExport, 'daftar-ruangan-' . date('d-m-Y') . '.xlsx');
     }
 
     /**
