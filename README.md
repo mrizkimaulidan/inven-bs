@@ -9,7 +9,7 @@ Beberapa CRUD menggunakan modal dan AJAX untuk pengambilan data agar mengurangi 
 Berikut beberapa hal yang perlu diinstal terlebih dahulu:
 
 -   Composer (https://getcomposer.org/)
--   PHP ^8.3
+-   PHP ^8.1
 -   MySQL
 -   XAMPP
 
@@ -59,7 +59,7 @@ _Pengaturan Profil_
 -   Clone repository ini
 
 ```bash
-$ git https://github.com/mrizkimaulidan/inven-bs.git
+$ git clone https://github.com/mrizkimaulidan/inven-bs.git
 ```
 
 -   Install seluruh packages yang dibutuhkan
