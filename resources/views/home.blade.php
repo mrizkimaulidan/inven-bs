@@ -12,7 +12,7 @@
 					<h4>Total Barang</h4>
 				</div>
 				<div class="card-body">
-					{{ $commodity_count }}
+					{{ $commodity_counts['commodity_in_total'] }}
 				</div>
 			</div>
 		</div>
@@ -27,7 +27,7 @@
 					<h4>Kondisi Baik</h4>
 				</div>
 				<div class="card-body">
-					{{ $commodity_condition_good_count }}
+					{{ $commodity_counts['commodity_in_good_condition'] }}
 				</div>
 			</div>
 		</div>
@@ -42,7 +42,7 @@
 					<h4>Kondisi Rusak Ringan</h4>
 				</div>
 				<div class="card-body">
-					{{ $commodity_condition_not_good_count }}
+					{{ $commodity_counts['commodity_in_not_good_condition'] }}
 				</div>
 			</div>
 		</div>
@@ -57,7 +57,7 @@
 					<h4>Kondisi Rusak Berat</h4>
 				</div>
 				<div class="card-body">
-					{{ $commodity_condition_heavily_damage_count }}
+					{{ $commodity_counts['commodity_in_heavily_damage_condition'] }}
 				</div>
 			</div>
 		</div>

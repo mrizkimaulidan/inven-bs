@@ -26,20 +26,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $commodity_count = Commodity::count();
-
-        $commodity_condition_good_count = Commodity::where('condition', 1)->count();
-        $commodity_condition_not_good_count = Commodity::where('condition', 2)->count();
-        $commodity_condition_heavily_damage_count = Commodity::where('condition', 3)->count();
-
         $commodity_order_by_price = Commodity::orderBy('price', 'DESC')->take(5)->get();
-
         $commodity_condition_count = $this->commodityRepository->countCommodityCondition()->map(function ($commodity) {
             return collect([
                 'condition_name' => $commodity->getConditionName(),
                 'count' => $commodity->count
             ]);
         });
+
+        $commodity_counts = [
+            'commodity_in_total' => $commodity_condition_count->sum('count'),
+            'commodity_in_good_condition' => $commodity_condition_count->firstWhere('condition_name', 'Baik')['count'],
+            'commodity_in_not_good_condition' => $commodity_condition_count->firstWhere('condition_name', 'Kurang Baik')['count'],
+            'commodity_in_heavily_damage_condition' => $commodity_condition_count->firstWhere('condition_name', 'Rusak Berat')['count']
+        ];
 
         $commodity_each_year_of_purchase_count = $this->commodityRepository->countCommodityEachYear();
 
@@ -58,10 +58,7 @@ class HomeController extends Controller
             'home',
             compact(
                 'commodity_order_by_price',
-                'commodity_count',
-                'commodity_condition_good_count',
-                'commodity_condition_not_good_count',
-                'commodity_condition_heavily_damage_count',
+                'commodity_counts',
                 'charts'
             )
         );
