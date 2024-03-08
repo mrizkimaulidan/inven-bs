@@ -30,6 +30,8 @@ class PermissionSeeder extends Seeder
         $mergedPermissions = $permissions->merge([
             ['name' => 'import barang', 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'export barang', 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'import ruangan', 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'export ruangan', 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'print barang', 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'print individual barang', 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'mengatur profile', 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
