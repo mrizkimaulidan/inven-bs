@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SchoolOperationalAssistanceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -53,4 +54,6 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('pengguna', UserController::class)->except('create', 'edit', 'show', 'update', 'destroy')
         ->parameter('pengguna', 'user');
+
+    Route::resource('peran-dan-hak-akses', RoleController::class);
 });
