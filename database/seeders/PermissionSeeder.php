@@ -35,6 +35,10 @@ class PermissionSeeder extends Seeder
             ['name' => 'print barang', 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'print individual barang', 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'mengatur profile', 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'lihat peran dan hak akses', 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'tambah peran dan hak akses', 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'ubah peran dan hak akses', 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'hapus peran dan hak akses', 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
         ]);
 
         Permission::insert($mergedPermissions->toArray());
