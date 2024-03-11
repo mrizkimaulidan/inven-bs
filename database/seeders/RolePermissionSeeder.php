@@ -17,7 +17,10 @@ class RolePermissionSeeder extends Seeder
         $administratorPermissions = Permission::all();
 
         $staffPermissions = $administratorPermissions->reject(function ($permission) {
-            return in_array($permission->name, ['lihat pengguna', 'tambah pengguna', 'ubah pengguna', 'hapus pengguna']);
+            return in_array($permission->name, [
+                'lihat pengguna', 'tambah pengguna', 'ubah pengguna', 'hapus pengguna',
+                'lihat peran dan hak akses', 'tambah peran dan hak akses', 'ubah peran dan hak akses', 'hapus peran dan hak akses'
+            ]);
         });
 
         $roles = Role::all();
