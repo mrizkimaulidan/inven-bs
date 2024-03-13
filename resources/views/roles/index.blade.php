@@ -41,7 +41,7 @@ Akses'])
 											data-toggle="modal" data-target="#role_edit_modal" data-placement="top" title="Ubah data">
 											<i class="fas fa-fw fa-edit"></i>
 										</a>
-										<form action="{{ route('ruangan.destroy', $role->id) }}" method="POST">
+										<form action="{{ route('peran-dan-hak-akses.destroy', $role) }}" method="POST">
 											@csrf
 											@method('DELETE')
 											<button type="submit" class="btn btn-sm btn-danger text-white delete-button">

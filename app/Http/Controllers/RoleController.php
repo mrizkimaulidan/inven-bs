@@ -62,8 +62,10 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Role $role)
     {
-        //
+        $role->delete();
+
+        return to_route('peran-dan-hak-akses.index')->with('success', 'Data berhasil dihapus!');
     }
 }

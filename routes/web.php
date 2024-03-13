@@ -55,5 +55,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('pengguna', UserController::class)->except('create', 'edit', 'show', 'update', 'destroy')
         ->parameter('pengguna', 'user');
 
-    Route::resource('peran-dan-hak-akses', RoleController::class);
+    Route::resource('peran-dan-hak-akses', RoleController::class)->parameter('peran-dan-hak-akses', 'role');
 });
