@@ -45,7 +45,7 @@ class RoleController extends Controller
                 'guard_name' => 'web'
             ]);
 
-            $permissions = Permission::find($validated->permissions);
+            $permissions = Permission::find($validated['permissions']);
             $role->syncPermissions($permissions);
             DB::commit();
 
