@@ -38,9 +38,10 @@ Akses'])
 								<td class="text-center">
 									<div class="btn-group" role="group" aria-label="Basic example">
 										<a data-id="{{ $role->id }}" class="btn btn-sm btn-success text-white edit-modal mr-2"
-											data-toggle="modal" data-target="#role_edit_modal" data-placement="top" title="Ubah data">
+											data-toggle="modal" data-target="#role_edit_modal" title="Ubah data">
 											<i class="fas fa-fw fa-edit"></i>
 										</a>
+
 										<form action="{{ route('peran-dan-hak-akses.destroy', $role) }}" method="POST">
 											@csrf
 											@method('DELETE')
@@ -63,4 +64,9 @@ Akses'])
 
 @push('modal')
 @include('roles.modal.create')
+@include('roles.modal.edit')
+@endpush
+
+@push('js')
+@include('roles._script')
 @endpush

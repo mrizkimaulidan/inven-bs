@@ -36,16 +36,6 @@
             }
         });
 
-				$('.tom-select').each(function() {
-						new TomSelect(this, {
-								plugins: {
-										remove_button:{
-												title: 'Hapus item',
-										},
-								},
-						});
-				});
-
 				$(".delete-button").click(function(e) {
 					e.preventDefault();
             Swal.fire({
