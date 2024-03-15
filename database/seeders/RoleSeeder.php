@@ -15,7 +15,7 @@ class RoleSeeder extends Seeder
     {
         $roles = collect([
             ['name' => 'Administrator',],
-            ['name' => 'Staff TU (tata usaha)']
+            ['name' => 'Staff TU (Tata Usaha)']
         ]);
 
         $roles = $roles->map(function ($role) {
