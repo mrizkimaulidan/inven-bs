@@ -36,12 +36,14 @@
             }
         });
 
-				new TomSelect('select', {
-					plugins: {
-						remove_button:{
-							title: 'Hapus item',
-						},
-					},
+				$('.tom-select').each(function() {
+						new TomSelect(this, {
+								plugins: {
+										remove_button:{
+												title: 'Hapus item',
+										},
+								},
+						});
 				});
 
 				$(".delete-button").click(function(e) {
