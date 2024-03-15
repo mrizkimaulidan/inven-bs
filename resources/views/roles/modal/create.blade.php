@@ -30,7 +30,8 @@
 						<div class="col-lg-12">
 							<div class="form-group">
 								<label for="permissions">Daftar Hak Akses</label>
-								<select multiple class="form-control" name="permissions[]" id="permissions" style="height: 100px;">
+								<select multiple class="form-control @error('permissions', 'store') is-invalid @enderror"
+									name="permissions[]" id="permissions" style="height: 100px;">
 									@foreach ($permissions as $permission)
 									<option value="{{ $permission->id }}">{{ $permission->name }}</option>
 									@endforeach
