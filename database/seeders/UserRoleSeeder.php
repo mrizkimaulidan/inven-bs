@@ -15,7 +15,7 @@ class UserRoleSeeder extends Seeder
     {
         $user = User::take(2)->get();
 
-        $user[0]->assignRole('administrator');
-        $user[1]->assignRole('staff tu (tata usaha)');
+        $user[0]->assignRole('Administrator');
+        $user[1]->assignRole('Staff TU (Tata Usaha)');
     }
 }
