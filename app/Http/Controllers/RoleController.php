@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRoleRequest;
+use App\Http\Requests\UpdateRoleRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -76,9 +77,25 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateRoleRequest $request, Role $role)
     {
-        //
+        $validated = $request->validated();
+
+        DB::beginTransaction();
+
+        try {
+            $role->update($validated);
+
+            $permissions = Permission::find($validated['permissions']);
+            $role->syncPermissions($permissions);
+            DB::commit();
+
+            return redirect()->route('peran-dan-hak-akses.index')->with('success', 'Data berhasil diubah!');
+        } catch (\Exception $ex) {
+            DB::rollBack();
+
+            return redirect()->route('peran-dan-hak-akses.index')->with('error', 'Data gagal diubah!');
+        }
     }
 
     /**
