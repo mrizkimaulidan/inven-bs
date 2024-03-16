@@ -5,10 +5,12 @@
 	<div class="card-body">
 		@include('utilities.alert')
 		<div class="d-flex justify-content-end mb-3">
+			@can('tambah pengguna')
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#user_create_modal">
 				<i class="fas fa-fw fa-plus"></i>
 				Tambah Data
 			</button>
+			@endcan
 		</div>
 
 		<div class="row">
@@ -34,11 +36,12 @@
 								<td>{{ date('m/d/Y H:i A', strtotime($user->created_at)) }}</td>
 								<td class="text-center">
 									<div class="btn-group">
-										<a data-id="{{ $user->id }}"
-											class="btn btn-sm btn-info text-white show-modal mr-2" data-toggle="modal"
-											data-target="#show_user">
+										@can('lihat pengguna')
+										<a data-id="{{ $user->id }}" class="btn btn-sm btn-info text-white show-modal mr-2"
+											data-toggle="modal" data-target="#show_user">
 											<i class="fas fa-fw fa-search"></i>
 										</a>
+										@endcan
 									</div>
 								</td>
 							</tr>

@@ -6,11 +6,14 @@
 		@include('utilities.alert')
 		<div class="d-flex justify-content-end mb-3">
 			<div class="btn-group">
+				@can('import ruangan')
 				<button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#excel_menu">
 					<i class="fas fa-fw fa-upload"></i>
 					Import Excel
 				</button>
+				@endcan
 
+				@can('export ruangan')
 				<form action="{{ route('ruangan.export') }}" method="POST">
 					@csrf
 
@@ -19,12 +22,15 @@
 						Export Excel
 					</button>
 				</form>
+				@endcan
 
+				@can('tambah ruangan')
 				<button type="button" class="btn btn-primary" data-toggle="modal"
 					data-target="#commodity_location_create_modal">
 					<i class="fas fa-fw fa-plus"></i>
 					Tambah Data
 				</button>
+				@endcan
 			</div>
 		</div>
 		<div class="row">
@@ -49,15 +55,20 @@
 								<td>{{ date('d/m/Y H:i A', strtotime($commodity_location->created_at)) }}</td>
 								<td class="text-center">
 									<div class="btn-group" role="group" aria-label="Basic example">
+										@can('lihat ruangan')
 										<a data-id="{{ $commodity_location->id }}" class="btn btn-sm btn-info text-white show-modal mr-2"
 											data-toggle="modal" data-target="#show_commodity_location">
 											<i class="fas fa-fw fa-search"></i>
 										</a>
+										@endcan
+										@can('ubah ruangan')
 										<a data-id="{{ $commodity_location->id }}" class="btn btn-sm btn-success text-white edit-modal mr-2"
 											data-toggle="modal" data-target="#commodity_location_edit_modal" data-placement="top"
 											title="Ubah data">
 											<i class="fas fa-fw fa-edit"></i>
 										</a>
+										@endcan
+										@can('hapus ruangan')
 										<form action="{{ route('ruangan.destroy', $commodity_location->id) }}" method="POST">
 											@csrf
 											@method('DELETE')
@@ -65,6 +76,7 @@
 												<i class="fas fa-fw fa-trash-alt"></i>
 											</button>
 										</form>
+										@endcan
 									</div>
 								</td>
 							</tr>

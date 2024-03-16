@@ -5,11 +5,13 @@
 	<div class="card-body">
 		@include('utilities.alert')
 		<div class="d-flex justify-content-end mb-3">
+			@can('tambah bos')
 			<button type="button" class="btn btn-primary" data-toggle="modal"
 				data-target="#school_operational_assistance_create_modal">
 				<i class="fas fa-fw fa-plus"></i>
 				Tambah Data
 			</button>
+			@endcan
 		</div>
 
 		<div class="row">
@@ -36,18 +38,22 @@
 								</td>
 								<td class="text-center">
 									<div class="btn-group">
+										@can('lihat bos')
 										<a data-id="{{ $school_operational_assistance->id }}"
 											class="btn btn-sm btn-info text-white show-modal mr-2" data-toggle="modal"
 											data-target="#show_school_operational_assistance">
 											<i class="fas fa-fw fa-search"></i>
 										</a>
+										@endcan
+										@can('ubah bos')
 										<a data-id="{{ $school_operational_assistance->id }}"
-											class="btn btn-sm btn-success text-white edit-modal mr-2"
-											data-toggle="modal" data-target="#school_operational_assistance_edit_modal">
+											class="btn btn-sm btn-success text-white edit-modal mr-2" data-toggle="modal"
+											data-target="#school_operational_assistance_edit_modal">
 											<i class="fas fa-fw fa-edit"></i>
 										</a>
-										<form
-											action="{{ route('bantuan-dana-operasional.destroy', $school_operational_assistance->id) }}"
+										@endcan
+										@can('hapus bos')
+										<form action="{{ route('bantuan-dana-operasional.destroy', $school_operational_assistance->id) }}"
 											method="POST">
 											@csrf
 											@method('DELETE')
@@ -55,6 +61,7 @@
 												<i class="fas fa-fw fa-trash-alt"></i>
 											</button>
 										</form>
+										@endcan
 									</div>
 								</td>
 							</tr>
