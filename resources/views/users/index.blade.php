@@ -44,6 +44,15 @@
 											<i class="fas fa-fw fa-search"></i>
 										</a>
 										@endcan
+										@can('hapus pengguna')
+										<form action="{{ route('pengguna.destroy', $user->id) }}" method="POST">
+											@csrf
+											@method('DELETE')
+											<button type="submit" class="btn btn-sm btn-danger text-white delete-button">
+												<i class="fas fa-fw fa-trash-alt"></i>
+											</button>
+										</form>
+										@endcan
 									</div>
 								</td>
 							</tr>

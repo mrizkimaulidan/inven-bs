@@ -52,7 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/ruangan/import', [CommodityLocationController::class, 'import'])->name('ruangan.import');
     Route::post('/ruangan/export', [CommodityLocationController::class, 'export'])->name('ruangan.export');
 
-    Route::resource('pengguna', UserController::class)->except('create', 'edit', 'show', 'update', 'destroy')
+    Route::resource('pengguna', UserController::class)->except('create', 'edit', 'show', 'update')
         ->parameter('pengguna', 'user');
 
     Route::resource('peran-dan-hak-akses', RoleController::class)->parameter('peran-dan-hak-akses', 'role');

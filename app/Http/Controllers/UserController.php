@@ -36,4 +36,14 @@ class UserController extends Controller
 
         return to_route('pengguna.index')->with('success', 'Data berhasil ditambahkan!');
     }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        return to_route('pengguna.index')->with('success', 'Data berhasil dihapus!');
+    }
 }
