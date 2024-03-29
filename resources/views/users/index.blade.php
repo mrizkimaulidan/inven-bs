@@ -23,6 +23,7 @@
 								<th scope="col">#</th>
 								<th scope="col">Nama Lengkap</th>
 								<th scope="col">Alamat Email</th>
+								<th scope="col">Peran</th>
 								<th scope="col">Tanggal Ditambahkan</th>
 								<th scope="col">Aksi</th>
 							</tr>
@@ -33,6 +34,7 @@
 								<th scope="row">{{ $loop->iteration }}</th>
 								<td>{{ $user->name }}</td>
 								<td>{{ $user->email }}</td>
+								<td>{{ $user->getRoleNames()->first() }}</td>
 								<td>{{ date('m/d/Y H:i A', strtotime($user->created_at)) }}</td>
 								<td class="text-center">
 									<div class="btn-group">

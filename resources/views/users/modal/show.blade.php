@@ -23,6 +23,12 @@
 							<input type="email" class="form-control" id="email" disabled>
 						</div>
 					</div>
+					<div class="col-lg-12">
+						<div class="form-group">
+							<label for="role_id">Peran</label>
+							<input type="text" class="form-control" id="role_id" disabled>
+						</div>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>

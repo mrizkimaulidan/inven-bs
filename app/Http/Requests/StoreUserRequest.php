@@ -14,6 +14,7 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'role_id' => 'required|exists:roles,id',
             'name' => 'required|string|min:3|max:255',
             'email' => 'required|string|email|unique:users,email|min:3|max:255',
             'password' => 'required|string|min:3|max:255',
@@ -29,6 +30,9 @@ class StoreUserRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'role_id.required' => 'Kolom peran wajib diisi!',
+            'role_id.exists' => 'Kolom peran yang dipilih tidak valid!',
+
             'name.required' => 'Kolom nama lengkap wajib diisi!',
             'name.string' => 'Kolom nama lengkap harus berupa karakter!',
             'name.min' => 'Kolom nama lengkap minimal :min karakter!',

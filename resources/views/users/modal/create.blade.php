@@ -39,6 +39,22 @@
 						</div>
 						<div class="col-lg-12">
 							<div class="form-group">
+								<label for="role_id">Pilih Peran</label>
+								<select class="tom-select @error('role_id', 'store') is-invalid @enderror" name="role_id" id="role_id"
+									placeholder="Pilih peran..">
+									@foreach ($roles as $role)
+									<option value="{{ $role->id }}">{{ $role->name }}</option>
+									@endforeach
+								</select>
+								@error('role_id', 'store')
+								<div class="d-block invalid-feedback">
+									{{ $message }}
+								</div>
+								@enderror
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="form-group">
 								<label for="password">Kata Sandi</label>
 								<input type="password" name="password"
 									class="form-control @error('password', 'store') is-invalid @enderror" id="password"

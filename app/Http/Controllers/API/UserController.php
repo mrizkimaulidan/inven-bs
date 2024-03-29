@@ -13,10 +13,13 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $userData = $user->toArray();
+        $userData['role'] = $user->roles()->first();
+
         return response()->json([
             'code' => Response::HTTP_OK,
             'message' => 'success',
-            'data' => $user
+            'data' => $userData
         ]);
     }
 }
