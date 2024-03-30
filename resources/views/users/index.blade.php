@@ -44,6 +44,12 @@
 											<i class="fas fa-fw fa-search"></i>
 										</a>
 										@endcan
+										@can('ubah pengguna')
+										<a data-id="{{ $user->id }}" class="btn btn-sm btn-success text-white edit-modal mr-2"
+											data-toggle="modal" data-target="#user_edit_modal" title="Ubah data">
+											<i class="fas fa-fw fa-edit"></i>
+										</a>
+										@endcan
 										@can('hapus pengguna')
 										<form action="{{ route('pengguna.destroy', $user->id) }}" method="POST">
 											@csrf
@@ -69,6 +75,7 @@
 @push('modal')
 @include('users.modal.create')
 @include('users.modal.show')
+@include('users.modal.edit')
 @endpush
 
 @push('js')
