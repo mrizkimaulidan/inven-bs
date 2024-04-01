@@ -8,6 +8,11 @@ use App\SchoolOperationalAssistance;
 
 class SchoolOperationalAssistanceController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(SchoolOperationalAssistance::class, 'school_operational_assistance');
+    }
+
     /**
      * Display a listing of the resource.
      */

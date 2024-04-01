@@ -15,6 +15,11 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class CommodityController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Commodity::class, 'commodity');
+    }
+
     /**
      * Display a listing of the resource.
      */

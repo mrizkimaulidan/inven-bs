@@ -12,6 +12,11 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class CommodityLocationController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(CommodityLocation::class, 'commodity_location');
+    }
+
     /**
      * Display a listing of the resource.
      */
