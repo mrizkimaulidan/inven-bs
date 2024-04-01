@@ -1,4 +1,4 @@
-@extends('layouts.index', ['title' => 'Admin Dashboard', 'page_heading' => 'Dashboard'])
+@extends('layouts.index', ['title' => 'Dashboard', 'page_heading' => 'Dashboard'])
 
 @section('content')
 <div class="row">
