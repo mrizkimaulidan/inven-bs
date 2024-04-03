@@ -84,7 +84,7 @@
 					<li class="media">
 						<!-- <img class="mr-3 rounded-circle" width="50" src="../assets/img/avatar/avatar-1.png" alt="avatar"> -->
 						<div class="media-body">
-							@can('lihat barang')
+							@can('detail barang')
 							<button data-id="{{ $order_by_price->id }}" class="float-right btn btn-info btn-sm show-modal"
 								data-toggle="modal" data-target="#show_commodity">Detail</button>
 							@endcan

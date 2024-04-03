@@ -55,7 +55,7 @@
 								<td>{{ date('d/m/Y H:i A', strtotime($commodity_location->created_at)) }}</td>
 								<td class="text-center">
 									<div class="btn-group" role="group" aria-label="Basic example">
-										@can('lihat ruangan')
+										@can('detail ruangan')
 										<a data-id="{{ $commodity_location->id }}" class="btn btn-sm btn-info text-white show-modal mr-2"
 											data-toggle="modal" data-target="#show_commodity_location">
 											<i class="fas fa-fw fa-search"></i>

@@ -89,7 +89,7 @@
 								@endif
 								<td class="text-center">
 									<div class="btn-group" role="group" aria-label="Basic example">
-										@can('lihat barang')
+										@can('detail barang')
 										<a data-id="{{ $commodity->id }}" class="btn btn-sm btn-info text-white show-modal mr-2"
 											data-toggle="modal" data-target="#show_commodity" title="Lihat Detail">
 											<i class="fas fa-fw fa-search"></i>

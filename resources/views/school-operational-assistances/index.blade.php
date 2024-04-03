@@ -38,7 +38,7 @@
 								</td>
 								<td class="text-center">
 									<div class="btn-group">
-										@can('lihat bos')
+										@can('detail bos')
 										<a data-id="{{ $school_operational_assistance->id }}"
 											class="btn btn-sm btn-info text-white show-modal mr-2" data-toggle="modal"
 											data-target="#show_school_operational_assistance">
