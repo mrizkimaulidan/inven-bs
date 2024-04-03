@@ -12,6 +12,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
+        $this->authorize('mengatur profile');
+
         return view('profile');
     }
 
@@ -20,6 +22,8 @@ class ProfileController extends Controller
      */
     public function update(UpdateProfileRequest $request)
     {
+        $this->authorize('mengatur profile');
+
         $user = User::find(auth()->id());
         $validated = $request->validated();
 
