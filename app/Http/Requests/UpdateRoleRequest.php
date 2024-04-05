@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRoleRequest extends FormRequest
 {
+    protected $errorBag = 'update';
+
     /**
      * Determine if the user is authorized to make this request.
      */
