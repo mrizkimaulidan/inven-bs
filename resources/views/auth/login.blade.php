@@ -25,6 +25,7 @@
 							class="shadow-light rounded-circle mb-5 mt-2">
 						<h5 class="text-dark font-weight-normal">Aplikasi <span class="font-weight-bold">Inventaris Barang
 								Sekolah</span></h5>
+						@include('utilities.alert')
 						<form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate="">
 							@csrf
 							<div class="form-group">

@@ -34,7 +34,7 @@ class ProfileController extends Controller
 
             auth()->logout();
 
-            return to_route('login');
+            return to_route('login')->with('success', 'Email berhasil diubah! Mohon login kembali.');
         }
 
         if ($validated['password'] !== null && $validated['password_confirmation'] !== null) {
@@ -44,7 +44,7 @@ class ProfileController extends Controller
 
             auth()->logout();
 
-            return to_route('login');
+            return to_route('login')->with('success', 'Kata sandi berhasil diubah! Mohon login kembali.');
         }
 
         $user->update([
