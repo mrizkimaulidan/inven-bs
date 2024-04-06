@@ -3,23 +3,20 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\User;
 use Illuminate\Http\Response;
+use Spatie\Permission\Models\Role;
 
-class UserController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(Role $role)
     {
-        $userData = $user->toArray();
-        $userData['role'] = $user->roles()->first();
-
         return response()->json([
             'code' => Response::HTTP_OK,
             'message' => 'success',
-            'data' => $userData
-        ]);
+            'data' => $role->load('permissions')
+        ], Response::HTTP_OK);
     }
 }

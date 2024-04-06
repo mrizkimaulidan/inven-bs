@@ -12,6 +12,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
+        $this->authorize('mengatur profile');
+
         return view('profile');
     }
 
@@ -20,6 +22,8 @@ class ProfileController extends Controller
      */
     public function update(UpdateProfileRequest $request)
     {
+        $this->authorize('mengatur profile');
+
         $user = User::find(auth()->id());
         $validated = $request->validated();
 
@@ -30,7 +34,7 @@ class ProfileController extends Controller
 
             auth()->logout();
 
-            return to_route('login');
+            return to_route('login')->with('success', 'Email berhasil diubah! Mohon login kembali.');
         }
 
         if ($validated['password'] !== null && $validated['password_confirmation'] !== null) {
@@ -40,7 +44,7 @@ class ProfileController extends Controller
 
             auth()->logout();
 
-            return to_route('login');
+            return to_route('login')->with('success', 'Kata sandi berhasil diubah! Mohon login kembali.');
         }
 
         $user->update([

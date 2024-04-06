@@ -15,6 +15,11 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class CommodityController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Commodity::class, 'commodity');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -62,6 +67,8 @@ class CommodityController extends Controller
      */
     public function generatePDF()
     {
+        $this->authorize('print barang');
+
         $commodities = Commodity::all();
         $sekolah = env('NAMA_SEKOLAH', 'Barang Milik Sekolah');
         $pdf = Pdf::loadView('commodities.pdf', compact(['commodities', 'sekolah']))->setPaper('a4');
@@ -74,6 +81,8 @@ class CommodityController extends Controller
      */
     public function generatePDFIndividually($id)
     {
+        $this->authorize('print individual barang');
+
         $commodity = Commodity::find($id);
         $sekolah = env('NAMA_SEKOLAH', 'Barang Milik Sekolah');
         $pdf = Pdf::loadView('commodities.pdfone', compact(['commodity', 'sekolah']))->setPaper('a4');
@@ -86,6 +95,8 @@ class CommodityController extends Controller
      */
     public function export()
     {
+        $this->authorize('export barang');
+
         return Excel::download(new CommoditiesExport, 'daftar-barang-' . date('d-m-Y') . '.xlsx');
     }
 
@@ -94,6 +105,8 @@ class CommodityController extends Controller
      */
     public function import(CommodityImportRequest $request)
     {
+        $this->authorize('import barang');
+
         Excel::import(new CommoditiesImport, $request->file('file'));
 
         return to_route('barang.index')->with('success', 'Data barang berhasil diimpor!');

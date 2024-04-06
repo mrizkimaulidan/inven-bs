@@ -1,56 +1,41 @@
 <!-- Modal -->
-<div class="modal fade" id="user_create_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
+<div class="modal fade" id="user_edit_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
 	aria-labelledby="staticBackdropLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="staticBackdropLabel">Tambah Data Pengguna</h5>
+				<h5 class="modal-title" id="staticBackdropLabel">Ubah Data Pengguna</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<form action="{{ route('pengguna.store') }}" method="POST">
+				<form method="POST">
 					@csrf
+					@method('PUT')
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="form-group">
 								<label for="name">Nama Lengkap</label>
-								<input type="text" name="name" class="form-control @error('name', 'store') is-invalid @enderror"
-									id="name" value="{{ old('name') }}" placeholder="Masukan nama lengkap..">
-								@error('name', 'store')
-								<div class="d-block invalid-feedback">
-									{{ $message }}
-								</div>
-								@enderror
+								<input type="text" name="name" class="form-control" id="name" value="{{ old('name') }}"
+									placeholder="Masukan nama lengkap..">
 							</div>
 						</div>
 						<div class="col-lg-12">
 							<div class="form-group">
 								<label for="email">Alamat Email</label>
-								<input type="email" name="email" class="form-control @error('email', 'store') is-invalid @enderror"
-									id="email" value="{{ old('email') }}" placeholder="Masukan alamat email..">
-								@error('email', 'store')
-								<div class="d-block invalid-feedback">
-									{{ $message }}
-								</div>
-								@enderror
+								<input type="email" name="email" class="form-control" id="email" value="{{ old('email') }}"
+									placeholder="Masukan alamat email..">
 							</div>
 						</div>
 						<div class="col-lg-12">
 							<div class="form-group">
 								<label for="role_id">Pilih Peran</label>
-								<select class="tom-select @error('role_id', 'store') is-invalid @enderror" name="role_id" id="role_id"
-									placeholder="Pilih peran..">
+								<select class="tom-select" name="role_id" id="role_id" placeholder="Pilih peran..">
 									@foreach ($roles as $role)
 									<option value="{{ $role->id }}">{{ $role->name }}</option>
 									@endforeach
 								</select>
-								@error('role_id', 'store')
-								<div class="d-block invalid-feedback">
-									{{ $message }}
-								</div>
-								@enderror
 							</div>
 						</div>
 						<div class="col-lg-12">
@@ -83,7 +68,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-						<button type="submit" class="btn btn-success">Tambah</button>
+						<button type="submit" class="btn btn-success">Ubah</button>
 					</div>
 				</form>
 			</div>

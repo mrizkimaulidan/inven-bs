@@ -4,21 +4,31 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
-    protected $errorBag = 'store';
+    protected $errorBag = 'update';
 
     /**
      * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
             'role_id' => 'required|exists:roles,id',
             'name' => 'required|string|min:3|max:255',
-            'email' => 'required|string|email|unique:users,email|min:3|max:255',
-            'password' => 'required|string|min:3|max:255',
-            'password_confirmation' => 'required|string|same:password|min:3|max:255',
+            'email' => 'required|string|email|unique:users,email,' . $this->user->id . '|min:3|max:255',
+            'password' => 'nullable|string|min:3|max:255',
+            'password_confirmation' => 'nullable|string|same:password|min:3|max:255',
         ];
     }
 
@@ -45,13 +55,11 @@ class StoreUserRequest extends FormRequest
             'email.min' => 'Kolom alamat email minimal :min karakter!',
             'email.max' => 'Kolom alamat email maksimal :max karakter!',
 
-            'password.required' => 'Kolom kata sandi wajib diisi!',
             'password.string' => 'Kolom kata sandi harus berupa karakter!',
             'password.confirmed' => 'Konfirmasi kata sandi tidak cocok!',
             'password.min' => 'Kolom kata sandi minimal :min karakter!',
             'password.max' => 'Kolom kata sandi maksimal :max karakter!',
 
-            'password_confirmation.required' => 'Kolom konfirmasi kata sandi wajib diisi!',
             'password_confirmation.string' => 'Kolom konfirmasi kata sandi harus berupa karakter!',
             'password_confirmation.same' => 'Konfirmasi kata sandi tidak cocok!',
             'password_confirmation.min' => 'Kolom konfirmasi kata sandi minimal :min karakter!',

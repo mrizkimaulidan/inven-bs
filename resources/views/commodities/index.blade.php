@@ -8,11 +8,14 @@
 
 		<div class="d-flex justify-content-end mb-3">
 			<div class="btn-group">
+				@can('import barang')
 				<button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#excel_menu">
 					<i class="fas fa-fw fa-upload"></i>
 					Import Excel
 				</button>
+				@endcan
 
+				@can('export barang')
 				<form action="{{ route('barang.export') }}" method="POST">
 					@csrf
 
@@ -21,12 +24,16 @@
 						Export Excel
 					</button>
 				</form>
+				@endcan
 
+				@can('tambah barang')
 				<button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#commodity_create_modal">
 					<i class="fas fa-fw fa-plus"></i>
 					Tambah Data
 				</button>
+				@endcan
 
+				@can('print barang')
 				<form action="{{ route('barang.print') }}" method="POST">
 					@csrf
 					<button type="submit" class="btn btn-success">
@@ -34,6 +41,7 @@
 						Print
 					</button>
 				</form>
+				@endcan
 			</div>
 		</div>
 
@@ -81,29 +89,37 @@
 								@endif
 								<td class="text-center">
 									<div class="btn-group" role="group" aria-label="Basic example">
+										@can('detail barang')
 										<a data-id="{{ $commodity->id }}" class="btn btn-sm btn-info text-white show-modal mr-2"
 											data-toggle="modal" data-target="#show_commodity" title="Lihat Detail">
 											<i class="fas fa-fw fa-search"></i>
 										</a>
+										@endcan
 
+										@can('ubah barang')
 										<a data-id="{{ $commodity->id }}" class="btn btn-sm btn-success text-white edit-modal mr-2"
 											data-toggle="modal" data-target="#edit_commodity" title="Ubah data">
 											<i class="fas fa-fw fa-edit"></i>
 										</a>
+										@endcan
 
+										@can('print individual barang')
 										<form action="{{ route('barang.print-individual', $commodity->id) }}" method="POST">
 											@csrf
 											<button type="submit" class="btn btn-sm btn-primary mr-2">
 												<i class="fas fa-fw fa-print"></i>
 											</button>
 										</form>
+										@endcan
 
+										@can('hapus barang')
 										<form action="{{ route('barang.destroy', $commodity) }}" method="POST">
 											@csrf
 											@method('DELETE')
 											<button type="submit" class="btn btn-sm btn-danger delete-button"><i
 													class="fas fa-fw fa-trash-alt"></i></button>
 										</form>
+										@endcan
 									</div>
 								</td>
 							</tr>
