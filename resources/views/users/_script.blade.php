@@ -48,7 +48,10 @@
 				success: (res) => {
 					$("#user_edit_modal form #name").val(res.data.name);
 					$("#user_edit_modal form #email").val(res.data.email);
-					userRoleInput.setValue(res.data.role.id);
+
+					if(res.data.role !== null) {
+						userRoleInput.setValue(res.data.role.id);
+					}
 
 					$("#user_edit_modal form").attr("action", updateURL);
 				},
