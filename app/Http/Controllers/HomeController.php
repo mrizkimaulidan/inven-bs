@@ -35,10 +35,10 @@ class HomeController extends Controller
         });
 
         $commodity_counts = [
-            'commodity_in_total' => $commodity_condition_count->sum('count'),
-            'commodity_in_good_condition' => $commodity_condition_count->firstWhere('condition_name', 'Baik')['count'],
-            'commodity_in_not_good_condition' => $commodity_condition_count->firstWhere('condition_name', 'Kurang Baik')['count'],
-            'commodity_in_heavily_damage_condition' => $commodity_condition_count->firstWhere('condition_name', 'Rusak Berat')['count']
+            'commodity_in_total' => $commodity_condition_count->sum('count') ?? 0,
+            'commodity_in_good_condition' => $commodity_condition_count->firstWhere('condition_name', 'Baik')['count'] ?? 0,
+            'commodity_in_not_good_condition' => $commodity_condition_count->firstWhere('condition_name', 'Kurang Baik')['count'] ?? 0,
+            'commodity_in_heavily_damage_condition' => $commodity_condition_count->firstWhere('condition_name', 'Rusak Berat')['count'] ?? 0
         ];
 
         $commodity_each_year_of_purchase_count = $this->commodityRepository->countCommodityEachYear();
