@@ -9,6 +9,10 @@ class Commodity extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+        'condition' => 'integer'
+    ];
+
     /**
      * Get the commodity location associated with the commodity.
      */
