@@ -11,6 +11,7 @@ use App\Http\Requests\CommodityImportRequest;
 use App\Http\Requests\StoreCommodityRequest;
 use App\Http\Requests\UpdateCommodityRequest;
 use App\Imports\CommoditiesImport;
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CommodityController extends Controller
@@ -25,7 +26,20 @@ class CommodityController extends Controller
      */
     public function index()
     {
-        $commodities = Commodity::latest()->get();
+        $query = Commodity::query();
+        $query->when(request()->filled('condition'), function ($q) {
+            return $q->where('condition', request('condition'));
+        });
+
+        $query->when(request()->filled('commodity_location_id'), function ($q) {
+            return $q->where('commodity_location_id', request('commodity_location_id'));
+        });
+
+        $query->when(request()->filled('school_operational_assistance_id'), function ($q) {
+            return $q->where('school_operational_assistance_id', request('school_operational_assistance_id'));
+        });
+
+        $commodities = $query->latest()->get();
         $school_operational_assistances = SchoolOperationalAssistance::orderBy('name', 'ASC')->get();
         $commodity_locations = CommodityLocation::orderBy('name', 'ASC')->get();
 
