@@ -13,6 +13,6 @@ class LogoutController extends Controller
     {
         auth()->logout();
 
-        return to_route('login');
+        return to_route('login')->with('success', 'Berhasil keluar dari aplikasi!');
     }
 }
