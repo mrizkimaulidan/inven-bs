@@ -114,6 +114,12 @@
 			:categories="$charts['commodity_each_year_of_purchase_count']['categories']">
 		</x-bar-chart>
 	</div>
+	<div class="col-lg-12">
+		<x-bar-chart chartTitle="Grafik Jumlah Barang Berdasarkan Ruangan" chartID="chartCommodityCountEachLocation"
+			:series="$charts['commodity_each_location_count']['series']"
+			:categories="$charts['commodity_each_location_count']['categories']">
+		</x-bar-chart>
+	</div>
 </div>
 @endsection
 
