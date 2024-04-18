@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Commodity;
+use App\CommodityLocation;
 use App\Repositories\CommodityRepository;
 use App\Services\CommodityService;
 
@@ -42,6 +43,7 @@ class HomeController extends Controller
         ];
 
         $commodity_each_year_of_purchase_count = $this->commodityRepository->countCommodityEachYear();
+        $commodity_each_location_count = CommodityLocation::has('commodities')->withCount('commodities')->get();
 
         $charts = [
             'commodity_condition_count' => [
@@ -51,6 +53,10 @@ class HomeController extends Controller
             'commodity_each_year_of_purchase_count' => [
                 'categories' => $commodity_each_year_of_purchase_count->pluck('year_of_purchase'),
                 'series' => $commodity_each_year_of_purchase_count->pluck('count')
+            ],
+            'commodity_each_location_count' => [
+                'categories' => $commodity_each_location_count->pluck('name'),
+                'series' => $commodity_each_location_count->pluck('commodities_count')
             ]
         ];
 

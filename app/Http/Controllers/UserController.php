@@ -20,7 +20,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all()->except(auth()->id());
-        $roles = Role::all();
+        $roles = Role::withCount('users')->get();
 
         return view('users.index', compact('users', 'roles'));
     }
