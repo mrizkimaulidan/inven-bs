@@ -44,11 +44,6 @@
 								<input type="password" name="password"
 									class="form-control @error('password', 'store') is-invalid @enderror" id="password"
 									value="{{ old('password') }}" placeholder="Masukan kata sandi..">
-								@error('password', 'store')
-								<div class="d-block invalid-feedback">
-									{{ $message }}
-								</div>
-								@enderror
 							</div>
 						</div>
 						<div class="col-lg-12">
@@ -58,11 +53,6 @@
 									class="form-control @error('password_confirmation', 'store') is-invalid @enderror"
 									id="password_confirmation" value="{{ old('password_confirmation') }}"
 									placeholder="Konfirmasi kata sandi..">
-								@error('password_confirmation', 'store')
-								<div class="d-block invalid-feedback">
-									{{ $message }}
-								</div>
-								@enderror
 							</div>
 						</div>
 					</div>
