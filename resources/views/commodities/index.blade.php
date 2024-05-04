@@ -44,63 +44,52 @@
 				</div>
 			</div>
 
-			<div id="accordion">
-				<div class="accordion mb-3">
-					<div class="accordion-header" role="button" data-toggle="collapse" data-target="#panel-body-1"
-						aria-expanded="true">
-						<h4>Menu filter (klik atau sentuh untuk membuka atau menutup menu filter)</h4>
+			<x-filter>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="commodity_location_id">Lokasi Barang:</label>
+							<select name="commodity_location_id" id="commodity_location_id" class="form-control">
+								<option value="">Pilih lokasi barang..</option>
+								@foreach ($commodity_locations as $commodity_location)
+								<option value="{{ $commodity_location->id }}"
+									@selected(request('commodity_location_id')==$commodity_location->id)>{{
+									$commodity_location->name
+									}}</option>
+								@endforeach
+							</select>
+						</div>
 					</div>
-					<div class="accordion-body collapse show" id="panel-body-1" data-parent="#accordion">
-						<form action="" method="GET">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label for="commodity_location_id">Lokasi Barang:</label>
-										<select name="commodity_location_id" id="commodity_location_id" class="form-control">
-											<option value="">Pilih lokasi barang..</option>
-											@foreach ($commodity_locations as $commodity_location)
-											<option value="{{ $commodity_location->id }}"
-												@selected(request('commodity_location_id')==$commodity_location->id)>{{
-												$commodity_location->name
-												}}</option>
-											@endforeach
-										</select>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label for="school_operational_assistance_id">Asal Perolehan:</label>
-										<select name="school_operational_assistance_id" id="school_operational_assistance_id"
-											class="form-control">
-											<option value="">Pilih asal perolehan..</option>
-											@foreach ($school_operational_assistances as $school_operational_assistance)
-											<option value="{{ $school_operational_assistance->id }}"
-												@selected(request('school_operational_assistance_id')==$school_operational_assistance->id)>{{
-												$school_operational_assistance->name }}
-											</option>
-											@endforeach
-										</select>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label for="condition">Kondisi:</label>
-										<select name="condition" id="condition" class="form-control">
-											<option value="">Pilih kondisi..</option>
-											<option value="1" @selected(request('condition')==1)>Baik</option>
-											<option value="2" @selected(request('condition')==2)>Kurang Baik</option>
-											<option value="3" @selected(request('condition')==3)>Rusak Berat</option>
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="d-flex">
-								<button type="submit" class="btn btn-primary flex-fill">Cari</button>
-							</div>
-						</form>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="school_operational_assistance_id">Asal Perolehan:</label>
+							<select name="school_operational_assistance_id" id="school_operational_assistance_id"
+								class="form-control">
+								<option value="">Pilih asal perolehan..</option>
+								@foreach ($school_operational_assistances as $school_operational_assistance)
+								<option value="{{ $school_operational_assistance->id }}"
+									@selected(request('school_operational_assistance_id')==$school_operational_assistance->id)>{{
+									$school_operational_assistance->name }}
+								</option>
+								@endforeach
+							</select>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="condition">Kondisi:</label>
+							<select name="condition" id="condition" class="form-control">
+								<option value="">Pilih kondisi..</option>
+								<option value="1" @selected(request('condition')==1)>Baik</option>
+								<option value="2" @selected(request('condition')==2)>Kurang Baik</option>
+								<option value="3" @selected(request('condition')==3)>Rusak Berat</option>
+							</select>
+						</div>
 					</div>
 				</div>
-			</div>
+
+				<x-slot name="resetFilterURL">{{ route('barang.index') }}</x-slot>
+			</x-filter>
 
 			<div class="row">
 				<div class="col-lg-12">
