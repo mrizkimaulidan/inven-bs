@@ -2,24 +2,24 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+	<meta charset="UTF-8" />
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport" />
 	<title>{{ $title }} &mdash; {{ config('app.name') }}</title>
 
 	<!-- General CSS Files -->
-	<link rel="stylesheet" href="{{ url('assets/bootstrap/css/bootstrap.min.css') }}">
-	<link rel="stylesheet" href="{{ url('assets/fontawesome/css/all.css') }}">
+	<link rel="stylesheet" href="{{ url('assets/bootstrap/css/bootstrap.min.css') }}" />
+	<link rel="stylesheet" href="{{ url('assets/fontawesome/css/all.css') }}" />
 
 	<!-- CSS Libraries -->
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
 
 	<!-- Template CSS -->
-	<link rel="stylesheet" href="{{ url('assets/css/style.css') }}">
-	<link rel="stylesheet" href="{{ url('assets/css/components.css') }}">
+	<link rel="stylesheet" href="{{ url('assets/css/style.css') }}" />
+	<link rel="stylesheet" href="{{ url('assets/css/components.css') }}" />
 
-	<link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
 	<link rel="stylesheet"
-		href="https://cdnjs.cloudflare.com/ajax/libs/tom-select/1.4.0/css/tom-select.bootstrap4.min.css">
+		href="https://cdnjs.cloudflare.com/ajax/libs/tom-select/1.4.0/css/tom-select.bootstrap4.min.css" />
 </head>
 
 <body>
@@ -29,31 +29,33 @@
 			<nav class="navbar navbar-expand-lg main-navbar">
 				<form class="form-inline mr-auto">
 					<ul class="navbar-nav mr-3">
-						<li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
+						<li>
+							<a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a>
+						</li>
 					</ul>
 				</form>
 				<ul class="navbar-nav navbar-right">
-					<li class="dropdown"><a href="#" data-toggle="dropdown"
-							class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-							<img alt="image" src="../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+					<li class="dropdown">
+						<a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+							<img alt="image" src="../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1" />
 							<div class="d-sm-none d-lg-inline-block">Halo, {{ auth()->user()->name }}</div>
 						</a>
 						<div class="dropdown-menu dropdown-menu-right">
 							<div class="dropdown-title">Akun sejak: {{ auth()->user()->diffForHumanDate(auth()->user()->created_at) }}
 							</div>
 							@can('mengatur profile')
-							<a href="{{ route('profile.index') }}" class="dropdown-item has-icon">
-								<i class="fas fa-cog"></i> Pengaturan Profil
-							</a>
+							<a href="{{ route('profile.index') }}" class="dropdown-item has-icon"> <i class="fas fa-cog"></i>
+								Pengaturan Profil </a>
 							@endcan
 							<div class="dropdown-divider"></div>
-							{{-- <a class="dropdown-item has-icon text-danger" href="{{ route('logout') }}">
+							{{--
+							<a class="dropdown-item has-icon text-danger" href="{{ route('logout') }}">
 								<i class="fas fa-sign-out-alt"></i>
 								{{ __('Logout') }}
-							</a> --}}
+							</a>
+							--}}
 							<form id="logout-form" action="{{ route('logout') }}" method="POST">
 								@csrf
-
 
 								<button type="submit" class="dropdown-item has-icon btn-link text-danger logout">
 									Logout
@@ -83,20 +85,17 @@
 							<a href="{{ route('barang.index') }}" class="nav-link"><i class="fas fa-columns"></i> <span>Data
 									Barang</span></a>
 						</li>
-						@endcan
-						@can('lihat bos')
+						@endcan @can('lihat bos')
 						<li class="nav-item dropdown{{ request()->routeIs('bantuan-dana-operasional.index') ? ' active' : '' }}">
 							<a class="nav-link" href="{{ route('bantuan-dana-operasional.index') }}"><i class="far fa-square"></i>
 								<span>Data BOS</span></a>
 						</li>
-						@endcan
-						@can('lihat ruangan')
+						@endcan @can('lihat ruangan')
 						<li class="nav-item dropdown{{ request()->routeIs('ruangan.index') ? ' active' : '' }}">
 							<a href="{{ route('ruangan.index') }}" class="nav-link"><i class="fas fa-th"></i> <span>Data
 									Ruangan</span></a>
 						</li>
-						@endcan
-						@can('lihat pengguna')
+						@endcan @can('lihat pengguna')
 						<li class="nav-item dropdown{{ request()->routeIs('pengguna.index') ? ' active' : '' }}">
 							<a href="{{ route('pengguna.index') }}" class="nav-link"><i class="fas fa-users"></i> <span>Data
 									Pengguna</span></a>
@@ -108,12 +107,10 @@
 							<a href="{{ route('profile.index') }}" class="nav-link"><i class="fas fa-cog"></i> <span>Pengaturan
 									Profil</span></a>
 						</li>
-						@endcan
-						@can('lihat peran dan hak akses')
+						@endcan @can('lihat peran dan hak akses')
 						<li class="nav-item dropdown{{ request()->routeIs('peran-dan-hak-akses.index') ? ' active' : '' }}">
 							<a href="{{ route('peran-dan-hak-akses.index') }}" class="nav-link"><i class="fas fa-user-shield"></i>
-								<span>Peran & Hak
-									Akses</span></a>
+								<span>Peran & Hak Akses</span></a>
 						</li>
 						@endcan
 					</ul>
@@ -170,52 +167,45 @@
 	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 	<script>
-		$(document).ready(function() {
-					$("#datatable").DataTable({
-							"lengthMenu": [5, 10, 15],
-							"language": {
-									"url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Indonesian.json"
-							}
-					});
+		$(document).ready(function () {
+        $(".delete-button").click(function (e) {
+          e.preventDefault();
+          Swal.fire({
+            title: "Hapus?",
+            text: "Data tidak akan bisa dikembalikan!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya",
+            cancelButtonText: "Batal",
+            reverseButtons: true,
+          }).then((result) => {
+            if (result.value) {
+              $(this).parent().submit();
+            }
+          });
+        });
 
-					$(".delete-button").click(function(e) {
-						e.preventDefault();
-							Swal.fire({
-									title: "Hapus?",
-									text: "Data tidak akan bisa dikembalikan!",
-									icon: "warning",
-									showCancelButton: true,
-									confirmButtonColor: "#3085d6",
-									cancelButtonColor: "#d33",
-									confirmButtonText: "Ya",
-									cancelButtonText: "Batal",
-									reverseButtons: true
-							}).then(result => {
-									if (result.value) {
-											$(this).parent().submit();
-									}
-							});
-					});
-
-					$(".logout").click(function(e) {
-						e.preventDefault();
-							Swal.fire({
-									title: "Keluar?",
-									text: "Anda akan keluar dari aplikasi!",
-									icon: "warning",
-									showCancelButton: true,
-									confirmButtonColor: "#3085d6",
-									cancelButtonColor: "#d33",
-									confirmButtonText: "Ya",
-									cancelButtonText: "Batal",
-									reverseButtons: true
-							}).then(result => {
-									if (result.value) {
-											$(this).parent().submit();
-									}
-							});
-					});
-			})
+        $(".logout").click(function (e) {
+          e.preventDefault();
+          Swal.fire({
+            title: "Keluar?",
+            text: "Anda akan keluar dari aplikasi!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya",
+            cancelButtonText: "Batal",
+            reverseButtons: true,
+          }).then((result) => {
+            if (result.value) {
+              $(this).parent().submit();
+            }
+          });
+        });
+      });
 	</script>
 	@stack('modal')
 	@stack('js')
