@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="{{ url('assets/fontawesome/css/all.css') }}" />
 
 	<!-- CSS Libraries -->
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
+	<link rel="stylesheet" href="https://cdn.datatables.net/2.0.6/css/dataTables.bootstrap4.css" />
 
 	<!-- Template CSS -->
 	<link rel="stylesheet" href="{{ url('assets/css/style.css') }}" />
@@ -149,8 +149,8 @@
 	<script src="{{ url('assets/js/stisla.js') }}"></script>
 
 	<!-- JS Libraies -->
-	<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-	<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+	<script src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
+	<script src="https://cdn.datatables.net/2.0.6/js/dataTables.bootstrap4.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 	<!-- Template JS File -->
