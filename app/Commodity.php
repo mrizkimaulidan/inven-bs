@@ -50,19 +50,11 @@ class Commodity extends Model
      */
     public function getConditionName()
     {
-        if ($this->condition === 1) {
-            return 'Baik';
-        }
-
-        if ($this->condition === 2) {
-            return 'Kurang Baik';
-        }
-
-        if ($this->condition === 3) {
-            return 'Rusak Berat';
-        }
-
-        // Return null if the condition code is not recognized
-        return null;
+        return match ($this->condition) {
+            1 => 'Baik',
+            2 => 'Kurang Baik',
+            3 => 'Rusak Berat',
+            default => null
+        };
     }
 }
