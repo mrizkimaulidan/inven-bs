@@ -82,17 +82,17 @@
 						<li class="menu-header">Manajemen</li>
 						@can('lihat barang')
 						<li class="nav-item dropdown{{ request()->routeIs('barang.index') ? ' active' : '' }}">
-							<a href="{{ route('barang.index') }}" class="nav-link"><i class="fas fa-columns"></i> <span>Data
+							<a href="{{ route('barang.index') }}" class="nav-link"><i class="fas fa-boxes-stacked"></i> <span>Data
 									Barang</span></a>
 						</li>
 						@endcan @can('lihat bos')
 						<li class="nav-item dropdown{{ request()->routeIs('bantuan-dana-operasional.index') ? ' active' : '' }}">
-							<a class="nav-link" href="{{ route('bantuan-dana-operasional.index') }}"><i class="far fa-square"></i>
+							<a class="nav-link" href="{{ route('bantuan-dana-operasional.index') }}"><i class="far fa-face-laugh"></i>
 								<span>Data BOS</span></a>
 						</li>
 						@endcan @can('lihat ruangan')
 						<li class="nav-item dropdown{{ request()->routeIs('ruangan.index') ? ' active' : '' }}">
-							<a href="{{ route('ruangan.index') }}" class="nav-link"><i class="fas fa-th"></i> <span>Data
+							<a href="{{ route('ruangan.index') }}" class="nav-link"><i class="fas fa-map-location-dot"></i> <span>Data
 									Ruangan</span></a>
 						</li>
 						@endcan @can('lihat pengguna')
