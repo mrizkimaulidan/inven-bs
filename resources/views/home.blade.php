@@ -65,7 +65,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-lg-8">
+		<div class="col-md-6 col-lg-8">
 			<div class="card">
 				<x-bar-chart chartTitle="Grafik Barang Berdasarkan Kondisi" chartID="chartCommodityCondition"
 					:series="$charts['commodity_condition_count']['series']"
@@ -74,7 +74,7 @@
 			</div>
 		</div>
 
-		<div class="col-lg-4">
+		<div class="col-md-6 col-lg-4">
 			<div class="card">
 				<div class="card-header">
 					<h4>5 Barang Termahal</h4>
