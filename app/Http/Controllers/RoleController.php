@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -84,6 +85,11 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
+        if ($role->users->isNotEmpty()) {
+            return to_route('peran-dan-hak-akses.index')
+                ->with('error', 'Peran tidak dapat dihapus karena masih terkait dengan data pengguna!');
+        }
+
         $role->delete();
 
         return to_route('peran-dan-hak-akses.index')->with('success', 'Data berhasil dihapus!');

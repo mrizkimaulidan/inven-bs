@@ -52,6 +52,11 @@ class CommodityLocationController extends Controller
      */
     public function destroy(CommodityLocation $commodityLocation)
     {
+        if ($commodityLocation->commodities->isNotEmpty()) {
+            return to_route('ruangan.index')
+                ->with('error', 'Ruangan tidak dapat dihapus karena masih terkait dengan data komoditas!');
+        }
+
         $commodityLocation->delete();
 
         return to_route('ruangan.index')->with('success', 'Data berhasil dihapus!');

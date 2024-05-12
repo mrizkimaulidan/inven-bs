@@ -48,6 +48,11 @@ class SchoolOperationalAssistanceController extends Controller
      */
     public function destroy(SchoolOperationalAssistance $schoolOperationalAssistance)
     {
+        if ($schoolOperationalAssistance->commodities->isNotEmpty()) {
+            return to_route('bantuan-dana-operasional.index')
+                ->with('error', 'BOS tidak dapat dihapus karena masih terkait dengan data komoditas!');
+        }
+
         $schoolOperationalAssistance->delete();
 
         return to_route('bantuan-dana-operasional.index')->with('success', 'Data berhasil dihapus!');
