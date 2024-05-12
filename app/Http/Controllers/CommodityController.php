@@ -39,11 +39,19 @@ class CommodityController extends Controller
             return $q->where('school_operational_assistance_id', request('school_operational_assistance_id'));
         });
 
+        $query->when(request()->filled('year_of_purchase'), function ($q) {
+            return $q->where('year_of_purchase', request('year_of_purchase'));
+        });
+
         $commodities = $query->latest()->get();
+        $year_of_purchases = Commodity::pluck('year_of_purchase')->unique()->sort();
         $school_operational_assistances = SchoolOperationalAssistance::orderBy('name', 'ASC')->get();
         $commodity_locations = CommodityLocation::orderBy('name', 'ASC')->get();
 
-        return view('commodities.index', compact('commodities', 'school_operational_assistances', 'commodity_locations'));
+        return view(
+            'commodities.index',
+            compact('commodities', 'school_operational_assistances', 'commodity_locations', 'year_of_purchases')
+        );
     }
 
     /**

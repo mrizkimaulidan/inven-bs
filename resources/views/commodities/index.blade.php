@@ -75,6 +75,10 @@
 							</select>
 						</div>
 					</div>
+				</div>
+
+				<div class="row">
+
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="condition">Kondisi:</label>
@@ -83,6 +87,18 @@
 								<option value="1" @selected(request('condition')==1)>Baik</option>
 								<option value="2" @selected(request('condition')==2)>Kurang Baik</option>
 								<option value="3" @selected(request('condition')==3)>Rusak Berat</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="year_of_purchase">Tahun Pembelian:</label>
+							<select name="year_of_purchase" id="year_of_purchase" class="form-control">
+								<option value="">Pilih tahun pembelian..</option>
+								@foreach ($year_of_purchases as $year_of_purchase)
+								<option value="{{ $year_of_purchase }}" @selected(request('year_of_purchase')==$year_of_purchase)>{{
+									$year_of_purchase }}</option>
+								@endforeach
 							</select>
 						</div>
 					</div>
