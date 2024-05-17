@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-	<title>404 Halaman Tidak Ditemukan &mdash; {{ config('app.name') }}</title>
+	<title>403 Halaman Tidak Dapat Diakses &mdash; {{ config('app.name') }}</title>
 
 	<!-- General CSS Files -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -21,9 +21,9 @@
 			<div class="container mt-5">
 				<div class="page-error">
 					<div class="page-inner">
-						<h1>404</h1>
+						<h1>403</h1>
 						<div class="page-description">
-							Halaman yang Anda cari tidak ditemukan.
+							Anda tidak memiliki hak untuk mengakses halaman ini.
 						</div>
 						<div class="page-search">
 							<div class="mt-3">
