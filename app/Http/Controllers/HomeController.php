@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Commodity;
 use App\CommodityLocation;
 use App\Repositories\CommodityRepository;
+use App\Repositories\SchoolOperationalAssistanceRepository;
 use App\Services\CommodityService;
 
 class HomeController extends Controller
@@ -15,7 +16,8 @@ class HomeController extends Controller
      * @return void
      */
     public function __construct(
-        public CommodityRepository $commodityRepository
+        public CommodityRepository $commodityRepository,
+        public SchoolOperationalAssistanceRepository $schoolOperationalAssistanceRepository
     ) {
         $this->middleware('auth');
     }
@@ -44,6 +46,8 @@ class HomeController extends Controller
 
         $commodity_each_year_of_purchase_count = $this->commodityRepository->countCommodityEachYear();
         $commodity_each_location_count = CommodityLocation::has('commodities')->withCount('commodities')->get();
+        $commodity_by_school_operational_assistance_count = $this->schoolOperationalAssistanceRepository
+            ->countCommodityBySchoolOperationalAssistance();
 
         $charts = [
             'commodity_condition_count' => [
@@ -57,6 +61,10 @@ class HomeController extends Controller
             'commodity_each_location_count' => [
                 'categories' => $commodity_each_location_count->pluck('name'),
                 'series' => $commodity_each_location_count->pluck('commodities_count')
+            ],
+            'commodity_by_school_operational_assistance_count' => [
+                'categories' => $commodity_by_school_operational_assistance_count->pluck('name'),
+                'series' => $commodity_by_school_operational_assistance_count->pluck('commodities_count')
             ]
         ];
 
