@@ -124,6 +124,19 @@
 	</div>
 
 	<div class="row">
+		<div class="col-lg-6">
+			<x-pie-chart chartTitle="Grafik Jumlah Barang Berdasarkan Material" chartID="chartCommodityByMaterial"
+				:series="$charts['commodity_by_material_count']['series']"
+				:categories="$charts['commodity_by_material_count']['categories']"></x-pie-chart>
+		</div>
+		<div class="col-lg-6">
+			<x-pie-chart chartTitle="Grafik Jumlah Barang Berdasarkan Merk" chartID="chartCommodityByBrand"
+				:series="$charts['commodity_by_brand_count']['series']"
+				:categories="$charts['commodity_by_brand_count']['categories']"></x-pie-chart>
+		</div>
+	</div>
+
+	<div class="row">
 		<div class="col-lg-12">
 			<x-bar-chart chartTitle="Grafik Jumlah Barang Berdasarkan Ruangan" chartID="chartCommodityCountEachLocation"
 				:series="$charts['commodity_each_location_count']['series']"
