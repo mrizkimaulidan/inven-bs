@@ -31,4 +31,26 @@ class CommodityRepository
             ->orderBy('year_of_purchase')
             ->get();
     }
+
+    /**
+     * Count the number of commodities grouped by material.
+     */
+    public function countCommodityByMaterial()
+    {
+        return $this->model->selectRaw('COUNT(`material`) AS count, material')
+            ->groupBy('material')
+            ->orderBy('material')
+            ->get();
+    }
+
+    /**
+     * Count the number of commodities grouped by brand.
+     */
+    public function countCommodityByBrand()
+    {
+        return $this->model->selectRaw('COUNT(`brand`) AS count, brand')
+            ->groupBy('brand')
+            ->orderBy('brand')
+            ->get();
+    }
 }

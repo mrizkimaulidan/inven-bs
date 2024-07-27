@@ -109,12 +109,34 @@
 	</div>
 
 	<div class="row">
-		<div class="col-lg-12">
+		<div class="col-lg-7">
 			<x-bar-chart chartTitle="Grafik Jumlah Barang Berdasarkan Tahun Pembelian" chartID="chartCommodityCountEachYear"
 				:series="$charts['commodity_each_year_of_purchase_count']['series']"
 				:categories="$charts['commodity_each_year_of_purchase_count']['categories']">
 			</x-bar-chart>
 		</div>
+		<div class="col-lg-5">
+			<x-pie-chart chartTitle="Grafik Jumlah Barang Berdasarkan BOS"
+				chartID="chartCommodityBySchoolOperationalAsistanceCount"
+				:series="$charts['commodity_by_school_operational_assistance_count']['series']"
+				:categories="$charts['commodity_by_school_operational_assistance_count']['categories']"></x-pie-chart>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-6">
+			<x-pie-chart chartTitle="Grafik Jumlah Barang Berdasarkan Material" chartID="chartCommodityByMaterial"
+				:series="$charts['commodity_by_material_count']['series']"
+				:categories="$charts['commodity_by_material_count']['categories']"></x-pie-chart>
+		</div>
+		<div class="col-lg-6">
+			<x-pie-chart chartTitle="Grafik Jumlah Barang Berdasarkan Merk" chartID="chartCommodityByBrand"
+				:series="$charts['commodity_by_brand_count']['series']"
+				:categories="$charts['commodity_by_brand_count']['categories']"></x-pie-chart>
+		</div>
+	</div>
+
+	<div class="row">
 		<div class="col-lg-12">
 			<x-bar-chart chartTitle="Grafik Jumlah Barang Berdasarkan Ruangan" chartID="chartCommodityCountEachLocation"
 				:series="$charts['commodity_each_location_count']['series']"

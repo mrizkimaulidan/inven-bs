@@ -78,7 +78,6 @@
 				</div>
 
 				<div class="row">
-
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="condition">Kondisi:</label>
@@ -104,6 +103,33 @@
 					</div>
 				</div>
 
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="material">Bahan:</label>
+							<select name="material" id="material" class="form-control">
+								<option value="">Pilih bahan..</option>
+								@foreach ($commodity_materials as $material)
+								<option value="{{ $material }}" @selected(request('material')==$material)>{{
+									$material }}</option>
+								@endforeach
+							</select>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="brand">Merk:</label>
+							<select name="brand" id="brand" class="form-control">
+								<option value="">Pilih merk..</option>
+								@foreach ($commodity_brands as $brand)
+								<option value="{{ $brand }}" @selected(request('brand')==$brand)>{{
+									$brand }}</option>
+								@endforeach
+							</select>
+						</div>
+					</div>
+				</div>
+
 				<x-slot name="resetFilterURL">{{ route('barang.index') }}</x-slot>
 			</x-filter>
 
@@ -115,6 +141,8 @@
 								<th scope="col">#</th>
 								<th scope="col">Kode Barang</th>
 								<th scope="col">Nama Barang</th>
+								<th scope="col">Bahan</th>
+								<th scope="col">Merk</th>
 								<th scope="col">Tahun Pembelian</th>
 								<th scope="col">Kondisi</th>
 								<th scope="col">Aksi</th>
@@ -126,6 +154,8 @@
 								<th scope="row">{{ $loop->iteration }}</th>
 								<td>{{ $commodity->item_code }}</td>
 								<td>{{ Str::limit($commodity->name, 55, '...') }}</td>
+								<td>{{ $commodity->material }}</td>
+								<td>{{ $commodity->brand }}</td>
 								<td>{{ $commodity->year_of_purchase }}</td>
 								@if($commodity->condition === 1)
 								<td>
