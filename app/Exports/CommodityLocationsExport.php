@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class CommodityLocationsExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize
+class CommodityLocationsExport implements FromCollection, ShouldAutoSize, WithHeadings, WithMapping
 {
     /**
      * @return \Illuminate\Support\Collection
@@ -38,6 +38,7 @@ class CommodityLocationsExport implements FromCollection, WithHeadings, WithMapp
         static $i = 0;
 
         $i++;
+
         return [
             $i,
             $row->name,

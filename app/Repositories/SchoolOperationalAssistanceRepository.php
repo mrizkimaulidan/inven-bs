@@ -6,10 +6,9 @@ use App\SchoolOperationalAssistance;
 
 class SchoolOperationalAssistanceRepository
 {
-    public  function __construct(
+    public function __construct(
         private SchoolOperationalAssistance $model
-    ) {
-    }
+    ) {}
 
     /**
      * Count commodities by school operational assistance.

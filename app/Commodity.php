@@ -9,8 +9,10 @@ class Commodity extends Model
 {
     protected $guarded = [];
 
+    protected $table = 'barang';
+
     protected $casts = [
-        'condition' => 'integer'
+        'condition' => 'integer',
     ];
 
     /**
@@ -26,7 +28,7 @@ class Commodity extends Model
      */
     public function school_operational_assistance()
     {
-        return $this->belongsTo(SchoolOperationalAssistance::class);
+        return $this->belongsTo(SchoolOperationalAssistance::class, 'perolehan_id', 'id');
     }
 
     /**

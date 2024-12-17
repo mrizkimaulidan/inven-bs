@@ -15,7 +15,7 @@ class ShowCommodityResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'school_operational_assistance_id' => $this->school_operational_assistance_id,
+            'school_operational_assistance_id' => $this->perolehan_id,
             'school_operational_assistance' => $this->school_operational_assistance,
             'commodity_location_id' => $this->commodity_location_id,
             'commodity_location' => $this->commodity_location,
@@ -31,7 +31,7 @@ class ShowCommodityResource extends JsonResource
             'price_formatted' => $this->indonesian_currency($this->price),
             'price_per_item' => $this->price_per_item,
             'price_per_item_formatted' => $this->indonesian_currency($this->price_per_item),
-            'note' => $this->note
+            'note' => $this->note,
         ];
     }
 }

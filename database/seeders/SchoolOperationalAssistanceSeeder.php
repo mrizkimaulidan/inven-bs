@@ -14,18 +14,18 @@ class SchoolOperationalAssistanceSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('school_operational_assistances')->insert([
+        DB::table('perolehan')->insert([
             'name' => 'BOSDA',
             'description' => 'Deskripsi BOSDA',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
-        DB::table('school_operational_assistances')->insert([
+        DB::table('perolehan')->insert([
             'name' => 'BOSNAS',
             'description' => 'Deskripsi BOSNAS',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
     }
 }

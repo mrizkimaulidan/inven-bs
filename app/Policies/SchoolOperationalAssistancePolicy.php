@@ -2,9 +2,7 @@
 
 namespace App\Policies;
 
-use App\SchoolOperationalAssistance;
 use App\User;
-use Illuminate\Auth\Access\Response;
 
 class SchoolOperationalAssistancePolicy
 {

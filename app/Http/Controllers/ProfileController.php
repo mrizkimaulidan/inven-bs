@@ -29,7 +29,7 @@ class ProfileController extends Controller
 
         if ($user->email !== $validated['email']) {
             $user->update([
-                'email' => $validated['email']
+                'email' => $validated['email'],
             ]);
 
             auth()->logout();
@@ -39,7 +39,7 @@ class ProfileController extends Controller
 
         if ($validated['password'] !== null && $validated['password_confirmation'] !== null) {
             $user->update([
-                'password' => bcrypt($validated['password'])
+                'password' => bcrypt($validated['password']),
             ]);
 
             auth()->logout();

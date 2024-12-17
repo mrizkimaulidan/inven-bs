@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -19,7 +18,7 @@ class RolePermissionSeeder extends Seeder
         $staffPermissions = $administratorPermissions->reject(function ($permission) {
             return in_array($permission->name, [
                 'lihat pengguna', 'tambah pengguna', 'ubah pengguna', 'hapus pengguna',
-                'lihat peran dan hak akses', 'tambah peran dan hak akses', 'ubah peran dan hak akses', 'hapus peran dan hak akses'
+                'lihat peran dan hak akses', 'tambah peran dan hak akses', 'ubah peran dan hak akses', 'hapus peran dan hak akses',
             ]);
         });
 

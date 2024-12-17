@@ -8,8 +8,7 @@ class CommodityRepository
 {
     public function __construct(
         private Commodity $model
-    ) {
-    }
+    ) {}
 
     /**
      * Count commodities based on different conditions.

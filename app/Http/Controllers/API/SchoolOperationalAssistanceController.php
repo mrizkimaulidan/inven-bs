@@ -16,7 +16,7 @@ class SchoolOperationalAssistanceController extends Controller
         return response()->json([
             'code' => Response::HTTP_OK,
             'message' => 'success',
-            'data' => $schoolOperationalAssistance
+            'data' => $schoolOperationalAssistance,
         ], Response::HTTP_OK);
     }
 }

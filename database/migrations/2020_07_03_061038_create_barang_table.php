@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCommoditiesTable extends Migration
+class CreateBarangTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateCommoditiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('commodities', function (Blueprint $table) {
+        Schema::create('barang', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('school_operational_assistance_id');
+            $table->unsignedBigInteger('perolehan_id');
             $table->unsignedBigInteger('commodity_location_id');
             $table->string('item_code')->unique();
             $table->string('register');
@@ -30,7 +30,7 @@ class CreateCommoditiesTable extends Migration
             $table->longText('note')->nullable();
             $table->timestamps();
 
-            $table->foreign('school_operational_assistance_id')->references('id')->on('school_operational_assistances')->onDelete('CASCADE');
+            $table->foreign('perolehan_id')->references('id')->on('perolehan')->onDelete('CASCADE');
             $table->foreign('commodity_location_id')->references('id')->on('commodity_locations')->onDelete('CASCADE');
         });
     }
@@ -42,6 +42,6 @@ class CreateCommoditiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('commodities');
+        Schema::dropIfExists('barang');
     }
 }

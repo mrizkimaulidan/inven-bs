@@ -69,9 +69,8 @@
 						</div>
 						<div class="col-lg-4 col-12">
 							<div class="form-group">
-								<label for="school_operational_assistance_id">Asal Perolehan</label>
-								<select class="form-control" name="school_operational_assistance_id"
-									id="school_operational_assistance_id" style="width: 100%;">
+								<label for="perolehan_id">Asal Perolehan</label>
+								<select class="form-control" name="perolehan_id" id="perolehan_id" style="width: 100%;">
 									<option selected>Pilih..</option>
 									@foreach ($school_operational_assistances as $school_operational_assistance)
 									<option value="{{ $school_operational_assistance->id }}">{{ $school_operational_assistance->name }}

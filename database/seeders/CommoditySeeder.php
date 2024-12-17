@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Commodity;
 use App\CommodityLocation;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class CommoditySeeder extends Seeder
 {
@@ -17,7 +16,7 @@ class CommoditySeeder extends Seeder
      */
     public function run()
     {
-        $carbon = new Carbon();
+        $carbon = new Carbon;
 
         $commodity_locations = CommodityLocation::all();
 
@@ -68,10 +67,10 @@ class CommoditySeeder extends Seeder
         ];
 
         for ($i = 1; $i <= count($commodities); $i++) {
-            DB::table('commodities')->insert([
-                'school_operational_assistance_id' => mt_rand(1, 2),
+            DB::table('barang')->insert([
+                'perolehan_id' => mt_rand(1, 2),
                 'commodity_location_id' => mt_rand(1, count($commodity_locations)),
-                'item_code' => 'BRG-' . mt_rand(1000, 9000) . mt_rand(100, 900),
+                'item_code' => 'BRG-'.mt_rand(1000, 9000).mt_rand(100, 900),
                 'name' => $commodities[array_rand($commodities)],
                 'brand' => $brands[array_rand($brands)],
                 'material' => $materials[array_rand($materials)],
@@ -82,7 +81,7 @@ class CommoditySeeder extends Seeder
                 'price_per_item' => mt_rand(2500, 150000),
                 'note' => 'Keterangan barang',
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now(),
             ]);
         }
     }

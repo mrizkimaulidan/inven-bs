@@ -19,7 +19,7 @@ class CommodityController extends Controller
         return response()->json([
             'code' => Response::HTTP_OK,
             'message' => 'success',
-            'data' => new ShowCommodityResource($commodity)
+            'data' => new ShowCommodityResource($commodity),
         ], Response::HTTP_OK);
     }
 }

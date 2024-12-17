@@ -19,7 +19,7 @@ class UserController extends Controller
         return response()->json([
             'code' => Response::HTTP_OK,
             'message' => 'success',
-            'data' => $userData
+            'data' => $userData,
         ]);
     }
 }

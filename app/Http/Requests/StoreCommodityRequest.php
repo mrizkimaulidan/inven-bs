@@ -24,9 +24,9 @@ class StoreCommodityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'school_operational_assistance_id' => 'required|numeric|exists:school_operational_assistances,id',
+            'perolehan_id' => 'required|numeric|exists:perolehan,id',
             'commodity_location_id' => 'required|numeric|exists:commodity_locations,id',
-            'item_code' => 'required|unique:commodities,item_code|min:3|max:255',
+            'item_code' => 'required|unique:barang,item_code|min:3|max:255',
             'name' => 'required|string|min:3|max:255',
             'brand' => 'required|string|min:3|max:255',
             'material' => 'required|string|min:3|max:255',

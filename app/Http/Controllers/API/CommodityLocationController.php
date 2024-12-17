@@ -16,7 +16,7 @@ class CommodityLocationController extends Controller
         return response()->json([
             'code' => Response::HTTP_OK,
             'message' => 'success',
-            'data' => $commodityLocation
+            'data' => $commodityLocation,
         ], Response::HTTP_OK);
     }
 }

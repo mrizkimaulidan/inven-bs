@@ -25,7 +25,7 @@ class StoreSchoolOperationalAssistanceRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:3|max:255',
-            'description' => 'nullable|string|min:3|max:255'
+            'description' => 'nullable|string|min:3|max:255',
         ];
     }
 

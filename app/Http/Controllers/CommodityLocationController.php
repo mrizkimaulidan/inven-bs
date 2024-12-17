@@ -67,7 +67,7 @@ class CommodityLocationController extends Controller
      */
     public function export()
     {
-        return Excel::download(new CommodityLocationsExport, 'daftar-ruangan-' . date('d-m-Y') . '.xlsx');
+        return Excel::download(new CommodityLocationsExport, 'daftar-ruangan-'.date('d-m-Y').'.xlsx');
     }
 
     /**

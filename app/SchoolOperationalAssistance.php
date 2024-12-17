@@ -8,6 +8,8 @@ class SchoolOperationalAssistance extends Model
 {
     protected $guarded = [];
 
+    protected $table = 'perolehan';
+
     /**
      * Get the commodities associated with the commodity location.
      */

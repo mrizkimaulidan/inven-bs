@@ -103,18 +103,18 @@
 						</div>
 						<div class="col-lg-4 col-12">
 							<div class="form-group">
-								<label for="school_operational_assistance_id">Asal Perolehan</label>
-								<select class="form-control @error('school_operational_assistance_id', 'store') is-invalid @enderror"
-									name="school_operational_assistance_id" id="school_operational_assistance_id" style="width: 100%;">
+								<label for="perolehan_id">Asal Perolehan</label>
+								<select class="form-control @error('perolehan_id', 'store') is-invalid @enderror" name="perolehan_id"
+									id="perolehan_id" style="width: 100%;">
 									<option value="" selected">Pilih..</option>
 									@foreach ($school_operational_assistances as $school_operational_assistance)
 									<option value="{{ $school_operational_assistance->id }}"
-										@selected(old('school_operational_assistance_id')==$school_operational_assistance->id)>{{
+										@selected(old('perolehan_id')==$school_operational_assistance->id)>{{
 										$school_operational_assistance->name }}
 									</option>
 									@endforeach
 								</select>
-								@error('school_operational_assistance_id', 'store')
+								@error('perolehan_id', 'store')
 								<div class="d-block invalid-feedback">
 									{{ $message }}
 								</div>

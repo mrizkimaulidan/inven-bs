@@ -24,7 +24,7 @@ class CommodityImportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => 'required|file|max:2048|mimes:xls,xlsx|extensions:xls,xlsx'
+            'file' => 'required|file|max:2048|mimes:xls,xlsx|extensions:xls,xlsx',
         ];
     }
 

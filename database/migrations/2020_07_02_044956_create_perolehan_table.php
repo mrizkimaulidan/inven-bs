@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSchoolOperationalAssistancesTable extends Migration
+class CreatePerolehanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateSchoolOperationalAssistancesTable extends Migration
      */
     public function up()
     {
-        Schema::create('school_operational_assistances', function (Blueprint $table) {
+        Schema::create('perolehan', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->longText('description')->nullable();
@@ -28,6 +28,6 @@ class CreateSchoolOperationalAssistancesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('school_operational_assistances');
+        Schema::dropIfExists('perolehan');
     }
 }

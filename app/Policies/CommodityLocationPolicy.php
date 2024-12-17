@@ -2,9 +2,7 @@
 
 namespace App\Policies;
 
-use App\CommodityLocation;
 use App\User;
-use Illuminate\Auth\Access\Response;
 
 class CommodityLocationPolicy
 {

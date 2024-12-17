@@ -35,24 +35,24 @@ class CommodityLocationSeeder extends Seeder
             'Ruang Praktek',
             'Ruang Serba Guna',
             'Ruangan Guru BP (Bimbingan Penyuluhan)',
-            'Ruang Kegiatan Ekstrakurikuler'
+            'Ruang Kegiatan Ekstrakurikuler',
         ];
 
         for ($i = 1; $i < count($locations); $i++) {
             DB::table('commodity_locations')->insert([
                 'name' => $locations[$i],
-                'description' => 'Ruangan ' . $i,
+                'description' => 'Ruangan '.$i,
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now(),
             ]);
         }
 
         for ($i = 1; $i < 6; $i++) {
             DB::table('commodity_locations')->insert([
-                'name' => 'Kelas ' . $i,
-                'description' => 'Ruangan Kelas ' . $i,
+                'name' => 'Kelas '.$i,
+                'description' => 'Ruangan Kelas '.$i,
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now(),
             ]);
         }
     }

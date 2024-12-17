@@ -13,7 +13,7 @@ class RemoveKodeRegisterFromCommoditiesTable extends Migration
      */
     public function up()
     {
-        Schema::table('commodities', function (Blueprint $table) {
+        Schema::table('barang', function (Blueprint $table) {
             $table->dropColumn('register');
         });
     }
@@ -25,7 +25,7 @@ class RemoveKodeRegisterFromCommoditiesTable extends Migration
      */
     public function down()
     {
-        Schema::table('commodities', function (Blueprint $table) {
+        Schema::table('barang', function (Blueprint $table) {
             $table->string('register')->after('item_code');
         });
     }
