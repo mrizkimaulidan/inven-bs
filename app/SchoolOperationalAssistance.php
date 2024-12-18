@@ -15,6 +15,6 @@ class SchoolOperationalAssistance extends Model
      */
     public function commodities()
     {
-        return $this->hasMany(Commodity::class);
+        return $this->hasMany(Commodity::class, 'perolehan_id', 'id');
     }
 }
