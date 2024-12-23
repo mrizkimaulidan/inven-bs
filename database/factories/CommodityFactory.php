@@ -7,12 +7,13 @@ use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(Commodity::class, function (Faker $faker) {
-    $carbon = new Carbon();
+    $carbon = new Carbon;
+
     return [
         'school_operational_assistance_id' => mt_rand(1, 2),
         'commodity_location_id' => mt_rand(1, 10),
-        'item_code' => 'BRG-' . mt_rand(1000, 9999),
-        'register' => 'RG-' . mt_rand(1000, 9999),
+        'item_code' => 'BRG-'.mt_rand(1000, 9999),
+        'register' => 'RG-'.mt_rand(1000, 9999),
         'name' => $faker->realText(30),
         'brand' => $faker->realText(30),
         'material' => $faker->realText(30),
@@ -21,6 +22,6 @@ $factory->define(Commodity::class, function (Faker $faker) {
         'quantity' => mt_rand(500, 1000),
         'price' => mt_rand(10000, 100000),
         'price_per_item' => mt_rand(5000, 25000),
-        'note' => $faker->realText(50)
+        'note' => $faker->realText(50),
     ];
 });

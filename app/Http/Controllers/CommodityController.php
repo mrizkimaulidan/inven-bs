@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Commodity;
 use App\CommodityLocation;
-use App\SchoolOperationalAssistance;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Exports\CommoditiesExport;
 use App\Http\Requests\CommodityImportRequest;
 use App\Http\Requests\StoreCommodityRequest;
 use App\Http\Requests\UpdateCommodityRequest;
 use App\Imports\CommoditiesImport;
-use Illuminate\Http\Request;
+use App\SchoolOperationalAssistance;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CommodityController extends Controller
@@ -136,7 +135,7 @@ class CommodityController extends Controller
     {
         $this->authorize('export barang');
 
-        return Excel::download(new CommoditiesExport, 'daftar-barang-' . date('d-m-Y') . '.xlsx');
+        return Excel::download(new CommoditiesExport, 'daftar-barang-'.date('d-m-Y').'.xlsx');
     }
 
     /**

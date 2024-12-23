@@ -10,7 +10,7 @@ class Commodity extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'condition' => 'integer'
+        'condition' => 'integer',
     ];
 
     /**

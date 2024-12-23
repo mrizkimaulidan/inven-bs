@@ -12,8 +12,6 @@ use Maatwebsite\Excel\Concerns\WithUpserts;
 class CommoditiesImport implements ToModel, WithHeadingRow, WithUpserts
 {
     /**
-     * @param array $row
-     *
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function model(array $row)
@@ -33,7 +31,7 @@ class CommoditiesImport implements ToModel, WithHeadingRow, WithUpserts
             'quantity' => $row['kuantitas'],
             'price' => $row['harga'],
             'price_per_item' => $row['harga_satuan'],
-            'note' => $row['keterangan']
+            'note' => $row['keterangan'],
         ]);
     }
 

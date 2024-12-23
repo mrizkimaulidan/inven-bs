@@ -25,7 +25,7 @@ class StoreRoleRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:3|max:255',
-            'permissions' => 'required|array'
+            'permissions' => 'required|array',
         ];
     }
 
@@ -43,7 +43,7 @@ class StoreRoleRequest extends FormRequest
             'name.max' => 'Kolom nama peran maksimal :max karakter!',
 
             'permissions.required' => 'Kolom hak akses wajib diisi!',
-            'permissions.array' => 'Tipe data hak akses tidak valid!'
+            'permissions.array' => 'Tipe data hak akses tidak valid!',
         ];
     }
 }

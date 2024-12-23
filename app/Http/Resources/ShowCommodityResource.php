@@ -31,7 +31,7 @@ class ShowCommodityResource extends JsonResource
             'price_formatted' => $this->indonesian_currency($this->price),
             'price_per_item' => $this->price_per_item,
             'price_per_item_formatted' => $this->indonesian_currency($this->price_per_item),
-            'note' => $this->note
+            'note' => $this->note,
         ];
     }
 }

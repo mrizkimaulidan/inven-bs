@@ -2,9 +2,7 @@
 
 namespace App\Policies;
 
-use Spatie\Permission\Models\Role;
 use App\User;
-use Illuminate\Auth\Access\Response;
 
 class RolePolicy
 {

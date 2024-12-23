@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
-use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -41,7 +38,7 @@ class RoleController extends Controller
         try {
             $role = Role::create([
                 'name' => $validated['name'],
-                'guard_name' => 'web'
+                'guard_name' => 'web',
             ]);
 
             $permissions = Permission::find($validated['permissions']);

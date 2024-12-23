@@ -29,7 +29,7 @@
 							<div class="form-group">
 								<label for="email">Email</label>
 								<input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email"
-									tabindex="1" placeholder="Masukan alamat email.." required autofocus>
+									tabindex="1" placeholder="Masukan alamat email.." value="{{ old('email') }}" required autofocus>
 
 								@error('email')
 								<span class="invalid-feedback" role="alert">

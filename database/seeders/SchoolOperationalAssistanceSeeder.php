@@ -18,14 +18,14 @@ class SchoolOperationalAssistanceSeeder extends Seeder
             'name' => 'BOSDA',
             'description' => 'Deskripsi BOSDA',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         DB::table('school_operational_assistances')->insert([
             'name' => 'BOSNAS',
             'description' => 'Deskripsi BOSNAS',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
     }
 }

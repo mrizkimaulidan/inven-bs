@@ -16,7 +16,7 @@ class RoleController extends Controller
         return response()->json([
             'code' => Response::HTTP_OK,
             'message' => 'success',
-            'data' => $role->load('permissions')
+            'data' => $role->load('permissions'),
         ], Response::HTTP_OK);
     }
 }

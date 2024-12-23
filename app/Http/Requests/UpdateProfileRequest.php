@@ -25,7 +25,7 @@ class UpdateProfileRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:3|max:255',
-            'email' => 'required|string|email|unique:users,email,' . auth()->user()->id . '|min:3|max:255',
+            'email' => 'required|string|email|unique:users,email,'.auth()->user()->id.'|min:3|max:255',
             'password' => 'nullable|string|min:3|max:255',
             'password_confirmation' => 'nullable|string|required_if:password,!=,""|same:password|min:3|max:255',
         ];
