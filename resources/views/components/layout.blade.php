@@ -17,9 +17,9 @@
 	<link rel="stylesheet" href="{{ url('assets/css/style.css') }}" />
 	<link rel="stylesheet" href="{{ url('assets/css/components.css') }}" />
 
-	<link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
+	<link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.1/dist/css/tom-select.min.css" rel="stylesheet" />
 	<link rel="stylesheet"
-		href="https://cdnjs.cloudflare.com/ajax/libs/tom-select/1.4.0/css/tom-select.bootstrap4.min.css" />
+		href="https://cdn.jsdelivr.net/npm/tom-select@2.4.1/dist/css/tom-select.bootstrap4.min.css" />
 </head>
 
 <body>
@@ -160,7 +160,7 @@
 	<!-- Page Specific JS File -->
 	<script src="{{ url('assets/js/page/index-0.js') }}"></script>
 
-	<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.1/dist/js/tom-select.complete.min.js"></script>
 
 	<script src="{{ asset('js/scripts.js') }}"></script>
 
