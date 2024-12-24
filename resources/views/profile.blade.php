@@ -1,6 +1,6 @@
 <x-layout>
-	<x-slot name="title">Halaman Pengaturan Profile</x-slot>
-	<x-slot name="page_heading">Pengaturan Profile</x-slot>
+	<x-slot name="title">Halaman Pengaturan Profil</x-slot>
+	<x-slot name="page_heading">Pengaturan Profil</x-slot>
 
 	<div class="card">
 		<div class="card-body">
