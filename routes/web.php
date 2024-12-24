@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommodityAcquisitionController;
 use App\Http\Controllers\CommodityController;
 use App\Http\Controllers\CommodityLocationController;
 use App\Http\Controllers\HomeController;
@@ -7,7 +8,6 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\SchoolOperationalAssistanceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,9 +43,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/import', [CommodityController::class, 'import'])->name('import');
     });
 
-    Route::resource('bantuan-dana-operasional', SchoolOperationalAssistanceController::class)
+    Route::resource('perolehan', CommodityAcquisitionController::class)
         ->except('create', 'edit', 'show')
-        ->parameter('bantuan-dana-operasional', 'school_operational_assistance');
+        ->parameter('perolehan', 'commodity_acquisition');
 
     Route::resource('ruangan', CommodityLocationController::class)->except('create', 'edit', 'show')
         ->parameter('ruangan', 'commodity_location');

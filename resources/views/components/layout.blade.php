@@ -85,10 +85,10 @@
 							<a href="{{ route('barang.index') }}" class="nav-link"><i class="fas fa-boxes-stacked"></i> <span>Data
 									Barang</span></a>
 						</li>
-						@endcan @can('lihat bos')
-						<li class="nav-item dropdown{{ request()->routeIs('bantuan-dana-operasional.index') ? ' active' : '' }}">
-							<a class="nav-link" href="{{ route('bantuan-dana-operasional.index') }}"><i class="far fa-face-laugh"></i>
-								<span>Data BOS</span></a>
+						@endcan @can('lihat perolehan')
+						<li class="nav-item dropdown{{ request()->routeIs('perolehan.index') ? ' active' : '' }}">
+							<a class="nav-link" href="{{ route('perolehan.index') }}"><i class="far fa-face-laugh"></i>
+								<span>Data Perolehan</span></a>
 						</li>
 						@endcan @can('lihat ruangan')
 						<li class="nav-item dropdown{{ request()->routeIs('ruangan.index') ? ' active' : '' }}">

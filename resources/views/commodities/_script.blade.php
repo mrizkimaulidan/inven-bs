@@ -22,8 +22,8 @@
 					$("#show_commodity #brand").val(res.data.brand);
 					$("#show_commodity #year_of_purchase").val(res.data.year_of_purchase);
 					$("#show_commodity #condition").val(res.data.condition_name);
-					$("#show_commodity #school_operational_assistance_id").val(
-						res.data.school_operational_assistance.name
+					$("#show_commodity #commodity_acquisition_id").val(
+						res.data.commodity_acquisition.name
 					);
 					$("#show_commodity #note").val(res.data.note);
 					$("#show_commodity #quantity").val(res.data.quantity);
@@ -67,8 +67,8 @@
 						res.data.year_of_purchase
 					);
 					$("#edit_commodity form #condition").val(res.data.condition);
-					$("#edit_commodity form #school_operational_assistance_id").val(
-						res.data.school_operational_assistance.id
+					$("#edit_commodity form #commodity_acquisition_id").val(
+						res.data.commodity_acquisition.id
 					);
 					$("#edit_commodity form #note").val(res.data.note);
 					$("#edit_commodity form #quantity").val(res.data.quantity);

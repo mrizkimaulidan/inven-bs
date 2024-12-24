@@ -57,7 +57,7 @@
                 <b>Asal</b>
               </td>
               <td style="width: 20px;">:</td>
-              <td id="school_operational_assistance_id"></td>
+              <td id="commodity_acquisition_id"></td>
             </tr>
             <tr>
               <td>

@@ -4,14 +4,14 @@ namespace App\Policies;
 
 use App\User;
 
-class SchoolOperationalAssistancePolicy
+class CommodityAcquisitionPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('lihat bos');
+        return $user->can('lihat perolehan');
     }
 
     /**
@@ -19,7 +19,7 @@ class SchoolOperationalAssistancePolicy
      */
     public function view(User $user): bool
     {
-        return $user->can('lihat bos');
+        return $user->can('lihat perolehan');
     }
 
     /**
@@ -27,7 +27,7 @@ class SchoolOperationalAssistancePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('tambah bos');
+        return $user->can('tambah perolehan');
     }
 
     /**
@@ -35,7 +35,7 @@ class SchoolOperationalAssistancePolicy
      */
     public function update(User $user): bool
     {
-        return $user->can('ubah bos');
+        return $user->can('ubah perolehan');
     }
 
     /**
@@ -43,7 +43,7 @@ class SchoolOperationalAssistancePolicy
      */
     public function delete(User $user): bool
     {
-        return $user->can('hapus bos');
+        return $user->can('hapus perolehan');
     }
 
     /**

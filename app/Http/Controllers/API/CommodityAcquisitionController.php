@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\API;
 
+use App\CommodityAcquisition;
 use App\Http\Controllers\Controller;
-use App\SchoolOperationalAssistance;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 
-class SchoolOperationalAssistanceController extends Controller
+class CommodityAcquisitionController extends Controller
 {
     /**
      * Display the specified resource.
      */
-    public function show(SchoolOperationalAssistance $schoolOperationalAssistance)
+    public function show(CommodityAcquisition $commodityAcquisition)
     {
         return response()->json([
             'code' => Response::HTTP_OK,
             'message' => 'success',
-            'data' => $schoolOperationalAssistance,
+            'data' => $commodityAcquisition,
         ], Response::HTTP_OK);
     }
 }

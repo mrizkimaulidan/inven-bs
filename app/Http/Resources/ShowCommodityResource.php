@@ -15,8 +15,8 @@ class ShowCommodityResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'school_operational_assistance_id' => $this->school_operational_assistance_id,
-            'school_operational_assistance' => $this->school_operational_assistance,
+            'commodity_acquisition_id' => $this->commodity_acquisition_id,
+            'commodity_acquisition' => $this->commodity_acquisition,
             'commodity_location_id' => $this->commodity_location_id,
             'commodity_location' => $this->commodity_location,
             'item_code' => $this->item_code,

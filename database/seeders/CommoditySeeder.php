@@ -68,7 +68,7 @@ class CommoditySeeder extends Seeder
 
         for ($i = 1; $i <= count($commodities); $i++) {
             DB::table('commodities')->insert([
-                'school_operational_assistance_id' => mt_rand(1, 2),
+                'commodity_acquisition_id' => mt_rand(1, 2),
                 'commodity_location_id' => mt_rand(1, count($commodity_locations)),
                 'item_code' => 'BRG-'.mt_rand(1000, 9000).mt_rand(100, 900),
                 'name' => $commodities[array_rand($commodities)],

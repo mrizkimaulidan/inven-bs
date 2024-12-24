@@ -15,8 +15,8 @@ class CreateCommoditiesTable extends Migration
     {
         Schema::create('commodities', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('school_operational_assistance_id');
-            $table->unsignedBigInteger('commodity_location_id');
+            $table->foreignId('commodity_acquisition_id')->constrained();
+            $table->foreignId('commodity_location_id')->constrained();
             $table->string('item_code')->unique();
             $table->string('register');
             $table->string('name');
@@ -29,9 +29,6 @@ class CreateCommoditiesTable extends Migration
             $table->bigInteger('price_per_item');
             $table->longText('note')->nullable();
             $table->timestamps();
-
-            $table->foreign('school_operational_assistance_id')->references('id')->on('school_operational_assistances')->onDelete('CASCADE');
-            $table->foreign('commodity_location_id')->references('id')->on('commodity_locations')->onDelete('CASCADE');
         });
     }
 

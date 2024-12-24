@@ -22,11 +22,11 @@ class Commodity extends Model
     }
 
     /**
-     * Get the school operational assistance associated with the commodity.
+     * Get the commodity acquisition associated with the commodity.
      */
-    public function school_operational_assistance()
+    public function commodity_acquisition()
     {
-        return $this->belongsTo(SchoolOperationalAssistance::class);
+        return $this->belongsTo(CommodityAcquisition::class);
     }
 
     /**

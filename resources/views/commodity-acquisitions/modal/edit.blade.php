@@ -1,10 +1,10 @@
 <!-- Modal -->
-<div class="modal fade" id="school_operational_assistance_edit_modal" data-backdrop="static" data-keyboard="false"
+<div class="modal fade" id="commodity_acquisition_edit_modal" data-backdrop="static" data-keyboard="false"
 	tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="staticBackdropLabel">Ubah Data BOS</h5>
+				<h5 class="modal-title" id="staticBackdropLabel">Ubah Data Perolehan</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -16,14 +16,14 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="form-group">
-								<label for="name">Nama BOS</label>
+								<label for="name">Nama Perolehan</label>
 								<input type="text" name="name" class="form-control" id="name" placeholder="Masukan nama..">
 							</div>
 						</div>
 
 						<div class="col-lg-12">
 							<div class="form-group">
-								<label for="description">Deskripsi BOS</label>
+								<label for="description">Deskripsi Perolehan</label>
 								<textarea name="description" class="form-control" id="description" style="height: 100px;"
 									placeholder="Masukan deskripsi (opsional).."></textarea>
 							</div>

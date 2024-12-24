@@ -117,9 +117,9 @@
 		</div>
 		<div class="col-lg-5">
 			<x-pie-chart chartTitle="Grafik Jumlah Barang Berdasarkan BOS"
-				chartID="chartCommodityBySchoolOperationalAsistanceCount"
-				:series="$charts['commodity_by_school_operational_assistance_count']['series']"
-				:categories="$charts['commodity_by_school_operational_assistance_count']['categories']"></x-pie-chart>
+				chartID="chartCommodityByCommodityAcquisitionCount"
+				:series="$charts['commodity_by_commodity_acquisition_count']['series']"
+				:categories="$charts['commodity_by_commodity_acquisition_count']['categories']"></x-pie-chart>
 		</div>
 	</div>
 

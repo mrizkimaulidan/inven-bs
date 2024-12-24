@@ -67,18 +67,18 @@
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="school_operational_assistance_id">Asal Perolehan:</label>
-							<select name="school_operational_assistance_id" id="school_operational_assistance_id"
+							<label for="commodity_acquisition_id">Asal Perolehan:</label>
+							<select name="commodity_acquisition_id" id="commodity_acquisition_id"
 								@class([
 									'form-control',
-									'is-valid' => request()->filled('school_operational_assistance_id')
+									'is-valid' => request()->filled('commodity_acquisition_id')
 								])
 								>
 								<option value="">Pilih asal perolehan..</option>
-								@foreach ($school_operational_assistances as $school_operational_assistance)
-								<option value="{{ $school_operational_assistance->id }}"
-									@selected(request('school_operational_assistance_id')==$school_operational_assistance->id)>{{
-									$school_operational_assistance->name }}
+								@foreach ($commodity_acquisitions as $commodity_acquisition)
+								<option value="{{ $commodity_acquisition->id }}"
+									@selected(request('commodity_acquisition_id')==$commodity_acquisition->id)>{{
+									$commodity_acquisition->name }}
 								</option>
 								@endforeach
 							</select>

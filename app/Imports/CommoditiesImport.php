@@ -3,8 +3,8 @@
 namespace App\Imports;
 
 use App\Commodity;
+use App\CommodityAcquisition;
 use App\CommodityLocation;
-use App\SchoolOperationalAssistance;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithUpserts;
@@ -17,14 +17,14 @@ class CommoditiesImport implements ToModel, WithHeadingRow, WithUpserts
     public function model(array $row)
     {
         $commodity_location = CommodityLocation::where('name', $row['lokasi'])->first();
-        $school_operational = SchoolOperationalAssistance::where('name', $row['asal_perolehan'])->first();
+        $commodity_acquisition = CommodityAcquisition::where('name', $row['asal_perolehan'])->first();
 
         return new Commodity([
             'item_code' => $row['kode_barang'],
             'name' => $row['nama_barang'],
             'brand' => $row['merek'],
             'material' => $row['bahan'],
-            'school_operational_assistance_id' => $school_operational->id,
+            'commodity_acquisition_id' => $commodity_acquisition->id,
             'commodity_location_id' => $commodity_location->id,
             'year_of_purchase' => $row['tahun_pembelian'],
             'condition' => $this->translateConditionNameToNumber($row['kondisi']),

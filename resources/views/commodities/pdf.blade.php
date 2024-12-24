@@ -38,7 +38,7 @@
     </tr>
     <tr>
       <th>Asal Perolehan : </th>
-      <td>{{ $commodity->school_operational_assistance->name }}</td>
+      <td>{{ $commodity->commodity_acquisition->name }}</td>
     </tr>
   </table>
   <br>

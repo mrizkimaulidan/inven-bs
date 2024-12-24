@@ -57,8 +57,8 @@
 					</div>
 					<div class="col-lg-4 col-6">
 						<div class="form-group">
-							<label for="school_operational_assistance_id">Asal Perolehan</label>
-							<input type="text" class="form-control" id="school_operational_assistance_id" disabled>
+							<label for="commodity_acquisition_id">Asal Perolehan</label>
+							<input type="text" class="form-control" id="commodity_acquisition_id" disabled>
 						</div>
 					</div>
 					<div class="col-lg-4 col-6">

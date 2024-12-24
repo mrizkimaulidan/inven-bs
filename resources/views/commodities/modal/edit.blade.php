@@ -69,12 +69,12 @@
 						</div>
 						<div class="col-lg-4 col-12">
 							<div class="form-group">
-								<label for="school_operational_assistance_id">Asal Perolehan</label>
-								<select class="form-control" name="school_operational_assistance_id"
-									id="school_operational_assistance_id" style="width: 100%;">
+								<label for="commodity_acquisition_id">Asal Perolehan</label>
+								<select class="form-control" name="commodity_acquisition_id"
+									id="commodity_acquisition_id" style="width: 100%;">
 									<option selected>Pilih..</option>
-									@foreach ($school_operational_assistances as $school_operational_assistance)
-									<option value="{{ $school_operational_assistance->id }}">{{ $school_operational_assistance->name }}
+									@foreach ($commodity_acquisitions as $commodity_acquisition)
+									<option value="{{ $commodity_acquisition->id }}">{{ $commodity_acquisition->name }}
 									</option>
 									@endforeach
 								</select>

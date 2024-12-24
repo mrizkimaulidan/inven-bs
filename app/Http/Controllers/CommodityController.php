@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Commodity;
+use App\CommodityAcquisition;
 use App\CommodityLocation;
 use App\Exports\CommoditiesExport;
 use App\Http\Requests\CommodityImportRequest;
 use App\Http\Requests\StoreCommodityRequest;
 use App\Http\Requests\UpdateCommodityRequest;
 use App\Imports\CommoditiesImport;
-use App\SchoolOperationalAssistance;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -34,8 +34,8 @@ class CommodityController extends Controller
             return $q->where('commodity_location_id', request('commodity_location_id'));
         });
 
-        $query->when(request()->filled('school_operational_assistance_id'), function ($q) {
-            return $q->where('school_operational_assistance_id', request('school_operational_assistance_id'));
+        $query->when(request()->filled('commodity_acquisition_id'), function ($q) {
+            return $q->where('commodity_acquisition_id', request('commodity_acquisition_id'));
         });
 
         $query->when(request()->filled('year_of_purchase'), function ($q) {
@@ -54,14 +54,14 @@ class CommodityController extends Controller
         $year_of_purchases = Commodity::pluck('year_of_purchase')->unique()->sort();
         $commodity_brands = Commodity::pluck('brand')->unique()->sort();
         $commodity_materials = Commodity::pluck('material')->unique()->sort();
-        $school_operational_assistances = SchoolOperationalAssistance::orderBy('name', 'ASC')->get();
+        $commodity_acquisitions = CommodityAcquisition::orderBy('name', 'ASC')->get();
         $commodity_locations = CommodityLocation::orderBy('name', 'ASC')->get();
 
         return view(
             'commodities.index',
             compact(
                 'commodities',
-                'school_operational_assistances',
+                'commodity_acquisitions',
                 'commodity_locations',
                 'year_of_purchases',
                 'commodity_brands',

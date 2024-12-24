@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Commodity;
 use App\CommodityLocation;
+use App\Repositories\CommodityAcquisitionRepository;
 use App\Repositories\CommodityRepository;
-use App\Repositories\SchoolOperationalAssistanceRepository;
 
 class HomeController extends Controller
 {
@@ -16,7 +16,7 @@ class HomeController extends Controller
      */
     public function __construct(
         public CommodityRepository $commodityRepository,
-        public SchoolOperationalAssistanceRepository $schoolOperationalAssistanceRepository
+        public CommodityAcquisitionRepository $commodityAcquisitionRepository
     ) {
         $this->middleware('auth');
     }
@@ -45,8 +45,8 @@ class HomeController extends Controller
 
         $commodity_each_year_of_purchase_count = $this->commodityRepository->countCommodityEachYear();
         $commodity_each_location_count = CommodityLocation::has('commodities')->withCount('commodities')->get();
-        $commodity_by_school_operational_assistance_count = $this->schoolOperationalAssistanceRepository
-            ->countCommodityBySchoolOperationalAssistance();
+        $commodity_by_commodity_acquisition_count = $this->commodityAcquisitionRepository
+            ->countCommodityByCommodityAcquisition();
         $commodity_by_material_count = $this->commodityRepository->countCommodityByMaterial()->map(function ($commodity) {
             return collect([
                 'name' => $commodity->material,
@@ -73,9 +73,9 @@ class HomeController extends Controller
                 'categories' => $commodity_each_location_count->pluck('name'),
                 'series' => $commodity_each_location_count->pluck('commodities_count'),
             ],
-            'commodity_by_school_operational_assistance_count' => [
-                'categories' => $commodity_by_school_operational_assistance_count->pluck('name'),
-                'series' => $commodity_by_school_operational_assistance_count->pluck('commodities_count'),
+            'commodity_by_commodity_acquisition_count' => [
+                'categories' => $commodity_by_commodity_acquisition_count->pluck('name'),
+                'series' => $commodity_by_commodity_acquisition_count->pluck('commodities_count'),
             ],
             'commodity_by_material_count' => [
                 'categories' => $commodity_by_material_count->pluck('name'),

@@ -2,10 +2,13 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SchoolOperationalAssistance extends Model
+class CommodityAcquisition extends Model
 {
+    use HasFactory;
+
     protected $guarded = [];
 
     /**

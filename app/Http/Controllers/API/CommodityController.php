@@ -14,7 +14,7 @@ class CommodityController extends Controller
      */
     public function show(Commodity $commodity)
     {
-        $commodity->load('school_operational_assistance:id,name', 'commodity_location:id,name');
+        $commodity->load('commodity_acquisition:id,name', 'commodity_location:id,name');
 
         return response()->json([
             'code' => Response::HTTP_OK,

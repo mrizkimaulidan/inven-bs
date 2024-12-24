@@ -4,10 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateSchoolOperationalAssistanceRequest extends FormRequest
+class StoreCommodityAcquisitionRequest extends FormRequest
 {
-    protected $errorBag = 'update';
-
     /**
      * Determine if the user is authorized to make this request.
      */

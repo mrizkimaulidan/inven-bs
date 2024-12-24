@@ -12,7 +12,7 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        $menuNames = collect(['barang', 'bos', 'ruangan', 'pengguna']);
+        $menuNames = collect(['barang', 'perolehan', 'ruangan', 'pengguna']);
         $permissionNames = ['tambah', 'lihat', 'detail', 'ubah', 'hapus'];
 
         $permissions = $menuNames->flatMap(function ($menuName) use ($permissionNames) {
