@@ -10,13 +10,15 @@ use App\Http\Requests\CommodityImportRequest;
 use App\Http\Requests\StoreCommodityRequest;
 use App\Http\Requests\UpdateCommodityRequest;
 use App\Imports\CommoditiesImport;
+use App\Repositories\CommodityRepository;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CommodityController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(
+        private CommodityRepository $commodityRepository,
+    ) {
         $this->authorizeResource(Commodity::class, 'commodity');
     }
 
@@ -57,6 +59,20 @@ class CommodityController extends Controller
         $commodity_acquisitions = CommodityAcquisition::orderBy('name', 'ASC')->get();
         $commodity_locations = CommodityLocation::orderBy('name', 'ASC')->get();
 
+        $commodity_condition_count = $this->commodityRepository->countCommodityCondition()->map(function ($commodity) {
+            return collect([
+                'condition_name' => $commodity->getConditionName(),
+                'count' => $commodity->count,
+            ]);
+        });
+
+        $commodity_counts = [
+            'commodity_in_total' => $commodity_condition_count->sum('count') ?? 0,
+            'commodity_in_good_condition' => $commodity_condition_count->firstWhere('condition_name', 'Baik')['count'] ?? 0,
+            'commodity_in_not_good_condition' => $commodity_condition_count->firstWhere('condition_name', 'Kurang Baik')['count'] ?? 0,
+            'commodity_in_heavily_damage_condition' => $commodity_condition_count->firstWhere('condition_name', 'Rusak Berat')['count'] ?? 0,
+        ];
+
         return view(
             'commodities.index',
             compact(
@@ -65,7 +81,8 @@ class CommodityController extends Controller
                 'commodity_locations',
                 'year_of_purchases',
                 'commodity_brands',
-                'commodity_materials'
+                'commodity_materials',
+                'commodity_counts'
             )
         );
     }
@@ -135,7 +152,7 @@ class CommodityController extends Controller
     {
         $this->authorize('export barang');
 
-        return Excel::download(new CommoditiesExport, 'daftar-barang-'.date('d-m-Y').'.xlsx');
+        return Excel::download(new CommoditiesExport, 'daftar-barang-' . date('d-m-Y') . '.xlsx');
     }
 
     /**
