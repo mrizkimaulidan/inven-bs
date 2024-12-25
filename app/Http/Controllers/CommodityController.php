@@ -152,7 +152,7 @@ class CommodityController extends Controller
     {
         $this->authorize('export barang');
 
-        return Excel::download(new CommoditiesExport, 'daftar-barang-' . date('d-m-Y') . '.xlsx');
+        return Excel::download(new CommoditiesExport, 'daftar-barang-'.date('d-m-Y').'.xlsx');
     }
 
     /**

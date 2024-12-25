@@ -112,10 +112,8 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="commodity_location_id">Lokasi Barang:</label>
-							<select name="commodity_location_id" id="commodity_location_id"
-								@class([
-									'form-control',
-									'is-valid' => request()->filled('commodity_location_id')
+							<select name="commodity_location_id" id="commodity_location_id" @class([ 'form-control' , 'is-valid'=>
+								request()->filled('commodity_location_id')
 								])
 								>
 								<option value="">Pilih lokasi barang..</option>
@@ -131,10 +129,8 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="commodity_acquisition_id">Asal Perolehan:</label>
-							<select name="commodity_acquisition_id" id="commodity_acquisition_id"
-								@class([
-									'form-control',
-									'is-valid' => request()->filled('commodity_acquisition_id')
+							<select name="commodity_acquisition_id" id="commodity_acquisition_id" @class([ 'form-control'
+								, 'is-valid'=> request()->filled('commodity_acquisition_id')
 								])
 								>
 								<option value="">Pilih asal perolehan..</option>
@@ -153,10 +149,8 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="condition">Kondisi:</label>
-							<select name="condition" id="condition"
-								@class([
-									'form-control',
-									'is-valid' => request()->filled('condition')
+							<select name="condition" id="condition" @class([ 'form-control' , 'is-valid'=>
+								request()->filled('condition')
 								])
 								>
 								<option value="">Pilih kondisi..</option>
@@ -169,10 +163,8 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="year_of_purchase">Tahun Pembelian:</label>
-							<select name="year_of_purchase" id="year_of_purchase"
-								@class([
-									'form-control',
-									'is-valid' => request()->filled('year_of_purchase')
+							<select name="year_of_purchase" id="year_of_purchase" @class([ 'form-control' , 'is-valid'=>
+								request()->filled('year_of_purchase')
 								])
 								>
 								<option value="">Pilih tahun pembelian..</option>
@@ -189,10 +181,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="material">Bahan:</label>
-							<select name="material" id="material"
-								@class([
-									'form-control',
-									'is-valid' => request()->filled('material')
+							<select name="material" id="material" @class([ 'form-control' , 'is-valid'=> request()->filled('material')
 								])
 								>
 								<option value="">Pilih bahan..</option>
@@ -206,10 +195,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="brand">Merk:</label>
-							<select name="brand" id="brand"
-								@class([
-									'form-control',
-									'is-valid' => request()->filled('brand')
+							<select name="brand" id="brand" @class([ 'form-control' , 'is-valid'=> request()->filled('brand')
 								])
 								>
 								<option value="">Pilih merk..</option>
@@ -244,7 +230,20 @@
 							@foreach($commodities as $commodity)
 							<tr>
 								<th scope="row">{{ $loop->iteration }}</th>
-								<td>{{ $commodity->item_code }}</td>
+								<td class="text-center align-middle">
+									<div class="d-flex flex-column align-items-center">
+										<span class="badge badge-primary mb-2">
+											{{ $commodity->item_code }}
+										</span>
+										<span class="d-flex align-items-center">
+											<span class="badge badge-pill badge-info px-3"
+												title="{{ $commodity->commodity_acquisition->name }}">
+												<i class="fa fa-fw far fa-face-laugh mr-1"></i>
+												{{ $commodity->commodity_acquisition->name }}
+											</span>
+										</span>
+									</div>
+								</td>
 								<td>{{ Str::limit($commodity->name, 55, '...') }}</td>
 								<td>{{ $commodity->material }}</td>
 								<td>{{ $commodity->brand }}</td>
