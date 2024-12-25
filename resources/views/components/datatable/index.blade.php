@@ -8,7 +8,7 @@
 <script>
 	$(document).ready(function() {
 		new DataTable('#datatable', {
-			lengthMenu: [5, 10, 15],
+			lengthMenu: [5, 10, 15, {label: "All", value: -1}],
 			language: {
 				url: "https://cdn.datatables.net/plug-ins/2.0.6/i18n/id.json",
 			},
