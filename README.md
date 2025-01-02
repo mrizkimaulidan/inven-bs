@@ -20,7 +20,7 @@ Jika Anda menggunakan XAMPP, untuk PHP dan MySQL sudah menjadi 1 (bundle) di dal
 -   CRUD Data Barang
 -   Import/export excel barang
 -   Print barang (seluruh/individual)
--   CRUD Data BOS (Bantuan Operasional Sekolah)
+-   CRUD Data Perolehan
 -   CRUD Data Ruangan
 -   CRUD Data Pengguna
 -   Pengaturan Profil
@@ -31,10 +31,10 @@ _Tampilan Login_
 ![Image 1](https://i.imgur.com/kD6P7BF.png)
 
 _Dashboard_
-![Image 2](https://i.imgur.com/VJ0gCEv.png)
+![Image 2](https://i.imgur.com/vZu92Z0.png)
 
 _Daftar Barang_
-![Image 3](https://i.imgur.com/3AaIzxz.png)
+![Image 3](https://i.imgur.com/yMHtaBa.png)
 
 _Print_
 ![Image 4](https://i.imgur.com/a7yj6Or.png)
@@ -42,20 +42,20 @@ _Print_
 _Print Individual_
 ![Image 5](https://i.imgur.com/Spjtxpv.png)
 
-_Daftar Bantuan Operasional Sekolah_
-![Image 6](https://i.imgur.com/zUruox1.png)
+_Daftar Perolehan_
+![Image 6](https://i.imgur.com/GyVtAJr.png)
 
 _Daftar Ruangan_
-![Image 7](https://i.imgur.com/CrYTczu.png)
+![Image 7](https://i.imgur.com/Rg74G0Z.png)
 
 _Daftar Pengguna_
-![Image 8](https://i.imgur.com/dF2tSet.png)
+![Image 8](https://i.imgur.com/kltT24j.png)
 
 _Pengaturan Profil_
-![Image 9](https://i.imgur.com/WbHIVPG.png)
+![Image 9](https://i.imgur.com/ou8vz6X.png)
 
 _Daftar Peran dan Hak Akses_
-![Image 10](https://i.imgur.com/5vlJQHL.png)
+![Image 10](https://i.imgur.com/qzsaoKg.png)
 
 ### Langkah-langkah instalasi
 
