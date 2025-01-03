@@ -1,27 +1,39 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Commodity;
-use Carbon\Carbon;
-use Faker\Generator as Faker;
+use App\CommodityAcquisition;
+use App\CommodityLocation;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Commodity::class, function (Faker $faker) {
-    $carbon = new Carbon;
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Commodity>
+ */
+class CommodityFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        $commodityAcquisitionID = CommodityAcquisition::inRandomOrder()->first()->id;
+        $commodityLocationID = CommodityLocation::inRandomOrder()->first()->id;
 
-    return [
-        'commodity_acquisition' => mt_rand(1, 2),
-        'commodity_location_id' => mt_rand(1, 10),
-        'item_code' => 'BRG-'.mt_rand(1000, 9999),
-        'register' => 'RG-'.mt_rand(1000, 9999),
-        'name' => $faker->realText(30),
-        'brand' => $faker->realText(30),
-        'material' => $faker->realText(30),
-        'year_of_purchase' => $carbon->createFromDate('2020', mt_rand(1, 12), mt_rand(1, 31)),
-        'condition' => mt_rand(1, 3),
-        'quantity' => mt_rand(500, 1000),
-        'price' => mt_rand(10000, 100000),
-        'price_per_item' => mt_rand(5000, 25000),
-        'note' => $faker->realText(50),
-    ];
-});
+        return [
+            'commodity_acquisition_id' => $commodityAcquisitionID,
+            'commodity_location_id' => $commodityLocationID,
+            'item_code' => 'BRG-'.fake()->unique()->numberBetween(1000, 9999).fake()->numberBetween(100, 999),
+            'name' => fake()->word(),
+            'brand' => fake()->company(),
+            'material' => fake()->word(),
+            'year_of_purchase' => fake()->numberBetween(2010, now()->year),
+            'condition' => fake()->randomElement([1, 2, 3]),
+            'quantity' => fake()->numberBetween(50, 200),
+            'price' => fake()->numberBetween(5000, 500000),
+            'price_per_item' => fake()->numberBetween(2500, 150000),
+            'note' => fake()->optional()->sentence(10),
+        ];
+    }
+}
