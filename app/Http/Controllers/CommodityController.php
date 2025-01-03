@@ -28,7 +28,7 @@ class CommodityController extends Controller
      */
     public function index()
     {
-        $query = Commodity::query();
+        $query = Commodity::query()->with('commodity_location', 'commodity_acquisition');
         $query->when(request()->filled('condition'), function ($q) {
             return $q->where('condition', request('condition'));
         });
@@ -153,13 +153,13 @@ class CommodityController extends Controller
     {
         $this->authorize('export barang');
 
-        $filename = 'daftar-barang-'.date('d-m-Y');
+        $filename = 'daftar-barang-' . date('d-m-Y');
 
         return match ($request->extension) {
-            'xlsx' => Excel::download(new CommoditiesExport, $filename.'.xlsx', \Maatwebsite\Excel\Excel::XLSX),
-            'xls' => Excel::download(new CommoditiesExport, $filename.'.xls', \Maatwebsite\Excel\Excel::XLS),
-            'csv' => Excel::download(new CommoditiesExport, $filename.'.csv', \Maatwebsite\Excel\Excel::CSV),
-            'html' => Excel::download(new CommoditiesExport, $filename.'.html', \Maatwebsite\Excel\Excel::HTML),
+            'xlsx' => Excel::download(new CommoditiesExport, $filename . '.xlsx', \Maatwebsite\Excel\Excel::XLSX),
+            'xls' => Excel::download(new CommoditiesExport, $filename . '.xls', \Maatwebsite\Excel\Excel::XLS),
+            'csv' => Excel::download(new CommoditiesExport, $filename . '.csv', \Maatwebsite\Excel\Excel::CSV),
+            'html' => Excel::download(new CommoditiesExport, $filename . '.html', \Maatwebsite\Excel\Excel::HTML),
         };
     }
 
