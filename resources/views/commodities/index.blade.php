@@ -78,14 +78,10 @@
 					@endcan
 
 					@can('export barang')
-					<form action="{{ route('barang.export') }}" method="POST">
-						@csrf
-
-						<button type="submit" class="btn btn-success mr-2">
-							<i class="fas fa-fw fa-download"></i>
-							Export Excel
-						</button>
-					</form>
+					<button type="button" class="btn btn-success mr-2" data-toggle="modal" data-target="#export_menu">
+						<i class="fas fa-fw fa-download"></i>
+						Export
+					</button>
 					@endcan
 
 					@can('tambah barang')
@@ -318,6 +314,7 @@
 	@include('commodities.modal.create')
 	@include('commodities.modal.edit')
 	@include('commodities.modal.import')
+	@include('commodities.modal.export')
 	@endpush
 
 	@push('js')
