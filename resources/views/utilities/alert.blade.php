@@ -2,7 +2,7 @@
 <div class="alert alert-light alert-dismissible fade show border border-danger" role="alert">
 	<strong>
 		<i class="fas fa-exclamation"></i>
-		Data gagal ditambahkan!
+		Gagal!
 	</strong>
 
 	<ul>
@@ -20,7 +20,7 @@
 <div class="alert alert-light alert-dismissible fade show border border-danger" role="alert">
 	<strong>
 		<i class="fas fa-exclamation"></i>
-		Data gagal diubah!
+		Gagal!
 	</strong>
 
 	<ul>
