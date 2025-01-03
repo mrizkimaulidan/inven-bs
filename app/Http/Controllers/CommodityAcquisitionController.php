@@ -50,7 +50,7 @@ class CommodityAcquisitionController extends Controller
     {
         if ($commodityAcquisition->commodities->isNotEmpty()) {
             return to_route('perolehan.index')
-                ->with('error', 'BOS tidak dapat dihapus karena masih terkait dengan data komoditas!');
+                ->with('error', 'Perolehan tidak dapat dihapus karena masih terkait dengan data komoditas!');
         }
 
         $commodityAcquisition->delete();
