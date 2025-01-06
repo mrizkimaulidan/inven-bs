@@ -19,7 +19,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all()->except(auth()->id());
+        $query = User::query();
+
+        $query->when(request()->filled('role_id'), function ($q) {
+            return $q->whereRelation('roles', 'id', '=', request('role_id'));
+        });
+
+        $users = $query->get()->except(auth()->id());
         $roles = Role::withCount('users')->get();
 
         return view('users.index', compact('users', 'roles'));

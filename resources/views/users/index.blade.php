@@ -33,6 +33,27 @@
 				@endcan
 			</div>
 
+			<x-filter>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="role_id">Peran:</label>
+							<select name="role_id" id="role_id" @class(['form-control' , 'is-valid'=>
+								request()->filled('role_id')])>
+								<option value="">Pilih peran..</option>
+								@foreach ($roles as $role)
+								<option value="{{ $role->id }}" @selected(request('role_id')==$role->id)>
+									{{ $role->name }}
+								</option>
+								@endforeach
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<x-slot name="resetFilterURL">{{ route('pengguna.index') }}</x-slot>
+			</x-filter>
+
 			<div class="row">
 				<div class="col-lg-12">
 					<x-datatable>
