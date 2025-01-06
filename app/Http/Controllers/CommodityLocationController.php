@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\CommodityLocation;
 use App\Exports\CommodityLocationsExport;
+use App\Http\Requests\CommodityLocationExportRequest;
 use App\Http\Requests\CommodityLocationImportRequest;
 use App\Http\Requests\StoreCommodityLocationRequest;
 use App\Http\Requests\UpdateCommodityLocationRequest;
@@ -65,9 +66,18 @@ class CommodityLocationController extends Controller
     /**
      * Export commodities data to Excel.
      */
-    public function export()
+    public function export(CommodityLocationExportRequest $request)
     {
-        return Excel::download(new CommodityLocationsExport, 'daftar-ruangan-'.date('d-m-Y').'.xlsx');
+        $this->authorize('export ruangan');
+
+        $filename = 'daftar-ruangan-'.date('d-m-Y');
+
+        return match ($request->extension) {
+            'xlsx' => Excel::download(new CommodityLocationsExport, $filename.'.xlsx', \Maatwebsite\Excel\Excel::XLSX),
+            'xls' => Excel::download(new CommodityLocationsExport, $filename.'.xls', \Maatwebsite\Excel\Excel::XLS),
+            'csv' => Excel::download(new CommodityLocationsExport, $filename.'.csv', \Maatwebsite\Excel\Excel::CSV),
+            'html' => Excel::download(new CommodityLocationsExport, $filename.'.html', \Maatwebsite\Excel\Excel::HTML),
+        };
     }
 
     /**

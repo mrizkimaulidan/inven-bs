@@ -15,14 +15,10 @@
 					@endcan
 
 					@can('export ruangan')
-					<form action="{{ route('ruangan.export') }}" method="POST">
-						@csrf
-
-						<button type="submit" class="btn btn-success mr-2">
-							<i class="fas fa-fw fa-download"></i>
-							Export Excel
-						</button>
-					</form>
+					<button type="button" class="btn btn-success mr-2" data-toggle="modal" data-target="#export_menu">
+						<i class="fas fa-fw fa-download"></i>
+						Export
+					</button>
 					@endcan
 
 					@can('tambah ruangan')
@@ -93,6 +89,7 @@
 	@include('commodity-locations.modal.show')
 	@include('commodity-locations.modal.edit')
 	@include('commodity-locations.modal.import')
+	@include('commodity-locations.modal.export')
 	@endpush
 
 	@push('js')
