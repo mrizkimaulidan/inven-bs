@@ -13,7 +13,7 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="form-group">
-								<label>Pilih ekstensi yang diinginkan</label>
+								<label>Pilih ekstensi yang diinginkan<span class="font-weight-bold text-danger">*</span></label>
 								<select class="form-control" name="extension">
 									<option value="">Pilih ekstensi..</option>
 									<option value="xlsx">XLSX (.xlsx)</option>

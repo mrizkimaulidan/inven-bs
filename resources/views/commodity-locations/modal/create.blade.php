@@ -10,12 +10,19 @@
 				</button>
 			</div>
 			<div class="modal-body">
+				<div class="d-flex align-items-center">
+					<i class="text-warning fa-solid fa-circle-info mr-2"></i>
+					<p class="font-italic mb-0">
+						Kolom yang memiliki tanda merah <span class="font-weight-bold">wajib diisi.</span>
+					</p>
+				</div>
+				<hr>
 				<form action="{{ route('ruangan.store') }}" method="POST">
 					@csrf
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="form-group">
-								<label for="name">Nama Ruangan</label>
+								<label for="name">Nama Ruangan<span class="font-weight-bold text-danger">*</span></label>
 								<input type="text" name="name" id="name"
 									class="form-control @error('name', 'store') is-invalid @enderror" value="{{ old('name') }}"
 									placeholder="Masukan nama..">
@@ -29,7 +36,7 @@
 
 						<div class="col-lg-12">
 							<div class="form-group">
-								<label for="description">Deskripsi Ruangan</label>
+								<label for="description">Deskripsi Ruangan <span class="font-italic">(opsional)</span></label>
 								<textarea name="description" class="form-control @error('description', 'store') is-invalid @enderror"
 									id="description" placeholder="Masukan deskripsi (opsional).."
 									style="height: 100px;">{{ old('description') }}</textarea>

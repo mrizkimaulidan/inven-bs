@@ -10,12 +10,19 @@
 			</div>
 
 			<div class="modal-body">
+				<div class="d-flex align-items-center">
+					<i class="text-warning fa-solid fa-circle-info mr-2"></i>
+					<p class="font-italic mb-0">
+						Kolom yang memiliki tanda merah <span class="font-weight-bold">wajib diisi.</span>
+					</p>
+				</div>
+				<hr>
 				<form action="{{ route('barang.store') }}" method="POST">
 					@csrf
 					<div class="row">
 						<div class="col-lg-4">
 							<div class="form-group">
-								<label for="item_code">Kode Barang</label>
+								<label for="item_code">Kode Barang<span class="font-weight-bold text-danger">*</span></label>
 								<input type="text" class="form-control @error('item_code', 'store') is-invalid @enderror"
 									name="item_code" id="item_code" value="{{ old('item_code') }}" placeholder="Masukan kode barang..">
 								@error('item_code', 'store')
@@ -27,7 +34,7 @@
 						</div>
 						<div class="col-lg-4">
 							<div class="form-group">
-								<label for="name">Nama Barang</label>
+								<label for="name">Nama Barang<span class="font-weight-bold text-danger">*</span></label>
 								<input type="text" class="form-control @error('name', 'store') is-invalid @enderror" name="name"
 									id="name" value="{{ old('name') }}" placeholder="Masukan nama barang..">
 								@error('name', 'store')
@@ -39,7 +46,8 @@
 						</div>
 						<div class="col-lg-4">
 							<div class="form-group">
-								<label for="commodity_location_id">Lokasi Barang</label>
+								<label for="commodity_location_id">Lokasi Barang<span
+										class="font-weight-bold text-danger">*</span></label>
 								<select class="form-control @error('commodity_location_id', 'store') is-invalid @enderror"
 									name="commodity_location_id" id="commodity_location_id" style="width: 100%;">
 									<option value="" selected>Pilih..</option>
@@ -63,7 +71,7 @@
 					<div class="row">
 						<div class="col-lg-6">
 							<div class="form-group">
-								<label for="material">Bahan</label>
+								<label for="material">Bahan<span class="font-weight-bold text-danger">*</span></label>
 								<input type="text" class="form-control @error('material', 'store') is-invalid @enderror" name="material"
 									id="material" value="{{ old('material') }}" placeholder="Masukan bahan barang..">
 								@error('material', 'store')
@@ -75,7 +83,7 @@
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group">
-								<label for="brand">Merek</label>
+								<label for="brand">Merek<span class="font-weight-bold text-danger">*</span></label>
 								<input type="text" class="form-control @error('brand', 'store') is-invalid @enderror" name="brand"
 									id="brand" value="{{ old('brand') }}" placeholder="Masukan merek barang..">
 								@error('brand', 'store')
@@ -90,7 +98,7 @@
 					<div class="row">
 						<div class="col-lg-4 col-12">
 							<div class="form-group">
-								<label for="year_of_purchase">Tahun Pembelian</label>
+								<label for="year_of_purchase">Tahun Pembelian<span class="font-weight-bold text-danger">*</span></label>
 								<input type="number" class="form-control @error('year_of_purchase', 'store') is-invalid @enderror"
 									name="year_of_purchase" id="year_of_purchase" value="{{ old('year_of_purchase') }}"
 									placeholder="Masukan tahun pembelian barang..">
@@ -103,7 +111,8 @@
 						</div>
 						<div class="col-lg-4 col-12">
 							<div class="form-group">
-								<label for="commodity_acquisition_id">Asal Perolehan</label>
+								<label for="commodity_acquisition_id">Asal Perolehan<span
+										class="font-weight-bold text-danger">*</span></label>
 								<select class="form-control @error('commodity_acquisition_id', 'store') is-invalid @enderror"
 									name="commodity_acquisition_id" id="commodity_acquisition_id" style="width: 100%;">
 									<option value="" selected">Pilih..</option>
@@ -123,7 +132,7 @@
 						</div>
 						<div class="col-lg-4 col-12">
 							<div class="form-group">
-								<label for="condition">Kondisi</label>
+								<label for="condition">Kondisi<span class="font-weight-bold text-danger">*</span></label>
 								<select class="form-control @error('condition', 'store') is-invalid @enderror" name="condition"
 									id="condition" style="width: 100%;">
 									<option value="" selected>Pilih..</option>
@@ -145,7 +154,7 @@
 					<div class="row">
 						<div class="col-lg-4">
 							<div class="form-group">
-								<label for="quantity">Kuantitas</label>
+								<label for="quantity">Kuantitas<span class="font-weight-bold text-danger">*</span></label>
 								<input type="number" class="form-control @error('quantity', 'store') is-invalid @enderror"
 									name="quantity" id="quantity" value="{{ old('quantity') }}" placeholder="Masukan kuantitas barang..">
 								@error('quantity', 'store')
@@ -157,7 +166,7 @@
 						</div>
 						<div class="col-lg-4 col-6">
 							<div class="form-group">
-								<label for="price">Harga</label>
+								<label for="price">Harga<span class="font-weight-bold text-danger">*</span></label>
 								<div class="input-group">
 									<div class="input-group-prepend">
 										<span class="input-group-text" id="basic-addon1">Rp.</span>
@@ -174,7 +183,7 @@
 						</div>
 						<div class="col-lg-4 col-6">
 							<div class="form-group">
-								<label for="price_per_item">Harga Satuan</label>
+								<label for="price_per_item">Harga Satuan<span class="font-weight-bold text-danger">*</span></label>
 								<div class="input-group">
 									<div class="input-group-prepend">
 										<span class="input-group-text" id="basic-addon1">Rp.</span>
@@ -195,7 +204,7 @@
 					<div class="row">
 						<div class="col-12">
 							<div class="form-group">
-								<label for="note">Keterangan</label>
+								<label for="note">Keterangan <span class="font-italic">(opsional)</span></label>
 								<textarea class="form-control @error('note', 'store') is-invalid @enderror" name="note" id="note"
 									style="height: 100px;" placeholder="Masukan keterangan (opsional)..">{{ old('note') }}</textarea>
 								@error('note', 'store')

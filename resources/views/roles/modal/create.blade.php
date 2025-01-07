@@ -10,12 +10,19 @@
 				</button>
 			</div>
 			<div class="modal-body">
+				<div class="d-flex align-items-center">
+					<i class="text-warning fa-solid fa-circle-info mr-2"></i>
+					<p class="font-italic mb-0">
+						Kolom yang memiliki tanda merah <span class="font-weight-bold">wajib diisi.</span>
+					</p>
+				</div>
+				<hr>
 				<form action="{{ route('peran-dan-hak-akses.store') }}" method="POST">
 					@csrf
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="form-group">
-								<label for="name">Nama Peran</label>
+								<label for="name">Nama Peran<span class="font-weight-bold text-danger">*</span></label>
 								<input type="text" name="name" id="name"
 									class="form-control @error('name', 'store') is-invalid @enderror" value="{{ old('name') }}"
 									placeholder="Masukan nama peran..">
@@ -29,7 +36,7 @@
 
 						<div class="col-lg-12">
 							<div class="form-group">
-								<label for="permissions">Daftar Hak Akses</label>
+								<label for="permissions">Daftar Hak Akses<span class="font-weight-bold text-danger">*</span></label>
 								<select multiple class="tom-select @error('permissions', 'store') is-invalid @enderror"
 									name="permissions[]" id="permissions" placeholder="Pilih hak akses..">
 									@foreach ($permissions as $permission)

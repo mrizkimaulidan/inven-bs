@@ -20,7 +20,7 @@
 							</div>
 
 							<div class="custom-file">
-								<label for="file">Pilih berkas</label>
+								<label for="file">Pilih berkas<span class="font-weight-bold text-danger">*</span></label>
 								<input type="file" class="form-control" name="file" id="file">
 							</div>
 						</div>
