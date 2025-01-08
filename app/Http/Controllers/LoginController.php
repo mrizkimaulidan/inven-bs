@@ -16,7 +16,7 @@ class LoginController extends Controller
         if (! auth()->attempt($request->only('email', 'password'))) {
             return to_route('login')->withErrors([
                 'email' => 'Akun tersebut tidak terdaftar di sistem!',
-            ]);
+            ])->withInput($request->only('email'));
         }
 
         $request->session()->regenerate();
