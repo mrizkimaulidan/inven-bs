@@ -38,7 +38,6 @@
 								<th scope="col">#</th>
 								<th scope="col">Nama</th>
 								<th scope="col">Deskripsi</th>
-								<th scope="col">Tanggal Ditambahkan</th>
 								<th scope="col">Aksi</th>
 							</tr>
 						</thead>
@@ -48,7 +47,6 @@
 								<th scope="row">{{ $loop->iteration }}</th>
 								<td>{{ $commodity_location->name }}</td>
 								<td>{{ Str::limit($commodity_location->description, 55, '...') }}</td>
-								<td>{{ date('d/m/Y H:i A', strtotime($commodity_location->created_at)) }}</td>
 								<td class="text-center">
 									<div class="btn-group" role="group" aria-label="Basic example">
 										@can('detail ruangan')

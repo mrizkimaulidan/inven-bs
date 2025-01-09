@@ -23,7 +23,6 @@
 								<th scope="col">#</th>
 								<th scope="col">Nama</th>
 								<th scope="col">Deskripsi</th>
-								<th scope="col">Tanggal Ditambahkan</th>
 								<th scope="col">Aksi</th>
 							</tr>
 						</thead>
@@ -33,14 +32,12 @@
 								<th scope="row">{{ $loop->iteration }}</th>
 								<td>{{ $commodityAcquisition->name }}</td>
 								<td>{{ Str::limit($commodityAcquisition->description, 55, '...') }}</td>
-								<td>{{ date('m/d/Y H:i A', strtotime($commodityAcquisition->created_at)) }}
 								</td>
 								<td class="text-center">
 									<div class="btn-group">
 										@can('detail perolehan')
-										<a data-id="{{ $commodityAcquisition->id }}"
-											class="btn btn-sm btn-info text-white show-modal mr-2" data-toggle="modal"
-											data-target="#show_commodity_acquisition">
+										<a data-id="{{ $commodityAcquisition->id }}" class="btn btn-sm btn-info text-white show-modal mr-2"
+											data-toggle="modal" data-target="#show_commodity_acquisition">
 											<i class="fas fa-fw fa-search"></i>
 										</a>
 										@endcan
@@ -52,8 +49,7 @@
 										</a>
 										@endcan
 										@can('hapus perolehan')
-										<form action="{{ route('perolehan.destroy', $commodityAcquisition->id) }}"
-											method="POST">
+										<form action="{{ route('perolehan.destroy', $commodityAcquisition->id) }}" method="POST">
 											@csrf
 											@method('DELETE')
 											<button type="submit" class="btn btn-sm btn-danger delete-button">
