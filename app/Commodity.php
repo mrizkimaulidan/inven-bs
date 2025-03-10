@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Number;
 
 class Commodity extends Model
 {
@@ -45,7 +46,7 @@ class Commodity extends Model
      */
     public function indonesian_currency($value)
     {
-        return number_format($value, 2, ',', '.');
+        return Number::format($value, 2);
     }
 
     /**
