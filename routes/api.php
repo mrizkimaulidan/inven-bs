@@ -25,6 +25,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::name('api.')->group(function () {
     Route::get('/barang/{commodity}', [CommodityController::class, 'show'])->name('barang.show');
+    Route::get('/barang/{commodity}/qrcode', [CommodityController::class, 'generateQrCode'])->name('barang.generate-qrcode');
     Route::get('/ruangan/{commodity_location}', [CommodityLocationController::class, 'show'])->name('ruangan.show');
     Route::get(
         '/perolehan/{commodity_acquisition}',
