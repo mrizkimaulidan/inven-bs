@@ -84,5 +84,40 @@
 				},
 			});
 		});
+
+    $(".qr-modal-button").on("click", function () {
+      const id = $(this).data("id");
+      const name = $(this).data("name");
+
+      $("#qr_code_container").html('<span class="text-muted">Memuat QR Code...</span>');
+      $("#qr_code_modal .modal-title").text('QR Code untuk ' + name);
+      $("#download_qr_link").addClass('disabled').attr('href', '#');
+
+      let url = "{{ route('api.barang.generate-qrcode', ':paramID') }}".replace(":paramID", id);
+
+      $.ajax({
+        url: url,
+        method: "GET",
+        header: {
+          "Content-Type": "application/json",
+        },
+        success: (res) => {
+          if (res.success) {
+            const dataUri = res.svg;
+
+            $("#download_qr_link")
+              .removeClass('disabled')
+              .attr('href', dataUri)
+              .attr('download', res.filename);
+
+            $("#qr_code_container").html('<img src="' + dataUri + '" alt="QR Code" class="d-inline-block">');
+          }
+        },
+        error: (err) => {
+          $("#qr_code_container").html('<span class="text-danger">Gagal memuat QR Code.</span>');
+          console.log(err);
+        },
+      });
+    });
 	});
 </script>
