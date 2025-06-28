@@ -267,6 +267,11 @@
 								@endif
 								<td class="text-center">
 									<div class="btn-group" role="group" aria-label="Basic example">
+
+										<a href="#" class="btn btn-sm btn-dark qr-modal-button mr-2" data-id="{{ $commodity->id }}" data-name="{{ $commodity->name }}" data-toggle="modal" data-target="#qr_code_modal">
+											<i class="fas fa-fw fa-qrcode"></i>
+										</a>
+
 										@can('detail barang')
 										<a data-id="{{ $commodity->id }}" class="btn btn-sm btn-info text-white show-modal mr-2"
 											data-toggle="modal" data-target="#show_commodity" title="Lihat Detail">
@@ -315,6 +320,7 @@
 	@include('commodities.modal.edit')
 	@include('commodities.modal.import')
 	@include('commodities.modal.export')
+	@include('commodities.modal.qrcode')
 	@endpush
 
 	@push('js')
