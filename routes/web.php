@@ -9,6 +9,7 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VerificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,16 +45,18 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::resource('perolehan', CommodityAcquisitionController::class)
-        ->except('create', 'edit', 'show')
+    ->except('create', 'edit', 'show')
         ->parameter('perolehan', 'commodity_acquisition');
 
     Route::resource('ruangan', CommodityLocationController::class)->except('create', 'edit', 'show')
-        ->parameter('ruangan', 'commodity_location');
+    ->parameter('ruangan', 'commodity_location');
     Route::post('/ruangan/import', [CommodityLocationController::class, 'import'])->name('ruangan.import');
     Route::post('/ruangan/export', [CommodityLocationController::class, 'export'])->name('ruangan.export');
 
     Route::resource('pengguna', UserController::class)->except('create', 'edit', 'show')
-        ->parameter('pengguna', 'user');
+    ->parameter('pengguna', 'user');
 
     Route::resource('peran-dan-hak-akses', RoleController::class)->parameter('peran-dan-hak-akses', 'role');
+
+    Route::get('/verify/qrcode/{encrypted_id}', [VerificationController::class, 'show'])->name('verify.qrcode');
 });
