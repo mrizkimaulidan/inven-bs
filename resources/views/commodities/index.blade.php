@@ -268,7 +268,8 @@
 								<td class="text-center">
 									<div class="btn-group" role="group" aria-label="Basic example">
 
-										<a href="#" class="btn btn-sm btn-dark qr-modal-button mr-2" data-id="{{ $commodity->id }}" data-name="{{ $commodity->name }}" data-toggle="modal" data-target="#qr_code_modal">
+										<a href="#" class="btn btn-sm btn-dark qr-modal-button mr-2" data-id="{{ $commodity->id }}"
+											data-name="{{ $commodity->name }}" data-toggle="modal" data-target="#qr_code_modal">
 											<i class="fas fa-fw fa-qrcode"></i>
 										</a>
 
@@ -281,7 +282,7 @@
 
 										@can('ubah barang')
 										<a data-id="{{ $commodity->id }}" class="btn btn-sm btn-success text-white edit-modal mr-2"
-											data-toggle="modal" data-target="#edit_commodity" title="Ubah data">
+											data-toggle="modal" data-target="#commodity_edit_modal" title="Ubah data">
 											<i class="fas fa-fw fa-edit"></i>
 										</a>
 										@endcan

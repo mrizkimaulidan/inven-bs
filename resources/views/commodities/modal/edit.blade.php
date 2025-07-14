@@ -1,5 +1,5 @@
-<div class="modal fade" id="edit_commodity" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
-	aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="commodity_edit_modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+	role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -70,8 +70,8 @@
 						<div class="col-lg-4 col-12">
 							<div class="form-group">
 								<label for="commodity_acquisition_id">Asal Perolehan</label>
-								<select class="form-control" name="commodity_acquisition_id"
-									id="commodity_acquisition_id" style="width: 100%;">
+								<select class="form-control" name="commodity_acquisition_id" id="commodity_acquisition_id"
+									style="width: 100%;">
 									<option selected>Pilih..</option>
 									@foreach ($commodity_acquisitions as $commodity_acquisition)
 									<option value="{{ $commodity_acquisition->id }}">{{ $commodity_acquisition->name }}

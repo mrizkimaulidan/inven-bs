@@ -1,5 +1,13 @@
 <script>
 	$(document).ready(function () {
+		new TomSelect("#commodity_create_modal form #commodity_location_id");
+		new TomSelect("#filter-accordion form #commodity_location_id");
+		new TomSelect("#filter-accordion form #year_of_purchase");
+		new TomSelect("#filter-accordion form #material");
+		new TomSelect("#filter-accordion form #brand");
+
+		const commodityLocationInput = new TomSelect("#commodity_edit_modal form #commodity_location_id");
+
 		$(".show-modal").click(function () {
 			const id = $(this).data("id");
 			let url = "{{ route('api.barang.show', ':paramID') }}".replace(
@@ -56,27 +64,29 @@
 					"Content-Type": "application/json",
 				},
 				success: (res) => {
-					$("#edit_commodity form #item_code").val(res.data.item_code);
-					$("#edit_commodity form #name").val(res.data.name);
-					$("#edit_commodity form #commodity_location_id").val(
-						res.data.commodity_location.id
-					);
-					$("#edit_commodity form #material").val(res.data.material);
-					$("#edit_commodity form #brand").val(res.data.brand);
-					$("#edit_commodity form #year_of_purchase").val(
+					$("#commodity_edit_modal form #item_code").val(res.data.item_code);
+					$("#commodity_edit_modal form #name").val(res.data.name);
+					$("#commodity_edit_modal form #material").val(res.data.material);
+					$("#commodity_edit_modal form #brand").val(res.data.brand);
+					$("#commodity_edit_modal form #year_of_purchase").val(
 						res.data.year_of_purchase
 					);
-					$("#edit_commodity form #condition").val(res.data.condition);
-					$("#edit_commodity form #commodity_acquisition_id").val(
+					$("#commodity_edit_modal form #condition").val(res.data.condition);
+					$("#commodity_edit_modal form #commodity_acquisition_id").val(
 						res.data.commodity_acquisition.id
 					);
-					$("#edit_commodity form #note").val(res.data.note);
-					$("#edit_commodity form #quantity").val(res.data.quantity);
-					$("#edit_commodity form #price").val(res.data.price);
-					$("#edit_commodity form #price_per_item").val(
+					$("#commodity_edit_modal form #note").val(res.data.note);
+					$("#commodity_edit_modal form #quantity").val(res.data.quantity);
+					$("#commodity_edit_modal form #price").val(res.data.price);
+					$("#commodity_edit_modal form #price_per_item").val(
 						res.data.price_per_item
 					);
-					$("#edit_commodity form").attr("action", updateURL);
+
+					if(res.data.role !== null) {
+						commodityLocationInput.setValue(res.data.commodity_location.id);
+					}
+
+					$("#commodity_edit_modal form").attr("action", updateURL);
 				},
 				error: (err) => {
 					alert("error occured, check console");
