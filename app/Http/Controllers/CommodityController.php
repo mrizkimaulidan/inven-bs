@@ -142,8 +142,9 @@ class CommodityController extends Controller
         $commodity = Commodity::find($id);
         $sekolah = env('NAMA_SEKOLAH', 'Barang Milik Sekolah');
         $pdf = Pdf::loadView('commodities.pdfone', compact(['commodity', 'sekolah']))->setPaper('a4');
+        $fileName = 'print-'.$commodity->item_code.'.pdf';
 
-        return $pdf->download('print.pdf');
+        return $pdf->download($fileName);
     }
 
     /**

@@ -25,7 +25,6 @@ class CommodityController extends Controller
         ], Response::HTTP_OK);
     }
 
-
     /**
      * Generate QR Code untuk barang tertentu dan kembalikan sebagai data SVG.
      *
@@ -35,18 +34,19 @@ class CommodityController extends Controller
     public function generateQrCode($id)
     {
         $commodity = Commodity::find($id);
-        if (!$commodity) {
+        if (! $commodity) {
             return response()->json(['success' => false, 'message' => 'Barang tidak ditemukan'], Response::HTTP_NOT_FOUND);
         }
 
-        $verificationUrl = url('verify/qrcode/' . Crypt::encryptString($id));
+        $verificationUrl = url('verify/qrcode/'.Crypt::encryptString($id));
 
         $svgImage = QrCode::format('svg')->size(250)->margin(1)->generate($verificationUrl);
-        $qrCodeDataUri = 'data:image/svg+xml;base64,' . base64_encode($svgImage);
+        $qrCodeDataUri = 'data:image/svg+xml;base64,'.base64_encode($svgImage);
+
         return response()->json([
-            'success'   => true,
-            'svg'       => $qrCodeDataUri,
-            'filename'  => 'qrcode-' . $commodity->name . '.svg'
+            'success' => true,
+            'svg' => $qrCodeDataUri,
+            'filename' => 'qrcode-'.$commodity->name.'.svg',
         ], Response::HTTP_OK);
     }
 }
