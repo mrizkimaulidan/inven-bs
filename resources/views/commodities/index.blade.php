@@ -269,7 +269,7 @@
 									<div class="btn-group" role="group" aria-label="Basic example">
 
 										<a href="#" class="btn btn-sm btn-dark qr-modal-button mr-2" data-id="{{ $commodity->id }}"
-											data-name="{{ $commodity->name }}" data-toggle="modal" data-target="#qr_code_modal">
+											data-toggle="modal" data-target="#qr_code_modal">
 											<i class="fas fa-fw fa-qrcode"></i>
 										</a>
 

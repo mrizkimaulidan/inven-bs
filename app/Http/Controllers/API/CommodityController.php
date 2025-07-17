@@ -31,22 +31,32 @@ class CommodityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function generateQrCode($id)
+    public function generateQrCode(Commodity $commodity)
     {
-        $commodity = Commodity::find($id);
         if (! $commodity) {
-            return response()->json(['success' => false, 'message' => 'Barang tidak ditemukan'], Response::HTTP_NOT_FOUND);
+            return response()->json([
+                'code' => Response::HTTP_NOT_FOUND,
+                'message' => 'Barang tidak ditemukan!!',
+            ], Response::HTTP_NOT_FOUND);
         }
 
-        $verificationUrl = url('verify/qrcode/'.Crypt::encryptString($id));
+        $verificationUrl = route('verify.qrcode', Crypt::encryptString($commodity->id));
 
-        $svgImage = QrCode::format('svg')->size(250)->margin(1)->generate($verificationUrl);
-        $qrCodeDataUri = 'data:image/svg+xml;base64,'.base64_encode($svgImage);
+        $qrCode = QrCode::format('svg')
+            ->size(250)
+            ->margin(1)
+            ->generate($verificationUrl);
+
+        $qrCodeDataUri = 'data:image/svg+xml;base64,'.base64_encode($qrCode);
 
         return response()->json([
-            'success' => true,
-            'svg' => $qrCodeDataUri,
-            'filename' => 'qrcode-'.$commodity->name.'.svg',
+            'code' => Response::HTTP_OK,
+            'message' => 'success',
+            'data' => [
+                'qr_code_uri' => $qrCodeDataUri,
+                'name' => $commodity->name,
+                'filename' => 'qrcode-'.$commodity->name.'.svg',
+            ],
         ], Response::HTTP_OK);
     }
 }

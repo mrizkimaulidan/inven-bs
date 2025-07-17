@@ -6,7 +6,9 @@
 		new TomSelect("#filter-accordion form #material");
 		new TomSelect("#filter-accordion form #brand");
 
-		const commodityLocationInput = new TomSelect("#commodity_edit_modal form #commodity_location_id");
+		const commodityLocationInput = new TomSelect(
+			"#commodity_edit_modal form #commodity_location_id"
+		);
 
 		$(".show-modal").click(function () {
 			const id = $(this).data("id");
@@ -36,7 +38,9 @@
 					$("#show_commodity #note").val(res.data.note);
 					$("#show_commodity #quantity").val(res.data.quantity);
 					$("#show_commodity #price").val(res.data.price_formatted);
-					$("#show_commodity #price_per_item").val(res.data.price_per_item_formatted);
+					$("#show_commodity #price_per_item").val(
+						res.data.price_per_item_formatted
+					);
 				},
 				error: (err) => {
 					alert("error occured, check console");
@@ -82,7 +86,7 @@
 						res.data.price_per_item
 					);
 
-					if(res.data.role !== null) {
+					if (res.data.role !== null) {
 						commodityLocationInput.setValue(res.data.commodity_location.id);
 					}
 
@@ -95,39 +99,49 @@
 			});
 		});
 
-    $(".qr-modal-button").on("click", function () {
-      const id = $(this).data("id");
-      const name = $(this).data("name");
+		$(".qr-modal-button").on("click", function () {
+			const id = $(this).data("id");
 
-      $("#qr_code_container").html('<span class="text-muted">Memuat QR Code...</span>');
-      $("#qr_code_modal .modal-title").text('QR Code untuk ' + name);
-      $("#download_qr_link").addClass('disabled').attr('href', '#');
+			$("#qr_code_container").html(
+				'<span class="text-muted">Memuat QR Code...</span>'
+			);
+			$("#qr_code_modal .modal-title").html("Memuat QR Code");
+			$("#download_qr_link").addClass("disabled").attr("href", "#");
 
-      let url = "{{ route('api.barang.generate-qrcode', ':paramID') }}".replace(":paramID", id);
+			let url = "{{ route('api.barang.generate-qrcode', ':paramID') }}".replace(
+				":paramID",
+				id
+			);
 
-      $.ajax({
-        url: url,
-        method: "GET",
-        header: {
-          "Content-Type": "application/json",
-        },
-        success: (res) => {
-          if (res.success) {
-            const dataUri = res.svg;
+			$.ajax({
+				url: url,
+				method: "GET",
+				header: {
+					"Content-Type": "application/json",
+				},
+				success: (res) => {
+					$("#qr_code_modal .modal-title").text(
+						"QR Code untuk " + res.data.name
+					);
 
-            $("#download_qr_link")
-              .removeClass('disabled')
-              .attr('href', dataUri)
-              .attr('download', res.filename);
+					$("#download_qr_link")
+						.removeClass("disabled")
+						.attr("href", res.data.qr_code_uri)
+						.attr("download", res.data.filename);
 
-            $("#qr_code_container").html('<img src="' + dataUri + '" alt="QR Code" class="d-inline-block">');
-          }
-        },
-        error: (err) => {
-          $("#qr_code_container").html('<span class="text-danger">Gagal memuat QR Code.</span>');
-          console.log(err);
-        },
-      });
-    });
+					$("#qr_code_container").html(
+						'<img src="' +
+							res.data.qr_code_uri +
+							'" alt="QR Code" class="d-inline-block">'
+					);
+				},
+				error: (err) => {
+					$("#qr_code_container").html(
+						'<span class="text-danger">Gagal memuat QR Code.</span>'
+					);
+					console.log(err);
+				},
+			});
+		});
 	});
 </script>
