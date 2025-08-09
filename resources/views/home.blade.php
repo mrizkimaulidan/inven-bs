@@ -86,8 +86,10 @@
 							<!-- <img class="mr-3 rounded-circle" width="50" src="../assets/img/avatar/avatar-1.png" alt="avatar"> -->
 							<div class="media-body">
 								@can('detail barang')
-								<button data-id="{{ $order_by_price->id }}" class="float-right btn btn-info btn-sm show-modal"
-									data-toggle="modal" data-target="#show_commodity">Detail</button>
+								<a data-id="{{ $order_by_price->id }}" class="float-right btn btn-sm btn-info text-white show-modal"
+									data-toggle="modal" data-target="#show_commodity" title="Lihat Detail">
+									<i class="fas fa-fw fa-search"></i>
+								</a>
 								@endcan
 								<div class="media-title">{{ $order_by_price->name }}</div>
 								<span class="text-small text-muted">Harga: Rp{{
