@@ -32,7 +32,7 @@
 							<div class="form-group">
 								<label for="permissions">Daftar Hak Akses</label>
 								<select multiple class="tom-select @error('permissions', 'store') is-invalid @enderror"
-									name="permissions[]" id="permissions" placeholder="Pilih hak akses..">
+									name="permissions[]" id="permissions" placeholder="Pilih atau ketik hak akses..">
 									@foreach ($permissions as $permission)
 									<option value="{{ $permission->id }}">{{ $permission->name }}</option>
 									@endforeach

@@ -31,7 +31,7 @@
 							<div class="form-group">
 								<label for="commodity_location_id">Lokasi Barang</label>
 								<select class="form-control" name="commodity_location_id" id="commodity_location_id"
-									style="width: 100%;">
+									style="width: 100%;" placeholder="Pilih atau ketik lokasi barang..">
 									<option selected>Pilih..</option>
 									@foreach ($commodity_locations as $commodity_location)
 									<option value="{{ $commodity_location->id }}">{{ $commodity_location->name }}</option>

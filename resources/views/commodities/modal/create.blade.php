@@ -49,7 +49,8 @@
 								<label for="commodity_location_id">Lokasi Barang<span
 										class="font-weight-bold text-danger">*</span></label>
 								<select class="form-control @error('commodity_location_id', 'store') is-invalid @enderror"
-									name="commodity_location_id" id="commodity_location_id" style="width: 100%;">
+									name="commodity_location_id" id="commodity_location_id" style="width: 100%;"
+									placeholder="Pilih atau ketik lokasi barang..">
 									<option value="" selected>Pilih..</option>
 									@foreach ($commodity_locations as $commodity_location)
 									<option value="{{ $commodity_location->id }}"

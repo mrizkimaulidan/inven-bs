@@ -31,7 +31,7 @@
 						<div class="col-lg-12">
 							<div class="form-group">
 								<label for="role_id">Pilih Peran</label>
-								<select class="tom-select" name="role_id" id="role_id" placeholder="Pilih peran..">
+								<select class="tom-select" name="role_id" id="role_id" placeholder="Pilih atau ketik peran..">
 									@foreach ($roles as $role)
 									<option value="{{ $role->id }}">{{ $role->name }}</option>
 									@endforeach

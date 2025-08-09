@@ -108,7 +108,8 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="commodity_location_id">Lokasi Barang:</label>
-							<select name="commodity_location_id" id="commodity_location_id" @class([ 'form-control' , 'is-valid'=>
+							<select name="commodity_location_id" placeholder="Pilih atau ketik lokasi barang.."
+								id="commodity_location_id" @class([ 'form-control' , 'is-valid'=>
 								request()->filled('commodity_location_id')
 								])
 								>
@@ -159,7 +160,8 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="year_of_purchase">Tahun Pembelian:</label>
-							<select name="year_of_purchase" id="year_of_purchase" @class([ 'form-control' , 'is-valid'=>
+							<select name="year_of_purchase" placeholder="Pilih atau ketik tahun pembelian.." id="year_of_purchase"
+								@class([ 'form-control' , 'is-valid'=>
 								request()->filled('year_of_purchase')
 								])
 								>
@@ -177,7 +179,8 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="material">Bahan:</label>
-							<select name="material" id="material" @class([ 'form-control' , 'is-valid'=> request()->filled('material')
+							<select name="material" id="material" placeholder="Pilih atau ketik bahan.." @class([ 'form-control'
+								, 'is-valid'=> request()->filled('material')
 								])
 								>
 								<option value="">Pilih bahan..</option>
@@ -191,7 +194,8 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="brand">Merk:</label>
-							<select name="brand" id="brand" @class([ 'form-control' , 'is-valid'=> request()->filled('brand')
+							<select name="brand" id="brand" placeholder="Pilih atau ketik merek.." @class([ 'form-control'
+								, 'is-valid'=> request()->filled('brand')
 								])
 								>
 								<option value="">Pilih merk..</option>

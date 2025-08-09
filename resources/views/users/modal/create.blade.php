@@ -47,7 +47,8 @@
 						<div class="col-lg-12">
 							<div class="form-group">
 								<label for="role_id">Pilih Peran<span class="font-weight-bold text-danger">*</span></label>
-								<select class="tom-select @error('role_id', 'store') is-invalid @enderror" name="role_id" id="role_id">
+								<select class="tom-select @error('role_id', 'store') is-invalid @enderror" name="role_id" id="role_id"
+									placeholder="Pilih atau ketik peran..">
 									<option value="" selected>Pilih..</option>
 									@foreach ($roles as $role)
 									<option value="{{ $role->id }}" @selected(old('role_id')==$role->id)>{{ $role->name }}</option>
