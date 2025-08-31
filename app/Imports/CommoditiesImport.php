@@ -16,7 +16,7 @@ class CommoditiesImport implements ToModel, WithHeadingRow, WithUpserts
      */
     public function model(array $row)
     {
-        $commodity_location = CommodityLocation::where('name', $row['lokasi'])->first();
+        $commodity_location = CommodityLocation::where('name', $row['lokasi_barang'])->first();
         $commodity_acquisition = CommodityAcquisition::where('name', $row['asal_perolehan'])->first();
 
         return new Commodity([
