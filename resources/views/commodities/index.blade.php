@@ -40,7 +40,7 @@
 				</div>
 				<div class="card-wrap">
 					<div class="card-header">
-						<h4>Kondisi Rusak Ringan</h4>
+						<h4>Kondisi Kurang Baik</h4>
 					</div>
 					<div class="card-body">
 						{{ $commodity_counts['commodity_in_not_good_condition'] }}
