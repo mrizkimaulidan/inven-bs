@@ -7,30 +7,37 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
-				<form action="{{ route('barang.import') }}" method="POST" enctype="multipart/form-data">
-					@csrf
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="alert alert-info" role="alert">
-								Untuk melakukan impor excel barang. Anda harus unduh template excel dengan klik <a
-									href="{{ asset('import-barang-template.xlsx') }}" class="alert-link"><i class="fas fa-download"></i>
-									di
-									sini</a>
-							</div>
+			<form action="{{ route('barang.import') }}" method="POST" enctype="multipart/form-data">
+				@csrf
+				<div class="modal-body">
+					<div class="alert alert-info" role="alert">
+						<i class="fas fa-info-circle mr-1"></i>
+						Untuk melakukan impor excel barang. Anda harus unduh template excel dengan klik
+						<a href="{{ asset('import-barang-template.xlsx') }}" class="alert-link font-weight-bold">
+							<i class="fas fa-download"></i> di sini
+						</a>
+					</div>
 
-							<div class="custom-file">
-								<label for="file">Pilih berkas<span class="font-weight-bold text-danger">*</span></label>
-								<input type="file" class="form-control" name="file" id="file">
-							</div>
+					<div class="alert alert-warning" role="alert">
+						<i class="fas fa-exclamation-triangle mr-1"></i>
+						<span class="font-weight-bold">Perhatian:</span> Jika ada data yang memiliki kode barang yang sama pada
+						database,
+						maka data tersebut tidak akan diimpor.
+					</div>
+
+					<div class="form-group">
+						<div class="custom-file">
+							<input type="file" name="file" class="custom-file-input" id="file">
+							<label class="custom-file-label" for="file">Pilih berkas</label>
 						</div>
+						<small class="form-text text-muted">Format file yang didukung: .xlsx, .xls</small>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-success">Import</button>
-					</div>
-				</form>
-			</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+					<button type="submit" class="btn btn-primary">Import</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

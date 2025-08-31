@@ -7,29 +7,26 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
-				<form action="{{ route('barang.export') }}" method="POST">
-					@csrf
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="form-group">
-								<label>Pilih ekstensi yang diinginkan<span class="font-weight-bold text-danger">*</span></label>
-								<select class="form-control" name="extension">
-									<option value="">Pilih ekstensi..</option>
-									<option value="xlsx">XLSX (.xlsx)</option>
-									<option value="xls">XLS (.xls)</option>
-									<option value="csv">CSV (.csv)</option>
-									<option value="html">HTML (.html)</option>
-								</select>
-							</div>
-						</div>
+			<form action="{{ route('barang.export') }}" method="POST">
+				@csrf
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="extension-select">Pilih ekstensi yang diinginkan<span
+								class="font-weight-bold text-danger">*</span></label>
+						<select class="form-control" id="extension-select" name="extension" required>
+							<option value="">Pilih ekstensi..</option>
+							<option value="xlsx">XLSX (.xlsx)</option>
+							<option value="xls">XLS (.xls)</option>
+							<option value="csv">CSV (.csv)</option>
+							<option value="html">HTML (.html)</option>
+						</select>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-success">Export</button>
-					</div>
-				</form>
-			</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+					<button type="submit" class="btn btn-success">Export</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
