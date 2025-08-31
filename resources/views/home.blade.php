@@ -30,6 +30,7 @@
 					<div class="card-body">
 						{{ $commodity_counts['commodity_in_good_condition'] }}
 					</div>
+					<a href="{{ route('barang.index', ['condition' => 1]) }}" class="stretched-link"></a>
 				</div>
 			</div>
 		</div>
@@ -45,6 +46,7 @@
 					<div class="card-body">
 						{{ $commodity_counts['commodity_in_not_good_condition'] }}
 					</div>
+					<a href="{{ route('barang.index', ['condition' => 2]) }}" class="stretched-link"></a>
 				</div>
 			</div>
 		</div>
@@ -60,6 +62,7 @@
 					<div class="card-body">
 						{{ $commodity_counts['commodity_in_heavily_damage_condition'] }}
 					</div>
+					<a href="{{ route('barang.index', ['condition' => 3]) }}" class="stretched-link"></a>
 				</div>
 			</div>
 		</div>

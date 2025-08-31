@@ -17,6 +17,7 @@
 						{{ $role->users_count }}
 					</div>
 				</div>
+				<a href="{{ route('pengguna.index', ['role_id' => $role->id]) }}" class="stretched-link"></a>
 			</div>
 		</div>
 		@endforeach
