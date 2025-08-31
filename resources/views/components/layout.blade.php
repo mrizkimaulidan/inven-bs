@@ -18,8 +18,7 @@
 	<link rel="stylesheet" href="{{ url('assets/css/components.css') }}" />
 
 	<link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.1/dist/css/tom-select.min.css" rel="stylesheet" />
-	<link rel="stylesheet"
-		href="https://cdn.jsdelivr.net/npm/tom-select@2.4.1/dist/css/tom-select.bootstrap4.min.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.4.1/dist/css/tom-select.bootstrap4.min.css" />
 </head>
 
 <body>
@@ -152,6 +151,7 @@
 	<script src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
 	<script src="https://cdn.datatables.net/2.0.6/js/dataTables.bootstrap4.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
 
 	<!-- Template JS File -->
 	<script src="{{ url('assets/js/scripts.js') }}"></script>
@@ -168,6 +168,8 @@
 
 	<script>
 		$(document).ready(function () {
+				bsCustomFileInput.init();
+
         $(".delete-button").click(function (e) {
           e.preventDefault();
           Swal.fire({
