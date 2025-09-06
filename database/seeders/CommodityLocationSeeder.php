@@ -9,10 +9,8 @@ class CommodityLocationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         $locations = [
             'Ruang Guru',
@@ -38,22 +36,23 @@ class CommodityLocationSeeder extends Seeder
             'Ruang Kegiatan Ekstrakurikuler',
         ];
 
-        for ($i = 1; $i < count($locations); $i++) {
-            DB::table('commodity_locations')->insert([
-                'name' => $locations[$i],
-                'description' => 'Ruangan '.$i,
+        $data = collect($locations)
+            ->map(fn ($location, $index) => [
+                'name' => $location,
+                'description' => 'Ruangan '.($index + 1),
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]);
-        }
+            ])
+            ->merge(
+                collect(range(1, 5))->map(fn ($i) => [
+                    'name' => 'Kelas '.$i,
+                    'description' => 'Ruangan Kelas '.$i,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ])
+            )
+            ->toArray();
 
-        for ($i = 1; $i < 6; $i++) {
-            DB::table('commodity_locations')->insert([
-                'name' => 'Kelas '.$i,
-                'description' => 'Ruangan Kelas '.$i,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
+        DB::table('commodity_locations')->insert($data);
     }
 }
