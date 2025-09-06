@@ -8,24 +8,32 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-
 			<div class="modal-body">
+				<!-- First Row: Basic Information -->
 				<div class="row">
-					<div class="col-lg-4">
+					<div class="col-md-4">
 						<div class="form-group">
-							<label for="item_code">Kode Barang</label>
+							<label for="item_code">
+								Kode Barang
+							</label>
 							<input type="text" class="form-control" id="item_code" disabled>
 						</div>
 					</div>
-					<div class="col-lg-4">
+
+					<div class="col-md-4">
 						<div class="form-group">
-							<label for="name">Nama Barang</label>
+							<label for="name">
+								Nama Barang
+							</label>
 							<input type="text" class="form-control" id="name" disabled>
 						</div>
 					</div>
-					<div class="col-lg-4">
+
+					<div class="col-md-4">
 						<div class="form-group">
-							<label for="commodity_location_id">Lokasi Barang</label>
+							<label for="commodity_location_id">
+								Lokasi Barang
+							</label>
 							<input type="text" class="form-control" id="commodity_location_id" disabled>
 						</div>
 					</div>
@@ -33,37 +41,52 @@
 
 				<hr>
 
+				<!-- Second Row: Material and Brand -->
 				<div class="row">
-					<div class="col-lg-6">
+					<div class="col-md-6">
 						<div class="form-group">
-							<label for="material">Bahan</label>
+							<label for="material">
+								Bahan
+							</label>
 							<input type="text" class="form-control" id="material" disabled>
 						</div>
 					</div>
-					<div class="col-lg-6">
+
+					<div class="col-md-6">
 						<div class="form-group">
-							<label for="brand">Merk</label>
+							<label for="brand">
+								Merek
+							</label>
 							<input type="text" class="form-control" id="brand" disabled>
 						</div>
 					</div>
 				</div>
 
+				<!-- Third Row: Purchase Details -->
 				<div class="row">
-					<div class="col-lg-4 col-6">
+					<div class="col-md-4">
 						<div class="form-group">
-							<label for="year_of_purchase">Tahun Pembelian</label>
-							<input type="text" class="form-control" id="year_of_purchase" disabled>
+							<label for="year_of_purchase">
+								Tahun Pembelian
+							</label>
+							<input type="number" class="form-control" id="year_of_purchase" disabled>
 						</div>
 					</div>
-					<div class="col-lg-4 col-6">
+
+					<div class="col-md-4">
 						<div class="form-group">
-							<label for="commodity_acquisition_id">Asal Perolehan</label>
+							<label for="commodity_acquisition_id">
+								Asal Perolehan
+							</label>
 							<input type="text" class="form-control" id="commodity_acquisition_id" disabled>
 						</div>
 					</div>
-					<div class="col-lg-4 col-6">
+
+					<div class="col-md-4">
 						<div class="form-group">
-							<label for="condition">Kondisi</label>
+							<label for="condition">
+								Kondisi
+							</label>
 							<input type="text" class="form-control" id="condition" disabled>
 						</div>
 					</div>
@@ -71,30 +94,39 @@
 
 				<hr>
 
+				<!-- Fourth Row: Pricing -->
 				<div class="row">
-					<div class="col-lg-4">
+					<div class="col-md-4">
 						<div class="form-group">
-							<label for="quantity">Kuantitas</label>
-							<input type="text" class="form-control" id="quantity" disabled>
+							<label for="quantity">
+								Kuantitas
+							</label>
+							<input type="number" class="form-control" id="quantity" disabled>
 						</div>
 					</div>
-					<div class="col-lg-4 col-6">
+
+					<div class="col-md-4">
 						<div class="form-group">
-							<label for="price">Harga</label>
+							<label for="price">
+								Harga Total
+							</label>
 							<div class="input-group">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="basic-addon1">Rp.</span>
+									<span class="input-group-text">Rp</span>
 								</div>
 								<input type="text" class="form-control" id="price" disabled>
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-4 col-6">
+
+					<div class="col-md-4">
 						<div class="form-group">
-							<label for="price_per_item">Harga Satuan</label>
+							<label for="price_per_item">
+								Harga Satuan
+							</label>
 							<div class="input-group">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="basic-addon1">Rp.</span>
+									<span class="input-group-text">Rp</span>
 								</div>
 								<input type="text" class="form-control" id="price_per_item" disabled>
 							</div>
@@ -102,18 +134,24 @@
 					</div>
 				</div>
 
+				<!-- Notes -->
 				<div class="row">
 					<div class="col-12">
 						<div class="form-group">
-							<label for="note">Keterangan</label>
-							<textarea class="form-control" id="note" style="height: 100px;" disabled></textarea>
+							<label for="note">
+								Keterangan <small class="text-muted">(opsional)</small>
+							</label>
+							<textarea class="form-control" id="note" rows="3" disabled></textarea>
 						</div>
 					</div>
 				</div>
 			</div>
 
+			<!-- Modal Footer -->
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">
+					<i class="fas fa-times mr-1"></i> Tutup
+				</button>
 			</div>
 		</div>
 	</div>
