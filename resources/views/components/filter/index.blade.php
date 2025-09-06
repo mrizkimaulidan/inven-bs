@@ -7,8 +7,12 @@
 			<form action="" method="GET">
 				{{ $slot }}
 				<div class="d-flex">
-					<button type="submit" class="btn btn-primary mr-1 flex-fill">Cari</button>
-					<a href="{{ $resetFilterURL }}" class="btn btn-warning" role="button">Reset Filter</a>
+					<button type="submit" class="btn btn-primary mr-1 flex-fill">
+						<i class="fas fa-magnifying-glass mr-1"></i> Cari
+					</button>
+					<a href="{{ $resetFilterURL }}" class="btn btn-warning" role="button">
+						<i class="fas fa-filter mr-1"></i> Reset Filter
+					</a>
 				</div>
 			</form>
 		</div>
