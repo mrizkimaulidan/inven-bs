@@ -139,7 +139,7 @@
 					<div class="col-12">
 						<div class="form-group">
 							<label for="note">
-								Keterangan <small class="text-muted">(opsional)</small>
+								Keterangan
 							</label>
 							<textarea class="form-control" id="note" rows="3" disabled></textarea>
 						</div>
