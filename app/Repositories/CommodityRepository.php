@@ -52,4 +52,15 @@ class CommodityRepository
             ->orderBy('brand')
             ->get();
     }
+
+    /**
+     * Count commodities by condition and location, including related location data.
+     */
+    public function countCommodityConditionByLocation()
+    {
+        return $this->model->selectRaw('COUNT(`condition`) AS count, `condition`, commodity_location_id')
+            ->groupBy('condition', 'commodity_location_id')
+            ->with('commodity_location')
+            ->get();
+    }
 }

@@ -148,6 +148,14 @@
 				:categories="$charts['commodity_each_location_count']['categories']">
 			</x-bar-chart>
 		</div>
+
+		<div class="col-lg-12">
+			<x-stacked-bar :series="$charts['commodity_condition_by_location']['series']"
+				:categories="$charts['commodity_condition_by_location']['categories']"
+				chartTitle="Grafik Perbandingan Kondisi Barang di Setiap Ruangan" :colors="['#47C363', '#FFA426', '#FC544B']"
+				chartID="chartCommodityConditionByLocation">
+			</x-stacked-bar>
+		</div>
 	</div>
 
 	@push('modal')

@@ -60,6 +60,26 @@ class HomeController extends Controller
             ]);
         });
 
+        $commodity_condition_by_location = $this->commodityRepository->countCommodityConditionByLocation()
+            ->map(fn ($item) => [
+                'location' => $item->commodity_location->name,
+                'condition_name' => $item->getConditionName(),
+                'count' => $item->count,
+            ]);
+
+        $commodity_locations = $commodity_condition_by_location->pluck('location')->unique()->values();
+
+        $series = $commodity_condition_by_location
+            ->groupBy('condition_name')
+            ->map(function ($items, $conditionName) use ($commodity_locations) {
+                $locationCounts = $items->groupBy('location')->map->sum('count');
+
+                $data = $commodity_locations->map(fn ($location) => $locationCounts->get($location, 0));
+
+                return ['name' => $conditionName, 'data' => $data];
+            })
+            ->values();
+
         $charts = [
             'commodity_condition_count' => [
                 'categories' => $commodity_condition_count->pluck('condition_name'),
@@ -84,6 +104,10 @@ class HomeController extends Controller
             'commodity_by_brand_count' => [
                 'categories' => $commodity_by_brand_count->pluck('name'),
                 'series' => $commodity_by_brand_count->pluck('brand_count'),
+            ],
+            'commodity_condition_by_location' => [
+                'categories' => $commodity_locations,
+                'series' => $series,
             ],
         ];
 
