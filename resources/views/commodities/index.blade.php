@@ -75,14 +75,14 @@
 				<div class="btn-group">
 					@can('import barang')
 					<button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#excel_menu">
-						<i class="fas fa-fw fa-upload"></i>
+						<i class="fas fa-fw fa-file-import"></i>
 						Import Excel
 					</button>
 					@endcan
 
 					@can('export barang')
 					<button type="button" class="btn btn-success mr-2" data-toggle="modal" data-target="#export_menu">
-						<i class="fas fa-fw fa-download"></i>
+						<i class="fas fa-fw fa-file-export"></i>
 						Export
 					</button>
 					@endcan
