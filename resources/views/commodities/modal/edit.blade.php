@@ -26,10 +26,10 @@
 								<label for="item_code">
 									Kode Barang <span class="text-danger">*</span>
 								</label>
-								<input type="text" class="form-control @error('item_code', 'store') is-invalid @enderror"
+								<input type="text" class="form-control @error('item_code', 'update') is-invalid @enderror"
 									name="item_code" id="item_code" value="{{ old('item_code') }}" placeholder="Masukan kode barang"
 									required>
-								@error('item_code', 'store')
+								@error('item_code', 'update')
 								<div class="invalid-feedback d-block">
 									{{ $message }}
 								</div>
@@ -42,9 +42,9 @@
 								<label for="name">
 									Nama Barang <span class="text-danger">*</span>
 								</label>
-								<input type="text" class="form-control @error('name', 'store') is-invalid @enderror" name="name"
+								<input type="text" class="form-control @error('name', 'update') is-invalid @enderror" name="name"
 									id="name" value="{{ old('name') }}" placeholder="Masukan nama barang" required>
-								@error('name', 'store')
+								@error('name', 'update')
 								<div class="invalid-feedback d-block">
 									{{ $message }}
 								</div>
@@ -57,7 +57,7 @@
 								<label for="commodity_location_id">
 									Lokasi Barang <span class="text-danger">*</span>
 								</label>
-								<select class="form-control select2 @error('commodity_location_id', 'store') is-invalid @enderror"
+								<select class="form-control select2 @error('commodity_location_id', 'update') is-invalid @enderror"
 									name="commodity_location_id" id="commodity_location_id" required>
 									<option value="">Pilih Lokasi Barang</option>
 									@foreach ($commodity_locations as $commodity_location)
@@ -67,7 +67,7 @@
 									</option>
 									@endforeach
 								</select>
-								@error('commodity_location_id', 'store')
+								@error('commodity_location_id', 'update')
 								<div class="invalid-feedback d-block">
 									{{ $message }}
 								</div>
@@ -85,9 +85,10 @@
 								<label for="material">
 									Bahan <span class="text-danger">*</span>
 								</label>
-								<input type="text" class="form-control @error('material', 'store') is-invalid @enderror" name="material"
-									id="material" value="{{ old('material') }}" placeholder="Masukan bahan barang" required>
-								@error('material', 'store')
+								<input type="text" class="form-control @error('material', 'update') is-invalid @enderror"
+									name="material" id="material" value="{{ old('material') }}" placeholder="Masukan bahan barang"
+									required>
+								@error('material', 'update')
 								<div class="invalid-feedback d-block">
 									{{ $message }}
 								</div>
@@ -100,9 +101,9 @@
 								<label for="brand">
 									Merek <span class="text-danger">*</span>
 								</label>
-								<input type="text" class="form-control @error('brand', 'store') is-invalid @enderror" name="brand"
+								<input type="text" class="form-control @error('brand', 'update') is-invalid @enderror" name="brand"
 									id="brand" value="{{ old('brand') }}" placeholder="Masukan merek barang" required>
-								@error('brand', 'store')
+								@error('brand', 'update')
 								<div class="invalid-feedback d-block">
 									{{ $message }}
 								</div>
@@ -118,10 +119,10 @@
 								<label for="year_of_purchase">
 									Tahun Pembelian <span class="text-danger">*</span>
 								</label>
-								<input type="number" class="form-control @error('year_of_purchase', 'store') is-invalid @enderror"
+								<input type="number" class="form-control @error('year_of_purchase', 'update') is-invalid @enderror"
 									name="year_of_purchase" id="year_of_purchase" value="{{ old('year_of_purchase') }}" min="2000"
 									max="{{ date('Y') + 1 }}" placeholder="Tahun pembelian" required>
-								@error('year_of_purchase', 'store')
+								@error('year_of_purchase', 'update')
 								<div class="invalid-feedback d-block">
 									{{ $message }}
 								</div>
@@ -134,7 +135,7 @@
 								<label for="commodity_acquisition_id">
 									Asal Perolehan <span class="text-danger">*</span>
 								</label>
-								<select class="form-control select2 @error('commodity_acquisition_id', 'store') is-invalid @enderror"
+								<select class="form-control select2 @error('commodity_acquisition_id', 'update') is-invalid @enderror"
 									name="commodity_acquisition_id" id="commodity_acquisition_id" required>
 									<option value="">Pilih Asal Perolehan</option>
 									@foreach ($commodity_acquisitions as $commodity_acquisition)
@@ -144,7 +145,7 @@
 									</option>
 									@endforeach
 								</select>
-								@error('commodity_acquisition_id', 'store')
+								@error('commodity_acquisition_id', 'update')
 								<div class="invalid-feedback d-block">
 									{{ $message }}
 								</div>
@@ -157,14 +158,14 @@
 								<label for="condition">
 									Kondisi <span class="text-danger">*</span>
 								</label>
-								<select class="form-control @error('condition', 'store') is-invalid @enderror" name="condition"
+								<select class="form-control @error('condition', 'update') is-invalid @enderror" name="condition"
 									id="condition" required>
 									<option value="">Pilih Kondisi</option>
 									<option value="1" {{ old('condition')==1 ? 'selected' : '' }}>Baik</option>
 									<option value="2" {{ old('condition')==2 ? 'selected' : '' }}>Kurang Baik</option>
 									<option value="3" {{ old('condition')==3 ? 'selected' : '' }}>Rusak Berat</option>
 								</select>
-								@error('condition', 'store')
+								@error('condition', 'update')
 								<div class="invalid-feedback d-block">
 									{{ $message }}
 								</div>
@@ -182,10 +183,10 @@
 								<label for="quantity">
 									Kuantitas <span class="text-danger">*</span>
 								</label>
-								<input type="number" class="form-control @error('quantity', 'store') is-invalid @enderror"
+								<input type="number" class="form-control @error('quantity', 'update') is-invalid @enderror"
 									name="quantity" id="quantity" value="{{ old('quantity') }}" min="1" placeholder="Jumlah barang"
 									required>
-								@error('quantity', 'store')
+								@error('quantity', 'update')
 								<div class="invalid-feedback d-block">
 									{{ $message }}
 								</div>
@@ -202,10 +203,10 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text">Rp</span>
 									</div>
-									<input type="number" class="form-control @error('price', 'store') is-invalid @enderror" name="price"
+									<input type="number" class="form-control @error('price', 'update') is-invalid @enderror" name="price"
 										id="price" value="{{ old('price') }}" min="0" placeholder="Harga total" required>
 								</div>
-								@error('price', 'store')
+								@error('price', 'update')
 								<div class="invalid-feedback d-block">
 									{{ $message }}
 								</div>
@@ -222,11 +223,11 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text">Rp</span>
 									</div>
-									<input type="number" class="form-control @error('price_per_item', 'store') is-invalid @enderror"
+									<input type="number" class="form-control @error('price_per_item', 'update') is-invalid @enderror"
 										name="price_per_item" id="price_per_item" value="{{ old('price_per_item') }}" min="0"
 										placeholder="Harga per item" required>
 								</div>
-								@error('price_per_item', 'store')
+								@error('price_per_item', 'update')
 								<div class="invalid-feedback d-block">
 									{{ $message }}
 								</div>
@@ -242,9 +243,9 @@
 								<label for="note">
 									Keterangan <small class="text-muted">(opsional)</small>
 								</label>
-								<textarea class="form-control @error('note', 'store') is-invalid @enderror" name="note" id="note"
+								<textarea class="form-control @error('note', 'update') is-invalid @enderror" name="note" id="note"
 									rows="3" placeholder="Masukan keterangan tambahan">{{ old('note') }}</textarea>
-								@error('note', 'store')
+								@error('note', 'update')
 								<div class="invalid-feedback d-block">
 									{{ $message }}
 								</div>
