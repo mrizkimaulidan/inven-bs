@@ -8,31 +8,60 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
+			<form method="POST">
+				@csrf
+				@method('PUT')
+				<div class="modal-body">
+					<!-- Info Alert -->
+					<div class="alert alert-warning" role="alert">
+						<i class="fa-solid fa-circle-info mr-2"></i>
+						Kolom yang memiliki tanda merah <span class="font-weight-bold">wajib diisi.</span>
+					</div>
 
-			<div class="modal-body">
-				<form method="POST">
-					@csrf
-					@method('PUT')
+					<!-- First Row: Basic Information -->
 					<div class="row">
-						<div class="col-lg-12">
+						<div class="col-md-12">
 							<div class="form-group">
-								<label for="name">Nama Ruangan</label>
-								<input type="text" class="form-control" name="name" id="name">
+								<label for="name">
+									Nama Ruangan <span class="text-danger">*</span>
+								</label>
+								<input type="text" class="form-control @error('name', 'update') is-invalid @enderror" name="name"
+									id="name" value="{{ old('name') }}" placeholder="Masukan nama ruangan" required>
+								@error('name', 'update')
+								<div class="invalid-feedback d-block">
+									{{ $message }}
+								</div>
+								@enderror
 							</div>
 						</div>
-						<div class="col-lg-12">
+
+						<div class="col-md-12">
 							<div class="form-group">
-								<label for="description">Deskripsi Ruangan</label>
-								<textarea class="form-control" name="description" id="description" style="height: 100px"></textarea>
+								<label for="description">
+									Deskripsi Ruangan <small class="text-muted">(opsional)</small>
+								</label>
+								<textarea class="form-control @error('description', 'update') is-invalid @enderror" name="description"
+									id="description" rows="3" placeholder="Masukan deskripsi ruangan">{{ old('description') }}</textarea>
+								@error('description', 'update')
+								<div class="invalid-feedback d-block">
+									{{ $message }}
+								</div>
+								@enderror
 							</div>
 						</div>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-						<button type="submit" class="btn btn-success">Ubah</button>
-					</div>
-				</form>
-			</div>
+				</div>
+
+				<!-- Modal Footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">
+						<i class="fas fa-times mr-1"></i> Tutup
+					</button>
+					<button type="submit" class="btn btn-success">
+						<i class="fas fa-floppy-disk mr-1"></i> Simpan Perubahan
+					</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

@@ -1,59 +1,67 @@
-<!-- Modal -->
 <div class="modal fade" id="commodity_location_create_modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
 	role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="staticBackdropLabel">Tambah Data Ruangan</h5>
+				<h5 class="modal-title" id="modalLabel">Tambah Data Ruangan</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
-				<div class="d-flex align-items-center">
-					<i class="text-warning fa-solid fa-circle-info mr-2"></i>
-					<p class="font-italic mb-0">
+			<form action="{{ route('ruangan.store') }}" method="POST">
+				@csrf
+
+				<div class="modal-body">
+					<!-- Info Alert -->
+					<div class="alert alert-warning" role="alert">
+						<i class="fa-solid fa-circle-info mr-2"></i>
 						Kolom yang memiliki tanda merah <span class="font-weight-bold">wajib diisi.</span>
-					</p>
-				</div>
-				<hr>
-				<form action="{{ route('ruangan.store') }}" method="POST">
-					@csrf
+					</div>
+
+					<!-- First Row: Basic Information -->
 					<div class="row">
-						<div class="col-lg-12">
+						<div class="col-md-12">
 							<div class="form-group">
-								<label for="name">Nama Ruangan<span class="font-weight-bold text-danger">*</span></label>
-								<input type="text" name="name" id="name"
-									class="form-control @error('name', 'store') is-invalid @enderror" value="{{ old('name') }}"
-									placeholder="Masukan nama..">
+								<label for="name">
+									Nama Ruangan <span class="text-danger">*</span>
+								</label>
+								<input type="text" class="form-control @error('name', 'store') is-invalid @enderror" name="name"
+									id="name" value="{{ old('name') }}" placeholder="Masukan nama ruangan" required>
 								@error('name', 'store')
-								<div class="d-block invalid-feedback">
+								<div class="invalid-feedback d-block">
 									{{ $message }}
 								</div>
 								@enderror
 							</div>
 						</div>
 
-						<div class="col-lg-12">
+						<div class="col-md-12">
 							<div class="form-group">
-								<label for="description">Deskripsi Ruangan <span class="font-italic">(opsional)</span></label>
-								<textarea name="description" class="form-control @error('description', 'store') is-invalid @enderror"
-									id="description" placeholder="Masukan deskripsi (opsional).."
-									style="height: 100px;">{{ old('description') }}</textarea>
+								<label for="description">
+									Deskripsi Ruangan <small class="text-muted">(opsional)</small>
+								</label>
+								<textarea class="form-control @error('description', 'store') is-invalid @enderror" name="description"
+									id="description" rows="3" placeholder="Masukan deskripsi ruangan">{{ old('description') }}</textarea>
 								@error('description', 'store')
-								<div class="d-block invalid-feedback">
+								<div class="invalid-feedback d-block">
 									{{ $message }}
 								</div>
 								@enderror
 							</div>
 						</div>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-						<button type="submit" class="btn btn-success">Tambah</button>
-					</div>
-				</form>
-			</div>
+				</div>
+
+				<!-- Modal Footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">
+						<i class="fas fa-times mr-1"></i> Tutup
+					</button>
+					<button type="submit" class="btn btn-success">
+						<i class="fas fa-plus mr-1"></i> Tambah
+					</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

@@ -8,26 +8,34 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-
 			<div class="modal-body">
+				<!-- First Row: Basic Information -->
 				<div class="row">
-					<div class="col-lg-12">
+					<div class="col-md-12">
 						<div class="form-group">
-							<label for="name">Nama Ruangan</label>
+							<label for="name">
+								Nama Ruangan
+							</label>
 							<input type="text" class="form-control" id="name" disabled>
 						</div>
 					</div>
-					<div class="col-lg-12">
+
+					<div class="col-md-12">
 						<div class="form-group">
-							<label for="description">Deskripsi Ruangan</label>
-							<textarea class="form-control" id="description" style="height: 100px" disabled></textarea>
+							<label for="description">
+								Deskripsi Ruangan</small>
+							</label>
+							<textarea class="form-control" id="description" rows="3" disabled></textarea>
 						</div>
 					</div>
 				</div>
 			</div>
 
+			<!-- Modal Footer -->
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">
+					<i class="fas fa-times mr-1"></i> Tutup
+				</button>
 			</div>
 		</div>
 	</div>

@@ -27,8 +27,12 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-					<button type="submit" class="btn btn-primary">Import</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">
+						<i class="fas fa-times mr-1"></i> Tutup
+					</button>
+					<button type="submit" class="btn btn-primary">
+						<i class="fas fa-file-import mr-1"></i> Import
+					</button>
 				</div>
 			</form>
 		</div>
