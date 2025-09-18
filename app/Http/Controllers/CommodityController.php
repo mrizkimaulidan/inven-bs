@@ -125,7 +125,7 @@ class CommodityController extends Controller
     {
         $this->authorize('print barang');
 
-        $commodities = Commodity::all();
+        $commodities = Commodity::select('id', 'commodity_acquisition_id', 'item_code', 'name')->with('commodity_acquisition')->get();
         $sekolah = env('NAMA_SEKOLAH', 'Barang Milik Sekolah');
         $pdf = Pdf::loadView('commodities.pdf', compact(['commodities', 'sekolah']))->setPaper('a4');
 
