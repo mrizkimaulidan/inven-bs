@@ -23,6 +23,7 @@
 								<th scope="col">#</th>
 								<th scope="col">Nama</th>
 								<th scope="col">Daftar Hak Akses</th>
+								<th scope="col">Total Hak Akses</th>
 								<th scope="col">Aksi</th>
 							</tr>
 						</thead>
@@ -36,6 +37,7 @@
 									<span class="badge badge-primary my-1">{{ $permission->name }}</span>
 									@endforeach
 								</td>
+								<td>{{ $role->permissions_count }}</td>
 								<td class="text-center">
 									<div class="btn-group" role="group" aria-label="Basic example">
 										@can('ubah peran dan hak akses')
