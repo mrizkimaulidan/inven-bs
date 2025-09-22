@@ -14,7 +14,9 @@ class ProfileController extends Controller
     {
         $this->authorize('mengatur profile');
 
-        return view('profile');
+        $user = auth()->user();
+
+        return view('profile', compact('user'));
     }
 
     /**

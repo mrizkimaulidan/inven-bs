@@ -25,7 +25,7 @@
 										Nama Lengkap <span class="text-danger">*</span>
 									</label>
 									<input type="text" class="form-control @error('name', 'update') is-invalid @enderror" name="name"
-										id="name" value="{{ auth()->user()->name }}" placeholder="Masukan nama lengkap" required>
+										id="name" value="{{ $user->name }}" placeholder="Masukan nama lengkap" required>
 									@error('name', 'update')
 									<div class="invalid-feedback d-block">
 										{{ $message }}
@@ -40,7 +40,7 @@
 										Alamat Email <span class="text-danger">*</span>
 									</label>
 									<input type="text" class="form-control @error('email', 'update') is-invalid @enderror" name="email"
-										id="email" value="{{ auth()->user()->email }}" placeholder="Masukan alamat email" required>
+										id="email" value="{{ $user->email }}" placeholder="Masukan alamat email" required>
 									<small class="text-muted">Jika alamat email diubah maka akan otomatis keluar dari aplikasi.</small>
 									@error('email', 'update')
 									<div class="invalid-feedback d-block">
