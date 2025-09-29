@@ -28,13 +28,13 @@ Jika Anda menggunakan XAMPP, untuk PHP dan MySQL sudah menjadi 1 (bundle) di dal
 ### Preview Gambar
 
 _Tampilan Login_
-![Image 1](https://i.imgur.com/kD6P7BF.png)
+![Image 1](https://i.imgur.com/CzlxTZd.jpeg)
 
 _Dashboard_
-![Image 2](https://i.imgur.com/vZu92Z0.png)
+![Image 2](https://i.imgur.com/hBlIriY.jpeg)
 
 _Daftar Barang_
-![Image 3](https://i.imgur.com/yMHtaBa.png)
+![Image 3](https://i.imgur.com/ObA0ivV.jpeg)
 
 _Print_
 ![Image 4](https://i.imgur.com/a7yj6Or.png)
@@ -43,19 +43,22 @@ _Print Individual_
 ![Image 5](https://i.imgur.com/Spjtxpv.png)
 
 _Daftar Perolehan_
-![Image 6](https://i.imgur.com/GyVtAJr.png)
+![Image 6](https://i.imgur.com/xRB8sTC.jpeg)
 
 _Daftar Ruangan_
-![Image 7](https://i.imgur.com/Rg74G0Z.png)
+![Image 7](https://i.imgur.com/be84Pgh.jpeg)
 
 _Daftar Pengguna_
-![Image 8](https://i.imgur.com/kltT24j.png)
+![Image 8](https://i.imgur.com/aXxh5pJ.jpeg)
 
 _Pengaturan Profil_
-![Image 9](https://i.imgur.com/ou8vz6X.png)
+![Image 9](https://i.imgur.com/4b9jAck.jpeg)
 
 _Daftar Peran dan Hak Akses_
-![Image 10](https://i.imgur.com/qzsaoKg.png)
+![Image 10](https://i.imgur.com/lnJdXbl.jpeg)
+
+_Verifikasi Barang_
+![Image 11](https://i.imgur.com/EQWaOtl.jpeg)
 
 ### Langkah-langkah instalasi
 
