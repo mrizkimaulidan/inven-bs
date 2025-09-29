@@ -75,43 +75,43 @@
 					</div>
 					<ul class="sidebar-menu">
 						<li class="menu-header">Dashboard</li>
-						<li class="nav-item dropdown{{ request()->routeIs('home') ? ' active' : '' }}">
-							<a href="{{ route('home') }}" class="nav-link"><i class="fas fa-fire"></i><span>Dashboard</span></a>
-						</li>
+
+						<x-sidebar.sidebar-link name="Dashboard" icon="fas fa-fire" link="{{ route('home') }}"
+							:active="request()->routeIs('home')" />
 						<li class="menu-header">Manajemen</li>
+
 						@can('lihat barang')
-						<li class="nav-item dropdown{{ request()->routeIs('barang.index') ? ' active' : '' }}">
-							<a href="{{ route('barang.index') }}" class="nav-link"><i class="fas fa-boxes-stacked"></i> <span>Data
-									Barang</span></a>
-						</li>
-						@endcan @can('lihat perolehan')
-						<li class="nav-item dropdown{{ request()->routeIs('perolehan.index') ? ' active' : '' }}">
-							<a class="nav-link" href="{{ route('perolehan.index') }}"><i class="far fa-face-laugh"></i>
-								<span>Data Perolehan</span></a>
-						</li>
-						@endcan @can('lihat ruangan')
-						<li class="nav-item dropdown{{ request()->routeIs('ruangan.index') ? ' active' : '' }}">
-							<a href="{{ route('ruangan.index') }}" class="nav-link"><i class="fas fa-map-location-dot"></i> <span>Data
-									Ruangan</span></a>
-						</li>
-						@endcan @can('lihat pengguna')
-						<li class="nav-item dropdown{{ request()->routeIs('pengguna.index') ? ' active' : '' }}">
-							<a href="{{ route('pengguna.index') }}" class="nav-link"><i class="fas fa-users"></i> <span>Data
-									Pengguna</span></a>
-						</li>
+						<x-sidebar.sidebar-link name="Data Barang" icon="fas fa-boxes-stacked" link="{{ route('barang.index') }}"
+							:active="request()->routeIs('barang.index')" />
 						@endcan
+
+						@can('lihat perolehan')
+						<x-sidebar.sidebar-link name="Data Perolehan" icon="far fa-face-laugh" link="{{ route('perolehan.index') }}"
+							:active="request()->routeIs('perolehan.index')" />
+						@endcan
+
+						@can('lihat ruangan')
+						<x-sidebar.sidebar-link name="Data Ruangan" icon="fas fa-map-location-dot"
+							link="{{ route('ruangan.index') }}" :active="request()->routeIs('ruangan.index')" />
+						@endcan
+
+						@can('lihat pengguna')
+						<x-sidebar.sidebar-link name="Data Pengguna" icon="fas fa-users" link="{{ route('pengguna.index') }}"
+							:active="request()->routeIs('pengguna.index')" />
+						@endcan
+
 						<li class="menu-header">Pengaturan</li>
 						@can('mengatur profile')
-						<li class="nav-item dropdown{{ request()->routeIs('profile.index') ? ' active' : '' }}">
-							<a href="{{ route('profile.index') }}" class="nav-link"><i class="fas fa-cog"></i> <span>Pengaturan
-									Profil</span></a>
-						</li>
-						@endcan @can('lihat peran dan hak akses')
-						<li class="nav-item dropdown{{ request()->routeIs('peran-dan-hak-akses.index') ? ' active' : '' }}">
-							<a href="{{ route('peran-dan-hak-akses.index') }}" class="nav-link"><i class="fas fa-user-shield"></i>
-								<span>Peran & Hak Akses</span></a>
-						</li>
+						<x-sidebar.sidebar-link name="Pengaturan Profil" icon="fas fa-cog" link="{{ route('profile.index') }}"
+							:active="request()->routeIs('profile.index')" />
 						@endcan
+
+						@can('lihat peran dan hak akses')
+						<x-sidebar.sidebar-link name="Peran & Hak Akses" icon="fas fa-user-shield"
+							link="{{ route('peran-dan-hak-akses.index') }}"
+							:active="request()->routeIs('peran-dan-hak-akses.index')" />
+						@endcan
+
 					</ul>
 
 					<div class="mt-4 mb-4 p-3 hide-sidebar-mini">
