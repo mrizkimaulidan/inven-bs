@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Commodity;
+use App\CommodityAcquisition;
+use App\CommodityLocation;
+use App\Observers\DepartmentObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +22,12 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+    ];
+
+    protected $observers = [
+        Commodity::class            => [DepartmentObserver::class],
+        CommodityLocation::class    => [DepartmentObserver::class],
+        CommodityAcquisition::class => [DepartmentObserver::class],
     ];
 
     /**
