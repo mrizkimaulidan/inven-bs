@@ -44,6 +44,7 @@ class UserController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => bcrypt($validated['password']),
+            'department_id' => $validated['department_id'],
         ]);
         $user->assignRole($role);
 

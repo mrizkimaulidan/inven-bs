@@ -43,7 +43,7 @@
 								<label for="department_id">Prodi</label>
 								<select class="form-control" name="department_id" id="department_id" placeholder="Pilih prodi">
 									@foreach ($departments as $department)
-									<option value="{{ $department->id }}">{{ $department->name }}</option>
+									<option value="{{ $department->id }}" selected="{{ old('department_id') == $department->id }}">{{ $department->name }}</option>
 									@endforeach
 								</select>
 							</div>

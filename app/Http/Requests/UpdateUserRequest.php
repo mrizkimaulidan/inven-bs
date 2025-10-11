@@ -25,6 +25,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'role_id' => 'required|exists:roles,id',
+            'department_id' => 'required|exists:departments,id',
             'name' => 'required|string|min:3|max:255',
             'email' => 'required|string|email|unique:users,email,'.$this->user->id.'|min:3|max:255',
             'password' => 'nullable|string|min:3|max:255',
@@ -42,6 +43,9 @@ class UpdateUserRequest extends FormRequest
         return [
             'role_id.required' => 'Kolom peran wajib diisi!',
             'role_id.exists' => 'Kolom peran yang dipilih tidak valid!',
+
+            'department_id.required' => 'Kolom prodi wajib diisi!',
+            'department_id.exists' => 'Kolom prodi yang dipilih tidak valid!',
 
             'name.required' => 'Kolom nama lengkap wajib diisi!',
             'name.string' => 'Kolom nama lengkap harus berupa karakter!',
