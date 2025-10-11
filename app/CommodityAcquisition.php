@@ -18,4 +18,9 @@ class CommodityAcquisition extends Model
     {
         return $this->hasMany(Commodity::class);
     }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
 }

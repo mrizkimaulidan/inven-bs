@@ -61,4 +61,9 @@ class Commodity extends Model
             default => null
         };
     }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
 }
