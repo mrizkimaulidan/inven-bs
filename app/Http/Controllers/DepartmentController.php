@@ -8,11 +8,6 @@ use App\Http\Requests\UpdateDepartmentRequest;
 
 class DepartmentController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(Department::class, 'commodity_acquisition');
-    }
-
     /**
      * Display a listing of the resource.
      */
@@ -20,7 +15,7 @@ class DepartmentController extends Controller
     {
         $departments = Department::orderBy('name', 'ASC')->get();
 
-        return view('commodity-acquisitions.index', compact('departments'));
+        return view('departments.index', compact('departments'));
     }
 
     /**
@@ -30,7 +25,7 @@ class DepartmentController extends Controller
     {
         Department::create($request->validated());
 
-        return to_route('perolehan.index')->with('success', 'Data berhasil ditambahkan!');
+        return to_route('prodi.index')->with('success', 'Data berhasil ditambahkan!');
     }
 
     /**
@@ -40,7 +35,7 @@ class DepartmentController extends Controller
     {
         $department->update($request->validated());
 
-        return to_route('perolehan.index')->with('success', 'Data berhasil diubah!');
+        return to_route('prodi.index')->with('success', 'Data berhasil diubah!');
     }
 
     /**
@@ -50,6 +45,6 @@ class DepartmentController extends Controller
     {
         $department->delete();
 
-        return to_route('perolehan.index')->with('success', 'Data berhasil dihapus!');
+        return to_route('prodi.index')->with('success', 'Data berhasil dihapus!');
     }
 }

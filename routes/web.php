@@ -3,6 +3,7 @@
 use App\Http\Controllers\CommodityAcquisitionController;
 use App\Http\Controllers\CommodityController;
 use App\Http\Controllers\CommodityLocationController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
@@ -47,6 +48,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('perolehan', CommodityAcquisitionController::class)
     ->except('create', 'edit', 'show')
         ->parameter('perolehan', 'commodity_acquisition');
+
+    Route::resource('prodi', DepartmentController::class)
+    ->except('create', 'edit', 'show')
+        ->parameter('prodi', 'department');
 
     Route::resource('ruangan', CommodityLocationController::class)->except('create', 'edit', 'show')
     ->parameter('ruangan', 'commodity_location');

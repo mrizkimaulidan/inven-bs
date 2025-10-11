@@ -31,9 +31,19 @@
 						<div class="col-lg-12">
 							<div class="form-group">
 								<label for="role_id">Pilih Peran</label>
-								<select class="tom-select" name="role_id" id="role_id" placeholder="Pilih peran..">
+								<select class="form-control" name="role_id" id="role_id" placeholder="Pilih peran..">
 									@foreach ($roles as $role)
 									<option value="{{ $role->id }}">{{ $role->name }}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="form-group">
+								<label for="department_id">Prodi</label>
+								<select class="form-control" name="department_id" id="department_id" placeholder="Pilih prodi">
+									@foreach ($departments as $department)
+									<option value="{{ $department->id }}">{{ $department->name }}</option>
 									@endforeach
 								</select>
 							</div>

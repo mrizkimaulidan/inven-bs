@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\CommodityAcquisitionController;
 use App\Http\Controllers\API\CommodityController;
 use App\Http\Controllers\API\CommodityLocationController;
+use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user', action: function (Request $request) {
     return $request->user();
 });
 
@@ -31,6 +32,10 @@ Route::name('api.')->group(function () {
         '/perolehan/{commodity_acquisition}',
         [CommodityAcquisitionController::class, 'show']
     )->name('perolehan.show');
+    Route::get(
+        '/prodi/{department}',
+        [DepartmentController::class, 'show']
+    )->name('prodi.show');
     Route::get('/pengguna/{user}', [UserController::class, 'show'])->name('pengguna.show');
     Route::get('/peran-dan-hak-akses/{role}', [RoleController::class, 'show'])->name('peran-dan-hak-akses.show');
 });

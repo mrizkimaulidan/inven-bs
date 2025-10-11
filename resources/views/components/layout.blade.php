@@ -100,6 +100,10 @@
 							<a href="{{ route('pengguna.index') }}" class="nav-link"><i class="fas fa-users"></i> <span>Data
 									Pengguna</span></a>
 						</li>
+						<li class="nav-item dropdown{{ request()->routeIs('prodi.index') ? ' active' : '' }}">
+							<a class="nav-link" href="{{ route('prodi.index') }}"><i class="fas fa-file"></i>
+								<span>Data Prodi</span></a>
+						</li>
 						@endcan
 						<li class="menu-header">Pengaturan</li>
 						@can('mengatur profile')

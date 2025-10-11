@@ -27,8 +27,9 @@ class UserController extends Controller
 
         $users = $query->get()->except(auth()->id());
         $roles = Role::withCount('users')->get();
+        $departments = \App\Department::all();
 
-        return view('users.index', compact('users', 'roles'));
+        return view('users.index', compact('users', 'roles', 'departments'));
     }
 
     /**
