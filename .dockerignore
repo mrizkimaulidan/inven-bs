@@ -1,0 +1,21 @@
+# Dependencies
+/vendor
+/node_modules
+
+# Laravel cache & logs
+bootstrap/cache/*
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE & System files
+.idea
+.vscode
+*.swp
+.DS_Store
