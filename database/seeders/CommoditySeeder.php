@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Brand;
 use App\Models\Commodity;
 use App\Models\CommodityFundingSource;
 use App\Models\CommodityLocation;
+use App\Models\Material;
 use Illuminate\Database\Seeder;
 
 class CommoditySeeder extends Seeder
@@ -16,6 +18,8 @@ class CommoditySeeder extends Seeder
     {
         $locationIds = CommodityLocation::pluck('id');
         $fundingIds = CommodityFundingSource::pluck('id');
+        $brandIds = Brand::pluck('id');
+        $materialIds = Material::pluck('id');
 
         $commodities = collect([
             'Meja', 'Kursi', 'Kursi Roda Dua', 'Lemari Kamera', 'Lemari Buku',
@@ -25,8 +29,6 @@ class CommoditySeeder extends Seeder
             'Kipas Dinding', 'Kipas Angin Portabel', 'Kipas Angin',
         ]);
 
-        $brands = collect(['IKEA', 'Livien', 'iFurnholic', 'Red Sun', 'JYSXK', 'Olympic', 'Informa', "Dove's", 'Funika', 'Atria', 'Vivere']);
-        $materials = collect(['Kayu Solid', 'Kayu Lapis', 'Blockboard', 'MDF', 'Melaminto', 'Partikel', 'Rotan']);
         $conditions = collect([1, 2, 3]);
 
         $transformedData = $commodities->map(fn (string $commodity) => [
@@ -37,8 +39,8 @@ class CommoditySeeder extends Seeder
 
             'item_code' => 'BRG-'.rand(100000, 999999),
             'name' => $commodity,
-            'brand' => $brands->random(),
-            'material' => $materials->random(),
+            'brand' => $brandIds->random(),
+            'material' => $materialIds->random(),
             'purchase_year' => rand(2010, date('Y')),
             'condition' => $conditions->random(),
 

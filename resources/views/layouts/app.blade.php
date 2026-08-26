@@ -148,8 +148,7 @@
                     <ul class="sidebar-menu">
                         <li class="menu-header">Dashboard</li>
                         <li class="active">
-                            <a class="nav-link" href="blank.html"
-                                ><i class="fas fa-house"></i> <span>Beranda</span></a>
+                            <a class="nav-link" href="blank.html"><i class="fas fa-house"></i> <span>Beranda</span></a>
                         </li>
                         <li class="menu-header">Manajemen</li>
                         <li>
