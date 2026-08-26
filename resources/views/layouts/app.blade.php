@@ -147,41 +147,41 @@
                     </div>
                     <ul class="sidebar-menu">
                         <li class="menu-header">Dashboard</li>
-                        <li>
+                        <li class="active">
                             <a class="nav-link" href="blank.html"
-                                ><i class="fa-solid fa-house"></i> <span>Beranda</span></a>
+                                ><i class="fas fa-house"></i> <span>Beranda</span></a>
                         </li>
                         <li class="menu-header">Manajemen</li>
                         <li>
                             <a class="nav-link" href="blank.html"
-                                ><i class="fa-solid fa-boxes-stacked"></i> <span>Data Barang</span></a>
+                                ><i class="fas fa-boxes-stacked"></i> <span>Data Barang</span></a>
                         </li>
                         <li>
                             <a class="nav-link" href="blank.html"
-                                ><i class="fa-solid fa-face-smile"></i> <span>Data Perolehan</span></a>
+                                ><i class="fas fa-face-smile"></i> <span>Data Perolehan</span></a>
                         </li>
                         <li>
                             <a class="nav-link" href="blank.html"
-                                ><i class="fa-solid fa-map-location-dot"></i> <span>Data Ruangan</span></a>
+                                ><i class="fas fa-map-location-dot"></i> <span>Data Ruangan</span></a>
                         </li>
                         <li>
                             <a class="nav-link" href="blank.html"
-                                ><i class="fa-solid fa-users"></i> <span>Data Pengguna</span></a>
+                                ><i class="fas fa-users"></i> <span>Data Pengguna</span></a>
                         </li>
                         <li class="menu-header">Pengaturan</li>
                         <li>
                             <a class="nav-link" href="blank.html"
-                                ><i class="fa-solid fa-gear"></i> <span>Pengaturan Profil</span></a>
+                                ><i class="fas fa-gear"></i> <span>Pengaturan Profil</span></a>
                         </li>
                         <li>
                             <a class="nav-link" href="blank.html"
-                                ><i class="fa-solid fa-user-shield"></i> <span>Peran & Hak Akses</span></a>
+                                ><i class="fas fa-user-shield"></i> <span>Peran & Hak Akses</span></a>
                         </li>
                     </ul>
 
                     <div class="hide-sidebar-mini mt-4 mb-4 p-3">
                         <a href="https://getstisla.com/docs" class="btn btn-danger btn-lg btn-block btn-icon-split">
-                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            <i class="fas fa-right-from-bracket"></i> Logout
                         </a>
                     </div>
                 </aside>
