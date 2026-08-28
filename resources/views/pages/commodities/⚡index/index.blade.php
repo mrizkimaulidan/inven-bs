@@ -63,6 +63,16 @@
                         <table class="table-bordered table-hover table">
                             <thead>
                                 <tr>
+                                    <th scope="col" width="5%">
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input text-center"
+                                                type="checkbox"
+                                                value=""
+                                                id="defaultCheck1"
+                                            />
+                                        </div>
+                                    </th>
                                     <th scope="col" width="5%">#</th>
                                     <th scope="col">Nama Barang</th>
                                     <th scope="col">Bahan</th>
@@ -74,6 +84,17 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input text-center"
+                                                type="checkbox"
+                                                value=""
+                                                id="defaultCheck1"
+                                            />
+                                        </div>
+                                    </td>
+
                                     <td class="font-weight-bold text-center">1</td>
 
                                     <!-- Item Details -->
@@ -128,7 +149,7 @@
                                         <div class="d-flex justify-content-center flex-wrap" style="gap: 4px">
                                             <a
                                                 href="#"
-                                                class="btn btn-dark btn-sm"
+                                                class="btn btn-icon btn-dark btn-sm"
                                                 data-toggle="tooltip"
                                                 data-placement="top"
                                                 title="QR Code"
@@ -137,7 +158,7 @@
                                             </a>
                                             <a
                                                 href="#"
-                                                class="btn btn-info btn-sm"
+                                                class="btn btn-icon btn-info btn-sm"
                                                 data-toggle="tooltip"
                                                 data-placement="top"
                                                 title="Detail"
@@ -146,7 +167,7 @@
                                             </a>
                                             <a
                                                 href="#"
-                                                class="btn btn-success btn-sm"
+                                                class="btn btn-icon btn-success btn-sm"
                                                 data-toggle="tooltip"
                                                 data-placement="top"
                                                 title="Ubah"
@@ -155,7 +176,7 @@
                                             </a>
                                             <a
                                                 href="#"
-                                                class="btn btn-secondary btn-sm"
+                                                class="btn btn-icon btn-secondary btn-sm"
                                                 data-toggle="tooltip"
                                                 data-placement="top"
                                                 title="Print"
@@ -164,7 +185,7 @@
                                             </a>
                                             <a
                                                 href="#"
-                                                class="btn btn-danger btn-sm"
+                                                class="btn btn-icon btn-danger btn-sm"
                                                 data-toggle="tooltip"
                                                 data-placement="top"
                                                 title="Hapus"
