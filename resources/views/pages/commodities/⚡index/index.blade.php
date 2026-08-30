@@ -114,7 +114,7 @@
                                                 </div>
                                                 <div class="text-small">
                                                     <span class="badge badge-primary"><i class="fas fa-code"></i> BRG-001</span>
-                                                    <span class="badge badge-info"><i class="fas fa-smile"></i> BOSDA</span>
+                                                    <span class="badge badge-info"><i class="fas fa-hand-holding"></i> BOSDA</span>
                                                 </div>
                                             </div>
                                         </div>

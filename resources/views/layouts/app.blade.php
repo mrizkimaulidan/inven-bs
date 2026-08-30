@@ -150,6 +150,7 @@
                         <li class="active">
                             <a class="nav-link" href="blank.html"><i class="fas fa-house"></i> <span>Beranda</span></a>
                         </li>
+
                         <li class="menu-header">Manajemen</li>
                         <li>
                             <a class="nav-link" href="blank.html"
@@ -157,16 +158,24 @@
                         </li>
                         <li>
                             <a class="nav-link" href="blank.html"
-                                ><i class="fas fa-face-smile"></i> <span>Data Perolehan</span></a>
+                                ><i class="fas fa-hand-holding"></i> <span>Data Perolehan</span></a>
                         </li>
                         <li>
                             <a class="nav-link" href="blank.html"
                                 ><i class="fas fa-map-location-dot"></i> <span>Data Ruangan</span></a>
                         </li>
                         <li>
+                            <a class="nav-link" href="blank.html"><i class="fas fa-tag"></i> <span>Data Merek</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="blank.html"
+                                ><i class="fas fa-cube"></i> <span>Data Bahan</span></a>
+                        </li>
+                        <li>
                             <a class="nav-link" href="blank.html"
                                 ><i class="fas fa-users"></i> <span>Data Pengguna</span></a>
                         </li>
+
                         <li class="menu-header">Pengaturan</li>
                         <li>
                             <a class="nav-link" href="blank.html"
