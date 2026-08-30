@@ -17,12 +17,13 @@ return new class extends Migration
             $table->foreignId('created_by')->constrained('users', 'id');
             $table->foreignId('updated_by')->nullable()->constrained('users', 'id');
 
+            $table->foreignId('brand_id')->constrained();
+            $table->foreignId('material_id')->constrained();
+
             $table->string('item_code')->unique();
             $table->string('qr_code')->unique()->nullable();
 
             $table->string('name');
-            $table->string('brand');
-            $table->string('material');
             $table->year('purchase_year');
             $table->tinyInteger('condition');
 

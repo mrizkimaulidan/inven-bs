@@ -37,10 +37,11 @@ class CommoditySeeder extends Seeder
             'created_by' => 1,
             'updated_by' => 1,
 
+            'brand_id' => $brandIds->random(),
+            'material_id' => $materialIds->random(),
+
             'item_code' => 'BRG-'.rand(100000, 999999),
             'name' => $commodity,
-            'brand' => $brandIds->random(),
-            'material' => $materialIds->random(),
             'purchase_year' => rand(2010, date('Y')),
             'condition' => $conditions->random(),
 
