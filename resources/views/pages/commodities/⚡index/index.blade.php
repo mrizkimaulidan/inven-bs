@@ -1,4 +1,38 @@
 <div>
+    @if ($activeModal === 'export')
+        @teleport('body')
+            <!-- Modal dengan Bootstrap native backdrop -->
+            <div
+                class="modal fade show d-block"
+                id="exportModal"
+                tabindex="-1"
+                role="dialog"
+                style="display: block; background: rgba(0, 0, 0, 0.5)"
+                data-backdrop="static"
+            >
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Export Data</h5>
+                            <button wire:click="closeModal" type="button" class="close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Modal body text goes here.</p>
+                        </div>
+                        <div class="modal-footer bg-whitesmoke br">
+                            <button wire:click="closeModal" type="button" class="btn btn-secondary">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bootstrap backdrop akan otomatis dibuat -->
+        @endteleport
+    @endif
+
     <!-- Statistics Cards -->
     <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -44,7 +78,7 @@
                         <button class="btn btn-icon icon-left btn-success mr-2 mb-2">
                             <i class="fas fa-file-import"></i> Import
                         </button>
-                        <button class="btn btn-icon icon-left btn-info mr-2 mb-2">
+                        <button wire:click="showModal('export')" class="btn btn-icon icon-left btn-info mr-2 mb-2">
                             <i class="fas fa-file-export"></i> Export
                         </button>
                         <button class="btn btn-icon icon-left btn-primary mr-2 mb-2">
