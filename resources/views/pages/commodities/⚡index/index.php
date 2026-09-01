@@ -6,11 +6,15 @@ use App\WithModal;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 new #[Title('Halaman Daftar Barang')] class extends Component
 {
     use WithModal;
+
+    #[Url(as: 'per_page')]
+    public int $perPage = 5;
 
     /**
      * Get the paginated list of commodities.
@@ -18,7 +22,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     #[Computed]
     public function commodities(): LengthAwarePaginator
     {
-        return Commodity::paginate(5);
+        return Commodity::paginate($this->perPage);
     }
 
     /**

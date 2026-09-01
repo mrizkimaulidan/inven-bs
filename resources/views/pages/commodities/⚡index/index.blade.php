@@ -30,23 +30,8 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <!-- Action Buttons & Show Entries -->
-                <div class="d-flex justify-content-between align-items-center flex-wrap px-2 py-2">
-                    <!-- Dropdown Show Entries (Kiri) -->
-                    <div class="d-flex align-items-center mb-2">
-                        <label class="mr-2 mb-0 text-nowrap">Tampilkan</label>
-                        <select class="form-control form-control-sm" style="width: 80px">
-                            <option value="5" selected>5</option>
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
-                        <span class="ml-2 text-nowrap">data</span>
-                    </div>
-
-                    <!-- Action Buttons (Kanan) -->
-                    <div class="d-flex flex-wrap">
+                <div class="card-body">
+                    <div class="d-flex justify-content-end flex-wrap pb-3">
                         <x-button icon="fa-file-import" label="Import" class="btn-success mr-2 mb-2" />
 
                         <x-button
@@ -69,201 +54,191 @@
                             <i class="fas fa-sync-alt"></i>
                         </button>
                     </div>
-                </div>
 
-                <!-- Search Bar & Reset Filter -->
-                <div class="card-header d-flex justify-content-end align-items-center">
-                    <form>
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Cari berdasarkan..." />
-                        </div>
-                    </form>
-                    <button class="btn btn-outline-secondary ml-2" type="button" title="Reset Filter">
-                        <i class="fas fa-undo"></i> Reset
-                    </button>
-                </div>
+                    <div class="float-left">
+                        <select wire:model.live="perPage" class="form-control selectric">
+                            <option value="5" selected>5</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                    <div class="float-right">
+                        <form>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search" />
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
 
-                <!-- Table -->
-                <div class="card-body">
+                    <div class="clearfix mb-3"></div>
+
                     <div class="table-responsive">
-                        <table class="table-bordered table-hover table">
-                            <thead>
+                        <table class="table-striped table">
+                            <tr>
+                                <th class="pt-2 text-center">
+                                    <div class="custom-checkbox custom-checkbox-table custom-control">
+                                        <input
+                                            type="checkbox"
+                                            data-checkboxes="mygroup"
+                                            data-checkbox-role="dad"
+                                            class="custom-control-input"
+                                            id="checkbox-all"
+                                        />
+                                        <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
+                                    </div>
+                                </th>
+                                <th>Nama Barang</th>
+                                <th>Bahan & Merk</th>
+                                <th>Gambar</th>
+                                <th>Tahun Pembelian</th>
+                                <th>Kondisi</th>
+                            </tr>
+                            @foreach ($this->commodities as $commodity)
                                 <tr>
-                                    <th scope="col" width="5%">
-                                        <div class="form-check">
+                                    <td>
+                                        <div class="custom-checkbox custom-control">
                                             <input
-                                                class="form-check-input text-center"
                                                 type="checkbox"
-                                                value=""
-                                                id="defaultCheck1"
+                                                data-checkboxes="mygroup"
+                                                class="custom-control-input"
+                                                id="checkbox-2"
+                                            />
+                                            <label for="checkbox-2" class="custom-control-label">&nbsp;</label>
+                                        </div>
+                                    </td>
+                                    <td class="pb-2">
+                                        <span class="font-weight-bold">{{ $commodity->name }}</span>
+
+                                        <div class="d-flex align-items-center">
+                                            <x-badge
+                                                :label="$commodity->item_code"
+                                                icon="fa-code"
+                                                class="badge-primary"
+                                            />
+                                            <x-badge
+                                                :label="$commodity->commodityFundingSource->name"
+                                                icon="fa-hand-holding"
+                                                class="badge-info ml-2"
                                             />
                                         </div>
-                                    </th>
-                                    <th scope="col" width="5%">#</th>
-                                    <th scope="col">Nama Barang</th>
-                                    <th scope="col">Bahan</th>
-                                    <th scope="col">Merk</th>
-                                    <th scope="col">Tahun Pembelian</th>
-                                    <th scope="col">Kondisi</th>
-                                    <th scope="col">Aksi</th>
+
+                                        <div class="table-links">
+                                            <a
+                                                href="#"
+                                                class="btn btn-icon btn-dark btn-sm"
+                                                data-toggle="tooltip"
+                                                data-placement="top"
+                                                title="QR Code"
+                                            >
+                                                <i class="fas fa-qrcode"></i>
+                                            </a>
+                                            <a
+                                                href="#"
+                                                class="btn btn-icon btn-info btn-sm"
+                                                data-toggle="tooltip"
+                                                data-placement="top"
+                                                title="Detail"
+                                            >
+                                                <i class="fas fa-magnifying-glass"></i>
+                                            </a>
+                                            <a
+                                                href="#"
+                                                class="btn btn-icon btn-success btn-sm"
+                                                data-toggle="tooltip"
+                                                data-placement="top"
+                                                title="Ubah"
+                                            >
+                                                <i class="fas fa-pen-to-square"></i>
+                                            </a>
+                                            <a
+                                                href="#"
+                                                class="btn btn-icon btn-secondary btn-sm"
+                                                data-toggle="tooltip"
+                                                data-placement="top"
+                                                title="Print"
+                                            >
+                                                <i class="fas fa-print"></i>
+                                            </a>
+                                            <a
+                                                href="#"
+                                                class="btn btn-icon btn-danger btn-sm"
+                                                data-toggle="tooltip"
+                                                data-placement="top"
+                                                title="Hapus"
+                                            >
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="#">{{ $commodity->material->name }}</a>,
+                                        <a href="#">{{ $commodity->brand->name }}</a>
+                                    </td>
+                                    <td>
+                                        <a href="#">
+                                            <img
+                                                alt="image"
+                                                src="https://picsum.photos/50"
+                                                class="rounded"
+                                                width="50"
+                                                data-toggle="title"
+                                                title=""
+                                            />
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <x-badge
+                                            :label="$commodity->purchase_year"
+                                            icon="fa-calendar-alt"
+                                            class="badge-dark"
+                                        />
+                                    </td>
+                                    <td>
+                                        @php
+                                            $conditionStyle = $this->conditionStyle($commodity->condition)
+                                        @endphp
+                                        <x-badge
+                                            :label="$commodity->condition->label()"
+                                            :icon="$conditionStyle['icon']"
+                                            :class="$conditionStyle['badge']"
+                                        />
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($this->commodities as $commodity)
-                                    <tr>
-                                        <td>
-                                            <div class="form-check">
-                                                <input
-                                                    class="form-check-input text-center"
-                                                    type="checkbox"
-                                                    value=""
-                                                    id="defaultCheck1"
-                                                />
-                                            </div>
-                                        </td>
-
-                                        <td class="font-weight-bold text-center">1</td>
-
-                                        <td>
-                                            <div class="media align-items-center py-1">
-                                                <a href="#">
-                                                    <img
-                                                        alt="image"
-                                                        class="mr-3 rounded"
-                                                        width="50"
-                                                        src="https://picsum.photos/50"
-                                                    />
-                                                </a>
-                                                <div class="media-body">
-                                                    <div class="media-title font-weight-bold">
-                                                        <a href="#">{{ $commodity->name }}</a>
-                                                    </div>
-                                                    <div class="text-small">
-                                                        <x-badge
-                                                            :label="$commodity->item_code"
-                                                            icon="fa-code"
-                                                            class="badge-primary"
-                                                        />
-
-                                                        <x-badge
-                                                            :label="$commodity->commodityFundingSource->name"
-                                                            icon="fa-hand-holding"
-                                                            class="badge-info"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <x-badge :label="$commodity->material->name" class="badge-secondary" />
-                                        </td>
-
-                                        <td>
-                                            <div class="d-flex align-items-center">{{ $commodity->brand->name }}</div>
-                                        </td>
-
-                                        <td>
-                                            <x-badge
-                                                :label="$commodity->purchase_year"
-                                                icon="fa-calendar-alt"
-                                                class="badge-dark"
-                                            />
-                                        </td>
-
-                                        <td>
-                                            @php
-                                                $conditionStyle = $this->conditionStyle($commodity->condition)
-                                            @endphp
-                                            <x-badge
-                                                :label="$commodity->condition->label()"
-                                                :icon="$conditionStyle['icon']"
-                                                :class="$conditionStyle['badge']"
-                                            />
-                                        </td>
-
-                                        <td class="text-center">
-                                            <div class="d-flex justify-content-center flex-wrap" style="gap: 4px">
-                                                <a
-                                                    href="#"
-                                                    class="btn btn-icon btn-dark btn-sm"
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title="QR Code"
-                                                >
-                                                    <i class="fas fa-qrcode"></i>
-                                                </a>
-                                                <a
-                                                    href="#"
-                                                    class="btn btn-icon btn-info btn-sm"
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title="Detail"
-                                                >
-                                                    <i class="fas fa-magnifying-glass"></i>
-                                                </a>
-                                                <a
-                                                    href="#"
-                                                    class="btn btn-icon btn-success btn-sm"
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title="Ubah"
-                                                >
-                                                    <i class="fas fa-pen-to-square"></i>
-                                                </a>
-                                                <a
-                                                    href="#"
-                                                    class="btn btn-icon btn-secondary btn-sm"
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title="Print"
-                                                >
-                                                    <i class="fas fa-print"></i>
-                                                </a>
-                                                <a
-                                                    href="#"
-                                                    class="btn btn-icon btn-danger btn-sm"
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title="Hapus"
-                                                >
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
+                            @endforeach
                         </table>
                     </div>
-                </div>
 
-                <!-- Pagination & Info -->
-                <div class="card-footer d-flex justify-content-between align-items-center flex-wrap">
-                    <div class="text-muted mb-md-0 mb-2">Menampilkan 1-10 dari 25 data</div>
-                    <nav class="d-inline-block">
-                        <ul class="pagination mb-0">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1" aria-label="Previous">
-                                    <i class="fas fa-chevron-left"></i>
-                                </a>
-                            </li>
-                            <li class="page-item active">
-                                <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">3</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <i class="fas fa-chevron-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                    <div class="card-footer d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="text-muted mb-md-0 mb-2">Menampilkan 1-10 dari 25 data</div>
+                        <nav class="d-inline-block">
+                            <ul class="pagination mb-0">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1" aria-label="Previous">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item active">
+                                    <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">2</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">3</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
             </div>
         </div>
