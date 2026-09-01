@@ -109,118 +109,130 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <input
-                                                class="form-check-input text-center"
-                                                type="checkbox"
-                                                value=""
-                                                id="defaultCheck1"
-                                            />
-                                        </div>
-                                    </td>
-
-                                    <td class="font-weight-bold text-center">1</td>
-
-                                    <!-- Item Details -->
-                                    <td>
-                                        <div class="media align-items-center py-1">
-                                            <a href="#">
-                                                <img
-                                                    alt="image"
-                                                    class="mr-3 rounded"
-                                                    width="50"
-                                                    src="https://picsum.photos/50"
+                                @foreach ($this->commodities as $commodity)
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input
+                                                    class="form-check-input text-center"
+                                                    type="checkbox"
+                                                    value=""
+                                                    id="defaultCheck1"
                                                 />
-                                            </a>
-                                            <div class="media-body">
-                                                <div class="media-title font-weight-bold">
-                                                    <a href="#">iBook Noob</a>
-                                                </div>
-                                                <div class="text-small">
-                                                    <span class="badge badge-primary"><i class="fas fa-code"></i> BRG-001</span>
-                                                    <span class="badge badge-info"><i class="fas fa-hand-holding"></i> BOSDA</span>
+                                            </div>
+                                        </td>
+
+                                        <td class="font-weight-bold text-center">1</td>
+
+                                        <td>
+                                            <div class="media align-items-center py-1">
+                                                <a href="#">
+                                                    <img
+                                                        alt="image"
+                                                        class="mr-3 rounded"
+                                                        width="50"
+                                                        src="https://picsum.photos/50"
+                                                    />
+                                                </a>
+                                                <div class="media-body">
+                                                    <div class="media-title font-weight-bold">
+                                                        <a href="#">{{ $commodity->name }}</a>
+                                                    </div>
+                                                    <div class="text-small">
+                                                        <x-badge
+                                                            :label="$commodity->item_code"
+                                                            icon="fa-code"
+                                                            class="badge-primary"
+                                                        />
+
+                                                        <x-badge
+                                                            :label="$commodity->commodityFundingSource->name"
+                                                            icon="fa-hand-holding"
+                                                            class="badge-info"
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
+                                        </td>
 
-                                    <!-- Material -->
-                                    <td>
-                                        <span class="badge badge-secondary"> Kayu Jati </span>
-                                    </td>
+                                        <td>
+                                            <x-badge :label="$commodity->material->name" class="badge-secondary" />
+                                        </td>
 
-                                    <!-- Brand -->
-                                    <td>
-                                        <div class="d-flex align-items-center">Merk</div>
-                                    </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">{{ $commodity->brand->name }}</div>
+                                        </td>
 
-                                    <!-- Purchase Year -->
-                                    <td>
-                                        <span class="badge badge-dark">
-                                            <i class="far fa-calendar-alt mr-1"></i> 2023
-                                        </span>
-                                    </td>
+                                        <td>
+                                            <x-badge
+                                                :label="$commodity->purchase_year"
+                                                icon="fa-calendar-alt"
+                                                class="badge-dark"
+                                            />
+                                        </td>
 
-                                    <!-- Condition -->
-                                    <td>
-                                        <span class="badge badge-success">
-                                            <i class="fas fa-check-circle mr-1"></i> Baik
-                                        </span>
-                                    </td>
+                                        <td>
+                                            @php
+                                                $conditionStyle = $this->conditionStyle($commodity->condition)
+                                            @endphp
+                                            <x-badge
+                                                :label="$commodity->condition->label()"
+                                                :icon="$conditionStyle['icon']"
+                                                :class="$conditionStyle['badge']"
+                                            />
+                                        </td>
 
-                                    <!-- Actions -->
-                                    <td class="text-center">
-                                        <div class="d-flex justify-content-center flex-wrap" style="gap: 4px">
-                                            <a
-                                                href="#"
-                                                class="btn btn-icon btn-dark btn-sm"
-                                                data-toggle="tooltip"
-                                                data-placement="top"
-                                                title="QR Code"
-                                            >
-                                                <i class="fas fa-qrcode"></i>
-                                            </a>
-                                            <a
-                                                href="#"
-                                                class="btn btn-icon btn-info btn-sm"
-                                                data-toggle="tooltip"
-                                                data-placement="top"
-                                                title="Detail"
-                                            >
-                                                <i class="fas fa-magnifying-glass"></i>
-                                            </a>
-                                            <a
-                                                href="#"
-                                                class="btn btn-icon btn-success btn-sm"
-                                                data-toggle="tooltip"
-                                                data-placement="top"
-                                                title="Ubah"
-                                            >
-                                                <i class="fas fa-pen-to-square"></i>
-                                            </a>
-                                            <a
-                                                href="#"
-                                                class="btn btn-icon btn-secondary btn-sm"
-                                                data-toggle="tooltip"
-                                                data-placement="top"
-                                                title="Print"
-                                            >
-                                                <i class="fas fa-print"></i>
-                                            </a>
-                                            <a
-                                                href="#"
-                                                class="btn btn-icon btn-danger btn-sm"
-                                                data-toggle="tooltip"
-                                                data-placement="top"
-                                                title="Hapus"
-                                            >
-                                                <i class="fas fa-trash"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        <td class="text-center">
+                                            <div class="d-flex justify-content-center flex-wrap" style="gap: 4px">
+                                                <a
+                                                    href="#"
+                                                    class="btn btn-icon btn-dark btn-sm"
+                                                    data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="QR Code"
+                                                >
+                                                    <i class="fas fa-qrcode"></i>
+                                                </a>
+                                                <a
+                                                    href="#"
+                                                    class="btn btn-icon btn-info btn-sm"
+                                                    data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="Detail"
+                                                >
+                                                    <i class="fas fa-magnifying-glass"></i>
+                                                </a>
+                                                <a
+                                                    href="#"
+                                                    class="btn btn-icon btn-success btn-sm"
+                                                    data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="Ubah"
+                                                >
+                                                    <i class="fas fa-pen-to-square"></i>
+                                                </a>
+                                                <a
+                                                    href="#"
+                                                    class="btn btn-icon btn-secondary btn-sm"
+                                                    data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="Print"
+                                                >
+                                                    <i class="fas fa-print"></i>
+                                                </a>
+                                                <a
+                                                    href="#"
+                                                    class="btn btn-icon btn-danger btn-sm"
+                                                    data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="Hapus"
+                                                >
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
