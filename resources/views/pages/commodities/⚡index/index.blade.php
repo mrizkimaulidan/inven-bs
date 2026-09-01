@@ -47,15 +47,15 @@
 
                     <!-- Action Buttons (Kanan) -->
                     <div class="d-flex flex-wrap">
-                        <button class="btn btn-icon icon-left btn-success mr-2 mb-2">
-                            <i class="fas fa-file-import"></i> Import
-                        </button>
-                        <button
+                        <x-button icon="fa-file-import" label="Import" class="btn-success mr-2 mb-2" />
+
+                        <x-button
                             wire:click="$dispatch('showModal', {modalName: 'export'})"
-                            class="btn btn-icon icon-left btn-info mr-2 mb-2"
-                        >
-                            <i class="fas fa-file-export"></i> Export
-                        </button>
+                            icon="fa-file-export"
+                            label="Export"
+                            class="btn-info mr-2 mb-2"
+                        />
+
                         <button class="btn btn-icon icon-left btn-primary mr-2 mb-2">
                             <i class="fas fa-plus-circle"></i> Tambah Data
                         </button>
