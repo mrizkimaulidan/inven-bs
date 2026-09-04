@@ -1,10 +1,12 @@
 <div>
+    {{-- Modal --}}
     @if ($activeModal === 'export')
         @teleport('body')
             <livewire:pages::commodities.export />
         @endteleport
     @endif
 
+    {{-- Statistics Cards --}}
     <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <x-statistic-card icon="fas fa-box" bgColor="primary" title="Total Barang" value="10" />
@@ -25,35 +27,35 @@
         </div>
     </div>
 
+    {{-- Main Card --}}
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
+                    {{-- Toolbar: Action Buttons --}}
                     <div class="d-flex justify-content-between align-items-center flex-wrap pb-3">
                         <div class="d-flex flex-wrap">
                             <x-button icon="fa-file-import" label="Import" class="btn-success mr-2 mb-2" />
                             <x-button
-                                wire:click="..."
+                                wire:click="$dispatch('showModal', {modalName: 'export'})"
                                 icon="fa-file-export"
                                 label="Export"
                                 class="btn-info mr-2 mb-2"
                             />
-                            <button class="btn btn-icon icon-left btn-danger mr-2 mb-2">
-                                <i class="fas fa-trash-alt"></i> Hapus Terpilih
-                            </button>
-                            <button class="btn btn-icon icon-left btn-secondary mr-2 mb-2">
-                                <i class="fas fa-print"></i> Print
-                            </button>
-                            <button class="btn btn-icon btn-light mb-2" data-toggle="tooltip" title="Refresh">
-                                <i class="fas fa-sync-alt"></i>
-                            </button>
+                            <x-button icon="fa-trash-alt" label="Hapus Terpilih" class="btn-danger mr-2 mb-2" />
+                            <x-button icon="fa-print" label="Print" class="btn-secondary mr-2 mb-2" />
+                            <x-button
+                                icon="fa-sync-alt"
+                                label="Refresh"
+                                class="btn-light mb-2"
+                                data-toggle="tooltip"
+                                title="Refresh"
+                            />
                         </div>
-
-                        <button class="btn btn-icon icon-left btn-primary mb-2">
-                            <i class="fas fa-plus-circle"></i> Tambah Data
-                        </button>
+                        <x-button icon="fa-plus-circle" label="Tambah Data" class="btn-primary mb-2" />
                     </div>
 
+                    {{-- Filter Accordion --}}
                     <div class="accordion pb-3" id="accordionFilter">
                         <div wire:ignore class="accordion-item">
                             <div
@@ -66,20 +68,20 @@
                                 <h4>
                                     <i class="fas fa-filter mr-2"></i>
                                     Filter Data
-                                    <span class="badge badge-primary ml-2" id="filterCount">0</span>
+                                    <span class="badge badge-primary ml-2">0</span>
                                     <i class="fas fa-chevron-down float-right mt-1"></i>
                                 </h4>
                             </div>
                             <div class="accordion-body collapse" id="panel-filter" data-parent="#accordionFilter">
                                 <form>
+                                    {{-- Filter: Select Inputs --}}
                                     <div class="row">
+                                        {{-- Kategori --}}
                                         <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                                            <label for="filterCategory" class="font-weight-bold">
-                                                <i class="fas fa-tags mr-1"></i> Kategori
-                                            </label>
-                                            <select
-                                                class="form-control"
-                                                id="filterCategory"
+                                            <x-select
+                                                name="filters.category"
+                                                label="Kategori"
+                                                icon="fa-tags"
                                                 wire:model.live="filters.category"
                                             >
                                                 <option value="">Semua Kategori</option>
@@ -91,32 +93,30 @@
                                                 <option value="kendaraan">Kendaraan</option>
                                                 <option value="perabotan">Perabotan</option>
                                                 <option value="alat_tulis">Alat Tulis</option>
-                                            </select>
+                                            </x-select>
                                         </div>
 
+                                        {{-- Kondisi --}}
                                         <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                                            <label for="filterCondition" class="font-weight-bold">
-                                                <i class="fas fa-check-circle mr-1"></i> Kondisi
-                                            </label>
-                                            <select
-                                                class="form-control"
-                                                id="filterCondition"
+                                            <x-select
+                                                name="filters.condition"
+                                                label="Kondisi"
+                                                icon="fa-check-circle"
                                                 wire:model.live="filters.condition"
                                             >
                                                 <option value="">Semua Kondisi</option>
                                                 <option value="1">Baik</option>
                                                 <option value="2">Kurang Baik</option>
                                                 <option value="3">Rusak Berat</option>
-                                            </select>
+                                            </x-select>
                                         </div>
 
+                                        {{-- Tahun Pembelian --}}
                                         <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                                            <label for="filterYear" class="font-weight-bold">
-                                                <i class="fas fa-calendar-alt mr-1"></i> Tahun Pembelian
-                                            </label>
-                                            <select
-                                                class="form-control"
-                                                id="filterYear"
+                                            <x-select
+                                                name="filters.purchase_year"
+                                                label="Tahun Pembelian"
+                                                icon="fa-calendar-alt"
                                                 wire:model.live="filters.purchase_year"
                                             >
                                                 <option value="">Semua Tahun</option>
@@ -130,35 +130,33 @@
                                                 <option value="2017">2017</option>
                                                 <option value="2016">2016</option>
                                                 <option value="2015">2015</option>
-                                            </select>
+                                            </x-select>
                                         </div>
 
+                                        {{-- Perolehan --}}
                                         <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                                            <label for="filterFunding" class="font-weight-bold">
-                                                <i class="fas fa-hand-holding mr-1"></i> Perolehan
-                                            </label>
-                                            <select
-                                                class="form-control"
-                                                id="filterFunding"
+                                            <x-select
+                                                name="filters.funding_source"
+                                                label="Perolehan"
+                                                icon="fa-hand-holding"
                                                 wire:model.live="filters.funding_source"
                                             >
-                                                <option value="">Semua Sumber</option>
+                                                <option value="">Semua Perolehan</option>
                                                 <option value="apbd">APBD</option>
                                                 <option value="apbn">APBN</option>
                                                 <option value="hibah">Hibah</option>
                                                 <option value="bantuan">Bantuan</option>
                                                 <option value="swadaya">Swadaya</option>
                                                 <option value="donasi">Donasi</option>
-                                            </select>
+                                            </x-select>
                                         </div>
 
+                                        {{-- Bahan --}}
                                         <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                                            <label for="filterMaterial" class="font-weight-bold">
-                                                <i class="fas fa-cube mr-1"></i> Bahan
-                                            </label>
-                                            <select
-                                                class="form-control"
-                                                id="filterMaterial"
+                                            <x-select
+                                                name="filters.material"
+                                                label="Bahan"
+                                                icon="fa-cube"
                                                 wire:model.live="filters.material"
                                             >
                                                 <option value="">Semua Bahan</option>
@@ -171,16 +169,15 @@
                                                 <option value="kertas">Kertas</option>
                                                 <option value="karet">Karet</option>
                                                 <option value="keramik">Keramik</option>
-                                            </select>
+                                            </x-select>
                                         </div>
 
+                                        {{-- Merek --}}
                                         <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                                            <label for="filterBrand" class="font-weight-bold">
-                                                <i class="fas fa-trademark mr-1"></i> Merk
-                                            </label>
-                                            <select
-                                                class="form-control"
-                                                id="filterBrand"
+                                            <x-select
+                                                name="filters.brand"
+                                                label="Merek"
+                                                icon="fa-trademark"
                                                 wire:model.live="filters.brand"
                                             >
                                                 <option value="">Semua Merk</option>
@@ -197,16 +194,15 @@
                                                 <option value="canon">Canon</option>
                                                 <option value="nike">Nike</option>
                                                 <option value="adidas">Adidas</option>
-                                            </select>
+                                            </x-select>
                                         </div>
 
+                                        {{-- Lokasi --}}
                                         <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                                            <label for="filterLocation" class="font-weight-bold">
-                                                <i class="fas fa-map-marker-alt mr-1"></i> Lokasi
-                                            </label>
-                                            <select
-                                                class="form-control"
-                                                id="filterLocation"
+                                            <x-select
+                                                name="filters.location"
+                                                label="Lokasi"
+                                                icon="fa-map-marker-alt"
                                                 wire:model.live="filters.location"
                                             >
                                                 <option value="">Semua Lokasi</option>
@@ -217,16 +213,15 @@
                                                 <option value="ruang_3">Ruang 3</option>
                                                 <option value="laboratorium">Laboratorium</option>
                                                 <option value="perpustakaan">Perpustakaan</option>
-                                            </select>
+                                            </x-select>
                                         </div>
 
+                                        {{-- Dibuat Oleh --}}
                                         <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                                            <label for="filterCreatedBy" class="font-weight-bold">
-                                                <i class="fas fa-user mr-1"></i> Dibuat Oleh
-                                            </label>
-                                            <select
-                                                class="form-control"
-                                                id="filterCreatedBy"
+                                            <x-select
+                                                name="filters.created_by"
+                                                label="Dibuat Oleh"
+                                                icon="fa-user"
                                                 wire:model.live="filters.created_by"
                                             >
                                                 <option value="">Semua User</option>
@@ -234,10 +229,11 @@
                                                 <option value="user_1">User 1</option>
                                                 <option value="user_2">User 2</option>
                                                 <option value="user_3">User 3</option>
-                                            </select>
+                                            </x-select>
                                         </div>
                                     </div>
 
+                                    {{-- Filter: Price & Quantity Range --}}
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                                             <label class="font-weight-bold">
@@ -290,6 +286,7 @@
                                         </div>
                                     </div>
 
+                                    {{-- Filter: Reset Button --}}
                                     <div class="row mt-3">
                                         <div class="col-12">
                                             <button type="button" class="btn btn-secondary" wire:click="resetFilters">
@@ -302,14 +299,15 @@
                         </div>
                     </div>
 
+                    {{-- Table Controls: Per Page & Search --}}
                     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-                        <select wire:model.live="perPage" class="form-control selectric" style="width: auto">
+                        <x-select name="perPage" wire:model.live="perPage">
                             <option value="5">5</option>
                             <option value="10">10</option>
                             <option value="25">25</option>
                             <option value="50">50</option>
                             <option value="100">100</option>
-                        </select>
+                        </x-select>
 
                         <form style="max-width: 300px" class="mt-md-0 mt-2">
                             <div class="input-group">
@@ -326,6 +324,7 @@
                         </form>
                     </div>
 
+                    {{-- Table --}}
                     <div class="table-responsive">
                         <table class="table-striped table-hover mb-0 table">
                             <thead class="thead-light">
@@ -352,8 +351,10 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {{-- Table Rows --}}
                                 @foreach ($this->commodities as $commodity)
                                     <tr>
+                                        {{-- Checkbox --}}
                                         <td class="text-center align-middle">
                                             <div class="custom-checkbox custom-control">
                                                 <input
@@ -367,6 +368,7 @@
                                             </div>
                                         </td>
 
+                                        {{-- Column: Name, Location, Code, Actions --}}
                                         <td class="py-3">
                                             <div class="font-weight-bold text-dark mb-2" style="font-size: 0.95rem">
                                                 {{ $commodity->name }}
@@ -394,6 +396,7 @@
                                                 />
                                             </div>
 
+                                            {{-- Action Buttons --}}
                                             <div class="table-links">
                                                 <a
                                                     href="#"
@@ -443,6 +446,7 @@
                                             </div>
                                         </td>
 
+                                        {{-- Column: Material & Brand --}}
                                         <td class="align-middle">
                                             <x-badge
                                                 :label="$commodity->material->name"
@@ -455,6 +459,7 @@
                                             />
                                         </td>
 
+                                        {{-- Column: Image --}}
                                         <td class="text-center align-middle">
                                             <img
                                                 alt="image"
@@ -468,6 +473,7 @@
                                             />
                                         </td>
 
+                                        {{-- Column: Purchase Year --}}
                                         <td class="text-center align-middle">
                                             <x-badge
                                                 :label="$commodity->purchase_year"
@@ -476,10 +482,12 @@
                                             />
                                         </td>
 
+                                        {{-- Column: Quantity --}}
                                         <td class="text-center align-middle">
                                             <span class="font-weight-bold h6 mb-0">{{ $commodity->quantity }}</span>
                                         </td>
 
+                                        {{-- Column: Price --}}
                                         <td class="text-right align-middle">
                                             <div class="font-weight-bold text-primary">
                                                 {{ Number::currency($commodity->total_price, in: 'IDR', locale: 'id') }}
@@ -491,9 +499,10 @@
                                             @endif
                                         </td>
 
+                                        {{-- Column: Condition --}}
                                         @php $conditionStyle = $this->conditionStyle($commodity->condition) @endphp
                                         <td class="text-center align-middle">
-                                            <span class="badge badge-{{ str_replace('badge-', '', $conditionStyle['badge']) }} px-3 py-2">
+                                            <span class="badge {{ $conditionStyle['badge'] }} }} px-3 py-2">
                                                 <i class="fas {{ $conditionStyle['icon'] }} mr-1"></i>
                                                 {{ $commodity->condition->label() }}
                                             </span>
@@ -503,33 +512,93 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
 
-                    <div class="card-footer d-flex justify-content-between align-items-center flex-wrap">
-                        <div class="text-muted mb-md-0 mb-2">Menampilkan 1-10 dari 25 data</div>
-                        <nav class="d-inline-block">
-                            <ul class="pagination mb-0">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1" aria-label="Previous">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </a>
-                                </li>
-                                <li class="page-item active">
-                                    <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">3</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                {{-- Pagination --}}
+                <div class="card-footer d-flex justify-content-between align-items-center flex-wrap">
+                    {{-- Pagination Info --}}
+                    <div class="text-muted mb-md-0 mb-2">
+                        Menampilkan {{ $this->commodities->firstItem() ?? 0 }} - {{ $this->commodities->lastItem() ?? 0 }} dari {{ $this->commodities->total() }} data
                     </div>
+
+                    {{-- Pagination Links --}}
+                    <nav class="d-inline-block">
+                        <ul class="pagination mb-0">
+                            {{-- Previous --}}
+                            <li class="page-item {{ $this->commodities->onFirstPage() ? 'disabled' : '' }}">
+                                <button
+                                    class="page-link"
+                                    wire:click="previousPage"
+                                    wire:loading.attr="disabled"
+                                    {{ $this->commodities->onFirstPage() ? 'tabindex="-1"' : '' }}
+                                >
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                            </li>
+
+                            {{-- Page Numbers --}}
+                            @php
+                                $currentPage = $this->commodities->currentPage();
+                                $lastPage = $this->commodities->lastPage();
+                                $start = max(1, $currentPage - 1);
+                                $end = min($lastPage, $currentPage + 1);
+
+                                if ($currentPage <= 2) {
+                                    $end = min(3, $lastPage);
+                                }
+                                if ($currentPage >= $lastPage - 1) {
+                                    $start = max(1, $lastPage - 2);
+                                }
+                            @endphp
+
+                            @if ($start > 1)
+                                <li class="page-item">
+                                    <button class="page-link" wire:click="gotoPage(1)">1</button>
+                                </li>
+                                @if ($start > 2)
+                                    <li class="page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                @endif
+                            @endif
+
+                            @for ($i = $start; $i <= $end; $i++)
+                                <li class="page-item {{ $i == $currentPage ? 'active' : '' }}">
+                                    <button class="page-link" wire:click="gotoPage({{ $i }})">
+                                        {{ $i }}
+                                        @if ($i == $currentPage)
+                                            <span class="sr-only">(current)</span>
+                                        @endif
+                                    </button>
+                                </li>
+                            @endfor
+
+                            @if ($end < $lastPage)
+                                @if ($end < $lastPage - 1)
+                                    <li class="page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                @endif
+                                <li class="page-item">
+                                    <button class="page-link" wire:click="gotoPage({{ $lastPage }})">
+                                        {{ $lastPage }}
+                                    </button>
+                                </li>
+                            @endif
+
+                            {{-- Next --}}
+                            <li class="page-item {{ $this->commodities->hasMorePages() ? '' : 'disabled' }}">
+                                <button
+                                    class="page-link"
+                                    wire:click="nextPage"
+                                    wire:loading.attr="disabled"
+                                    {{ $this->commodities->hasMorePages() ? '' : 'tabindex="-1"' }}
+                                >
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>

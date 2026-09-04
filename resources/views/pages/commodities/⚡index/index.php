@@ -8,10 +8,11 @@ use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 new #[Title('Halaman Daftar Barang')] class extends Component
 {
-    use WithModal;
+    use WithModal, WithPagination;
 
     #[Url(as: 'per_page')]
     public int $perPage = 5;
