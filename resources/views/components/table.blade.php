@@ -1,6 +1,6 @@
 <div>
     {{-- Loading overlay --}}
-    <div wire:loading.block wire:target="{{ $resolvedTargets() }}" class="py-5 text-center">
+    <div wire:loading.block wire:target="{{ $resolvedTargets }}" class="py-5 text-center">
         <div class="spinner-border text-primary mb-3" role="status">
             <span class="sr-only">Loading...</span>
         </div>
@@ -8,7 +8,7 @@
     </div>
 
     {{-- Table --}}
-    <div wire:loading.remove wire:target="{{ $resolvedTargets() }}">
+    <div wire:loading.remove wire:target="{{ $resolvedTargets }}">
         <div class="table-responsive">
             <table class="table-striped table-hover mb-0 table">
                 <thead class="thead-light">

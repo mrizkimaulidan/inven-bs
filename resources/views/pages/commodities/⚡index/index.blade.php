@@ -92,7 +92,6 @@
                                 <form>
                                     {{-- Filter: Select Inputs --}}
                                     <div class="row">
-                                        {{-- Kategori --}}
                                         <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
                                             <x-select
                                                 name="filters.category"
@@ -112,7 +111,6 @@
                                             </x-select>
                                         </div>
 
-                                        {{-- Kondisi --}}
                                         <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
                                             <x-select
                                                 name="filters.condition"
@@ -121,13 +119,12 @@
                                                 wire:model.live="filters.condition"
                                             >
                                                 <option value="">Semua Kondisi</option>
-                                                <option value="1">Baik</option>
-                                                <option value="2">Kurang Baik</option>
-                                                <option value="3">Rusak Berat</option>
+                                                @foreach ($this->conditions as $value => $label)
+                                                    <option value="{{ $value }}">{{ $label }}</option>
+                                                @endforeach
                                             </x-select>
                                         </div>
 
-                                        {{-- Tahun Pembelian --}}
                                         <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
                                             <x-select
                                                 name="filters.purchase_year"
@@ -136,20 +133,12 @@
                                                 wire:model.live="filters.purchase_year"
                                             >
                                                 <option value="">Semua Tahun</option>
-                                                <option value="2024">2024</option>
-                                                <option value="2023">2023</option>
-                                                <option value="2022">2022</option>
-                                                <option value="2021">2021</option>
-                                                <option value="2020">2020</option>
-                                                <option value="2019">2019</option>
-                                                <option value="2018">2018</option>
-                                                <option value="2017">2017</option>
-                                                <option value="2016">2016</option>
-                                                <option value="2015">2015</option>
+                                                @foreach ($this->purchaseYears as $purchaseYear)
+                                                    <option value="{{ $purchaseYear }}">{{ $purchaseYear }}</option>
+                                                @endforeach
                                             </x-select>
                                         </div>
 
-                                        {{-- Perolehan --}}
                                         <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
                                             <x-select
                                                 name="filters.funding_source"
@@ -158,16 +147,14 @@
                                                 wire:model.live="filters.funding_source"
                                             >
                                                 <option value="">Semua Perolehan</option>
-                                                <option value="apbd">APBD</option>
-                                                <option value="apbn">APBN</option>
-                                                <option value="hibah">Hibah</option>
-                                                <option value="bantuan">Bantuan</option>
-                                                <option value="swadaya">Swadaya</option>
-                                                <option value="donasi">Donasi</option>
+                                                @foreach ($this->commodityFundingSources as $fundingSource)
+                                                    <option value="{{ $fundingSource->id }}">
+                                                        {{ $fundingSource->name }}
+                                                    </option>
+                                                @endforeach
                                             </x-select>
                                         </div>
 
-                                        {{-- Bahan --}}
                                         <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
                                             <x-select
                                                 name="filters.material"
@@ -176,19 +163,12 @@
                                                 wire:model.live="filters.material"
                                             >
                                                 <option value="">Semua Bahan</option>
-                                                <option value="kayu">Kayu</option>
-                                                <option value="besi">Besi</option>
-                                                <option value="plastik">Plastik</option>
-                                                <option value="kaca">Kaca</option>
-                                                <option value="kain">Kain</option>
-                                                <option value="aluminium">Aluminium</option>
-                                                <option value="kertas">Kertas</option>
-                                                <option value="karet">Karet</option>
-                                                <option value="keramik">Keramik</option>
+                                                @foreach ($this->materials as $material)
+                                                    <option value="{{ $material->id }}">{{ $material->name }}</option>
+                                                @endforeach
                                             </x-select>
                                         </div>
 
-                                        {{-- Merek --}}
                                         <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
                                             <x-select
                                                 name="filters.brand"
@@ -197,23 +177,12 @@
                                                 wire:model.live="filters.brand"
                                             >
                                                 <option value="">Semua Merk</option>
-                                                <option value="samsung">Samsung</option>
-                                                <option value="apple">Apple</option>
-                                                <option value="sony">Sony</option>
-                                                <option value="lg">LG</option>
-                                                <option value="philips">Philips</option>
-                                                <option value="panasonic">Panasonic</option>
-                                                <option value="asus">Asus</option>
-                                                <option value="acer">Acer</option>
-                                                <option value="dell">Dell</option>
-                                                <option value="hp">HP</option>
-                                                <option value="canon">Canon</option>
-                                                <option value="nike">Nike</option>
-                                                <option value="adidas">Adidas</option>
+                                                @foreach ($this->brands as $brand)
+                                                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                                @endforeach
                                             </x-select>
                                         </div>
 
-                                        {{-- Lokasi --}}
                                         <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
                                             <x-select
                                                 name="filters.location"
@@ -222,17 +191,12 @@
                                                 wire:model.live="filters.location"
                                             >
                                                 <option value="">Semua Lokasi</option>
-                                                <option value="gudang_1">Gudang 1</option>
-                                                <option value="gudang_2">Gudang 2</option>
-                                                <option value="ruang_1">Ruang 1</option>
-                                                <option value="ruang_2">Ruang 2</option>
-                                                <option value="ruang_3">Ruang 3</option>
-                                                <option value="laboratorium">Laboratorium</option>
-                                                <option value="perpustakaan">Perpustakaan</option>
+                                                @foreach ($this->commodityLocations as $location)
+                                                    <option value="{{ $location->id }}">{{ $location->name }}</option>
+                                                @endforeach
                                             </x-select>
                                         </div>
 
-                                        {{-- Dibuat Oleh --}}
                                         <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
                                             <x-select
                                                 name="filters.created_by"
@@ -241,10 +205,9 @@
                                                 wire:model.live="filters.created_by"
                                             >
                                                 <option value="">Semua User</option>
-                                                <option value="admin">Admin</option>
-                                                <option value="user_1">User 1</option>
-                                                <option value="user_2">User 2</option>
-                                                <option value="user_3">User 3</option>
+                                                @foreach ($this->createdBy as $user)
+                                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                @endforeach
                                             </x-select>
                                         </div>
                                     </div>
@@ -341,7 +304,18 @@
                     </div>
 
                     {{-- Table --}}
-                    <x-table :paginator="$this->commodities">
+                    <x-table
+                        :targets="[
+                            'filters.condition',
+                            'filters.purchase_year',
+                            'filters.funding_source',
+                            'filters.material',
+                            'filters.brand',
+                            'filters.location',
+                            'filters.created_by',
+                        ]"
+                        :paginator="$this->commodities"
+                    >
                         <x-slot:thead>
                             <tr>
                                 <th class="text-center" style="width: 40px">

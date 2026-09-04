@@ -14,14 +14,14 @@ class Table extends Component
      * (pagination, search, and per-page controls).
      */
     protected array $defaultTargets = [
-        'perPage', 'search', 'nextPage', 'previousPage', 'gotoPage', '$refresh',
+        'resetFilters', 'perPage', 'search', 'nextPage', 'previousPage', 'gotoPage', '$refresh',
     ];
 
     /**
      * Create a new component instance.
      */
     public function __construct(
-        public ?string $targets,
+        public ?array $targets,
         public ?LengthAwarePaginator $paginator = null,
     ) {
         //
@@ -40,10 +40,8 @@ class Table extends Component
      */
     public function resolvedTargets(): string
     {
-        $customTargets = $this->targets
-            ? array_map('trim', explode(',', $this->targets))
-            : [];
+        $mergedTargets = array_merge($this->defaultTargets, $this->targets);
 
-        return implode(',', array_unique(array_merge($this->defaultTargets, $customTargets)));
+        return implode(',', $mergedTargets);
     }
 }
