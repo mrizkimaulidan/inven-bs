@@ -153,7 +153,7 @@
 
                         <li class="menu-header">Manajemen</li>
                         <li>
-                            <a class="nav-link" href="blank.html"
+                            <a wire:navigate class="nav-link" href="/barang"
                                 ><i class="fas fa-boxes-stacked"></i> <span>Data Barang</span></a>
                         </li>
                         <li>
