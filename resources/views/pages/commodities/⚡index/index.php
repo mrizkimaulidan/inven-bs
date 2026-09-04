@@ -27,7 +27,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     #[Computed]
     public function commodities(): LengthAwarePaginator
     {
-        $model = Commodity::query();
+        $model = Commodity::query()->with(['commodityFundingSource', 'commodityLocation', 'brand', 'material']);
         $model->when(filled($this->search), function (Builder $query) {
             $query->search($this->search);
         });
