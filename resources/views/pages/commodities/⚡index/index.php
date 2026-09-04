@@ -7,6 +7,7 @@ use App\Models\CommodityFundingSource;
 use App\Models\CommodityLocation;
 use App\Models\Material;
 use App\Models\User;
+use App\WithFilters;
 use App\WithModal;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,7 +20,7 @@ use Livewire\WithPagination;
 
 new #[Title('Halaman Daftar Barang')] class extends Component
 {
-    use WithModal, WithPagination;
+    use WithFilters, WithModal, WithPagination;
 
     #[Url(as: 'per_page')]
     public int $perPage = 5;
@@ -29,6 +30,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     #[Url]
     public array $filters = [
+        'category' => '',
         'condition' => '',
         'purchase_year' => '',
         'funding_source' => '',
@@ -36,6 +38,10 @@ new #[Title('Halaman Daftar Barang')] class extends Component
         'brand' => '',
         'location' => '',
         'created_by' => '',
+        'price_min' => '',
+        'price_max' => '',
+        'quantity_min' => '',
+        'quantity_max' => '',
     ];
 
     /**
@@ -75,7 +81,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * Get all unique purchase years.
+     * Get all unique commodity purchase years.
      */
     #[Computed]
     public function purchaseYears(): array
@@ -88,7 +94,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * Get all users.
+     * Get all users, used for the "created by" filter.
      */
     #[Computed]
     public function createdBy(): Collection
@@ -97,7 +103,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * Get all commodity conditions.
+     * Get all available commodity condition options.
      */
     #[Computed]
     public function conditions(): array
@@ -106,51 +112,44 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * Get the paginated list of commodities.
+     * Map each filter key to its corresponding column, scope, or resolver.
+     */
+    protected function filterMap(): array
+    {
+        return [
+            'condition' => ['scope' => 'whereCondition', 'cast' => 'int'],
+            'purchase_year' => ['scope' => 'wherePurchaseYear', 'cast' => 'int'],
+            'funding_source' => ['column' => 'commodity_funding_source_id', 'cast' => 'int'],
+            'material' => ['column' => 'material_id', 'cast' => 'int'],
+            'brand' => ['column' => 'brand_id', 'cast' => 'int'],
+            'location' => ['column' => 'commodity_location_id', 'cast' => 'int'],
+            'created_by' => ['column' => 'created_by', 'cast' => 'int'],
+            'price_min' => fn (Builder $query, mixed $value) => $query->where('unit_price', '>=', (int) $value),
+            'price_max' => fn (Builder $query, mixed $value) => $query->where('unit_price', '<=', (int) $value),
+            'quantity_min' => fn (Builder $query, mixed $value) => $query->where('quantity', '>=', (int) $value),
+            'quantity_max' => fn (Builder $query, mixed $value) => $query->where('quantity', '<=', (int) $value),
+        ];
+    }
+
+    /**
+     * Get the paginated, filtered list of commodities.
      */
     #[Computed]
     public function commodities(): LengthAwarePaginator
     {
-        $model = Commodity::query()->with(['commodityFundingSource', 'commodityLocation', 'brand', 'material']);
-        $model->when(filled($this->search), function (Builder $query) {
+        $query = Commodity::query()->with(['commodityFundingSource', 'commodityLocation', 'brand', 'material']);
+
+        $query->when(filled($this->search), function (Builder $query) {
             $query->search($this->search);
         });
 
-        $model->when(filled($this->filters['condition']), function (Builder $query) {
-            $query->whereCondition((int) $this->filters['condition']);
-        });
+        $this->applyFilters($query, $this->filterMap());
 
-        $model->when(filled($this->filters['purchase_year']), function (Builder $query) {
-            $query->wherePurchaseYear((int) $this->filters['purchase_year']);
-        });
-
-        $model->when(filled($this->filters['funding_source']), function (Builder $query) {
-            $query->where('commodity_funding_source_id', (int) $this->filters['funding_source']);
-        });
-
-        $model->when(filled($this->filters['material']), function (Builder $query) {
-            $query->where('material_id', (int) $this->filters['material']);
-        });
-
-        $model->when(filled($this->filters['brand']), function (Builder $query) {
-            $query->where('brand_id', (int) $this->filters['brand']);
-        });
-
-        $model->when(filled($this->filters['location']), function (Builder $query) {
-            $query->where('commodity_location_id', (int) $this->filters['location']);
-        });
-
-        $model->when(filled($this->filters['created_by']), function (Builder $query) {
-            $query->where('created_by', (int) $this->filters['created_by']);
-        });
-
-        return $model->paginate($this->perPage);
+        return $query->paginate($this->perPage);
     }
 
     /**
      * Get the total number of commodities.
-     *
-     * @return int Total count of all commodities
      */
     #[Computed]
     public function totalCommoditiesCount(): int
@@ -160,8 +159,6 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     /**
      * Get the count of commodities in good condition.
-     *
-     * @return int Number of commodities with GOOD condition
      */
     #[Computed]
     public function goodConditionCount(): int
@@ -171,8 +168,6 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     /**
      * Get the count of commodities in poor condition.
-     *
-     * @return int Number of commodities with POOR condition
      */
     #[Computed]
     public function poorConditionCount(): int
@@ -181,9 +176,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * Get the count of commodities that are heavily damaged.
-     *
-     * @return int Number of commodities with HEAVILY_DAMAGED condition
+     * Get the count of heavily damaged commodities.
      */
     #[Computed]
     public function heavilyDamagedCount(): int
@@ -192,9 +185,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * Get the CSS and icon configuration for a commodity condition.
-     *
-     * @return array<string, string>
+     * Resolve the icon and badge styling for a given commodity condition.
      */
     public function conditionStyle(CommodityCondition $condition): array
     {
@@ -210,25 +201,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
             CommodityCondition::HEAVILY_DAMAGED => [
                 'icon' => 'fa-circle-xmark',
                 'badge' => 'badge-danger',
-            ]
+            ],
         };
-    }
-
-    /**
-     * Reset filters
-     */
-    public function resetFilters(): void
-    {
-        $this->reset('filters');
-    }
-
-    /**
-     * Handle Livewire property updates.
-     */
-    public function updated(string $property): void
-    {
-        if (in_array($property, ['search'])) {
-            $this->resetPage();
-        }
     }
 };

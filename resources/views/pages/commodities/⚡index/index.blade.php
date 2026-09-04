@@ -73,8 +73,9 @@
 
                     {{-- Filter Accordion --}}
                     <div class="accordion pb-3" id="accordionFilter">
-                        <div wire:ignore class="accordion-item">
+                        <div class="accordion-item">
                             <div
+                                wire:ignore.self
                                 class="accordion-header"
                                 role="button"
                                 data-toggle="collapse"
@@ -84,11 +85,16 @@
                                 <h4>
                                     <i class="fas fa-filter mr-2"></i>
                                     Filter Data
-                                    <span class="badge badge-primary ml-2">0</span>
+                                    <span class="badge badge-primary ml-2">{{ $this->activeFiltersCount }}</span>
                                     <i class="fas fa-chevron-down float-right mt-1"></i>
                                 </h4>
                             </div>
-                            <div class="accordion-body collapse" id="panel-filter" data-parent="#accordionFilter">
+                            <div
+                                wire:ignore.self
+                                class="accordion-body collapse"
+                                id="panel-filter"
+                                data-parent="#accordionFilter"
+                            >
                                 <form>
                                     {{-- Filter: Select Inputs --}}
                                     <div class="row">
@@ -268,9 +274,22 @@
                                     {{-- Filter: Reset Button --}}
                                     <div class="row mt-3">
                                         <div class="col-12">
-                                            <button type="button" class="btn btn-secondary" wire:click="resetFilters">
-                                                <i class="fas fa-undo mr-1"></i> Reset Filter
-                                            </button>
+                                            <div class="d-flex align-items-center">
+                                                @if ($this->hasActiveFilters > 0)
+                                                    <span class="mr-3">
+                                                        <i class="fas fa-info-circle text-warning mr-1"></i>
+                                                        <span class="font-weight-bold">{{ $this->activeFiltersCount }}</span>
+                                                        filter aktif
+                                                    </span>
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-secondary btn-sm"
+                                                        wire:click="resetFilters"
+                                                    >
+                                                        <i class="fas fa-undo mr-1"></i> Reset Filter
+                                                    </button>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
