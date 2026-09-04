@@ -9,21 +9,36 @@
     {{-- Statistics Cards --}}
     <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-            <x-statistic-card icon="fas fa-box" bgColor="primary" title="Total Barang" value="10" />
+            <x-statistic-card
+                icon="fas fa-box"
+                bgColor="primary"
+                title="Total Barang"
+                value="{{ $this->totalCommoditiesCount }}"
+            />
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-            <x-statistic-card icon="fas fa-check-circle" bgColor="success" title="Kondisi Baik" value="10" />
+            <x-statistic-card
+                icon="fas fa-check-circle"
+                bgColor="success"
+                title="Kondisi Baik"
+                value="{{ $this->goodConditionCount }}"
+            />
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <x-statistic-card
                 icon="fas fa-exclamation-circle"
                 bgColor="warning"
                 title="Kondisi Kurang Baik"
-                value="10"
+                value="{{ $this->poorConditionCount }}"
             />
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-            <x-statistic-card icon="fas fa-circle-xmark" bgColor="danger" title="Kondisi Rusak Berat" value="10" />
+            <x-statistic-card
+                icon="fas fa-circle-xmark"
+                bgColor="danger"
+                title="Kondisi Rusak Berat"
+                value="{{ $this->heavilyDamagedCount }}"
+            />
         </div>
     </div>
 

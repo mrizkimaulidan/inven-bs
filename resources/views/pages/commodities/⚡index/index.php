@@ -36,6 +36,50 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
+     * Get the total number of commodities.
+     *
+     * @return int Total count of all commodities
+     */
+    #[Computed]
+    public function totalCommoditiesCount(): int
+    {
+        return Commodity::count();
+    }
+
+    /**
+     * Get the count of commodities in good condition.
+     *
+     * @return int Number of commodities with GOOD condition
+     */
+    #[Computed]
+    public function goodConditionCount(): int
+    {
+        return Commodity::where('condition', CommodityCondition::GOOD)->count();
+    }
+
+    /**
+     * Get the count of commodities in poor condition.
+     *
+     * @return int Number of commodities with POOR condition
+     */
+    #[Computed]
+    public function poorConditionCount(): int
+    {
+        return Commodity::where('condition', CommodityCondition::POOR)->count();
+    }
+
+    /**
+     * Get the count of commodities that are heavily damaged.
+     *
+     * @return int Number of commodities with HEAVILY_DAMAGED condition
+     */
+    #[Computed]
+    public function heavilyDamagedCount(): int
+    {
+        return Commodity::where('condition', CommodityCondition::HEAVILY_DAMAGED)->count();
+    }
+
+    /**
      * Get the CSS and icon configuration for a commodity condition.
      *
      * @return array<string, string>
