@@ -352,7 +352,7 @@
                             </thead>
                             <tbody>
                                 {{-- Table Rows --}}
-                                @foreach ($this->commodities as $commodity)
+                                @forelse ($this->commodities as $commodity)
                                     <tr>
                                         {{-- Checkbox --}}
                                         <td class="text-center align-middle">
@@ -508,7 +508,30 @@
                                             </span>
                                         </td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="8" class="py-5 text-center">
+                                            <div class="py-4">
+                                                <h5 class="font-weight-bold">
+                                                    @if (filled($this->search))
+                                                        Hasil Pencarian Tidak Ditemukan
+                                                    @else
+                                                        Belum Ada Data
+                                                    @endif
+                                                </h5>
+                                                <p class="text-muted mb-3">
+                                                    @if (filled($this->search))
+                                                        Tidak ditemukan barang dengan kata kunci "<strong
+                                                        >{{ $this->search }}</strong
+                                                        >"
+                                                    @else
+                                                        Belum ada barang yang terdaftar di sistem
+                                                    @endif
+                                                </p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
