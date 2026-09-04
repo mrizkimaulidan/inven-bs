@@ -60,6 +60,7 @@
                             <x-button icon="fa-trash-alt" label="Hapus Terpilih" class="btn-danger mr-2 mb-2" />
                             <x-button icon="fa-print" label="Print" class="btn-secondary mr-2 mb-2" />
                             <x-button
+                                wire:click="$refresh"
                                 icon="fa-sync-alt"
                                 label="Refresh"
                                 class="btn-light mb-2"
@@ -340,220 +341,187 @@
                     </div>
 
                     {{-- Table --}}
-                    <div class="table-responsive">
-                        <table class="table-striped table-hover mb-0 table">
-                            <thead class="thead-light">
+                    <x-table :paginator="$this->commodities">
+                        <x-slot:thead>
+                            <tr>
+                                <th class="text-center" style="width: 40px">
+                                    <div class="custom-checkbox custom-checkbox-table custom-control">
+                                        <input
+                                            type="checkbox"
+                                            data-checkboxes="mygroup"
+                                            data-checkbox-role="dad"
+                                            class="custom-control-input"
+                                            id="checkbox-all"
+                                        />
+                                        <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
+                                    </div>
+                                </th>
+                                <th>Nama Barang</th>
+                                <th>Bahan & Merk</th>
+                                <th>Gambar</th>
+                                <th>Tahun</th>
+                                <th>Jumlah</th>
+                                <th>Harga</th>
+                                <th>Kondisi</th>
+                            </tr>
+                        </x-slot:thead>
+
+                        <x-slot:tbody>
+                            @forelse ($this->commodities as $commodity)
                                 <tr>
-                                    <th class="text-center" style="width: 40px">
-                                        <div class="custom-checkbox custom-checkbox-table custom-control">
+                                    <td class="text-center align-middle">
+                                        <div class="custom-checkbox custom-control">
                                             <input
                                                 type="checkbox"
                                                 data-checkboxes="mygroup"
-                                                data-checkbox-role="dad"
                                                 class="custom-control-input"
-                                                id="checkbox-all"
+                                                id="checkbox-{{ $commodity->id }}"
                                             />
-                                            <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
+                                            <label for="checkbox-{{ $commodity->id }}" class="custom-control-label"
+                                                >&nbsp;</label>
                                         </div>
-                                    </th>
-                                    <th>Nama Barang</th>
-                                    <th>Bahan & Merk</th>
-                                    <th>Gambar</th>
-                                    <th>Tahun</th>
-                                    <th>Jumlah</th>
-                                    <th>Harga</th>
-                                    <th>Kondisi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {{-- Table Rows --}}
-                                @forelse ($this->commodities as $commodity)
-                                    <tr>
-                                        {{-- Checkbox --}}
-                                        <td class="text-center align-middle">
-                                            <div class="custom-checkbox custom-control">
-                                                <input
-                                                    type="checkbox"
-                                                    data-checkboxes="mygroup"
-                                                    class="custom-control-input"
-                                                    id="checkbox-{{ $commodity->id }}"
-                                                />
-                                                <label for="checkbox-{{ $commodity->id }}" class="custom-control-label"
-                                                    >&nbsp;</label>
-                                            </div>
-                                        </td>
+                                    </td>
 
-                                        {{-- Column: Name, Location, Code, Actions --}}
-                                        <td class="py-3">
-                                            <div class="font-weight-bold text-dark mb-2" style="font-size: 0.95rem">
-                                                {{ $commodity->name }}
-                                            </div>
+                                    <td class="py-3">
+                                        <div class="font-weight-bold text-dark mb-2" style="font-size: 0.95rem">
+                                            {{ $commodity->name }}
+                                        </div>
 
-                                            <div class="mb-2">
-                                                <x-badge
-                                                    :label="$commodity->commodityLocation->name"
-                                                    icon="fa-map-marker-alt"
-                                                    class="badge-dark"
-                                                />
-                                            </div>
-
-                                            <div class="d-flex align-items-center mb-3 flex-wrap">
-                                                <x-badge
-                                                    :label="$commodity->item_code"
-                                                    icon="fa-code"
-                                                    class="badge-primary mr-2 mb-1"
-                                                />
-
-                                                <x-badge
-                                                    :label="$commodity->commodityFundingSource->name"
-                                                    icon="fa-hand-holding"
-                                                    class="badge-info mb-1"
-                                                />
-                                            </div>
-
-                                            {{-- Action Buttons --}}
-                                            <div class="table-links">
-                                                <a
-                                                    href="#"
-                                                    class="btn btn-sm btn-outline-dark"
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title="QR Code"
-                                                >
-                                                    <i class="fas fa-qrcode"></i>
-                                                </a>
-                                                <a
-                                                    href="#"
-                                                    class="btn btn-sm btn-outline-info"
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title="Detail"
-                                                >
-                                                    <i class="fas fa-search"></i>
-                                                </a>
-                                                <a
-                                                    href="#"
-                                                    class="btn btn-sm btn-outline-success"
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title="Ubah"
-                                                >
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a
-                                                    href="#"
-                                                    class="btn btn-sm btn-outline-secondary"
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title="Print"
-                                                >
-                                                    <i class="fas fa-print"></i>
-                                                </a>
-                                                <a
-                                                    href="#"
-                                                    class="btn btn-sm btn-outline-danger"
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title="Hapus"
-                                                >
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-
-                                        {{-- Column: Material & Brand --}}
-                                        <td class="align-middle">
+                                        <div class="mb-2">
                                             <x-badge
-                                                :label="$commodity->material->name"
-                                                class="badge-light d-block mb-2 py-1"
+                                                :label="$commodity->commodityLocation->name"
+                                                icon="fa-map-marker-alt"
+                                                class="badge-dark"
+                                            />
+                                        </div>
+
+                                        <div class="d-flex align-items-center mb-3 flex-wrap">
+                                            <x-badge
+                                                :label="$commodity->item_code"
+                                                icon="fa-code"
+                                                class="badge-primary mr-2 mb-1"
                                             />
 
                                             <x-badge
-                                                :label="$commodity->brand->name"
-                                                class="badge-light d-block mb-2 py-1"
+                                                :label="$commodity->commodityFundingSource->name"
+                                                icon="fa-hand-holding"
+                                                class="badge-info mb-1"
                                             />
-                                        </td>
+                                        </div>
 
-                                        {{-- Column: Image --}}
-                                        <td class="text-center align-middle">
-                                            <img
-                                                alt="image"
-                                                src="https://picsum.photos/50/50?random={{ $commodity->id }}"
-                                                class="rounded-circle border"
-                                                width="45"
-                                                height="45"
-                                                style="object-fit: cover"
+                                        <div class="table-links">
+                                            <a
+                                                href="#"
+                                                class="btn btn-sm btn-outline-dark"
                                                 data-toggle="tooltip"
-                                                title="Klik untuk melihat gambar"
-                                            />
-                                        </td>
+                                                data-placement="top"
+                                                title="QR Code"
+                                            >
+                                                <i class="fas fa-qrcode"></i>
+                                            </a>
+                                            <a
+                                                href="#"
+                                                class="btn btn-sm btn-outline-info"
+                                                data-toggle="tooltip"
+                                                data-placement="top"
+                                                title="Detail"
+                                            >
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                            <a
+                                                href="#"
+                                                class="btn btn-sm btn-outline-success"
+                                                data-toggle="tooltip"
+                                                data-placement="top"
+                                                title="Ubah"
+                                            >
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a
+                                                href="#"
+                                                class="btn btn-sm btn-outline-secondary"
+                                                data-toggle="tooltip"
+                                                data-placement="top"
+                                                title="Print"
+                                            >
+                                                <i class="fas fa-print"></i>
+                                            </a>
+                                            <a
+                                                href="#"
+                                                class="btn btn-sm btn-outline-danger"
+                                                data-toggle="tooltip"
+                                                data-placement="top"
+                                                title="Hapus"
+                                            >
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
 
-                                        {{-- Column: Purchase Year --}}
-                                        <td class="text-center align-middle">
-                                            <x-badge
-                                                :label="$commodity->purchase_year"
-                                                icon="fa-calendar-alt"
-                                                class="badge-light d-block"
-                                            />
-                                        </td>
+                                    <td class="align-middle">
+                                        <x-badge
+                                            :label="$commodity->material->name"
+                                            class="badge-light d-block mb-2 py-1"
+                                        />
 
-                                        {{-- Column: Quantity --}}
-                                        <td class="text-center align-middle">
-                                            <span class="font-weight-bold h6 mb-0">{{ $commodity->quantity }}</span>
-                                        </td>
+                                        <x-badge
+                                            :label="$commodity->brand->name"
+                                            class="badge-light d-block mb-2 py-1"
+                                        />
+                                    </td>
 
-                                        {{-- Column: Price --}}
-                                        <td class="text-right align-middle">
-                                            <div class="font-weight-bold text-primary">
-                                                {{ Number::currency($commodity->total_price, in: 'IDR', locale: 'id') }}
-                                            </div>
-                                            @if ($commodity->quantity > 1)
-                                                <small class="text-muted">
-                                                    {{ $commodity->quantity }} × {{ Number::currency($commodity->unit_price, in: 'IDR', locale: 'id') }}
-                                                </small>
-                                            @endif
-                                        </td>
+                                    <td class="text-center align-middle">
+                                        <img
+                                            alt="image"
+                                            src="https://picsum.photos/50/50?random={{ $commodity->id }}"
+                                            class="rounded-circle border"
+                                            width="45"
+                                            height="45"
+                                            style="object-fit: cover"
+                                            data-toggle="tooltip"
+                                            title="Klik untuk melihat gambar"
+                                        />
+                                    </td>
 
-                                        {{-- Column: Condition --}}
-                                        @php $conditionStyle = $this->conditionStyle($commodity->condition) @endphp
-                                        <td class="text-center align-middle">
-                                            <span class="badge {{ $conditionStyle['badge'] }} }} px-3 py-2">
-                                                <i class="fas {{ $conditionStyle['icon'] }} mr-1"></i>
-                                                {{ $commodity->condition->label() }}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="8" class="py-5 text-center">
-                                            <div class="py-4">
-                                                <h5 class="font-weight-bold">
-                                                    @if (filled($this->search))
-                                                        Hasil Pencarian Tidak Ditemukan
-                                                    @else
-                                                        Belum Ada Data
-                                                    @endif
-                                                </h5>
-                                                <p class="text-muted mb-3">
-                                                    @if (filled($this->search))
-                                                        Tidak ditemukan barang dengan kata kunci "<strong
-                                                        >{{ $this->search }}</strong
-                                                        >"
-                                                    @else
-                                                        Belum ada barang yang terdaftar di sistem
-                                                    @endif
-                                                </p>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
+                                    <td class="text-center align-middle">
+                                        <x-badge
+                                            :label="$commodity->purchase_year"
+                                            icon="fa-calendar-alt"
+                                            class="badge-light d-block"
+                                        />
+                                    </td>
+
+                                    <td class="text-center align-middle">
+                                        <span class="font-weight-bold h6 mb-0">{{ $commodity->quantity }}</span>
+                                    </td>
+
+                                    <td class="text-right align-middle">
+                                        <div class="font-weight-bold text-primary">
+                                            {{ Number::currency($commodity->total_price, in: 'IDR', locale: 'id') }}
+                                        </div>
+                                        @if ($commodity->quantity > 1)
+                                            <small class="text-muted">
+                                                {{ $commodity->quantity }} × {{ Number::currency($commodity->unit_price, in: 'IDR', locale: 'id') }}
+                                            </small>
+                                        @endif
+                                    </td>
+
+                                    @php $conditionStyle = $this->conditionStyle($commodity->condition) @endphp
+                                    <td class="text-center align-middle">
+                                        <span class="badge {{ $conditionStyle['badge'] }} px-3 py-2">
+                                            <i class="fas {{ $conditionStyle['icon'] }} mr-1"></i>
+                                            {{ $commodity->condition->label() }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <x-empty-state :search="$this->search" colspan="8" />
+                                </tr>
+                            @endforelse
+                        </x-slot:tbody>
+                    </x-table>
                 </div>
-
-                {{-- Pagination --}}
-                <x-pagination :paginator="$this->commodities" />
             </div>
         </div>
     </div>
