@@ -314,7 +314,7 @@
                                 <input
                                     type="text"
                                     class="form-control"
-                                    placeholder="Search"
+                                    placeholder="Cari data"
                                     wire:model.live.debounce.500ms="search"
                                 />
                                 <div class="input-group-append">

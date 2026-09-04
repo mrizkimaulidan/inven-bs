@@ -3,7 +3,8 @@
 use App\CommodityCondition;
 use App\Models\Commodity;
 use App\WithModal;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
@@ -17,13 +18,21 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     #[Url(as: 'per_page')]
     public int $perPage = 5;
 
+    #[Url]
+    public string $search = '';
+
     /**
      * Get the paginated list of commodities.
      */
     #[Computed]
     public function commodities(): LengthAwarePaginator
     {
-        return Commodity::paginate($this->perPage);
+        $model = Commodity::query();
+        $model->when(filled($this->search), function (Builder $query) {
+            $query->search($this->search);
+        });
+
+        return $model->paginate($this->perPage);
     }
 
     /**
@@ -47,5 +56,15 @@ new #[Title('Halaman Daftar Barang')] class extends Component
                 'badge' => 'badge-danger',
             ]
         };
+    }
+
+    /**
+     * Handle Livewire property updates.
+     */
+    public function updated(string $property): void
+    {
+        if (in_array($property, ['search'])) {
+            $this->resetPage();
+        }
     }
 };

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\CommodityCondition;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -50,5 +52,14 @@ class Commodity extends Model
     public function material(): BelongsTo
     {
         return $this->belongsTo(Material::class);
+    }
+
+    /**
+     * Apply search filter to the query.
+     */
+    #[Scope]
+    public function search(Builder $query, string $searchQuery): void
+    {
+        $query->whereAny(['item_code', 'name'], 'like', "%$searchQuery%");
     }
 }
