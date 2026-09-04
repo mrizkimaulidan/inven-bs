@@ -152,7 +152,7 @@
                         </li>
 
                         <li class="menu-header">Manajemen</li>
-                        <li>
+                        <li @class(['active' => request()->is('barang')])>
                             <a wire:navigate class="nav-link" href="/barang"
                                 ><i class="fas fa-boxes-stacked"></i> <span>Data Barang</span></a>
                         </li>
