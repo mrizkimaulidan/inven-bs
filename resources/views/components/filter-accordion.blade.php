@@ -29,7 +29,7 @@
                                     <span class="font-weight-bold">{{ $activeFiltersCount }}</span>
                                     filter aktif
                                 </span>
-                                <button type="button" class="btn btn-secondary btn-sm" wire:click="resetFilters">
+                                <button type="button" class="btn btn-warning btn-sm" wire:click="resetFilters">
                                     <i class="fas fa-undo mr-1"></i> Reset Filter
                                 </button>
                             @endif
