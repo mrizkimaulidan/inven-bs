@@ -72,230 +72,182 @@
                     </div>
 
                     {{-- Filter Accordion --}}
-                    <div class="accordion pb-3" id="accordionFilter">
-                        <div class="accordion-item">
-                            <div
-                                wire:ignore.self
-                                class="accordion-header"
-                                role="button"
-                                data-toggle="collapse"
-                                data-target="#panel-filter"
-                                aria-expanded="false"
-                            >
-                                <h4>
-                                    <i class="fas fa-filter mr-2"></i>
-                                    Filter Data
-                                    <span class="badge badge-primary ml-2">{{ $this->activeFiltersCount }}</span>
-                                    <i class="fas fa-chevron-down float-right mt-1"></i>
-                                </h4>
+                    <x-filter-accordion
+                        id="filter-accordion"
+                        title="Filter Data"
+                        :activeFiltersCount="$this->activeFiltersCount"
+                    >
+                        {{-- Filter: Select Inputs --}}
+                        <div class="row">
+                            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                                <x-select
+                                    name="filters.category"
+                                    label="Kategori"
+                                    icon="fa-tags"
+                                    wire:model.live="filters.category"
+                                >
+                                    <option value="">Semua Kategori</option>
+                                    <option value="elektronik">Elektronik</option>
+                                    <option value="fashion">Fashion</option>
+                                    <option value="makanan">Makanan</option>
+                                    <option value="buku">Buku</option>
+                                    <option value="peralatan">Peralatan</option>
+                                    <option value="kendaraan">Kendaraan</option>
+                                    <option value="perabotan">Perabotan</option>
+                                    <option value="alat_tulis">Alat Tulis</option>
+                                </x-select>
                             </div>
-                            <div
-                                wire:ignore.self
-                                class="accordion-body collapse"
-                                id="panel-filter"
-                                data-parent="#accordionFilter"
-                            >
-                                <form>
-                                    {{-- Filter: Select Inputs --}}
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                                            <x-select
-                                                name="filters.category"
-                                                label="Kategori"
-                                                icon="fa-tags"
-                                                wire:model.live="filters.category"
-                                            >
-                                                <option value="">Semua Kategori</option>
-                                                <option value="elektronik">Elektronik</option>
-                                                <option value="fashion">Fashion</option>
-                                                <option value="makanan">Makanan</option>
-                                                <option value="buku">Buku</option>
-                                                <option value="peralatan">Peralatan</option>
-                                                <option value="kendaraan">Kendaraan</option>
-                                                <option value="perabotan">Perabotan</option>
-                                                <option value="alat_tulis">Alat Tulis</option>
-                                            </x-select>
-                                        </div>
 
-                                        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                                            <x-select
-                                                name="filters.condition"
-                                                label="Kondisi"
-                                                icon="fa-check-circle"
-                                                wire:model.live="filters.condition"
-                                            >
-                                                <option value="">Semua Kondisi</option>
-                                                @foreach ($this->conditions as $value => $label)
-                                                    <option value="{{ $value }}">{{ $label }}</option>
-                                                @endforeach
-                                            </x-select>
-                                        </div>
+                            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                                <x-select
+                                    name="filters.condition"
+                                    label="Kondisi"
+                                    icon="fa-check-circle"
+                                    wire:model.live="filters.condition"
+                                >
+                                    <option value="">Semua Kondisi</option>
+                                    @foreach ($this->conditions as $value => $label)
+                                        <option value="{{ $value }}">{{ $label }}</option>
+                                    @endforeach
+                                </x-select>
+                            </div>
 
-                                        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                                            <x-select
-                                                name="filters.purchase_year"
-                                                label="Tahun Pembelian"
-                                                icon="fa-calendar-alt"
-                                                wire:model.live="filters.purchase_year"
-                                            >
-                                                <option value="">Semua Tahun</option>
-                                                @foreach ($this->purchaseYears as $purchaseYear)
-                                                    <option value="{{ $purchaseYear }}">{{ $purchaseYear }}</option>
-                                                @endforeach
-                                            </x-select>
-                                        </div>
+                            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                                <x-select
+                                    name="filters.purchase_year"
+                                    label="Tahun Pembelian"
+                                    icon="fa-calendar-alt"
+                                    wire:model.live="filters.purchase_year"
+                                >
+                                    <option value="">Semua Tahun</option>
+                                    @foreach ($this->purchaseYears as $purchaseYear)
+                                        <option value="{{ $purchaseYear }}">{{ $purchaseYear }}</option>
+                                    @endforeach
+                                </x-select>
+                            </div>
 
-                                        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                                            <x-select
-                                                name="filters.funding_source"
-                                                label="Perolehan"
-                                                icon="fa-hand-holding"
-                                                wire:model.live="filters.funding_source"
-                                            >
-                                                <option value="">Semua Perolehan</option>
-                                                @foreach ($this->commodityFundingSources as $fundingSource)
-                                                    <option value="{{ $fundingSource->id }}">
-                                                        {{ $fundingSource->name }}
-                                                    </option>
-                                                @endforeach
-                                            </x-select>
-                                        </div>
+                            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                                <x-select
+                                    name="filters.funding_source"
+                                    label="Perolehan"
+                                    icon="fa-hand-holding"
+                                    wire:model.live="filters.funding_source"
+                                >
+                                    <option value="">Semua Perolehan</option>
+                                    @foreach ($this->commodityFundingSources as $fundingSource)
+                                        <option value="{{ $fundingSource->id }}">{{ $fundingSource->name }}</option>
+                                    @endforeach
+                                </x-select>
+                            </div>
 
-                                        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                                            <x-select
-                                                name="filters.material"
-                                                label="Bahan"
-                                                icon="fa-cube"
-                                                wire:model.live="filters.material"
-                                            >
-                                                <option value="">Semua Bahan</option>
-                                                @foreach ($this->materials as $material)
-                                                    <option value="{{ $material->id }}">{{ $material->name }}</option>
-                                                @endforeach
-                                            </x-select>
-                                        </div>
+                            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                                <x-select
+                                    name="filters.material"
+                                    label="Bahan"
+                                    icon="fa-cube"
+                                    wire:model.live="filters.material"
+                                >
+                                    <option value="">Semua Bahan</option>
+                                    @foreach ($this->materials as $material)
+                                        <option value="{{ $material->id }}">{{ $material->name }}</option>
+                                    @endforeach
+                                </x-select>
+                            </div>
 
-                                        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                                            <x-select
-                                                name="filters.brand"
-                                                label="Merek"
-                                                icon="fa-trademark"
-                                                wire:model.live="filters.brand"
-                                            >
-                                                <option value="">Semua Merk</option>
-                                                @foreach ($this->brands as $brand)
-                                                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                                                @endforeach
-                                            </x-select>
-                                        </div>
+                            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                                <x-select
+                                    name="filters.brand"
+                                    label="Merek"
+                                    icon="fa-trademark"
+                                    wire:model.live="filters.brand"
+                                >
+                                    <option value="">Semua Merk</option>
+                                    @foreach ($this->brands as $brand)
+                                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                    @endforeach
+                                </x-select>
+                            </div>
 
-                                        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                                            <x-select
-                                                name="filters.location"
-                                                label="Lokasi"
-                                                icon="fa-map-marker-alt"
-                                                wire:model.live="filters.location"
-                                            >
-                                                <option value="">Semua Lokasi</option>
-                                                @foreach ($this->commodityLocations as $location)
-                                                    <option value="{{ $location->id }}">{{ $location->name }}</option>
-                                                @endforeach
-                                            </x-select>
-                                        </div>
+                            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                                <x-select
+                                    name="filters.location"
+                                    label="Lokasi"
+                                    icon="fa-map-marker-alt"
+                                    wire:model.live="filters.location"
+                                >
+                                    <option value="">Semua Lokasi</option>
+                                    @foreach ($this->commodityLocations as $location)
+                                        <option value="{{ $location->id }}">{{ $location->name }}</option>
+                                    @endforeach
+                                </x-select>
+                            </div>
 
-                                        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                                            <x-select
-                                                name="filters.created_by"
-                                                label="Dibuat Oleh"
-                                                icon="fa-user"
-                                                wire:model.live="filters.created_by"
-                                            >
-                                                <option value="">Semua User</option>
-                                                @foreach ($this->createdBy as $user)
-                                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                                @endforeach
-                                            </x-select>
-                                        </div>
-                                    </div>
-
-                                    {{-- Filter: Price & Quantity Range --}}
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                                            <label class="font-weight-bold">
-                                                <i class="fas fa-dollar-sign mr-1"></i> Range Harga
-                                            </label>
-                                            <div class="input-group">
-                                                <input
-                                                    type="number"
-                                                    class="form-control"
-                                                    wire:model.live.debounce.500ms="filters.price_min"
-                                                    placeholder="Min"
-                                                    min="0"
-                                                />
-                                                <div class="input-group-prepend input-group-append">
-                                                    <span class="input-group-text">-</span>
-                                                </div>
-                                                <input
-                                                    type="number"
-                                                    class="form-control"
-                                                    wire:model.live.debounce.500ms="filters.price_max"
-                                                    placeholder="Max"
-                                                    min="0"
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                                            <label class="font-weight-bold">
-                                                <i class="fas fa-cubes mr-1"></i> Range Jumlah
-                                            </label>
-                                            <div class="input-group">
-                                                <input
-                                                    type="number"
-                                                    class="form-control"
-                                                    wire:model.live.debounce.500ms="filters.quantity_min"
-                                                    placeholder="Min"
-                                                    min="0"
-                                                />
-                                                <div class="input-group-prepend input-group-append">
-                                                    <span class="input-group-text">-</span>
-                                                </div>
-                                                <input
-                                                    type="number"
-                                                    class="form-control"
-                                                    wire:model.live.debounce.500ms="filters.quantity_max"
-                                                    placeholder="Max"
-                                                    min="0"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {{-- Filter: Reset Button --}}
-                                    <div class="row mt-3">
-                                        <div class="col-12">
-                                            <div class="d-flex align-items-center">
-                                                @if ($this->hasActiveFilters > 0)
-                                                    <span class="mr-3">
-                                                        <i class="fas fa-info-circle text-warning mr-1"></i>
-                                                        <span class="font-weight-bold">{{ $this->activeFiltersCount }}</span>
-                                                        filter aktif
-                                                    </span>
-                                                    <button
-                                                        type="button"
-                                                        class="btn btn-secondary btn-sm"
-                                                        wire:click="resetFilters"
-                                                    >
-                                                        <i class="fas fa-undo mr-1"></i> Reset Filter
-                                                    </button>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
+                            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                                <x-select
+                                    name="filters.created_by"
+                                    label="Dibuat Oleh"
+                                    icon="fa-user"
+                                    wire:model.live="filters.created_by"
+                                >
+                                    <option value="">Semua User</option>
+                                    @foreach ($this->createdBy as $user)
+                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @endforeach
+                                </x-select>
                             </div>
                         </div>
-                    </div>
+
+                        {{-- Filter: Price & Quantity Range --}}
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                                <label class="font-weight-bold">
+                                    <i class="fas fa-dollar-sign mr-1"></i> Range Harga
+                                </label>
+                                <div class="input-group">
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        wire:model.live.debounce.500ms="filters.price_min"
+                                        placeholder="Min"
+                                        min="0"
+                                    />
+                                    <div class="input-group-prepend input-group-append">
+                                        <span class="input-group-text">-</span>
+                                    </div>
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        wire:model.live.debounce.500ms="filters.price_max"
+                                        placeholder="Max"
+                                        min="0"
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                                <label class="font-weight-bold"> <i class="fas fa-cubes mr-1"></i> Range Jumlah </label>
+                                <div class="input-group">
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        wire:model.live.debounce.500ms="filters.quantity_min"
+                                        placeholder="Min"
+                                        min="0"
+                                    />
+                                    <div class="input-group-prepend input-group-append">
+                                        <span class="input-group-text">-</span>
+                                    </div>
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        wire:model.live.debounce.500ms="filters.quantity_max"
+                                        placeholder="Max"
+                                        min="0"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </x-filter-accordion>
 
                     {{-- Table Controls: Per Page & Search --}}
                     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
