@@ -28,21 +28,23 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     #[Url]
     public string $search = '';
 
-    #[Url]
-    public array $filters = [
-        'category' => '',
-        'condition' => '',
-        'purchase_year' => '',
-        'funding_source' => '',
-        'material' => '',
-        'brand' => '',
-        'location' => '',
-        'created_by' => '',
-        'price_min' => '',
-        'price_max' => '',
-        'quantity_min' => '',
-        'quantity_max' => '',
-    ];
+    public function mount(): void
+    {
+        $this->initializeFilters([
+            'category' => '',
+            'condition' => '',
+            'purchase_year' => '',
+            'funding_source' => '',
+            'material' => '',
+            'brand' => '',
+            'location' => '',
+            'created_by' => '',
+            'price_min' => '',
+            'price_max' => '',
+            'quantity_min' => '',
+            'quantity_max' => '',
+        ]);
+    }
 
     /**
      * Get all commodity funding sources.
@@ -81,14 +83,14 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * Get all unique commodity purchase years.
+     * Get all unique commodity purchase years, most recent first.
      */
     #[Computed]
     public function purchaseYears(): array
     {
         return Commodity::query()
             ->distinct()
-            ->orderBy('purchase_year')
+            ->orderByDesc('purchase_year')
             ->pluck('purchase_year')
             ->all();
     }
@@ -149,39 +151,20 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * Get the total number of commodities.
+     * Get condition-based summary counts (total, good, poor, heavily
+     * damaged)
+     *
+     * @return array{total: int, good: int, poor: int, heavily_damaged: int}
      */
     #[Computed]
-    public function totalCommoditiesCount(): int
+    public function conditionCounts(): array
     {
-        return Commodity::count();
-    }
-
-    /**
-     * Get the count of commodities in good condition.
-     */
-    #[Computed]
-    public function goodConditionCount(): int
-    {
-        return Commodity::where('condition', CommodityCondition::GOOD)->count();
-    }
-
-    /**
-     * Get the count of commodities in poor condition.
-     */
-    #[Computed]
-    public function poorConditionCount(): int
-    {
-        return Commodity::where('condition', CommodityCondition::POOR)->count();
-    }
-
-    /**
-     * Get the count of heavily damaged commodities.
-     */
-    #[Computed]
-    public function heavilyDamagedCount(): int
-    {
-        return Commodity::where('condition', CommodityCondition::HEAVILY_DAMAGED)->count();
+        return [
+            'total' => (int) Commodity::count(),
+            'good' => (int) Commodity::where('condition', CommodityCondition::GOOD)->count(),
+            'poor' => (int) Commodity::where('condition', CommodityCondition::POOR)->count(),
+            'heavily_damaged' => (int) Commodity::where('condition', CommodityCondition::HEAVILY_DAMAGED)->count(),
+        ];
     }
 
     /**

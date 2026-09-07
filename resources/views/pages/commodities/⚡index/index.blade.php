@@ -13,7 +13,7 @@
                 icon="fas fa-box"
                 bgColor="primary"
                 title="Total Barang"
-                value="{{ $this->totalCommoditiesCount }}"
+                value="{{ $this->conditionCounts['total'] }}"
             />
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -21,7 +21,7 @@
                 icon="fas fa-check-circle"
                 bgColor="success"
                 title="Kondisi Baik"
-                value="{{ $this->goodConditionCount }}"
+                value="{{ $this->conditionCounts['good'] }}"
             />
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -29,7 +29,7 @@
                 icon="fas fa-exclamation-circle"
                 bgColor="warning"
                 title="Kondisi Kurang Baik"
-                value="{{ $this->poorConditionCount }}"
+                value="{{ $this->conditionCounts['poor'] }}"
             />
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -37,7 +37,7 @@
                 icon="fas fa-circle-xmark"
                 bgColor="danger"
                 title="Kondisi Rusak Berat"
-                value="{{ $this->heavilyDamagedCount }}"
+                value="{{ $this->conditionCounts['heavily_damaged'] }}"
             />
         </div>
     </div>

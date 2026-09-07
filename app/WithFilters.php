@@ -5,9 +5,41 @@ namespace App;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Url;
 
+/**
+ * Provides a generic, declarative filtering system for Livewire index/table
+ * components.
+ *
+ * Usage:
+ * 1. Define the shape of `$filters` in the consuming component's `mount()`,
+ *    preferably via `initializeFilters()` below so URL-bound values are not
+ *    clobbered on first load.
+ * 2. Implement a `filterMap(): array` method describing how each filter key
+ *    maps to a query constraint.
+ * 3. Call `$this->applyFilters($query, $this->filterMap())` when building
+ *    the filtered query.
+ */
 trait WithFilters
 {
+    /**
+     * Active filter values, keyed by filter name. Bound to the URL so
+     * filters survive page refreshes and are shareable via link.
+     */
+    #[Url]
+    public array $filters = [];
+
+    /**
+     * Merge default filter keys into `$filters` without overwriting values
+     * already hydrated from the URL query string.
+     *
+     * @param  array<string, mixed>  $defaults
+     */
+    protected function initializeFilters(array $defaults): void
+    {
+        $this->filters = array_merge($defaults, $this->filters);
+    }
+
     /**
      * Count how many filters currently have a non-empty value.
      */
@@ -61,6 +93,10 @@ trait WithFilters
      * - ['column' => 'column_name', 'cast' => 'int']
      * - ['scope' => 'scopeName', 'cast' => 'int']
      * - fn (Builder $query, mixed $value) => $query->...
+     *
+     * Note: closures are self-contained and are NOT passed through
+     * `castFilterValue()` — if a closure needs a typed value (e.g. int),
+     * it is responsible for casting it itself before use.
      *
      * @param  array<string, string|array|Closure>  $filterMap
      */
