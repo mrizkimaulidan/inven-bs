@@ -68,14 +68,17 @@
                                 title="Refresh"
                             />
                         </div>
-                        <x-button icon="fa-plus-circle" label="Tambah Data" class="btn-primary mb-2" />
+                        <a wire:navigate href="/barang/tambah" class="btn btn-primary mb-2">
+                            <i class="fas fa-plus-circle"></i>
+                            Tambah Data
+                        </a>
                     </div>
 
                     {{-- Filter Accordion --}}
                     <x-filter-accordion
                         id="filter-accordion"
                         title="Filter Data"
-                        :activeFiltersCount="$this->activeFiltersCount"
+                        :activeFiltersCount="$this->activeFilterCount"
                     >
                         {{-- Filter: Select Inputs --}}
                         <div class="row">
