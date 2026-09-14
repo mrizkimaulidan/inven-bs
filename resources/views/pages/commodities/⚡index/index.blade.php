@@ -78,7 +78,7 @@
                     <x-filter-accordion
                         id="filter-accordion"
                         title="Filter Data"
-                        :activeFiltersCount="$this->activeFilterCount"
+                        :activeFiltersCount="$this->activeFiltersCount"
                     >
                         {{-- Filter: Select Inputs --}}
                         <div class="row">
