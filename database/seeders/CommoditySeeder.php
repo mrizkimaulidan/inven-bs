@@ -8,6 +8,7 @@ use App\Models\CommodityFundingSource;
 use App\Models\CommodityLocation;
 use App\Models\Material;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class CommoditySeeder extends Seeder
 {
@@ -44,6 +45,8 @@ class CommoditySeeder extends Seeder
             'name' => $commodity,
             'purchase_year' => rand(2010, date('Y')),
             'condition' => $conditions->random(),
+
+            'image' => Str::slug($commodity).'.jpg',
 
             'quantity' => $qty = rand(5, 50),
             'total_price' => $qty * ($price = rand(2500, 150000)),

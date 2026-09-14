@@ -28,6 +28,8 @@ return new class extends Migration
             $table->year('purchase_year');
             $table->tinyInteger('condition');
 
+            $table->string('image');
+
             $table->integer('quantity');
             $table->decimal('total_price', 15, 2);
             $table->decimal('unit_price', 15, 2);
