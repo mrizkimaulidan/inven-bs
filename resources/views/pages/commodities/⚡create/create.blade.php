@@ -3,11 +3,12 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form>
+                    <form wire:submit="save">
                         <div class="row">
                             <div class="col-md-3">
                                 <x-input
-                                    name="name"
+                                    wire:model="form.name"
+                                    name="form.name"
                                     label="Nama Barang"
                                     icon="fa-box"
                                     placeholder="Masukkan nama barang"
@@ -18,7 +19,8 @@
 
                             <div class="col-md-3">
                                 <x-input
-                                    name="item_code"
+                                    wire:model="form.item_code"
+                                    name="form.item_code"
                                     label="Kode Barang"
                                     icon="fa-barcode"
                                     placeholder="Masukkan kode barang"
@@ -30,9 +32,9 @@
                             <div class="col-md-3">
                                 <x-select
                                     icon="fa-map-marker-alt"
-                                    name="location_id"
+                                    name="form.commodity_location_id"
                                     label="Lokasi"
-                                    wire:model="location_id"
+                                    wire:model="form.commodity_location_id"
                                     required
                                 >
                                     <option value="">Pilih Lokasi</option>
@@ -45,9 +47,9 @@
                             <div class="col-md-3">
                                 <x-select
                                     icon="fa-hand-holding"
-                                    name="commodity_funding_source_id"
+                                    name="form.commodity_funding_source_id"
                                     label="Perolehan"
-                                    wire:model="commodity_funding_source_id"
+                                    wire:model="form.commodity_funding_source_id"
                                     required
                                 >
                                     <option value="">Pilih Perolehan</option>
@@ -64,9 +66,9 @@
                             <div class="col-md-6">
                                 <x-select
                                     icon="fa-cube"
-                                    name="material_id"
+                                    name="form.material_id"
                                     label="Material"
-                                    wire:model="material_id"
+                                    wire:model="form.material_id"
                                     required
                                 >
                                     <option value="">Pilih Material</option>
@@ -79,9 +81,9 @@
                             <div class="col-md-6">
                                 <x-select
                                     icon="fa-trademark"
-                                    name="brand_id"
+                                    name="form.brand_id"
                                     label="Merek"
-                                    wire:model="brand_id"
+                                    wire:model="form.brand_id"
                                     required
                                 >
                                     <option value="">Pilih Merek</option>
@@ -96,9 +98,9 @@
                             <div class="col-md-6">
                                 <x-select
                                     icon="fa-calendar-alt"
-                                    name="purchase_year"
+                                    name="form.purchase_year"
                                     label="Tahun Pembelian"
-                                    wire:model="purchase_year"
+                                    wire:model="form.purchase_year"
                                     required
                                 >
                                     <option value="">Pilih Tahun</option>
@@ -111,9 +113,9 @@
                             <div class="col-md-6">
                                 <x-select
                                     icon="fa-check-circle"
-                                    name="condition"
+                                    name="form.condition"
                                     label="Kondisi Barang"
-                                    wire:model="condition"
+                                    wire:model="form.condition"
                                     required
                                 >
                                     <option value="">Pilih Kondisi</option>
@@ -127,7 +129,8 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <x-input
-                                    name="quantity"
+                                    wire:model.live="form.quantity"
+                                    name="form.quantity"
                                     label="Jumlah"
                                     type="number"
                                     icon="fa-sort-numeric-up"
@@ -138,7 +141,8 @@
 
                             <div class="col-md-4">
                                 <x-input
-                                    name="unit_price"
+                                    wire:model.live="form.unit_price"
+                                    name="form.unit_price"
                                     label="Harga Satuan (Rp)"
                                     type="number"
                                     icon="fa-money-bill"
@@ -148,31 +152,87 @@
                             </div>
 
                             <div class="col-md-4">
-                                <x-input
-                                    name="total_price"
-                                    label="Total Harga (Rp)"
-                                    type="text"
-                                    icon="fa-calculator"
-                                    placeholder="Otomatis terhitung"
-                                    help="Jumlah akan dikali dengan harga satuan"
-                                    readonly
-                                />
+                                <div class="form-group">
+                                    <label for="total_price">
+                                        <i class="fas fa-calculator mr-1"></i>
+                                        Total Harga (Rp)
+                                    </label>
+
+                                    <div id="total_price" class="bg-light rounded border px-3 py-2">
+                                        <div class="font-weight-bold">{{ $this->totalPriceFormatted }}</div>
+                                        @if ($this->totalPrice > 0)
+                                            <hr />
+                                            <small class="font-weight-bold font-italic">
+                                                {{ $this->totalInWords }}
+                                            </small>
+                                        @endif
+                                    </div>
+
+                                    <small class="form-text text-muted">
+                                        <i class="fas fa-equals"></i> Jumlah <i class="fas fa-times"></i> harga satuan
+                                    </small>
+                                </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6">
-                                <x-input
-                                    name="qr_code"
-                                    label="QR Code"
-                                    icon="fa-qrcode"
-                                    placeholder="Kosongkan untuk generate otomatis"
-                                />
+                                <div class="form-group">
+                                    <label for="image">
+                                        <i class="fas fa-image mr-1"></i>
+                                        Foto Barang
+                                    </label>
+
+                                    <div class="custom-file">
+                                        <input
+                                            wire:model="image"
+                                            type="file"
+                                            id="image"
+                                            class="custom-file-input"
+                                            accept="image/*"
+                                        />
+                                        <label class="custom-file-label" for="image"> Pilih file gambar... </label>
+                                    </div>
+
+                                    <div wire:loading wire:target="image" class="mt-2">
+                                        <span
+                                            class="spinner-border spinner-border-sm text-primary"
+                                            role="status"
+                                        ></span>
+                                        <small class="text-muted ml-1">Mengunggah gambar...</small>
+                                    </div>
+
+                                    <div class="mt-2" wire:loading.remove wire:target="image">
+                                        @if ($image)
+                                            <img
+                                                src="{{ $image->temporaryUrl() }}"
+                                                alt="Preview Foto Barang"
+                                                class="img-thumbnail"
+                                                style="max-height: 120px; max-width: 120px; object-fit: cover"
+                                            />
+                                            <small class="form-text text-muted d-block">
+                                                <i class="fas fa-check-circle text-success mr-1"></i>
+                                                Gambar siap diunggah
+                                            </small>
+                                        @else
+                                            <div
+                                                class="d-flex align-items-center justify-content-center bg-light rounded border"
+                                                style="width: 120px; height: 120px"
+                                            >
+                                                <i class="fas fa-image fa-2x text-muted"></i>
+                                            </div>
+                                            <small class="form-text text-muted">
+                                                Format: JPG, PNG, atau WEBP. Maks. 2 MB.
+                                            </small>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-md-6">
                                 <x-textarea
-                                    name="notes"
+                                    wire:model="form.notes"
+                                    name="form.notes"
                                     icon="fa-sticky-note"
                                     label="Catatan"
                                     placeholder="Masukan catatan (opsional)"
@@ -193,7 +253,12 @@
                                     class="btn-outline-warning mr-2 mb-2"
                                 />
                             </div>
-                            <x-button icon="fa-plus-circle" label="Simpan Data" class="btn-primary mb-2" />
+                            <x-button
+                                type="submit"
+                                icon="fa-plus-circle"
+                                label="Simpan Data"
+                                class="btn-primary mb-2"
+                            />
                         </div>
                     </form>
                 </div>

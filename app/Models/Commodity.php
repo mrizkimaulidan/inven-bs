@@ -3,11 +3,29 @@
 namespace App\Models;
 
 use App\CommodityCondition;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+#[Fillable([
+    'commodity_funding_source_id',
+    'commodity_location_id',
+    'created_by',
+    'updated_by',
+    'brand_id',
+    'material_id',
+    'item_code',
+    'qr_code',
+    'name',
+    'purchase_year',
+    'condition',
+    'quantity',
+    'total_price',
+    'unit_price',
+    'notes',
+])]
 class Commodity extends Model
 {
     /**
