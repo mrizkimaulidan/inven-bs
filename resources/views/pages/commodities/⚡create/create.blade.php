@@ -104,7 +104,7 @@
                                     required
                                 >
                                     <option value="">Pilih Tahun</option>
-                                    @foreach (range(2000, date('Y')) as $year)
+                                    @foreach (range(1900, date('Y')) as $year)
                                         <option value="{{ $year }}">{{ $year }}</option>
                                     @endforeach
                                 </x-select>
@@ -185,16 +185,20 @@
 
                                     <div class="custom-file">
                                         <input
-                                            wire:model="image"
+                                            wire:model="form.image"
                                             type="file"
-                                            id="image"
-                                            class="custom-file-input"
+                                            id="form.image"
+                                            class="custom-file-input @error('form.image') is-invalid @enderror"
                                             accept="image/*"
+                                            required
                                         />
-                                        <label class="custom-file-label" for="image"> Pilih file gambar... </label>
+                                        <label class="custom-file-label" for="form.image"> Pilih file gambar... </label>
                                     </div>
+                                    @error('form.image')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
 
-                                    <div wire:loading wire:target="image" class="mt-2">
+                                    <div wire:loading wire:target="form.image" class="mt-2">
                                         <span
                                             class="spinner-border spinner-border-sm text-primary"
                                             role="status"
@@ -202,10 +206,10 @@
                                         <small class="text-muted ml-1">Mengunggah gambar...</small>
                                     </div>
 
-                                    <div class="mt-2" wire:loading.remove wire:target="image">
-                                        @if ($image)
+                                    <div class="mt-2" wire:loading.remove wire:target="form.image">
+                                        @if ($form->image)
                                             <img
-                                                src="{{ $image->temporaryUrl() }}"
+                                                src="{{ $form->image->temporaryUrl() }}"
                                                 alt="Preview Foto Barang"
                                                 class="img-thumbnail"
                                                 style="max-height: 120px; max-width: 120px; object-fit: cover"

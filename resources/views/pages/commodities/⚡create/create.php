@@ -12,7 +12,6 @@ use Illuminate\Support\Number;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
 use Livewire\Component;
-use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
 new #[Title('Halaman Tambah Data Barang')] class extends Component
@@ -22,8 +21,6 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
     public StoreCommodityForm $form;
 
     public array $conditions;
-
-    public ?TemporaryUploadedFile $image = null;
 
     public function mount(): void
     {

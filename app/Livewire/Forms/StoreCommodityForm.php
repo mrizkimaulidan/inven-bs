@@ -3,10 +3,13 @@
 namespace App\Livewire\Forms;
 
 use App\Models\Commodity;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\Form;
 
 class StoreCommodityForm extends Form
 {
+    public ?TemporaryUploadedFile $image = null;
+
     public int $commodity_location_id;
 
     public int $commodity_funding_source_id;
@@ -38,13 +41,13 @@ class StoreCommodityForm extends Form
     {
         $validated = $this->validate();
 
-        dd($validated);
-
         $validated['quantity'] = $this->quantity ?? 0;
         $validated['unit_price'] = $this->unit_price ?? 0;
         $validated['total_price'] = $validated['quantity'] * $validated['unit_price'];
         $validated['created_by'] = 1;
         $validated['updated_by'] = 1;
+
+        $validated['image'] = $this->image->store('barang', 'public');
 
         Commodity::create($validated);
     }
@@ -65,6 +68,12 @@ class StoreCommodityForm extends Form
             'purchase_year' => ['required', 'integer', 'min:1900', 'max:'.date('Y')],
             'condition' => ['required', 'integer'],
             'quantity' => ['nullable', 'integer', 'min:0'],
+            'image' => [
+                'required',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:2048',
+            ],
             'unit_price' => ['nullable', 'numeric', 'min:0'],
             'notes' => ['nullable', 'string'],
         ];
@@ -112,6 +121,11 @@ class StoreCommodityForm extends Form
             'quantity.integer' => 'Jumlah harus berupa angka.',
             'quantity.min' => 'Jumlah tidak boleh negatif.',
 
+            'image.required' => 'Gambar barang wajib diunggah.',
+            'image.image' => 'File harus berupa gambar.',
+            'image.mimes' => 'Format gambar harus jpg, jpeg, png, atau webp.',
+            'image.max' => 'Ukuran gambar maksimal 2MB.',
+
             'unit_price.numeric' => 'Harga satuan harus berupa angka.',
             'unit_price.min' => 'Harga satuan tidak boleh negatif.',
 
@@ -135,6 +149,7 @@ class StoreCommodityForm extends Form
             'purchase_year' => 'tahun pembelian',
             'condition' => 'kondisi barang',
             'quantity' => 'jumlah',
+            'image' => 'gambar',
             'unit_price' => 'harga satuan',
             'notes' => 'catatan',
         ];

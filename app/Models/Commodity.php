@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'purchase_year',
     'condition',
     'quantity',
+    'image',
     'total_price',
     'unit_price',
     'notes',

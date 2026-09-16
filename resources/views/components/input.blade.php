@@ -12,7 +12,12 @@
             </label>
         @endif
 
-        <input {{ $attributes->class(['form-control']) }} id="{{ $name }}" name="{{ $name }}" @required($required) />
+        <input
+            {{ $attributes->class(['form-control', 'is-invalid' => $errors->has($name)]) }}
+            id="{{ $name }}"
+            name="{{ $name }}"
+            @required($required)
+        />
 
         @if ($help)
             <div class="form-text text-muted">{{ $help }}</div>
