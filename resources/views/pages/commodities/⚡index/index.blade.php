@@ -214,7 +214,7 @@
                                         placeholder="Min"
                                         min="0"
                                     />
-                                    <div class="input-group-prepend input-group-append">
+                                    <div class="input-group-prepend">
                                         <span class="input-group-text">-</span>
                                     </div>
                                     <input
@@ -237,7 +237,7 @@
                                         placeholder="Min"
                                         min="0"
                                     />
-                                    <div class="input-group-prepend input-group-append">
+                                    <div class="input-group-prepend">
                                         <span class="input-group-text">-</span>
                                     </div>
                                     <input
@@ -262,7 +262,7 @@
                             <option value="100">100</option>
                         </x-select>
 
-                        <form style="max-width: 300px" class="mt-md-0 mt-2">
+                        <form style="max-width: 300px" class="mt-md-0 mt-2" wire:submit.prevent>
                             <div class="input-group">
                                 <input
                                     type="text"
@@ -271,7 +271,9 @@
                                     wire:model.live.debounce.500ms="search"
                                 />
                                 <div class="input-group-append">
-                                    <button type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                                    <button type="button" class="btn btn-primary">
+                                        <i class="fas fa-search"></i>
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -293,19 +295,13 @@
                         <x-slot:thead>
                             <tr>
                                 <th class="text-center" style="width: 40px">
-                                    <div class="custom-checkbox custom-checkbox-table custom-control">
-                                        <input
-                                            type="checkbox"
-                                            data-checkboxes="mygroup"
-                                            data-checkbox-role="dad"
-                                            class="custom-control-input"
-                                            id="checkbox-all"
-                                        />
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="checkbox-all" />
                                         <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
                                     </div>
                                 </th>
                                 <th>Nama Barang</th>
-                                <th>Bahan & Merk</th>
+                                <th>Bahan &amp; Merk</th>
                                 <th>Gambar</th>
                                 <th>Tahun</th>
                                 <th>Jumlah</th>
@@ -316,12 +312,11 @@
 
                         <x-slot:tbody>
                             @forelse ($this->commodities as $commodity)
-                                <tr>
+                                <tr wire:key="commodity-{{ $commodity->id }}">
                                     <td class="text-center align-middle">
-                                        <div class="custom-checkbox custom-control">
+                                        <div class="custom-control custom-checkbox">
                                             <input
                                                 type="checkbox"
-                                                data-checkboxes="mygroup"
                                                 class="custom-control-input"
                                                 id="checkbox-{{ $commodity->id }}"
                                             />
@@ -330,10 +325,8 @@
                                         </div>
                                     </td>
 
-                                    <td class="py-3">
-                                        <div class="font-weight-bold text-dark mb-2" style="font-size: 0.95rem">
-                                            {{ $commodity->name }}
-                                        </div>
+                                    <td class="py-3 align-middle">
+                                        <div class="font-weight-bold mb-2">{{ $commodity->name }}</div>
 
                                         <div class="mb-2">
                                             <x-badge
@@ -411,7 +404,6 @@
                                             :label="$commodity->material->name"
                                             class="badge-light d-block mb-2 py-1"
                                         />
-
                                         <x-badge
                                             :label="$commodity->brand->name"
                                             class="badge-light d-block mb-2 py-1"
@@ -440,7 +432,7 @@
                                     </td>
 
                                     <td class="text-center align-middle">
-                                        <span class="font-weight-bold h6 mb-0">{{ $commodity->quantity }}</span>
+                                        <span class="font-weight-bold">{{ $commodity->quantity }}</span>
                                     </td>
 
                                     <td class="text-right align-middle">
