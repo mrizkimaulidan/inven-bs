@@ -107,7 +107,7 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
     }
 
     /**
-     * Store the commodity and redirect to the listing page.
+     * Store a newly created resource.
      */
     public function save(): void
     {

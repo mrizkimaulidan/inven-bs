@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Models\Commodity;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\Form;
 
@@ -35,7 +36,7 @@ class StoreCommodityForm extends Form
     public ?string $notes = null;
 
     /**
-     * Validate and store the commodity.
+     * Store a newly created resource in storage.
      */
     public function store(): void
     {
@@ -53,7 +54,9 @@ class StoreCommodityForm extends Form
     }
 
     /**
-     * Get the validation rules for the form.
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     protected function rules(): array
     {
@@ -80,7 +83,9 @@ class StoreCommodityForm extends Form
     }
 
     /**
-     * Get custom validation messages.
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
      */
     protected function messages(): array
     {
@@ -134,7 +139,9 @@ class StoreCommodityForm extends Form
     }
 
     /**
-     * Get custom attribute names for validation.
+     * Get custom attributes for validator errors.
+     *
+     * @return array<string, string>
      */
     protected function validationAttributes(): array
     {

@@ -1,4 +1,11 @@
 <div>
+    {{-- Modal --}}
+    @if ($activeModal === 'create')
+        @teleport('body')
+            <livewire:pages::commodity-locations.create />
+        @endteleport
+    @endif
+
     {{-- Main Card --}}
     <div class="row">
         <div class="col-12">
@@ -25,10 +32,12 @@
                                 title="Refresh"
                             />
                         </div>
-                        <a wire:navigate href="/lokasi/tambah" class="btn btn-primary mb-2">
-                            <i class="fas fa-plus-circle"></i>
-                            Tambah Data
-                        </a>
+                        <x-button
+                            wire:click="$dispatch('showModal', {modalName: 'create'})"
+                            icon="fa-plus-circle"
+                            label="Tambah Data"
+                            class="btn-primary mb-2"
+                        />
                     </div>
 
                     {{-- Table --}}

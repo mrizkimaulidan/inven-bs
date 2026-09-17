@@ -2,6 +2,7 @@
 
 use App\CommodityCondition;
 use App\Models\CommodityLocation;
+use App\WithModal;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Computed;
@@ -12,7 +13,7 @@ use Livewire\WithPagination;
 
 new #[Title('Halaman Daftar Ruangan')] class extends Component
 {
-    use WithPagination;
+    use WithModal, WithPagination;
 
     #[Url(as: 'per_page')]
     public int $perPage = 5;
