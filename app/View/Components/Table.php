@@ -10,8 +10,7 @@ use Illuminate\View\Component;
 class Table extends Component
 {
     /**
-     * Wire:target values that are always active for this table
-     * (pagination, search, and per-page controls).
+     * The default wire:target values for the table.
      */
     protected array $defaultTargets = [
         'resetFilters', 'perPage', 'search', 'nextPage', 'previousPage', 'gotoPage', '$refresh',
@@ -19,9 +18,12 @@ class Table extends Component
 
     /**
      * Create a new component instance.
+     *
+     * @param  array  $targets  The additional wire:target values
+     * @param  LengthAwarePaginator|null  $paginator  The paginator instance
      */
     public function __construct(
-        public ?array $targets,
+        public array $targets = [],
         public ?LengthAwarePaginator $paginator = null,
     ) {
         //
@@ -36,12 +38,10 @@ class Table extends Component
     }
 
     /**
-     * Merge default targets with any additional targets passed from the parent.
+     * Get the merged wire:target values.
      */
     public function resolvedTargets(): string
     {
-        $mergedTargets = array_merge($this->defaultTargets, $this->targets);
-
-        return implode(',', $mergedTargets);
+        return implode(',', array_merge($this->defaultTargets, $this->targets));
     }
 }

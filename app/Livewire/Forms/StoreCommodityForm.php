@@ -9,34 +9,73 @@ use Livewire\Form;
 
 class StoreCommodityForm extends Form
 {
+    /**
+     * The image attribute.
+     */
     public ?TemporaryUploadedFile $image = null;
 
-    public int $commodity_location_id;
+    /**
+     * The commodity location attribute.
+     */
+    public int $commodity_location_id = 0;
 
-    public int $commodity_funding_source_id;
+    /**
+     * The commodity funding source attribute.
+     */
+    public int $commodity_funding_source_id = 0;
 
-    public int $brand_id;
+    /**
+     * The brand attribute.
+     */
+    public int $brand_id = 0;
 
-    public int $material_id;
+    /**
+     * The material attribute.
+     */
+    public int $material_id = 0;
 
-    public string $name;
+    /**
+     * The name attribute.
+     */
+    public string $name = '';
 
-    public string $item_code;
+    /**
+     * The item code attribute.
+     */
+    public string $item_code = '';
 
+    /**
+     * The QR code attribute.
+     */
     public ?string $qr_code = null;
 
-    public int $purchase_year;
+    /**
+     * The purchase year attribute.
+     */
+    public int $purchase_year = 0;
 
-    public int $condition;
+    /**
+     * The condition attribute.
+     */
+    public int $condition = 0;
 
+    /**
+     * The quantity attribute.
+     */
     public ?int $quantity = 0;
 
+    /**
+     * The unit price attribute.
+     */
     public ?int $unit_price = 0;
 
+    /**
+     * The notes attribute.
+     */
     public ?string $notes = null;
 
     /**
-     * Store a newly created resource in storage.
+     * Validate the input and persist a new record.
      */
     public function store(): void
     {
@@ -45,8 +84,8 @@ class StoreCommodityForm extends Form
         $validated['quantity'] = $this->quantity ?? 0;
         $validated['unit_price'] = $this->unit_price ?? 0;
         $validated['total_price'] = $validated['quantity'] * $validated['unit_price'];
-        $validated['created_by'] = 1;
-        $validated['updated_by'] = 1;
+        $validated['created_by'] = auth()->id();
+        $validated['updated_by'] = auth()->id();
 
         $validated['image'] = $this->image->store('barang', 'public');
 
@@ -54,7 +93,7 @@ class StoreCommodityForm extends Form
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Get the validation rules for the form.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
@@ -68,7 +107,7 @@ class StoreCommodityForm extends Form
             'name' => ['required', 'string', 'max:255'],
             'item_code' => ['required', 'string', 'max:255', 'unique:commodities,item_code'],
             'qr_code' => ['nullable', 'string', 'max:255', 'unique:commodities,qr_code'],
-            'purchase_year' => ['required', 'integer', 'min:1900', 'max:'.date('Y')],
+            'purchase_year' => ['required', 'integer', 'min:1900', 'max:'.now()->year],
             'condition' => ['required', 'integer'],
             'quantity' => ['nullable', 'integer', 'min:0'],
             'image' => [
@@ -83,7 +122,7 @@ class StoreCommodityForm extends Form
     }
 
     /**
-     * Get the error messages for the defined validation rules.
+     * Get the custom validation messages.
      *
      * @return array<string, string>
      */
@@ -139,7 +178,7 @@ class StoreCommodityForm extends Form
     }
 
     /**
-     * Get custom attributes for validator errors.
+     * Get the custom validation attribute names.
      *
      * @return array<string, string>
      */

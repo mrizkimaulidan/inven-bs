@@ -5,7 +5,7 @@ namespace App;
 use Livewire\Attributes\On;
 
 /**
- * Trait for handling modal state management.
+ * Handle modal state management.
  */
 trait WithModal
 {
@@ -15,15 +15,14 @@ trait WithModal
     public ?string $activeModal = null;
 
     /**
-     * Parameters/data to be passed to the modal.
+     * The parameters to pass to the modal.
      */
     public mixed $modalParams = null;
 
     /**
-     * Open a modal with given name and parameters.
+     * Open the modal with the given name and parameters.
      *
-     * @param  string  $modalName  The modal identifier
-     * @param  array<string, mixed>|null  $params  Data to pass to the modal
+     * @param  array<string, mixed>|null  $params
      */
     #[On('showModal')]
     public function showModal(string $modalName, mixed $params = null): void
@@ -33,7 +32,7 @@ trait WithModal
     }
 
     /**
-     * Close the currently active modal.
+     * Close the active modal.
      */
     #[On('closeModal')]
     public function closeModal(): void

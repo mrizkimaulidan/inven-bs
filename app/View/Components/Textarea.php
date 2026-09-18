@@ -10,6 +10,12 @@ class Textarea extends Component
 {
     /**
      * Create a new component instance.
+     *
+     * @param  string  $name  The textarea name attribute
+     * @param  string|null  $label  The textarea label
+     * @param  bool  $required  Indicates whether the textarea is required
+     * @param  string|null  $icon  The Font Awesome icon class
+     * @param  string|null  $help  The help text
      */
     public function __construct(
         public string $name,

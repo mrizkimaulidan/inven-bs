@@ -9,15 +9,15 @@ use Illuminate\View\Component;
 class Badge extends Component
 {
     /**
-     * Indicates whether the button has an icon.
+     * Indicates whether the badge has an icon.
      */
     public bool $hasIcon;
 
     /**
      * Create a new component instance.
      *
-     * @param  string  $label  The button text
-     * @param  string|null  $icon  The Font Awesome icon class (e.g., 'fa-file-export')
+     * @param  string  $label  The badge text
+     * @param  string|null  $icon  The Font Awesome icon class
      */
     public function __construct(
         public string $label,

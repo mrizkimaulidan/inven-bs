@@ -10,6 +10,12 @@ class Input extends Component
 {
     /**
      * Create a new component instance.
+     *
+     * @param  string  $name  The input name attribute
+     * @param  string|null  $label  The input label
+     * @param  bool  $required  Indicates whether the input is required
+     * @param  string|null  $icon  The Font Awesome icon class
+     * @param  string|null  $help  The help text
      */
     public function __construct(
         public string $name,

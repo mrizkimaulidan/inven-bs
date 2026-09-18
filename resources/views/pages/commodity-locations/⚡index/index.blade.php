@@ -6,6 +6,24 @@
         @endteleport
     @endif
 
+    @if ($activeModal === 'show')
+        @teleport('body')
+            <livewire:pages::commodity-locations.show
+                :commodityLocationId="$modalParams['id']"
+                wire:key="modal-show-{{ $modalParams['id'] }}"
+            />
+        @endteleport
+    @endif
+
+    @if ($activeModal === 'edit')
+        @teleport('body')
+            <livewire:pages::commodity-locations.edit
+                :commodityLocationId="$modalParams['id']"
+                wire:key="modal-edit-{{ $modalParams['id'] }}"
+            />
+        @endteleport
+    @endif
+
     {{-- Main Card --}}
     <div class="row">
         <div class="col-12">
@@ -106,27 +124,16 @@
                                         <div class="table-links">
                                             <a
                                                 href="#"
-                                                class="btn btn-sm btn-outline-dark"
-                                                data-toggle="tooltip"
-                                                data-placement="top"
-                                                title="QR Code"
-                                            >
-                                                <i class="fas fa-qrcode"></i>
-                                            </a>
-                                            <a
-                                                href="#"
+                                                wire:click="$dispatch('showModal', {modalName: 'show', params: {id: {{ $location->id }}}})"
                                                 class="btn btn-sm btn-outline-info"
-                                                data-toggle="tooltip"
-                                                data-placement="top"
                                                 title="Detail"
                                             >
                                                 <i class="fas fa-search"></i>
                                             </a>
                                             <a
                                                 href="#"
+                                                wire:click="$dispatch('showModal', {modalName: 'edit', params: {id: {{ $location->id }}}})"
                                                 class="btn btn-sm btn-outline-success"
-                                                data-toggle="tooltip"
-                                                data-placement="top"
                                                 title="Ubah"
                                             >
                                                 <i class="fas fa-edit"></i>
@@ -142,6 +149,7 @@
                                             </a>
                                             <a
                                                 href="#"
+                                                wire:click="destroy({{ $location->id }})"
                                                 class="btn btn-sm btn-outline-danger"
                                                 data-toggle="tooltip"
                                                 data-placement="top"

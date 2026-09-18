@@ -18,17 +18,26 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
 {
     use WithFileUploads;
 
+    /**
+     * The form instance.
+     */
     public StoreCommodityForm $form;
 
+    /**
+     * The available commodity condition options.
+     */
     public array $conditions;
 
+    /**
+     * Mount the component.
+     */
     public function mount(): void
     {
         $this->conditions = CommodityCondition::options();
     }
 
     /**
-     * Get all commodity funding sources.
+     * Get a listing of the commodity funding sources.
      */
     #[Computed]
     public function commodityFundingSources(): Collection
@@ -37,7 +46,7 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
     }
 
     /**
-     * Get all materials.
+     * Get a listing of the materials.
      */
     #[Computed]
     public function materials(): Collection
@@ -46,7 +55,7 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
     }
 
     /**
-     * Get all brands.
+     * Get a listing of the brands.
      */
     #[Computed]
     public function brands(): Collection
@@ -55,7 +64,7 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
     }
 
     /**
-     * Get all commodity locations.
+     * Get a listing of the commodity locations.
      */
     #[Computed]
     public function commodityLocations(): Collection
@@ -64,7 +73,7 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
     }
 
     /**
-     * Get all users, used for the "created by" filter.
+     * Get a listing of the users.
      */
     #[Computed]
     public function createdBy(): Collection
@@ -83,7 +92,6 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
 
     /**
      * Get the total price spelled out in Indonesian words.
-     * Returns an empty string when the total is zero or negative.
      */
     #[Computed]
     public function totalInWords(): string
@@ -98,7 +106,7 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
     }
 
     /**
-     * Get the raw total price (quantity multiplied by unit price).
+     * Get the raw total price.
      */
     #[Computed]
     public function totalPrice(): float
@@ -107,7 +115,7 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
     }
 
     /**
-     * Store a newly created resource.
+     * Store a newly created resource in storage.
      */
     public function save(): void
     {

@@ -22,12 +22,21 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 {
     use WithFilters, WithModal, WithPagination;
 
+    /**
+     * The number of items to display per page.
+     */
     #[Url(as: 'per_page')]
     public int $perPage = 5;
 
+    /**
+     * The search query string.
+     */
     #[Url]
     public string $search = '';
 
+    /**
+     * Mount the component.
+     */
     public function mount(): void
     {
         $this->initializeFilters([
@@ -47,7 +56,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * Get all commodity funding sources.
+     * Get a listing of the commodity funding sources.
      */
     #[Computed]
     public function commodityFundingSources(): Collection
@@ -56,7 +65,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * Get all materials.
+     * Get a listing of the materials.
      */
     #[Computed]
     public function materials(): Collection
@@ -65,7 +74,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * Get all brands.
+     * Get a listing of the brands.
      */
     #[Computed]
     public function brands(): Collection
@@ -74,7 +83,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * Get all commodity locations.
+     * Get a listing of the commodity locations.
      */
     #[Computed]
     public function commodityLocations(): Collection
@@ -83,7 +92,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * Get all unique commodity purchase years, most recent first.
+     * Get a listing of the unique commodity purchase years.
      */
     #[Computed]
     public function purchaseYears(): array
@@ -96,7 +105,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * Get all users, used for the "created by" filter.
+     * Get a listing of the users.
      */
     #[Computed]
     public function createdBy(): Collection
@@ -105,7 +114,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * Get all available commodity condition options.
+     * Get a listing of the commodity condition options.
      */
     #[Computed]
     public function conditions(): array
@@ -134,7 +143,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * Get the paginated, filtered list of commodities.
+     * Get a listing of the commodities with pagination.
      */
     #[Computed]
     public function commodities(): LengthAwarePaginator
@@ -151,8 +160,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * Get condition-based summary counts (total, good, poor, heavily
-     * damaged)
+     * Get the condition-based summary counts.
      *
      * @return array{total: int, good: int, poor: int, heavily_damaged: int}
      */
@@ -168,7 +176,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * Resolve the icon and badge styling for a given commodity condition.
+     * Resolve the icon and badge styling for the given condition.
      */
     public function conditionStyle(CommodityCondition $condition): array
     {

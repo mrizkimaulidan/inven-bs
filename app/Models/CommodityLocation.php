@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class CommodityLocation extends Model
 {
     /**
-     * Get the commodities associated with this model.
+     * Get the commodities associated with the location.
      */
     public function commodities(): HasMany
     {

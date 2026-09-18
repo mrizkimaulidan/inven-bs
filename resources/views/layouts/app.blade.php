@@ -160,8 +160,8 @@
                             <a class="nav-link" href="blank.html"
                                 ><i class="fas fa-hand-holding"></i> <span>Data Perolehan</span></a>
                         </li>
-                        <li @class(['active' => request()->is('lokasi')])>
-                            <a wire:navigate class="nav-link" href="/lokasi"
+                        <li @class(['active' => request()->is('ruangan')])>
+                            <a wire:navigate class="nav-link" href="/ruangan"
                                 ><i class="fas fa-map-location-dot"></i> <span>Data Ruangan</span></a>
                         </li>
                         <li>

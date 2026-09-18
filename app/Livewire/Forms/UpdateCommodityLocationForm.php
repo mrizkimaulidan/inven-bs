@@ -6,8 +6,13 @@ use App\Models\CommodityLocation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
 
-class StoreCommodityLocationForm extends Form
+class UpdateCommodityLocationForm extends Form
 {
+    /**
+     * The commodity location instance.
+     */
+    public CommodityLocation $commodityLocation;
+
     /**
      * The name attribute.
      */
@@ -19,11 +24,11 @@ class StoreCommodityLocationForm extends Form
     public ?string $description = null;
 
     /**
-     * Validate the input and persist a new record.
+     * Validate the input and persist the changes.
      */
-    public function store(): void
+    public function update(): void
     {
-        CommodityLocation::create($this->validate());
+        $this->commodityLocation->update($this->validate());
     }
 
     /**

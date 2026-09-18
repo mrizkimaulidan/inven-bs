@@ -15,12 +15,14 @@ new #[Title('Halaman Daftar Ruangan')] class extends Component
 {
     use WithModal, WithPagination;
 
+    /**
+     * The number of items to display per page.
+     */
     #[Url(as: 'per_page')]
     public int $perPage = 5;
 
     /**
-     * Get paginated commodity locations, each with the total number of
-     * commodities and a breakdown count for every condition.
+     * Get a listing of the resource with pagination.
      */
     #[Computed]
     public function commodityLocations(): LengthAwarePaginator
@@ -33,5 +35,15 @@ new #[Title('Halaman Daftar Ruangan')] class extends Component
         ]);
 
         return $query->paginate($this->perPage);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(CommodityLocation $commodityLocation): void
+    {
+        $commodityLocation->delete();
+
+        $this->redirect('/ruangan', navigate: true);
     }
 };

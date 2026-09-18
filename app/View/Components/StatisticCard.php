@@ -11,10 +11,10 @@ class StatisticCard extends Component
     /**
      * Create a new component instance.
      *
-     * @param  string  $icon  The Font Awesome icon class (e.g., 'fas fa-box')
-     * @param  string  $title  The title/label displayed on the statistic card
-     * @param  string  $bgColor  The Bootstrap background color class (e.g., 'primary', 'success')
-     * @param  mixed  $value  The numeric or text value to display (can be int, float, or string)
+     * @param  string  $icon  The Font Awesome icon class
+     * @param  string  $title  The statistic card title
+     * @param  string  $bgColor  The Bootstrap background color class
+     * @param  mixed  $value  The statistic value
      */
     public function __construct(
         public string $icon,

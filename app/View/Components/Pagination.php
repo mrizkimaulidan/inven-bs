@@ -11,6 +11,10 @@ class Pagination extends Component
 {
     /**
      * Create a new component instance.
+     *
+     * @param  LengthAwarePaginator  $paginator  The paginator instance
+     * @param  string|null  $infoText  The custom info text template
+     * @param  string|null  $wrapperClass  The custom wrapper CSS class
      */
     public function __construct(
         public readonly LengthAwarePaginator $paginator,
@@ -29,7 +33,7 @@ class Pagination extends Component
     }
 
     /**
-     * Get formatted pagination info text.
+     * Get the formatted pagination info text.
      */
     public function getInfoText(): string
     {
@@ -47,7 +51,7 @@ class Pagination extends Component
     }
 
     /**
-     * Get default info text based on locale.
+     * Get the default info text based on the current locale.
      */
     private function getDefaultInfoText(): string
     {
@@ -67,7 +71,7 @@ class Pagination extends Component
     }
 
     /**
-     * Check if pagination has more than one page.
+     * Determine if pagination has more than one page.
      */
     public function hasPages(): bool
     {
@@ -91,7 +95,7 @@ class Pagination extends Component
     }
 
     /**
-     * Check if on first page.
+     * Determine if the current page is the first page.
      */
     public function onFirstPage(): bool
     {
@@ -99,7 +103,7 @@ class Pagination extends Component
     }
 
     /**
-     * Check if has more pages.
+     * Determine if there are more pages to display.
      */
     public function hasMorePages(): bool
     {
@@ -161,7 +165,7 @@ class Pagination extends Component
     }
 
     /**
-     * Check if first page should be shown.
+     * Determine if the first page link should be shown.
      */
     public function shouldShowFirstPage(): bool
     {
@@ -169,7 +173,7 @@ class Pagination extends Component
     }
 
     /**
-     * Check if ellipsis before first page should be shown.
+     * Determine if the start ellipsis should be shown.
      */
     public function shouldShowEllipsisStart(): bool
     {
@@ -177,7 +181,7 @@ class Pagination extends Component
     }
 
     /**
-     * Check if ellipsis after last page should be shown.
+     * Determine if the end ellipsis should be shown.
      */
     public function shouldShowEllipsisEnd(): bool
     {
@@ -185,7 +189,7 @@ class Pagination extends Component
     }
 
     /**
-     * Check if last page should be shown.
+     * Determine if the last page link should be shown.
      */
     public function shouldShowLastPage(): bool
     {
@@ -193,7 +197,7 @@ class Pagination extends Component
     }
 
     /**
-     * Get range of page numbers to display.
+     * Get the range of page numbers to display.
      *
      * @return array<int, int>
      */
@@ -203,7 +207,7 @@ class Pagination extends Component
     }
 
     /**
-     * Get wrapper class for the component.
+     * Get the wrapper class for the component.
      */
     public function wrapperClass(): string
     {

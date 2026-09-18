@@ -10,6 +10,9 @@ class EmptyState extends Component
 {
     /**
      * Create a new component instance.
+     *
+     * @param  string  $search  The search query
+     * @param  string  $colspan  The number of table columns
      */
     public function __construct(
         public string $search,

@@ -3,24 +3,22 @@
 namespace App;
 
 /**
- * Enum for commodity conditions.
- *
- * Represents the physical condition of a commodity item.
+ * Represent the physical condition of a commodity.
  */
 enum CommodityCondition: int
 {
     /**
-     * Commodity is in good condition, no defects.
+     * The commodity is in good condition.
      */
     case GOOD = 1;
 
     /**
-     * Commodity is in poor condition, some defects visible.
+     * The commodity is in poor condition.
      */
     case POOR = 2;
 
     /**
-     * Commodity is heavily damaged, not usable.
+     * The commodity is heavily damaged.
      */
     case HEAVILY_DAMAGED = 3;
 
@@ -37,7 +35,7 @@ enum CommodityCondition: int
     }
 
     /**
-     * Get all condition options for dropdown/select inputs.
+     * Get the condition options for select inputs.
      *
      * @return array<int, string>
      */
@@ -51,7 +49,7 @@ enum CommodityCondition: int
     }
 
     /**
-     * Check if the commodity is usable/salable.
+     * Determine if the commodity is usable.
      */
     public function isUsable(): bool
     {

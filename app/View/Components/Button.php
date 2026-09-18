@@ -17,16 +17,14 @@ class Button extends Component
      * Create a new component instance.
      *
      * @param  string  $label  The button text
-     * @param  string|null  $icon  The Font Awesome icon class (e.g., 'fa-file-export')
-     * @param  string  $type  The button type (button|submit|reset)
+     * @param  string|null  $icon  The Font Awesome icon class
+     * @param  string  $type  The button type
      */
     public function __construct(
         public string $label,
         public ?string $icon = null,
         public string $type = 'button',
     ) {
-        $this->label = $label;
-        $this->icon = $icon;
         $this->hasIcon = ! is_null($icon);
     }
 

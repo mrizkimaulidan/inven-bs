@@ -10,6 +10,10 @@ class FilterAccordion extends Component
 {
     /**
      * Create a new component instance.
+     *
+     * @param  string  $id  The accordion identifier
+     * @param  string  $title  The accordion title
+     * @param  int  $activeFiltersCount  The number of active filters
      */
     public function __construct(
         public string $id,

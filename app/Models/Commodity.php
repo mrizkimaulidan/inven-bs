@@ -74,7 +74,7 @@ class Commodity extends Model
     }
 
     /**
-     * Apply search filter to the query.
+     * Apply the search filter to the query.
      */
     #[Scope]
     public function search(Builder $query, string $searchQuery): void
