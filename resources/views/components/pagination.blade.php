@@ -32,7 +32,11 @@
                     {{-- Page Numbers --}}
                     @foreach ($pageRange() as $page)
                         <li class="page-item {{ $page == $currentPage() ? 'active' : '' }}">
-                            <button class="page-link" wire:click="gotoPage({{ $page }}, 'page')">
+                            <button
+                                class="page-link"
+                                wire:click="gotoPage({{ $page }}, 'page')"
+                                @if ($page == $currentPage()) disabled @endif
+                            >
                                 {{ $page }}
                                 @if ($page == $currentPage())
                                     <span class="sr-only">(current)</span>
