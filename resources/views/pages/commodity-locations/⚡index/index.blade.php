@@ -58,6 +58,33 @@
                         />
                     </div>
 
+                    {{-- Table Controls: Per Page & Search --}}
+                    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+                        <x-select name="perPage" wire:model.live="perPage">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </x-select>
+
+                        <form style="max-width: 300px" class="mt-md-0 mt-2" wire:submit.prevent>
+                            <div class="input-group">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Cari data"
+                                    wire:model.live.debounce.500ms="search"
+                                />
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-primary">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
                     {{-- Table --}}
                     <x-table :targets="['']" :paginator="$this->commodityLocations">
                         <x-slot:thead>

@@ -22,6 +22,12 @@ new #[Title('Halaman Daftar Ruangan')] class extends Component
     public int $perPage = 5;
 
     /**
+     * The search query string.
+     */
+    #[Url]
+    public string $search = '';
+
+    /**
      * Get a listing of the resource with pagination.
      */
     #[Computed]
@@ -33,6 +39,10 @@ new #[Title('Halaman Daftar Ruangan')] class extends Component
             'commodities as poor_conditions_count' => fn (Builder $q) => $q->where('condition', CommodityCondition::POOR),
             'commodities as heavily_damaged_conditions_count' => fn (Builder $q) => $q->where('condition', CommodityCondition::HEAVILY_DAMAGED),
         ]);
+
+        $query->when(filled($this->search), function (Builder $query) {
+            $query->search($this->search);
+        });
 
         return $query->paginate($this->perPage);
     }
