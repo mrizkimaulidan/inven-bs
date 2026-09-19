@@ -32,6 +32,6 @@ new class extends Component
     {
         $this->form->update();
 
-        $this->redirect('/lokasi', navigate: true);
+        $this->redirect('/ruangan', navigate: true);
     }
 };
