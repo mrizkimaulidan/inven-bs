@@ -195,4 +195,14 @@ new #[Title('Halaman Daftar Barang')] class extends Component
             ],
         };
     }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Commodity $commodity): void
+    {
+        $commodity->delete();
+
+        $this->redirect('/barang', navigate: true);
+    }
 };

@@ -389,6 +389,7 @@
                                             </a>
                                             <a
                                                 href="#"
+                                                wire:click="destroy({{ $commodity->id }})"
                                                 class="btn btn-sm btn-outline-danger"
                                                 data-toggle="tooltip"
                                                 data-placement="top"
