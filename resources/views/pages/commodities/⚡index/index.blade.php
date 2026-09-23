@@ -370,7 +370,8 @@
                                                 <i class="fas fa-search"></i>
                                             </a>
                                             <a
-                                                href="#"
+                                                wire:navigate
+                                                href="/barang/{{ $commodity->id }}/ubah"
                                                 class="btn btn-sm btn-outline-success"
                                                 data-toggle="tooltip"
                                                 data-placement="top"

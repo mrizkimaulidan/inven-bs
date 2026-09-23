@@ -2,13 +2,21 @@
 
 namespace App\Livewire\Forms;
 
+use App\CommodityCondition;
 use App\Models\Commodity;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\Form;
 
-class StoreCommodityForm extends Form
+class UpdateCommodityForm extends Form
 {
+    /**
+     * The commodity instance.
+     */
+    public Commodity $commodity;
+
     /**
      * The image attribute.
      */
@@ -57,7 +65,7 @@ class StoreCommodityForm extends Form
     /**
      * The condition attribute.
      */
-    public int $condition = 0;
+    public CommodityCondition $condition;
 
     /**
      * The quantity attribute.
@@ -77,19 +85,29 @@ class StoreCommodityForm extends Form
     /**
      * Validate the input and persist a new record.
      */
-    public function store(): void
+    public function update(): void
     {
-        $validated = $this->validate();
+        $validated = collect($this->validate())->except('image');
 
-        $validated['quantity'] = $this->quantity ?? 0;
-        $validated['unit_price'] = $this->unit_price ?? 0;
-        $validated['total_price'] = $validated['quantity'] * $validated['unit_price'];
-        $validated['created_by'] = auth()->id() ?? 1;
-        $validated['updated_by'] = auth()->id() ?? 1;
+        $quantity = $this->quantity ?? 0;
+        $unitPrice = $this->unit_price ?? 0;
 
-        $validated['image'] = $this->image->store('barang', 'public');
+        $validated->put('quantity', $quantity);
+        $validated->put('unit_price', $unitPrice);
+        $validated->put('total_price', $quantity * $unitPrice);
+        $validated->put('updated_by', auth()->id());
 
-        Commodity::create($validated);
+        if ($this->image) {
+            $path = $this->image->store('barang', 'public');
+
+            if ($this->commodity->image && Storage::disk('public')->exists($this->commodity->image)) {
+                Storage::disk('public')->delete($this->commodity->image);
+            }
+
+            $validated->put('image', $path);
+        }
+
+        $this->commodity->update($validated->toArray());
     }
 
     /**
@@ -105,13 +123,16 @@ class StoreCommodityForm extends Form
             'brand_id' => ['required', 'exists:brands,id'],
             'material_id' => ['required', 'exists:materials,id'],
             'name' => ['required', 'string', 'max:255'],
-            'item_code' => ['required', 'string', 'max:255', 'unique:commodities,item_code'],
-            'qr_code' => ['nullable', 'string', 'max:255', 'unique:commodities,qr_code'],
+            'item_code' => ['required', 'string', 'max:255', Rule::unique('commodities', 'item_code')->ignore($this->commodity->id)],
+            'qr_code' => ['nullable', 'string', 'max:255', Rule::unique('commodities', 'qr_code')->ignore($this->commodity->id)],
             'purchase_year' => ['required', 'integer', 'min:1900', 'max:'.now()->year],
-            'condition' => ['required', 'integer'],
+            'condition' => [
+                'required',
+                Rule::enum(CommodityCondition::class),
+            ],
             'quantity' => ['nullable', 'integer', 'min:0'],
             'image' => [
-                'required',
+                'nullable',
                 'image',
                 'mimes:jpg,jpeg,png,webp',
                 'max:2048',
@@ -165,7 +186,6 @@ class StoreCommodityForm extends Form
             'quantity.integer' => 'Jumlah harus berupa angka.',
             'quantity.min' => 'Jumlah tidak boleh negatif.',
 
-            'image.required' => 'Gambar barang wajib diunggah.',
             'image.image' => 'File harus berupa gambar.',
             'image.mimes' => 'Format gambar harus jpg, jpeg, png, atau webp.',
             'image.max' => 'Ukuran gambar maksimal 2MB.',
