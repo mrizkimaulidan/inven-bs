@@ -205,4 +205,14 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
         $this->redirect('/barang', navigate: true);
     }
+
+    /**
+     * 	Called after updating a property.
+     */
+    public function updated(string $property): void
+    {
+        if (in_array($property, ['search'])) {
+            $this->resetPage();
+        }
+    }
 };
