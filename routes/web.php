@@ -13,3 +13,5 @@ Route::livewire('/barang/tambah', 'pages::commodities.create');
 Route::livewire('/barang/{commodity}/ubah', 'pages::commodities.edit');
 
 Route::livewire('/ruangan', 'pages::commodity-locations.index');
+
+Route::livewire('/merek', 'pages::brands.index');

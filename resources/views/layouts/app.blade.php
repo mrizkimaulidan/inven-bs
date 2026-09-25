@@ -164,8 +164,9 @@
                             <a wire:navigate class="nav-link" href="/ruangan"
                                 ><i class="fas fa-map-location-dot"></i> <span>Data Ruangan</span></a>
                         </li>
-                        <li>
-                            <a class="nav-link" href="blank.html"><i class="fas fa-tag"></i> <span>Data Merek</span></a>
+                        <li @class(['active' => request()->is('merek')])>
+                            <a wire:navigate class="nav-link" href="/merek"
+                                ><i class="fas fa-tag"></i> <span>Data Merek</span></a>
                         </li>
                         <li>
                             <a class="nav-link" href="blank.html"
