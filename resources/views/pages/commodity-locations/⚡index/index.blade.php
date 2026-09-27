@@ -95,7 +95,7 @@
                                         <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
                                     </div>
                                 </th>
-                                <th>Ruang</th>
+                                <th>Nama Ruangan</th>
                                 <th>Deskripsi</th>
                             </tr>
                         </x-slot:thead>

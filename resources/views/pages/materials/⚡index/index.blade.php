@@ -95,7 +95,7 @@
                                         <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
                                     </div>
                                 </th>
-                                <th>Nama Merek</th>
+                                <th>Nama Bahan</th>
                             </tr>
                         </x-slot:thead>
 
