@@ -147,8 +147,9 @@
                     </div>
                     <ul class="sidebar-menu">
                         <li class="menu-header">Dashboard</li>
-                        <li class="active">
-                            <a class="nav-link" href="blank.html"><i class="fas fa-house"></i> <span>Beranda</span></a>
+                        <li @class(['active' => request()->is('beranda')])>
+                            <a wire:navigate class="nav-link" href="/beranda"
+                                ><i class="fas fa-house"></i> <span>Beranda</span></a>
                         </li>
 
                         <li class="menu-header">Manajemen</li>
@@ -156,8 +157,8 @@
                             <a wire:navigate class="nav-link" href="/barang"
                                 ><i class="fas fa-boxes-stacked"></i> <span>Data Barang</span></a>
                         </li>
-                        <li>
-                            <a class="nav-link" href="blank.html"
+                        <li @class(['active' => request()->is('perolehan')])>
+                            <a wire:navigate class="nav-link" href="/perolehan"
                                 ><i class="fas fa-hand-holding"></i> <span>Data Perolehan</span></a>
                         </li>
                         <li @class(['active' => request()->is('ruangan')])>
