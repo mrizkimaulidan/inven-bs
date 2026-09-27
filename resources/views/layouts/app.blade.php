@@ -168,8 +168,8 @@
                             <a wire:navigate class="nav-link" href="/merek"
                                 ><i class="fas fa-tag"></i> <span>Data Merek</span></a>
                         </li>
-                        <li>
-                            <a class="nav-link" href="blank.html"
+                        <li @class(['active' => request()->is('bahan')])>
+                            <a wire:navigate class="nav-link" href="/bahan"
                                 ><i class="fas fa-cube"></i> <span>Data Bahan</span></a>
                         </li>
                         <li>
