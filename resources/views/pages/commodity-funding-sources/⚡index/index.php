@@ -2,6 +2,7 @@
 
 use App\CommodityCondition;
 use App\Models\CommodityFundingSource;
+use App\WithBulkDelete;
 use App\WithModal;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,7 +14,7 @@ use Livewire\WithPagination;
 
 new #[Title('Halaman Daftar Perolehan')] class extends Component
 {
-    use WithModal, WithPagination;
+    use WithBulkDelete, WithModal, WithPagination;
 
     /**
      * The number of items to display per page.
@@ -48,6 +49,14 @@ new #[Title('Halaman Daftar Perolehan')] class extends Component
     }
 
     /**
+     * The name of the computed property used by WithBulkDelete.
+     */
+    protected function bulkPaginatorName(): string
+    {
+        return 'commodityFundingSources';
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(CommodityFundingSource $commodityFundingSource): void
@@ -58,12 +67,16 @@ new #[Title('Halaman Daftar Perolehan')] class extends Component
     }
 
     /**
-     * 	Called after updating a property.
+     * Called after updating a property.
      */
     public function updated(string $property): void
     {
-        if (in_array($property, ['search'])) {
+        if (in_array($property, ['search', 'perPage'])) {
             $this->resetPage();
+        }
+
+        if ($property === 'search') {
+            $this->resetSelection();
         }
     }
 };

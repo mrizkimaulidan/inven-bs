@@ -24,6 +24,15 @@
         @endteleport
     @endif
 
+    @if ($activeModal === 'bulk-destroy')
+        @teleport('body')
+            <livewire:pages::commodity-locations.bulk-destroy
+                :ids="$modalParams['ids']"
+                wire:key="modal-bulk-destroy-{{ implode('-', $modalParams['ids']) }}"
+            />
+        @endteleport
+    @endif
+
     {{-- Main Card --}}
     <div class="row">
         <div class="col-12">
@@ -39,7 +48,13 @@
                                 label="Export"
                                 class="btn-info mr-2 mb-2"
                             />
-                            <x-button icon="fa-trash-alt" label="Hapus Terpilih" class="btn-danger mr-2 mb-2" />
+                            <x-button
+                                wire:click="$dispatch('showModal', {modalName: 'bulk-destroy', params: {ids: {{ json_encode($selected) }}}})"
+                                icon="fa-trash-alt"
+                                label="Hapus Terpilih"
+                                class="btn-danger mr-2 mb-2"
+                                :disabled="empty($selected)"
+                            />
                             <x-button icon="fa-print" label="Print" class="btn-secondary mr-2 mb-2" />
                             <x-button
                                 wire:click="$refresh"
@@ -91,7 +106,12 @@
                             <tr>
                                 <th class="text-center" style="width: 40px">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="checkbox-all" />
+                                        <input
+                                            type="checkbox"
+                                            class="custom-control-input"
+                                            id="checkbox-all"
+                                            wire:model.live="selectAll"
+                                        />
                                         <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
                                     </div>
                                 </th>

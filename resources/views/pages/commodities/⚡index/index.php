@@ -7,6 +7,7 @@ use App\Models\CommodityFundingSource;
 use App\Models\CommodityLocation;
 use App\Models\Material;
 use App\Models\User;
+use App\WithBulkDelete;
 use App\WithFilters;
 use App\WithModal;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -20,7 +21,7 @@ use Livewire\WithPagination;
 
 new #[Title('Halaman Daftar Barang')] class extends Component
 {
-    use WithFilters, WithModal, WithPagination;
+    use WithBulkDelete, WithFilters, WithModal, WithPagination;
 
     /**
      * The number of items to display per page.
@@ -197,6 +198,14 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
+     * The name of the computed property used by WithBulkDelete.
+     */
+    protected function bulkPaginatorName(): string
+    {
+        return 'commodities';
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(Commodity $commodity): void
@@ -207,12 +216,16 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * 	Called after updating a property.
+     * Called after updating a property.
      */
     public function updated(string $property): void
     {
-        if (in_array($property, ['search'])) {
+        if (in_array($property, ['search', 'perPage'])) {
             $this->resetPage();
+        }
+
+        if ($property === 'search') {
+            $this->resetSelection();
         }
     }
 };

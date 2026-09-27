@@ -18,6 +18,12 @@ use Livewire\Attributes\Url;
  *    to a query constraint.
  * 3. Call `$this->applyFilters($query, $this->filterMap())` when building
  *    the filtered query.
+ *
+ * Note: this trait assumes the host component also uses
+ * Livewire\WithPagination, since resetFilters() and updatedFilters()
+ * below call $this->resetPage(). It does NOT assume a $search property —
+ * reset pagination for that from the component's own `updated()` hook,
+ * the same way as with WithBulkDelete.
  */
 trait WithFilters
 {
@@ -57,19 +63,12 @@ trait WithFilters
     }
 
     /**
-     * Reset all active filters and return to the first page.
+     * Reset all filters back to an empty state (not back to the
+     * defaults passed to initializeFilters()) and return to page 1.
      */
     public function resetFilters(): void
     {
         $this->reset('filters');
-        $this->resetPage();
-    }
-
-    /**
-     * Reset pagination when the search term changes.
-     */
-    public function updatedSearch(): void
-    {
         $this->resetPage();
     }
 
