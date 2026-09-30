@@ -19,3 +19,5 @@ Route::livewire('/merek', 'pages::brands.index');
 Route::livewire('/bahan', 'pages::materials.index');
 
 Route::livewire('/perolehan', 'pages::commodity-funding-sources.index');
+
+Route::livewire('/pengaturan/profil', 'pages::settings.profile');
