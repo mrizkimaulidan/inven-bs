@@ -24,7 +24,7 @@
 
                             <div class="col-md-6">
                                 <x-input
-                                    wire:model.live="form.email"
+                                    wire:model="form.email"
                                     name="form.email"
                                     type="email"
                                     label="Alamat Email"
@@ -49,6 +49,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <x-input
+                                    wire:model="form.current_password"
                                     name="form.current_password"
                                     type="password"
                                     label="Kata Sandi Sekarang"
@@ -59,7 +60,8 @@
 
                             <div class="col-md-6">
                                 <x-input
-                                    name="form.new_password"
+                                    wire:model="form.password"
+                                    name="form.password"
                                     type="password"
                                     label="Kata Sandi Baru"
                                     icon="fa-key"
@@ -72,7 +74,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <x-input
-                                    name="form.new_password_confirmation"
+                                    wire:model="form.password_confirmation"
+                                    name="form.password_confirmation"
                                     type="password"
                                     label="Konfirmasi Kata Sandi Baru"
                                     icon="fa-check-circle"

@@ -5,6 +5,7 @@ namespace App\Livewire\Forms;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 use Livewire\Form;
 
 class UpdateProfileForm extends Form
@@ -32,12 +33,12 @@ class UpdateProfileForm extends Form
     /**
      * The new password attribute.
      */
-    public string $new_password = '';
+    public string $password = '';
 
     /**
      * The new password confirmation attribute.
      */
-    public string $new_password_confirmation = '';
+    public string $password_confirmation = '';
 
     /**
      * Validate the input and persist the changes.
@@ -46,22 +47,21 @@ class UpdateProfileForm extends Form
     {
         $validated = $this->validate();
 
-        // Hanya update password jika field new_password diisi
-        if (! empty($validated['new_password'])) {
-            $validated['password'] = Hash::make($validated['new_password']);
-        }
-
-        // Hapus field yang bukan kolom di tabel users
         unset(
             $validated['current_password'],
-            $validated['new_password'],
-            $validated['new_password_confirmation'],
+            $validated['password_confirmation'],
         );
+
+        if (! empty($validated['password'])) {
+            $validated['password'] = Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
 
         $this->user->update($validated);
 
         // Bersihkan field password setelah berhasil disimpan
-        $this->reset('current_password', 'new_password', 'new_password_confirmation');
+        $this->reset('current_password', 'password', 'password_confirmation');
     }
 
     /**
@@ -83,22 +83,18 @@ class UpdateProfileForm extends Form
             ],
             'current_password' => [
                 'nullable',
-                'required_with:new_password',
-                function (string $attribute, mixed $value, \Closure $fail) {
-                    if ($value && ! Hash::check($value, $this->user->password)) {
-                        $fail('Kata sandi sekarang tidak sesuai!');
-                    }
-                },
+                'required_with:password',
+                'current_password:web',
             ],
-            'new_password' => [
+            'password' => [
                 'nullable',
-                'min:8',
-                'max:255',
-                'same:new_password_confirmation',
+                'required_with:current_password',
+                Password::min(8),
             ],
-            'new_password_confirmation' => [
+            'password_confirmation' => [
                 'nullable',
-                'min:8',
+                'required_with:password',
+                'same:password',
             ],
         ];
     }
@@ -119,12 +115,13 @@ class UpdateProfileForm extends Form
             'email.unique' => 'Alamat email sudah digunakan!',
 
             'current_password.required_with' => 'Kata sandi sekarang wajib diisi untuk mengubah kata sandi!',
+            'current_password.current_password' => 'Kata sandi sekarang tidak sesuai!',
 
-            'new_password.min' => 'Kata sandi baru minimal :min karakter!',
-            'new_password.max' => 'Kata sandi baru maksimal :max karakter!',
-            'new_password.same' => 'Konfirmasi kata sandi baru tidak cocok!',
+            'password.required_with' => 'Kata sandi baru wajib diisi jika mengubah kata sandi!',
+            'password.min' => 'Kata sandi baru minimal :min karakter!',
 
-            'new_password_confirmation.min' => 'Konfirmasi kata sandi minimal :min karakter!',
+            'password_confirmation.required_with' => 'Konfirmasi kata sandi baru wajib diisi!',
+            'password_confirmation.same' => 'Konfirmasi kata sandi baru tidak cocok!',
         ];
     }
 }

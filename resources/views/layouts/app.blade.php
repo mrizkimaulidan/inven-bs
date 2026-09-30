@@ -179,8 +179,8 @@
                         </li>
 
                         <li class="menu-header">Pengaturan</li>
-                        <li>
-                            <a class="nav-link" href="blank.html"
+                        <li @class(['active' => request()->is('pengaturan/profil')])>
+                            <a wire:navigate class="nav-link" href="/pengaturan/profil"
                                 ><i class="fas fa-gear"></i> <span>Pengaturan Profil</span></a>
                         </li>
                         <li>
