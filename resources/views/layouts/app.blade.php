@@ -183,8 +183,8 @@
                             <a wire:navigate class="nav-link" href="/pengaturan/profil"
                                 ><i class="fas fa-gear"></i> <span>Pengaturan Profil</span></a>
                         </li>
-                        <li>
-                            <a class="nav-link" href="blank.html"
+                        <li @class(['active' => request()->is('peran-dan-hak-akses')])>
+                            <a wire:navigate class="nav-link" href="/peran-dan-hak-akses"
                                 ><i class="fas fa-user-shield"></i> <span>Peran & Hak Akses</span></a>
                         </li>
                     </ul>

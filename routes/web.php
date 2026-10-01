@@ -21,3 +21,5 @@ Route::livewire('/bahan', 'pages::materials.index');
 Route::livewire('/perolehan', 'pages::commodity-funding-sources.index');
 
 Route::livewire('/pengaturan/profil', 'pages::settings.profile');
+
+Route::livewire('/peran-dan-hak-akses', 'pages::roles.index');
