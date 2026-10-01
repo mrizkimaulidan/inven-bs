@@ -59,12 +59,10 @@
                                 title="Refresh"
                             />
                         </div>
-                        <x-button
-                            wire:click="$dispatch('showModal', {modalName: 'create'})"
-                            icon="fa-plus-circle"
-                            label="Tambah Data"
-                            class="btn-primary mb-2"
-                        />
+                        <a wire:navigate href="/peran-dan-hak-akses/tambah" class="btn btn-primary mb-2">
+                            <i class="fas fa-plus-circle"></i>
+                            Tambah Data
+                        </a>
                     </div>
 
                     {{-- Table Controls: Per Page & Search --}}
