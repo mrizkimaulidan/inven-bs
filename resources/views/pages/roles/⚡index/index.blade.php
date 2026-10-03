@@ -155,8 +155,8 @@
                                                 <i class="fas fa-search"></i>
                                             </a>
                                             <a
-                                                href="#"
-                                                wire:click="$dispatch('showModal', {modalName: 'edit', params: {id: {{ $role->id }}}})"
+                                                wire:navigate
+                                                href="/peran-dan-hak-akses/{{ $role->id }}/ubah"
                                                 class="btn btn-sm btn-outline-success"
                                                 title="Ubah"
                                             >

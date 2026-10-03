@@ -24,3 +24,4 @@ Route::livewire('/pengaturan/profil', 'pages::settings.profile');
 
 Route::livewire('/peran-dan-hak-akses', 'pages::roles.index');
 Route::livewire('/peran-dan-hak-akses/tambah', 'pages::roles.create');
+Route::livewire('/peran-dan-hak-akses/{role}/ubah', 'pages::roles.edit');
