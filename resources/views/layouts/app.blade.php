@@ -173,8 +173,8 @@
                             <a wire:navigate class="nav-link" href="/bahan"
                                 ><i class="fas fa-cube"></i> <span>Data Bahan</span></a>
                         </li>
-                        <li>
-                            <a class="nav-link" href="blank.html"
+                        <li @class(['active' => request()->is('pengguna')])>
+                            <a wire:navigate class="nav-link" href="/pengguna"
                                 ><i class="fas fa-users"></i> <span>Data Pengguna</span></a>
                         </li>
 
