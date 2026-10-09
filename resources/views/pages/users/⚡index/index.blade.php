@@ -189,10 +189,10 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="font-weight-bold mb-2">{{ Str::mask($user->email, '*', 3) }}</div>
+                                        <div class="font-weight-bold">{{ Str::mask($user->email, '*', 3) }}</div>
                                     </td>
                                     <td>
-                                        <div class="font-weight-bold mb-2">
+                                        <div class="font-weight-bold">
                                             {{ $user->created_at->translatedFormat('d F Y H:i') }}
                                         </div>
                                     </td>
