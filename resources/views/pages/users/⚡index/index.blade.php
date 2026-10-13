@@ -17,10 +17,7 @@
 
     @if ($activeModal === 'edit')
         @teleport('body')
-            <livewire:pages::users.edit
-                :materialId="$modalParams['id']"
-                wire:key="modal-edit-{{ $modalParams['id'] }}"
-            />
+            <livewire:pages::users.edit :userId="$modalParams['id']" wire:key="modal-edit-{{ $modalParams['id'] }}" />
         @endteleport
     @endif
 
