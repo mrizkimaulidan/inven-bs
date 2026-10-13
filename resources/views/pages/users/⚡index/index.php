@@ -57,7 +57,7 @@ new #[Title('Halaman Daftar Pengguna')] class extends Component
     {
         $user->delete();
 
-        $this->redirect('/bahan', navigate: true);
+        $this->redirect('/pengguna', navigate: true);
     }
 
     /**
