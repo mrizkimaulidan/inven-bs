@@ -6,15 +6,6 @@
         @endteleport
     @endif
 
-    @if ($activeModal === 'show')
-        @teleport('body')
-            <livewire:pages::users.show
-                :materialId="$modalParams['id']"
-                wire:key="modal-show-{{ $modalParams['id'] }}"
-            />
-        @endteleport
-    @endif
-
     @if ($activeModal === 'edit')
         @teleport('body')
             <livewire:pages::users.edit :userId="$modalParams['id']" wire:key="modal-edit-{{ $modalParams['id'] }}" />
@@ -150,28 +141,11 @@
                                         <div class="table-links">
                                             <a
                                                 href="#"
-                                                wire:click="$dispatch('showModal', {modalName: 'show', params: {id: {{ $user->id }}}})"
-                                                class="btn btn-sm btn-outline-info"
-                                                title="Detail"
-                                            >
-                                                <i class="fas fa-search"></i>
-                                            </a>
-                                            <a
-                                                href="#"
                                                 wire:click="$dispatch('showModal', {modalName: 'edit', params: {id: {{ $user->id }}}})"
                                                 class="btn btn-sm btn-outline-success"
                                                 title="Ubah"
                                             >
                                                 <i class="fas fa-edit"></i>
-                                            </a>
-                                            <a
-                                                href="#"
-                                                class="btn btn-sm btn-outline-secondary"
-                                                data-toggle="tooltip"
-                                                data-placement="top"
-                                                title="Print"
-                                            >
-                                                <i class="fas fa-print"></i>
                                             </a>
                                             <a
                                                 href="#"

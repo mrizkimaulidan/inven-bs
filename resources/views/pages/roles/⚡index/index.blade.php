@@ -6,12 +6,6 @@
         @endteleport
     @endif
 
-    @if ($activeModal === 'show')
-        @teleport('body')
-            <livewire:pages::brands.show :brandId="$modalParams['id']" wire:key="modal-show-{{ $modalParams['id'] }}" />
-        @endteleport
-    @endif
-
     @if ($activeModal === 'edit')
         @teleport('body')
             <livewire:pages::brands.edit :brandId="$modalParams['id']" wire:key="modal-edit-{{ $modalParams['id'] }}" />
@@ -146,14 +140,6 @@
                                         </div>
 
                                         <div class="table-links">
-                                            <a
-                                                href="#"
-                                                wire:click="$dispatch('showModal', {modalName: 'show', params: {id: {{ $role->id }}}})"
-                                                class="btn btn-sm btn-outline-info"
-                                                title="Detail"
-                                            >
-                                                <i class="fas fa-search"></i>
-                                            </a>
                                             <a
                                                 wire:navigate
                                                 href="/peran-dan-hak-akses/{{ $role->id }}/ubah"

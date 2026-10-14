@@ -185,15 +185,6 @@
                                             </a>
                                             <a
                                                 href="#"
-                                                class="btn btn-sm btn-outline-secondary"
-                                                data-toggle="tooltip"
-                                                data-placement="top"
-                                                title="Print"
-                                            >
-                                                <i class="fas fa-print"></i>
-                                            </a>
-                                            <a
-                                                href="#"
                                                 wire:click="destroy({{ $material->id }})"
                                                 class="btn btn-sm btn-outline-danger"
                                                 data-toggle="tooltip"
