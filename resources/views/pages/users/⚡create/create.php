@@ -26,6 +26,8 @@ new class extends Component
     {
         $this->form->store();
 
+        session()->flash('success', 'Data pengguna berhasil ditambahkan!');
+
         $this->redirect('/pengguna', navigate: true);
     }
 };

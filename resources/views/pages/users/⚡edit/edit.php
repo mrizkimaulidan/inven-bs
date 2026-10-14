@@ -42,6 +42,8 @@ new class extends Component
     {
         $this->form->update();
 
+        session()->flash('success', 'Data pengguna berhasil diubah!');
+
         $this->redirect('/pengguna', navigate: true);
     }
 };

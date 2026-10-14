@@ -57,7 +57,7 @@ new #[Title('Halaman Daftar Pengguna')] class extends Component
     {
         $user->delete();
 
-        $this->redirect('/pengguna', navigate: true);
+        session()->flash('success', 'Data pengguna berhasil dihapus!');
     }
 
     /**
