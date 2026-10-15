@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommodityVerificationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -27,3 +28,5 @@ Route::livewire('/peran-dan-hak-akses/tambah', 'pages::roles.create');
 Route::livewire('/peran-dan-hak-akses/{role}/ubah', 'pages::roles.edit');
 
 Route::livewire('/pengguna', 'pages::users.index');
+
+Route::get('/verifikasi/barang/{qrcode}', CommodityVerificationController::class)->name('verifikasi.barang');

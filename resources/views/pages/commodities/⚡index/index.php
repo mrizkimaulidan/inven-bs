@@ -13,6 +13,7 @@ use App\WithModal;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
@@ -195,6 +196,15 @@ new #[Title('Halaman Daftar Barang')] class extends Component
                 'badge' => 'badge-danger',
             ],
         };
+    }
+
+    public function generateQrCode(Commodity $commodity): void
+    {
+        $commodity->update([
+            'qr_code' => (string) Str::ulid(),
+        ]);
+
+        session()->flash('success', 'Berhasil generate QR Code untuk Barang');
     }
 
     /**

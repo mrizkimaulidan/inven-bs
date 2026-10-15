@@ -1,0 +1,90 @@
+/* ===== Container ===== */
+.qrcode-preview {
+    background: #fafafa;
+    border-radius: .5rem;
+    animation: qrcode-preview-fade-in .4s ease-out both;
+}
+
+/* ===== Preview Card ===== */
+.qrcode-preview__card {
+    border: 1px solid #e9ecef;
+    transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+    will-change: transform;
+}
+
+.qrcode-preview__card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 .75rem 1.5rem rgba(0, 0, 0, .08) !important;
+    border-color: #dee2e6;
+}
+
+/* ===== Preview Media (svg / img / video) ===== */
+.qrcode-preview__media>svg,
+.qrcode-preview__media>img {
+    display: block;
+    width: 200px;
+    height: 200px;
+    max-width: 100%;
+    shape-rendering: crispEdges;
+}
+
+/* ===== Info Chip ===== */
+.qrcode-preview__chip {
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.qrcode-preview__chip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .06) !important;
+}
+
+/* ===== Helper Text ===== */
+.qrcode-preview__hint {
+    letter-spacing: .2px;
+    animation: qrcode-preview-fade-in .6s ease-out .12s both;
+}
+
+/* ===== Animation ===== */
+@keyframes qrcode-preview-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== Print ===== */
+@media print {
+    .qrcode-preview {
+        background: #fff !important;
+    }
+
+    .qrcode-preview__chip,
+    .qrcode-preview__hint {
+        display: none !important;
+    }
+
+    .qrcode-preview__card {
+        box-shadow: none !important;
+        border: 0 !important;
+        transform: none !important;
+    }
+}
+
+/* ===== Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+
+    .qrcode-preview,
+    .qrcode-preview__hint {
+        animation: none !important;
+    }
+
+    .qrcode-preview__card,
+    .qrcode-preview__chip {
+        transition: none !important;
+    }
+}

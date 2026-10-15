@@ -4,6 +4,7 @@ namespace App\Livewire\Forms;
 
 use App\Models\Commodity;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Str;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\Form;
 
@@ -81,6 +82,8 @@ class StoreCommodityForm extends Form
     {
         $validated = $this->validate();
 
+        $validated['qr_code'] = (string) Str::ulid();
+
         $validated['quantity'] = $this->quantity ?? 0;
         $validated['unit_price'] = $this->unit_price ?? 0;
         $validated['total_price'] = $validated['quantity'] * $validated['unit_price'];
@@ -106,7 +109,6 @@ class StoreCommodityForm extends Form
             'material_id' => ['required', 'exists:materials,id'],
             'name' => ['required', 'string', 'max:255'],
             'item_code' => ['required', 'string', 'max:255', 'unique:commodities,item_code'],
-            'qr_code' => ['nullable', 'string', 'max:255', 'unique:commodities,qr_code'],
             'purchase_year' => ['required', 'integer', 'min:1900', 'max:'.now()->year],
             'condition' => ['required', 'integer'],
             'quantity' => ['nullable', 'integer', 'min:0'],
@@ -149,10 +151,6 @@ class StoreCommodityForm extends Form
             'item_code.string' => 'Kode barang harus berupa teks.',
             'item_code.max' => 'Kode barang maksimal 255 karakter.',
             'item_code.unique' => 'Kode barang sudah digunakan.',
-
-            'qr_code.string' => 'Kode QR harus berupa teks.',
-            'qr_code.max' => 'Kode QR maksimal 255 karakter.',
-            'qr_code.unique' => 'Kode QR sudah digunakan.',
 
             'purchase_year.required' => 'Tahun pembelian wajib diisi.',
             'purchase_year.integer' => 'Tahun pembelian harus berupa angka.',

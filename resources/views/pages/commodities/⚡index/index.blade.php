@@ -15,6 +15,15 @@
         @endteleport
     @endif
 
+    @if ($activeModal === 'qrcode')
+        @teleport('body')
+            <livewire:pages::commodities.qrcode
+                :qrcode="$modalParams['qrcode']"
+                wire:key="modal-qrcode-{{ $modalParams['qrcode'] }}"
+            />
+        @endteleport
+    @endif
+
     {{-- Statistics Cards --}}
     <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
@@ -373,15 +382,29 @@
                                         </div>
 
                                         <div class="table-links">
-                                            <a
-                                                href="#"
-                                                class="btn btn-sm btn-outline-dark"
-                                                data-toggle="tooltip"
-                                                data-placement="top"
-                                                title="QR Code"
-                                            >
-                                                <i class="fas fa-qrcode"></i>
-                                            </a>
+                                            @if ($commodity->qr_code)
+                                                <a
+                                                    wire:click="$dispatch('showModal', {modalName: 'qrcode', params: {qrcode: @js($commodity->qr_code)}})"
+                                                    class="btn btn-sm btn-outline-dark"
+                                                    data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="QR Code"
+                                                >
+                                                    <i class="fas fa-qrcode"></i>
+                                                </a>
+
+                                            @else
+                                                <a
+                                                    wire:click="generateQrCode({{ $commodity->id }})"
+                                                    class="btn btn-sm btn-outline-dark"
+                                                    data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="Generate QR Code"
+                                                >
+                                                    <i class="fas fa-spinner"></i>
+                                                </a>
+                                            @endif
+
                                             <a
                                                 href="#"
                                                 class="btn btn-sm btn-outline-info"
