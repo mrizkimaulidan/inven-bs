@@ -19,6 +19,7 @@ class Modal extends Component
         public string $title,
         public ?string $submit = null,
         public string $size = 'md',
+        public bool $scrollable = false,
     ) {
         //
     }

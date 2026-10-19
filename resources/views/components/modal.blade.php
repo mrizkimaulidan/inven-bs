@@ -6,7 +6,7 @@
         style="display: block; background: rgba(0, 0, 0, 0.5)"
         data-backdrop="static"
     >
-        <div class="modal-dialog modal-{{ $size }}" role="document">
+        <div class="modal-dialog modal-{{ $size }} @if($scrollable) modal-dialog-scrollable @endif" role="document">
             <div class="modal-content">
                 @if ($submit)
                     <form wire:submit="{{ $submit }}">
