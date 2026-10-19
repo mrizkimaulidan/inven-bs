@@ -6,6 +6,15 @@
         @endteleport
     @endif
 
+    @if ($activeModal === 'show')
+        @teleport('body')
+            <livewire:pages::commodities.show
+                :commodityId="$modalParams['id']"
+                wire:key="modal-show-{{ $modalParams['id'] }}"
+            />
+        @endteleport
+    @endif
+
     @if ($activeModal === 'bulk-destroy')
         @teleport('body')
             <livewire:pages::commodities.bulk-destroy
@@ -406,7 +415,7 @@
                                             @endif
 
                                             <a
-                                                href="#"
+                                                wire:click="$dispatch('showModal', {modalName: 'show', params: {id: {{ $commodity->id }}}})"
                                                 class="btn btn-sm btn-outline-info"
                                                 data-toggle="tooltip"
                                                 data-placement="top"

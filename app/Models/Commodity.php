@@ -42,6 +42,26 @@ class Commodity extends Model
     }
 
     /**
+     * Get the user who created the commodity.
+     *
+     * Relates via the `created_by` column.
+     */
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
+     * Get the user who updated the commodity.
+     *
+     * Relates via the `updated_by` column.
+     */
+    public function updater(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    /**
      * Get the funding source associated with the commodity.
      */
     public function commodityFundingSource(): BelongsTo
