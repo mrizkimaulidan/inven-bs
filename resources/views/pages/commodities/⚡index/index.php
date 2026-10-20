@@ -222,7 +222,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     {
         $commodity->delete();
 
-        $this->redirect('/barang', navigate: true);
+        session()->flash('success', 'Data barang berhasil dihapus!');
     }
 
     /**

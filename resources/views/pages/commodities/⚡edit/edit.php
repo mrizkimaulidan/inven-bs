@@ -160,6 +160,8 @@ new class extends Component
     {
         $this->form->update();
 
+        session()->flash('success', 'Data barang berhasil diubah!');
+
         $this->redirect('/barang', navigate: true);
     }
 

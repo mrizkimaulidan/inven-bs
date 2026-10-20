@@ -121,6 +121,8 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
     {
         $this->form->store();
 
+        session()->flash('success', 'Data barang berhasil ditambahkan!');
+
         $this->redirect('/barang', navigate: true);
     }
 };
