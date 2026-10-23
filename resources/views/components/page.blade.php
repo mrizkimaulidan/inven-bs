@@ -21,7 +21,7 @@
                             <form style="max-width: 300px" class="mt-md-0 mt-2" wire:submit.prevent>
                                 <div class="input-group">
                                     <input
-                                        type="text"
+                                        type="search"
                                         class="form-control"
                                         placeholder="Cari data"
                                         wire:model.live.debounce.500ms="search"
