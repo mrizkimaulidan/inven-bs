@@ -1,40 +1,65 @@
 <div>
     <div class="accordion pb-3" id="{{ $id }}">
-        <div class="accordion-item">
+        <div class="accordion-item rounded border">
+            {{-- Header --}}
+            <a
+                wire:ignore.self
+                class="accordion-header card-header d-flex align-items-center text-decoration-none text-dark bg-white p-3"
+                id="{{ $id }}-header"
+                data-toggle="collapse"
+                href="#{{ $id }}-body"
+                role="button"
+                aria-expanded="false"
+                aria-controls="{{ $id }}-body"
+            >
+                <i class="fas fa-filter text-primary mr-2"></i>
+                <h4 class="font-weight-bold mb-0 flex-grow-1" style="font-size: 1.1rem">{{ $title }}</h4>
+                @if ($activeFiltersCount > 0)
+                    <span class="badge badge-primary badge-pill mr-2"> {{ $activeFiltersCount }} </span>
+                @endif
+                <i class="fas fa-chevron-down text-muted"></i>
+            </a>
+
+            {{-- Body --}}
             <div
                 wire:ignore.self
-                class="accordion-header"
-                role="button"
-                data-toggle="collapse"
-                data-target="#{{ $id }}-body"
-                aria-expanded="false"
+                class="accordion-body collapse"
+                id="{{ $id }}-body"
+                data-parent="#{{ $id }}"
+                aria-labelledby="{{ $id }}-header"
             >
-                <h4>
-                    <i class="fas fa-filter mr-2"></i>
-                    {{ $title }}
-                    <span class="badge badge-primary ml-2">{{ $activeFiltersCount }}</span>
-                    <i class="fas fa-chevron-down float-right mt-1"></i>
-                </h4>
-            </div>
-            <div wire:ignore.self class="accordion-body collapse" id="{{ $id }}-body" data-parent="#{{ $id }}">
-                <form wire:submit.prevent>{{ $slot }}</form>
+                <div class="card-body pt-3">
+                    <form wire:submit.prevent>
+                        {{ $slot }}
 
-                {{-- Filter: Reset Button --}}
-                <div class="row mt-3">
-                    <div class="col-12">
-                        <div class="d-flex align-items-center">
-                            @if ($activeFiltersCount > 0)
-                                <span class="mr-3">
+                        @if ($activeFiltersCount > 0)
+                            <hr class="my-3" />
+                            <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                <span class="text-muted small mb-sm-0 mb-2">
                                     <i class="fas fa-info-circle text-warning mr-1"></i>
-                                    <span class="font-weight-bold">{{ $activeFiltersCount }}</span>
-                                    filter aktif
+                                    <strong>{{ $activeFiltersCount }}</strong> filter aktif
                                 </span>
-                                <button type="button" class="btn btn-warning btn-sm" wire:click="resetFilters">
-                                    <i class="fas fa-undo mr-1"></i> Reset Filter
+                                <button
+                                    type="button"
+                                    class="btn btn-warning btn-sm"
+                                    wire:click="resetFilters"
+                                    wire:loading.attr="disabled"
+                                    wire:target="resetFilters"
+                                >
+                                    <i class="fas fa-undo mr-1"></i>
+                                    <span wire:loading.remove wire:target="resetFilters">Reset Filter</span>
+                                    <span wire:loading wire:target="resetFilters">
+                                        <span
+                                            class="spinner-border spinner-border-sm mr-1"
+                                            role="status"
+                                            aria-hidden="true"
+                                        ></span>
+                                        Mereset...
+                                    </span>
                                 </button>
-                            @endif
-                        </div>
-                    </div>
+                            </div>
+                        @endif
+                    </form>
                 </div>
             </div>
         </div>
