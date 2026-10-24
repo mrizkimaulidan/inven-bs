@@ -49,14 +49,14 @@ new class extends Component
      * @var array<string, array{label: string, icon: string, badge: string}>
      */
     private const ACTION_META = [
-        'tambah' => ['label' => 'Tambah', 'icon' => 'fa-plus',        'badge' => 'badge-success'],
-        'ubah' => ['label' => 'Ubah',   'icon' => 'fa-pen',         'badge' => 'badge-warning'],
-        'hapus' => ['label' => 'Hapus',  'icon' => 'fa-trash',       'badge' => 'badge-danger'],
-        'lihat' => ['label' => 'Lihat',  'icon' => 'fa-eye',         'badge' => 'badge-primary'],
-        'detail' => ['label' => 'Detail', 'icon' => 'fa-info-circle', 'badge' => 'badge-info'],
-        'impor' => ['label' => 'Impor',  'icon' => 'fa-download',    'badge' => 'badge-secondary'],
-        'ekspor' => ['label' => 'Ekspor', 'icon' => 'fa-upload',      'badge' => 'badge-secondary'],
-        'print' => ['label' => 'Print',  'icon' => 'fa-print',       'badge' => 'badge-dark'],
+        'tambah' => ['label' => 'Tambah', 'icon' => 'fa-plus',        'badge' => 'success'],
+        'ubah' => ['label' => 'Ubah',   'icon' => 'fa-pen',         'badge' => 'warning'],
+        'hapus' => ['label' => 'Hapus',  'icon' => 'fa-trash',       'badge' => 'danger'],
+        'lihat' => ['label' => 'Lihat',  'icon' => 'fa-eye',         'badge' => 'primary'],
+        'detail' => ['label' => 'Detail', 'icon' => 'fa-info-circle', 'badge' => 'info'],
+        'impor' => ['label' => 'Impor',  'icon' => 'fa-download',    'badge' => 'secondary'],
+        'ekspor' => ['label' => 'Ekspor', 'icon' => 'fa-upload',      'badge' => 'secondary'],
+        'print' => ['label' => 'Print',  'icon' => 'fa-print',       'badge' => 'dark'],
     ];
 
     /**

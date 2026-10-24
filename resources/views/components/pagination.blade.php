@@ -1,17 +1,18 @@
 @if ($shouldShow())
-    <div class="{{ $wrapperClass() }}">
+    <div class="{{ $wrapperClasses() }}">
         <div class="text-muted mb-md-0 mb-2">{{ $getInfoText() }}</div>
 
         @if ($hasPages())
-            <nav class="d-inline-block">
+            <nav class="d-inline-block" aria-label="Pagination">
                 <ul class="pagination mb-0">
                     {{-- Previous --}}
                     <li class="page-item {{ $onFirstPage() ? 'disabled' : '' }}">
                         <button
+                            type="button"
                             class="page-link"
-                            wire:click="previousPage('page')"
+                            wire:click="previousPage('{{ $pageName }}')"
                             wire:loading.attr="disabled"
-                            {{ $onFirstPage() ? 'tabindex="-1"' : '' }}
+                            @disabled($onFirstPage())
                         >
                             <i class="fas fa-chevron-left"></i>
                         </button>
@@ -20,7 +21,9 @@
                     {{-- First Page --}}
                     @if ($shouldShowFirstPage())
                         <li class="page-item">
-                            <button class="page-link" wire:click="gotoPage(1, 'page')">1</button>
+                            <button type="button" class="page-link" wire:click="gotoPage(1, '{{ $pageName }}')">
+                                1
+                            </button>
                         </li>
                         @if ($shouldShowEllipsisStart())
                             <li class="page-item disabled">
@@ -33,9 +36,13 @@
                     @foreach ($pageRange() as $page)
                         <li class="page-item {{ $page == $currentPage() ? 'active' : '' }}">
                             <button
+                                type="button"
                                 class="page-link"
-                                wire:click="gotoPage({{ $page }}, 'page')"
-                                @if ($page == $currentPage()) disabled @endif
+                                wire:click="gotoPage({{ $page }}, '{{ $pageName }}')"
+                                @if ($page == $currentPage())
+                                    disabled
+                                    aria-current="page"
+                                @endif
                             >
                                 {{ $page }}
                                 @if ($page == $currentPage())
@@ -53,7 +60,11 @@
                             </li>
                         @endif
                         <li class="page-item">
-                            <button class="page-link" wire:click="gotoPage({{ $lastPage() }}, 'page')">
+                            <button
+                                type="button"
+                                class="page-link"
+                                wire:click="gotoPage({{ $lastPage() }}, '{{ $pageName }}')"
+                            >
                                 {{ $lastPage() }}
                             </button>
                         </li>
@@ -62,10 +73,11 @@
                     {{-- Next --}}
                     <li class="page-item {{ $hasMorePages() ? '' : 'disabled' }}">
                         <button
+                            type="button"
                             class="page-link"
-                            wire:click="nextPage('page')"
+                            wire:click="nextPage('{{ $pageName }}')"
                             wire:loading.attr="disabled"
-                            {{ $hasMorePages() ? '' : 'tabindex="-1"' }}
+                            @disabled(! $hasMorePages())
                         >
                             <i class="fas fa-chevron-right"></i>
                         </button>

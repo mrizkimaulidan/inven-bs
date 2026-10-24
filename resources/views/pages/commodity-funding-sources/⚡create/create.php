@@ -17,6 +17,8 @@ new class extends Component
     {
         $this->form->store();
 
+        session()->flash('success', 'Data perolehan berhasil ditambahkan!');
+
         $this->redirect('/perolehan', navigate: true);
     }
 };

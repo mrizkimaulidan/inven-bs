@@ -36,29 +36,31 @@
     {{-- Main Card --}}
     <x-page :searchable="true">
         <x-slot:toolbar>
-            {{-- Toolbar: Action Buttons --}}
             <div class="d-flex justify-content-between align-items-center flex-wrap pb-3">
                 <div class="d-flex flex-wrap">
-                    <x-button icon="fa-file-import" label="Import" class="btn-success mr-2 mb-2" />
+                    <x-button icon="fa-file-import" label="Import" variant="success" class="mr-2 mb-2" />
                     <x-button
                         wire:click="$dispatch('showModal', {modalName: 'export'})"
                         icon="fa-file-export"
                         label="Export"
-                        class="btn-info mr-2 mb-2"
+                        variant="info"
+                        class="mr-2 mb-2"
                     />
                     <x-button
                         wire:click="$dispatch('showModal', {modalName: 'bulk-destroy', params: {ids: {{ json_encode($selected) }}}})"
                         icon="fa-trash-alt"
                         label="Hapus Terpilih"
-                        class="btn-danger mr-2 mb-2"
+                        class="mr-2 mb-2"
+                        variant="danger"
                         :disabled="empty($selected)"
                     />
-                    <x-button icon="fa-print" label="Print" class="btn-secondary mr-2 mb-2" />
+                    <x-button icon="fa-print" label="Print" variant="secondary" class="mr-2 mb-2" />
                     <x-button
                         wire:click="$refresh"
                         icon="fa-sync-alt"
                         label="Refresh"
-                        class="btn-light mb-2"
+                        variant="light"
+                        class="mb-2"
                         data-toggle="tooltip"
                         title="Refresh"
                     />
@@ -67,7 +69,8 @@
                     wire:click="$dispatch('showModal', {modalName: 'create'})"
                     icon="fa-plus-circle"
                     label="Tambah Data"
-                    class="btn-primary mb-2"
+                    variant="primary"
+                    class="mb-2"
                 />
             </div>
         </x-slot:toolbar>
@@ -117,25 +120,28 @@
                                 <x-badge
                                     :label="$location->commodities_count"
                                     icon="fa-boxes-alt"
-                                    class="badge-primary mr-1"
+                                    variant="info"
+                                    class="mr-1"
                                 />
 
                                 <x-badge
                                     :label="$location->good_conditions_count"
                                     icon="fa-check-circle"
-                                    class="badge-success mr-1"
+                                    variant="success"
+                                    class="mr-1"
                                 />
 
                                 <x-badge
                                     :label="$location->poor_conditions_count"
                                     icon="fa-exclamation-circle"
-                                    class="badge-warning mr-1"
+                                    variant="warning"
+                                    class="mr-1"
                                 />
 
                                 <x-badge
                                     :label="$location->heavily_damaged_conditions_count"
                                     icon="fa-circle-xmark"
-                                    class="badge-danger"
+                                    variant="danger"
                                 />
                             </div>
 

@@ -1,14 +1,33 @@
-<div>
-    <div class="form-group">
-        @if ($label)
-            <label for="{{ $name }}">
-                @if ($icon)
-                    <i class="fas {{ $icon }} mr-1"></i>
-                @endif
-                {{ $label }}
-            </label>
-        @endif
+<div class="form-group">
+    {{-- Label with optional icon and required marker. --}}
+    @if ($label)
+        <label for="{{ $id ?? $name }}">
+            @if ($icon)
+                <i class="fas {{ $icon }} mr-1"></i>
+            @endif
+            {{ $label }}
+            @if ($required)
+                <span class="text-danger">*</span>
+            @endif
+        </label>
+    @endif
 
-        <textarea {{ $attributes->class(['form-control']) }} id="{{ $name }}" name="{{ $name }}"></textarea>
-    </div>
+    {{-- Textarea field. Caller-supplied attributes (wire:model, placeholder, etc.)
+         are merged onto the element. --}}
+    <textarea
+        {{ $attributes->class(['form-control', 'is-invalid' => $errors->has($name)]) }}
+        id="{{ $id ?? $name }}"
+        name="{{ $name }}"
+        rows="{{ $rows }}"
+        @required($required)
+    >{{ $slot }}</textarea>
+    {{-- Validation error message. --}}
+    @error($name)
+        <div class="invalid-feedback d-block">{{ $message }}</div>
+    @enderror
+
+    {{-- Helper text. --}}
+    @if ($help)
+        <div class="form-text text-muted">{{ $help }}</div>
+    @endif
 </div>

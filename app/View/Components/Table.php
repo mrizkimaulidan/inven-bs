@@ -12,15 +12,17 @@ class Table extends Component
     /**
      * The default wire:target values for the table.
      */
-    protected array $defaultTargets = [
-        'resetFilters', 'perPage', 'search', 'nextPage', 'previousPage', 'gotoPage', '$refresh',
+    public const DEFAULT_TARGETS = [
+        'resetFilters', 'perPage', 'search',
+        'nextPage', 'previousPage', 'gotoPage',
+        '$refresh',
     ];
 
     /**
      * Create a new component instance.
      *
-     * @param  array  $targets  The additional wire:target values
-     * @param  LengthAwarePaginator|null  $paginator  The paginator instance
+     * @param  array  $targets  Additional Livewire actions to watch.
+     * @param  LengthAwarePaginator|null  $paginator  The paginator instance.
      */
     public function __construct(
         public array $targets = [],
@@ -38,10 +40,15 @@ class Table extends Component
     }
 
     /**
-     * Get the merged wire:target values.
+     * Get the merged wire:target values as a comma-separated string.
      */
     public function resolvedTargets(): string
     {
-        return implode(',', array_merge($this->defaultTargets, $this->targets));
+        $targets = array_merge(self::DEFAULT_TARGETS, $this->targets);
+
+        // Normalize to strings and drop empty values.
+        $targets = array_filter(array_map('strval', $targets), fn ($t) => $t !== '');
+
+        return implode(',', array_unique($targets));
     }
 }

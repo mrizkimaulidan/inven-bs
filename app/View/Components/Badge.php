@@ -9,21 +9,31 @@ use Illuminate\View\Component;
 class Badge extends Component
 {
     /**
-     * Indicates whether the badge has an icon.
+     * List of supported Bootstrap badge variants.
      */
-    public bool $hasIcon;
+    public const VARIANTS = [
+        'primary', 'secondary', 'success', 'danger',
+        'warning', 'info', 'light', 'dark',
+    ];
 
     /**
      * Create a new component instance.
      *
-     * @param  string  $label  The badge text
-     * @param  string|null  $icon  The Font Awesome icon class
+     * @param  string  $label  The badge text content.
+     * @param  string|null  $icon  The Font Awesome icon class.
+     * @param  string  $variant  The Bootstrap badge variant.
+     * @param  bool  $pill  Whether to render the badge as a pill.
      */
     public function __construct(
         public string $label,
         public ?string $icon = null,
+        public string $variant = 'primary',
+        public bool $pill = false,
     ) {
-        $this->hasIcon = ! is_null($icon);
+        // Ensure the variant is valid, otherwise fall back to the default.
+        if (! in_array($this->variant, self::VARIANTS, true)) {
+            $this->variant = 'primary';
+        }
     }
 
     /**

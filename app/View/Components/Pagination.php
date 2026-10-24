@@ -10,16 +10,23 @@ use Illuminate\View\Component;
 class Pagination extends Component
 {
     /**
+     * Number of pages shown around the current page.
+     */
+    public const WINDOW = 1;
+
+    /**
      * Create a new component instance.
      *
-     * @param  LengthAwarePaginator  $paginator  The paginator instance
-     * @param  string|null  $infoText  The custom info text template
-     * @param  string|null  $wrapperClass  The custom wrapper CSS class
+     * @param  LengthAwarePaginator  $paginator  The paginator instance.
+     * @param  string|null  $infoText  The custom info text template.
+     * @param  string|null  $wrapperCss  The custom wrapper CSS class.
+     * @param  string  $pageName  The paginator page name.
      */
     public function __construct(
         public readonly LengthAwarePaginator $paginator,
         public readonly ?string $infoText = null,
-        public readonly ?string $wrapperClass = null,
+        public readonly ?string $wrapperCss = null,
+        public readonly string $pageName = 'page',
     ) {
         //
     }
@@ -115,26 +122,22 @@ class Pagination extends Component
      */
     public function startPage(): int
     {
-        return once(function () {
-            $current = $this->currentPage();
-            $last = $this->lastPage();
+        $current = $this->currentPage();
+        $last = $this->lastPage();
 
-            if ($last <= 3) {
-                return 1;
-            }
+        if ($last <= 3) {
+            return 1;
+        }
 
-            $start = max(1, $current - 1);
+        if ($current <= 2) {
+            return 1;
+        }
 
-            if ($current <= 2) {
-                return 1;
-            }
+        if ($current >= $last - 1) {
+            return max(1, $last - 2);
+        }
 
-            if ($current >= $last - 1) {
-                return max(1, $last - 2);
-            }
-
-            return $start;
-        });
+        return max(1, $current - self::WINDOW);
     }
 
     /**
@@ -142,26 +145,22 @@ class Pagination extends Component
      */
     public function endPage(): int
     {
-        return once(function () {
-            $current = $this->currentPage();
-            $last = $this->lastPage();
+        $current = $this->currentPage();
+        $last = $this->lastPage();
 
-            if ($last <= 3) {
-                return $last;
-            }
+        if ($last <= 3) {
+            return $last;
+        }
 
-            $end = min($last, $current + 1);
+        if ($current <= 2) {
+            return min(3, $last);
+        }
 
-            if ($current <= 2) {
-                return min(3, $last);
-            }
+        if ($current >= $last - 1) {
+            return $last;
+        }
 
-            if ($current >= $last - 1) {
-                return $last;
-            }
-
-            return $end;
-        });
+        return min($last, $current + self::WINDOW);
     }
 
     /**
@@ -203,14 +202,22 @@ class Pagination extends Component
      */
     public function pageRange(): array
     {
-        return range($this->startPage(), $this->endPage());
+        $start = $this->startPage();
+        $end = $this->endPage();
+
+        // Guard against invalid ranges to avoid range() throwing.
+        if ($start > $end) {
+            return [];
+        }
+
+        return range($start, $end);
     }
 
     /**
      * Get the wrapper class for the component.
      */
-    public function wrapperClass(): string
+    public function wrapperClasses(): string
     {
-        return $this->wrapperClass ?? 'card-footer d-flex justify-content-between align-items-center flex-wrap';
+        return $this->wrapperCss ?? 'card-footer d-flex justify-content-between align-items-center flex-wrap';
     }
 }

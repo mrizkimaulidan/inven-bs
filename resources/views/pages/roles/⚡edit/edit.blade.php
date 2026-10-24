@@ -68,12 +68,14 @@
                                             <x-badge
                                                 :label="$module['label']"
                                                 :icon="$module['icon']"
-                                                class="badge-dark mr-1 mb-1"
+                                                variant="dark"
+                                                class="mr-1 mb-1"
                                             />
                                             <x-badge
                                                 :label="(string) count($module['permissions'])"
                                                 icon="fa-key"
-                                                class="badge-secondary mr-2 mb-1"
+                                                variant="secondary"
+                                                class="mr-2 mb-1"
                                             />
                                             <div class="custom-control custom-checkbox mb-1">
                                                 <input
@@ -112,7 +114,9 @@
                                                                 <x-badge
                                                                     :label="$permission['label']"
                                                                     :icon="$permission['icon']"
-                                                                    :class="$permission['badge'].' mb-0'"
+                                                                    ]
+                                                                    :variant="$permission['badge']"
+                                                                    class="mb-0"
                                                                 />
                                                             </label>
                                                         </div>

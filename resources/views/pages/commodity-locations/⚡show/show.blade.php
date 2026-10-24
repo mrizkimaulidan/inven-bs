@@ -14,17 +14,19 @@
             <x-badge
                 :label="$commodityLocation->good_conditions_count"
                 icon="fa-check-circle"
-                class="badge-success mr-1"
+                variant="success"
+                class="mr-1"
             />
             <x-badge
                 :label="$commodityLocation->poor_conditions_count"
                 icon="fa-exclamation-circle"
-                class="badge-warning mr-1"
+                variant="warning"
+                class="mr-1"
             />
             <x-badge
                 :label="$commodityLocation->heavily_damaged_conditions_count"
                 icon="fa-circle-xmark"
-                class="badge-danger"
+                variant="danger"
             />
         </div>
 

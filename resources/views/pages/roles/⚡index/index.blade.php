@@ -24,29 +24,31 @@
     {{-- Main Card --}}
     <x-page :searchable="true">
         <x-slot:toolbar>
-            {{-- Toolbar: Action Buttons --}}
             <div class="d-flex justify-content-between align-items-center flex-wrap pb-3">
                 <div class="d-flex flex-wrap">
-                    <x-button icon="fa-file-import" label="Import" class="btn-success mr-2 mb-2" />
+                    <x-button icon="fa-file-import" label="Import" variant="success" class="mr-2 mb-2" />
                     <x-button
                         wire:click="$dispatch('showModal', {modalName: 'export'})"
                         icon="fa-file-export"
                         label="Export"
-                        class="btn-info mr-2 mb-2"
+                        variant="info"
+                        class="mr-2 mb-2"
                     />
                     <x-button
                         wire:click="$dispatch('showModal', {modalName: 'bulk-destroy', params: {ids: {{ json_encode($selected) }}}})"
                         icon="fa-trash-alt"
                         label="Hapus Terpilih"
-                        class="btn-danger mr-2 mb-2"
+                        class="mr-2 mb-2"
+                        variant="danger"
                         :disabled="empty($selected)"
                     />
-                    <x-button icon="fa-print" label="Print" class="btn-secondary mr-2 mb-2" />
+                    <x-button icon="fa-print" label="Print" variant="secondary" class="mr-2 mb-2" />
                     <x-button
                         wire:click="$refresh"
                         icon="fa-sync-alt"
                         label="Refresh"
-                        class="btn-light mb-2"
+                        variant="light"
+                        class="mb-2"
                         data-toggle="tooltip"
                         title="Refresh"
                     />
@@ -101,12 +103,14 @@
                                 <x-badge
                                     :label="'Hak Akses: '.$role->permissions_count"
                                     icon="fa-key"
-                                    class="badge-primary mr-1"
+                                    variant="primary"
+                                    class="mr-1"
                                 />
                                 <x-badge
                                     :label="'Pengguna: '.$role->users_count"
                                     icon="fa-users"
-                                    class="badge-info mr-1"
+                                    variant="info"
+                                    class="mr-1"
                                 />
                             </div>
 

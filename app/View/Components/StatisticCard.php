@@ -9,20 +9,31 @@ use Illuminate\View\Component;
 class StatisticCard extends Component
 {
     /**
+     * List of supported Bootstrap background colors.
+     */
+    public const COLORS = [
+        'primary', 'secondary', 'success', 'danger',
+        'warning', 'info', 'light', 'dark',
+    ];
+
+    /**
      * Create a new component instance.
      *
-     * @param  string  $icon  The Font Awesome icon class
-     * @param  string  $title  The statistic card title
-     * @param  string  $bgColor  The Bootstrap background color class
-     * @param  mixed  $value  The statistic value
+     * @param  string  $icon  The Font Awesome icon class (without the "fas" prefix).
+     * @param  string  $title  The statistic card title.
+     * @param  string  $bgColor  The Bootstrap background color class.
+     * @param  string|int|float  $value  The statistic value.
      */
     public function __construct(
         public string $icon,
         public string $title,
-        public string $bgColor,
-        public mixed $value,
+        public string $bgColor = 'primary',
+        public string|int|float $value = 0,
     ) {
-        //
+        // Ensure the background color is valid, otherwise fall back to "primary".
+        if (! in_array($this->bgColor, self::COLORS, true)) {
+            $this->bgColor = 'primary';
+        }
     }
 
     /**

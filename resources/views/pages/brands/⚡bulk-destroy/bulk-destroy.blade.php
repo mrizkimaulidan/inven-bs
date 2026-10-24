@@ -8,7 +8,7 @@
 
             <div class="d-flex flex-wrap">
                 @foreach ($this->brands as $brand)
-                    <x-badge :label="$brand->name" icon="fa-box" class="badge-danger mr-1 mb-1" />
+                    <x-badge :label="$brand->name" icon="fa-box" variant="danger" class="mr-1 mb-1" />
                 @endforeach
             </div>
         </x-slot:body>

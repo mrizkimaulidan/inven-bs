@@ -11,12 +11,12 @@ class Select extends Component
     /**
      * Create a new component instance.
      *
-     * @param  string  $name  The select name attribute
-     * @param  string|null  $label  The select label
-     * @param  string|null  $icon  The Font Awesome icon class
-     * @param  bool  $required  Indicates whether the select is required
-     * @param  bool  $disabled  Indicates whether the select is disabled
-     * @param  string|null  $help  The help text
+     * @param  string  $name  The select name attribute.
+     * @param  string|null  $label  The select label.
+     * @param  string|null  $icon  The Font Awesome icon class.
+     * @param  bool  $required  Indicates whether the select is required.
+     * @param  bool  $disabled  Indicates whether the select is disabled.
+     * @param  string|null  $help  The help text.
      */
     public function __construct(
         public string $name,

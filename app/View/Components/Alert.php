@@ -8,11 +8,17 @@ use Illuminate\View\Component;
 
 class Alert extends Component
 {
-    public array $alertTypes = [
-        'success' => ['title' => 'Berhasil!', 'icon' => 'fa-check-circle'],
-        'danger' => ['title' => 'Gagal!', 'icon' => 'fa-exclamation-circle'],
+    /**
+     * Mapping of session flash keys to their display configuration.
+     *
+     * Each entry defines the alert title and Font Awesome icon
+     * used when the corresponding session key is present.
+     */
+    public const ALERT_TYPES = [
+        'success' => ['title' => 'Berhasil!',   'icon' => 'fa-check-circle'],
+        'danger' => ['title' => 'Gagal!',      'icon' => 'fa-exclamation-circle'],
         'warning' => ['title' => 'Peringatan!', 'icon' => 'fa-exclamation-triangle'],
-        'info' => ['title' => 'Informasi!', 'icon' => 'fa-info-circle'],
+        'info' => ['title' => 'Informasi!',  'icon' => 'fa-info-circle'],
     ];
 
     /**
@@ -28,6 +34,8 @@ class Alert extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.alert');
+        return view('components.alert', [
+            'alertTypes' => self::ALERT_TYPES,
+        ]);
     }
 }

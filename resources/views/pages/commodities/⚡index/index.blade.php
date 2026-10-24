@@ -38,33 +38,33 @@
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <x-statistic-card
                 icon="fas fa-box"
-                bgColor="primary"
+                bg-color="primary"
                 title="Total Barang"
-                value="{{ $this->conditionCounts['total'] }}"
+                :value="$this->conditionCounts['total']"
             />
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <x-statistic-card
                 icon="fas fa-check-circle"
-                bgColor="success"
+                bg-color="success"
                 title="Kondisi Baik"
-                value="{{ $this->conditionCounts['good'] }}"
+                :value="$this->conditionCounts['good']"
             />
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <x-statistic-card
                 icon="fas fa-exclamation-circle"
-                bgColor="warning"
+                bg-color="warning"
                 title="Kondisi Kurang Baik"
-                value="{{ $this->conditionCounts['poor'] }}"
+                :value="$this->conditionCounts['poor']"
             />
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <x-statistic-card
                 icon="fas fa-circle-xmark"
-                bgColor="danger"
+                bg-color="danger"
                 title="Kondisi Rusak Berat"
-                value="{{ $this->conditionCounts['heavily_damaged'] }}"
+                :value="$this->conditionCounts['heavily_damaged']"
             />
         </div>
     </div>
@@ -73,26 +73,29 @@
         <x-slot:toolbar>
             <div class="d-flex justify-content-between align-items-center flex-wrap pb-3">
                 <div class="d-flex flex-wrap">
-                    <x-button icon="fa-file-import" label="Import" class="btn-success mr-2 mb-2" />
+                    <x-button icon="fa-file-import" label="Import" variant="success" class="mr-2 mb-2" />
                     <x-button
                         wire:click="$dispatch('showModal', {modalName: 'export'})"
                         icon="fa-file-export"
                         label="Export"
-                        class="btn-info mr-2 mb-2"
+                        variant="info"
+                        class="mr-2 mb-2"
                     />
                     <x-button
                         wire:click="$dispatch('showModal', {modalName: 'bulk-destroy', params: {ids: {{ json_encode($selected) }}}})"
                         icon="fa-trash-alt"
                         label="Hapus Terpilih"
-                        class="btn-danger mr-2 mb-2"
+                        class="mr-2 mb-2"
+                        variant="danger"
                         :disabled="empty($selected)"
                     />
-                    <x-button icon="fa-print" label="Print" class="btn-secondary mr-2 mb-2" />
+                    <x-button icon="fa-print" label="Print" variant="secondary" class="mr-2 mb-2" />
                     <x-button
                         wire:click="$refresh"
                         icon="fa-sync-alt"
                         label="Refresh"
-                        class="btn-light mb-2"
+                        variant="light"
+                        class="mb-2"
                         data-toggle="tooltip"
                         title="Refresh"
                     />
@@ -105,7 +108,7 @@
         </x-slot:toolbar>
 
         {{-- Filter Accordion --}}
-        <x-filter-accordion id="filter-accordion" title="Filter Data" :activeFiltersCount="$this->activeFiltersCount">
+        <x-filter-accordion id="filter-accordion" title="Filter Data" :active-filters-count="$this->activeFiltersCount">
             {{-- Filter: Select Inputs --}}
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
@@ -325,7 +328,7 @@
                                 <x-badge
                                     :label="$commodity->commodityLocation->name"
                                     icon="fa-map-marker-alt"
-                                    class="badge-dark"
+                                    variant="dark"
                                 />
                             </div>
 
@@ -333,13 +336,15 @@
                                 <x-badge
                                     :label="$commodity->item_code"
                                     icon="fa-code"
-                                    class="badge-primary mr-2 mb-1"
+                                    variant="primary"
+                                    class="mr-2 mb-1"
                                 />
 
                                 <x-badge
                                     :label="$commodity->commodityFundingSource->name"
                                     icon="fa-hand-holding"
-                                    class="badge-info mb-1"
+                                    variant="info"
+                                    class="mb-1"
                                 />
                             </div>
 
@@ -409,8 +414,8 @@
                         </td>
 
                         <td class="align-middle">
-                            <x-badge :label="$commodity->material->name" class="badge-light d-block mb-2 py-1" />
-                            <x-badge :label="$commodity->brand->name" class="badge-light d-block mb-2 py-1" />
+                            <x-badge :label="$commodity->material->name" variant="light" class="d-block mb-2 py-1" />
+                            <x-badge :label="$commodity->brand->name" variant="light" class="d-block mb-2 py-1" />
                         </td>
 
                         <td class="text-center align-middle">
@@ -430,7 +435,8 @@
                             <x-badge
                                 :label="$commodity->purchase_year"
                                 icon="fa-calendar-alt"
-                                class="badge-light d-block"
+                                variant="light"
+                                class="d-block"
                             />
                         </td>
 

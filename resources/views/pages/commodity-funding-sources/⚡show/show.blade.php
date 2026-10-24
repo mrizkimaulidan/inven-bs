@@ -13,22 +13,25 @@
             <x-badge
                 :label="$commodityFundingSource->commodities_count"
                 icon="fa-boxes-alt"
-                class="badge-primary mr-1"
+                variant="primary"
+                class="mr-1"
             />
             <x-badge
                 :label="$commodityFundingSource->good_conditions_count"
                 icon="fa-check-circle"
-                class="badge-success mr-1"
+                variant="success"
+                class="mr-1"
             />
             <x-badge
                 :label="$commodityFundingSource->poor_conditions_count"
                 icon="fa-exclamation-circle"
-                class="badge-warning mr-1"
+                variant="warning"
+                class="mr-1"
             />
             <x-badge
                 :label="$commodityFundingSource->heavily_damaged_conditions_count"
                 icon="fa-circle-xmark"
-                class="badge-danger"
+                variant="danger"
             />
         </div>
 

@@ -235,11 +235,12 @@
 
                             <div class="col-md-6">
                                 <x-textarea
-                                    wire:model="form.notes"
                                     name="form.notes"
-                                    icon="fa-sticky-note"
                                     label="Catatan"
                                     placeholder="Masukan catatan (opsional)"
+                                    help="Masukan catatan (opsional)"
+                                    rows="5"
+                                    wire:model="form.notes"
                                 />
                             </div>
                         </div>

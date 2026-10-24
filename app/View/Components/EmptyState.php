@@ -11,14 +11,25 @@ class EmptyState extends Component
     /**
      * Create a new component instance.
      *
-     * @param  string  $search  The search query
-     * @param  string  $colspan  The number of table columns
+     * @param  string|null  $search  The active search query, if any.
+     * @param  int  $colspan  The number of table columns the row spans.
      */
     public function __construct(
-        public string $search,
-        public string $colspan,
+        public ?string $search = null,
+        public int $colspan = 1,
     ) {
-        //
+        // Ensure colspan is at least 1 to avoid invalid HTML.
+        if ($this->colspan < 1) {
+            $this->colspan = 1;
+        }
+    }
+
+    /**
+     * Determine whether a search query is currently active.
+     */
+    public function hasSearch(): bool
+    {
+        return filled($this->search);
     }
 
     /**

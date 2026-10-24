@@ -9,23 +9,42 @@ use Illuminate\View\Component;
 class Button extends Component
 {
     /**
-     * Indicates whether the button has an icon.
+     * List of supported Bootstrap button variants.
      */
-    public bool $hasIcon;
+    public const VARIANTS = [
+        'primary', 'secondary', 'success', 'danger',
+        'warning', 'info', 'light', 'dark', 'link',
+    ];
+
+    /**
+     * List of supported native button types.
+     */
+    public const TYPES = ['button', 'submit', 'reset'];
 
     /**
      * Create a new component instance.
      *
-     * @param  string  $label  The button text
-     * @param  string|null  $icon  The Font Awesome icon class
-     * @param  string  $type  The button type
+     * @param  string  $label  The button text content.
+     * @param  string|null  $icon  The Font Awesome icon class.
+     * @param  string  $variant  The Bootstrap button variant.
+     * @param  string  $type  The native button type.
      */
     public function __construct(
         public string $label,
         public ?string $icon = null,
+        public string $variant = 'primary',
         public string $type = 'button',
     ) {
-        $this->hasIcon = ! is_null($icon);
+        // Ensure the variant is valid, otherwise fall back to the default.
+        if (! in_array($this->variant, self::VARIANTS, true)) {
+            $this->variant = 'primary';
+        }
+
+        // Ensure the button type is valid, otherwise default to "button"
+        // to avoid unintended form submissions.
+        if (! in_array($this->type, self::TYPES, true)) {
+            $this->type = 'button';
+        }
     }
 
     /**

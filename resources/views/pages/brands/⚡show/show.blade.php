@@ -9,10 +9,15 @@
         <h6 class="text-uppercase text-muted font-weight-bold mb-3">Statistik Barang</h6>
 
         <div class="d-flex align-items-center mb-3 flex-wrap">
-            <x-badge :label="$brand->commodities_count" icon="fa-boxes-alt" class="badge-primary mr-1" />
-            <x-badge :label="$brand->good_conditions_count" icon="fa-check-circle" class="badge-success mr-1" />
-            <x-badge :label="$brand->poor_conditions_count" icon="fa-exclamation-circle" class="badge-warning mr-1" />
-            <x-badge :label="$brand->heavily_damaged_conditions_count" icon="fa-circle-xmark" class="badge-danger" />
+            <x-badge :label="$brand->commodities_count" icon="fa-boxes-alt" variant="primary " class="mr-1" />
+            <x-badge :label="$brand->good_conditions_count" icon="fa-check-circle" variant="success " class="mr-1" />
+            <x-badge
+                :label="$brand->poor_conditions_count"
+                icon="fa-exclamation-circle"
+                variant="warning "
+                class="mr-1"
+            />
+            <x-badge :label="$brand->heavily_damaged_conditions_count" icon="fa-circle-xmark" variant="danger" " />
         </div>
 
         <div class="row mt-4">
