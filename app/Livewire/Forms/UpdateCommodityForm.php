@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Forms;
 
-use App\CommodityCondition;
+use App\Enums\CommodityCondition;
 use App\Models\Commodity;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\Storage;

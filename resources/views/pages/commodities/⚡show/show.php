@@ -1,6 +1,6 @@
 <?php
 
-use App\CommodityCondition;
+use App\Enums\CommodityCondition;
 use App\Models\Commodity;
 use Livewire\Attributes\Computed;
 use Livewire\Component;

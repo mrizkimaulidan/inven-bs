@@ -1,8 +1,8 @@
 <?php
 
+use App\Livewire\Concerns\WithBulkDelete;
+use App\Livewire\Concerns\WithModal;
 use App\Models\User;
-use App\WithBulkDelete;
-use App\WithModal;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Computed;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\CommodityCondition;
+use App\Enums\CommodityCondition;
 use App\Models\Commodity;
 
 class CommodityVerificationController extends Controller

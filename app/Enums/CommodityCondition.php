@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Enums;
 
 /**
  * Represent the physical condition of a commodity.

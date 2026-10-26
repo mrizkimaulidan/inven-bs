@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\CommodityCondition;
+use App\Enums\CommodityCondition;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;

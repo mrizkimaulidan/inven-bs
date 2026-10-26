@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Livewire\Concerns;
 
 use Closure;
 use Illuminate\Database\Eloquent\Builder;

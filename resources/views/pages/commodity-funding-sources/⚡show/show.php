@@ -1,6 +1,6 @@
 <?php
 
-use App\CommodityCondition;
+use App\Enums\CommodityCondition;
 use App\Models\CommodityFundingSource;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;

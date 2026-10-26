@@ -1,6 +1,6 @@
 <?php
 
-use App\CommodityCondition;
+use App\Enums\CommodityCondition;
 use App\Livewire\Forms\UpdateCommodityForm;
 use App\Models\Brand;
 use App\Models\Commodity;

@@ -1,15 +1,15 @@
 <?php
 
-use App\CommodityCondition;
+use App\Enums\CommodityCondition;
+use App\Livewire\Concerns\WithBulkDelete;
+use App\Livewire\Concerns\WithFilters;
+use App\Livewire\Concerns\WithModal;
 use App\Models\Brand;
 use App\Models\Commodity;
 use App\Models\CommodityFundingSource;
 use App\Models\CommodityLocation;
 use App\Models\Material;
 use App\Models\User;
-use App\WithBulkDelete;
-use App\WithFilters;
-use App\WithModal;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
