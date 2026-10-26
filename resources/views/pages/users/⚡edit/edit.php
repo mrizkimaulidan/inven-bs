@@ -14,6 +14,9 @@ new class extends Component
      */
     public UpdateUserForm $form;
 
+    /**
+     * Get the roles available for assignment.
+     */
     #[Computed]
     public function roles(): Collection
     {

@@ -15,7 +15,7 @@ class UpdateRoleAndPermissionForm extends Form
     public Role $role;
 
     /**
-     * The role name attribute.
+     * The role name provided by the user.
      */
     public string $name = '';
 
@@ -27,7 +27,7 @@ class UpdateRoleAndPermissionForm extends Form
     public array $permissions = [];
 
     /**
-     * Validate the input and persist a new role with its permissions.
+     * Validate the input and persist the role and its permissions.
      */
     public function update(): void
     {

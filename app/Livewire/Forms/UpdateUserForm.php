@@ -16,27 +16,27 @@ class UpdateUserForm extends Form
     public User $user;
 
     /**
-     * The role attribute.
+     * The selected role ID.
      */
     public int $role_id = 0;
 
     /**
-     * The name attribute.
+     * The user's name.
      */
     public string $name = '';
 
     /**
-     * The email attribute.
+     * The user's email address.
      */
     public string $email = '';
 
     /**
-     * The password attribute.
+     * The new password for the account.
      */
     public string $password = '';
 
     /**
-     * The password confirmation attribute.
+     * Confirmation of the new password.
      */
     public string $password_confirmation = '';
 

@@ -2,6 +2,11 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
+
 /**
  * Provides bulk delete functionality driven by checkbox selection.
  *
@@ -9,7 +14,8 @@ namespace App;
  * 1. Use this trait.
  * 2. Define a #[Computed] method that returns a LengthAwarePaginator
  *    and expose its name by overriding bulkPaginatorName().
- * 3. Optionally override bulkModelClass() to specify the model class
+ * 3. Use the WithModal trait to provide the shared confirmation flow.
+ * 4. Optionally override bulkModelClass() to specify the model class
  *    (defaults to the paginator's model).
  *
  * Note: this trait assumes the host component uses Livewire\WithPagination.
@@ -55,6 +61,14 @@ trait WithBulkDelete
     }
 
     /**
+     * The URL to visit after a successful bulk delete.
+     */
+    protected function bulkRedirectPath(): ?string
+    {
+        return null;
+    }
+
+    /**
      * Get the paginator instance for the current page.
      */
     protected function bulkPaginator(): mixed
@@ -73,6 +87,25 @@ trait WithBulkDelete
             ->pluck('id')
             ->map(fn ($id) => (string) $id)
             ->toArray();
+    }
+
+    /**
+     * Get the selected records from the current page for confirmation.
+     *
+     * @return Collection<int, Model>
+     */
+    #[Computed]
+    public function selectedRecords(): Collection
+    {
+        $ids = array_intersect($this->selected, $this->bulkPageIds());
+
+        if (empty($ids)) {
+            return new Collection;
+        }
+
+        $model = $this->bulkModel();
+
+        return $model::query()->whereIn('id', $ids)->get(['id', 'name']);
     }
 
     /**
@@ -134,32 +167,47 @@ trait WithBulkDelete
     }
 
     /**
-     * Remove the selected resources from storage.
+     * Open the shared bulk-delete confirmation modal.
      */
-    public function destroySelected(): void
+    #[On('showBulkDeleteConfirmationModal')]
+    public function showBulkDeleteConfirmation(): void
     {
+        $this->selected = array_values(array_intersect($this->selected, $this->bulkPageIds()));
+
         if (empty($this->selected)) {
             return;
         }
 
-        $count = $this->bulkModel()::whereIn('id', $this->selected)->delete();
-
-        $this->resetSelection();
-
-        $this->dispatch('bulk-deleted', count: $count);
+        $this->showModal('bulk-destroy');
     }
 
     /**
-     * Remove a single ID from the selection (useful for single-delete sync).
+     * Handle confirmation from the shared bulk-delete modal.
      */
-    public function forgetSelected(int|string $id): void
+    #[On('confirmBulkDelete')]
+    public function confirmBulkDelete(): void
     {
-        $this->selected = array_values(
-            array_filter($this->selected, fn ($selectedId) => (string) $selectedId !== (string) $id)
-        );
+        $this->destroySelected();
+        $this->closeModal();
+    }
 
-        if (empty($this->selected)) {
-            $this->selectAll = false;
+    /**
+     * Remove the selected resources from storage.
+     */
+    public function destroySelected(): void
+    {
+        $ids = array_intersect($this->selected, $this->bulkPageIds());
+
+        if (empty($ids)) {
+            return;
+        }
+
+        $count = $this->bulkModel()::whereIn('id', $ids)->delete();
+
+        $this->resetSelection();
+
+        if ($count > 0 && $this->bulkRedirectPath() !== null) {
+            $this->redirect($this->bulkRedirectPath(), navigate: true);
         }
     }
 }

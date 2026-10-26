@@ -11,67 +11,67 @@ use Livewire\Form;
 class StoreCommodityForm extends Form
 {
     /**
-     * The image attribute.
+     * The image uploaded for the commodity.
      */
     public ?TemporaryUploadedFile $image = null;
 
     /**
-     * The commodity location attribute.
+     * The selected location ID.
      */
     public int $commodity_location_id = 0;
 
     /**
-     * The commodity funding source attribute.
+     * The selected funding source ID.
      */
     public int $commodity_funding_source_id = 0;
 
     /**
-     * The brand attribute.
+     * The selected brand ID.
      */
     public int $brand_id = 0;
 
     /**
-     * The material attribute.
+     * The selected material ID.
      */
     public int $material_id = 0;
 
     /**
-     * The name attribute.
+     * The commodity name provided by the user.
      */
     public string $name = '';
 
     /**
-     * The item code attribute.
+     * The unique code assigned to the commodity.
      */
     public string $item_code = '';
 
     /**
-     * The QR code attribute.
+     * The QR code value assigned to the commodity.
      */
     public ?string $qr_code = null;
 
     /**
-     * The purchase year attribute.
+     * The year the commodity was purchased.
      */
     public int $purchase_year = 0;
 
     /**
-     * The condition attribute.
+     * The current condition of the commodity.
      */
     public int $condition = 0;
 
     /**
-     * The quantity attribute.
+     * The number of commodity units.
      */
     public ?int $quantity = 0;
 
     /**
-     * The unit price attribute.
+     * The price of one commodity unit.
      */
     public ?int $unit_price = 0;
 
     /**
-     * The notes attribute.
+     * Additional notes about the commodity.
      */
     public ?string $notes = null;
 

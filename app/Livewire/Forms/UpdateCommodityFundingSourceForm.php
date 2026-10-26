@@ -14,12 +14,12 @@ class UpdateCommodityFundingSourceForm extends Form
     public CommodityFundingSource $commodityFundingSource;
 
     /**
-     * The name attribute.
+     * The funding source name provided by the user.
      */
     public string $name = '';
 
     /**
-     * The description attribute.
+     * Additional details about the funding source.
      */
     public ?string $description = null;
 

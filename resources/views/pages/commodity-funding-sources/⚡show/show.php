@@ -8,7 +8,7 @@ use Livewire\Component;
 new class extends Component
 {
     /**
-     * The commodity location instance.
+     * The funding source being displayed.
      */
     public ?CommodityFundingSource $commodityFundingSource = null;
 

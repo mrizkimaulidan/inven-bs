@@ -17,7 +17,7 @@ trait WithModal
     /**
      * The parameters to pass to the modal.
      */
-    public mixed $modalParams = null;
+    public ?array $modalParams = null;
 
     /**
      * Open the modal with the given name and parameters.
@@ -25,7 +25,7 @@ trait WithModal
      * @param  array<string, mixed>|null  $params
      */
     #[On('showModal')]
-    public function showModal(string $modalName, mixed $params = null): void
+    public function showModal(string $modalName, ?array $params = null): void
     {
         $this->activeModal = $modalName;
         $this->modalParams = $params;

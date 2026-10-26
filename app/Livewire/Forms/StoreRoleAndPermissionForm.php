@@ -9,7 +9,7 @@ use Spatie\Permission\Models\Role;
 class StoreRoleAndPermissionForm extends Form
 {
     /**
-     * The role name attribute.
+     * The role name provided by the user.
      */
     public string $name = '';
 

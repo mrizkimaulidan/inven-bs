@@ -9,12 +9,12 @@ use Livewire\Form;
 class StoreCommodityLocationForm extends Form
 {
     /**
-     * The name attribute.
+     * The location name provided by the user.
      */
     public string $name = '';
 
     /**
-     * The description attribute.
+     * Additional details about the location.
      */
     public ?string $description = null;
 

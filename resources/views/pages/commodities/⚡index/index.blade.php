@@ -17,9 +17,10 @@
 
     @if ($activeModal === 'bulk-destroy')
         @teleport('body')
-            <livewire:pages::commodities.bulk-destroy
-                :ids="$modalParams['ids']"
-                wire:key="modal-bulk-destroy-{{ implode('-', $modalParams['ids']) }}"
+            <livewire:bulk-destroy
+                resource-label="barang"
+                :records="$this->selectedRecords->pluck('name')->all()"
+                wire:key="modal-bulk-destroy-{{ implode('-', $this->selectedRecords->modelKeys()) }}"
             />
         @endteleport
     @endif
@@ -82,7 +83,7 @@
                         class="mr-2 mb-2"
                     />
                     <x-button
-                        wire:click="$dispatch('showModal', {modalName: 'bulk-destroy', params: {ids: {{ json_encode($selected) }}}})"
+                        wire:click="$dispatch('showBulkDeleteConfirmationModal')"
                         icon="fa-trash-alt"
                         label="Hapus Terpilih"
                         class="mr-2 mb-2"

@@ -14,12 +14,12 @@ class UpdateBrandForm extends Form
     public Brand $brand;
 
     /**
-     * The name attribute.
+     * The brand name provided by the user.
      */
     public string $name = '';
 
     /**
-     * Validate the input and persist a new record.
+     * Validate the input and persist the changes.
      */
     public function update(): void
     {

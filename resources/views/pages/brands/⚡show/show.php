@@ -8,7 +8,7 @@ use Livewire\Component;
 new class extends Component
 {
     /**
-     * The commodity location instance.
+     * The brand being displayed.
      */
     public ?Brand $brand = null;
 

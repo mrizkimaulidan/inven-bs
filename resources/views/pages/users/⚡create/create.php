@@ -13,6 +13,9 @@ new class extends Component
      */
     public StoreUserForm $form;
 
+    /**
+     * Get the roles available for assignment.
+     */
     #[Computed]
     public function roles(): Collection
     {

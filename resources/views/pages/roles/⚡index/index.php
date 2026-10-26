@@ -51,6 +51,14 @@ new #[Title('Halaman Daftar Peran & Hak Akses')] class extends Component
     }
 
     /**
+     * Get the destination after a successful bulk delete.
+     */
+    protected function bulkRedirectPath(): ?string
+    {
+        return '/peran-dan-hak-akses';
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(Role $role): void

@@ -57,6 +57,14 @@ new #[Title('Halaman Daftar Ruangan')] class extends Component
     }
 
     /**
+     * Get the destination after a successful bulk delete.
+     */
+    protected function bulkRedirectPath(): ?string
+    {
+        return '/ruangan';
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(CommodityLocation $commodityLocation): void

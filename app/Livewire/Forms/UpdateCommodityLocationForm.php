@@ -14,12 +14,12 @@ class UpdateCommodityLocationForm extends Form
     public CommodityLocation $commodityLocation;
 
     /**
-     * The name attribute.
+     * The location name provided by the user.
      */
     public string $name = '';
 
     /**
-     * The description attribute.
+     * Additional details about the location.
      */
     public ?string $description = null;
 

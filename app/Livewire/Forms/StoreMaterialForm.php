@@ -9,7 +9,7 @@ use Livewire\Form;
 class StoreMaterialForm extends Form
 {
     /**
-     * The name attribute.
+     * The material name provided by the user.
      */
     public string $name = '';
 

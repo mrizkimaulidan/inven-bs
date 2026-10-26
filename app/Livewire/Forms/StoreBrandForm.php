@@ -9,7 +9,7 @@ use Livewire\Form;
 class StoreBrandForm extends Form
 {
     /**
-     * The name attribute.
+     * The brand name provided by the user.
      */
     public string $name = '';
 

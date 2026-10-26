@@ -51,6 +51,14 @@ new #[Title('Halaman Daftar Pengguna')] class extends Component
     }
 
     /**
+     * Get the destination after a successful bulk delete.
+     */
+    protected function bulkRedirectPath(): ?string
+    {
+        return '/pengguna';
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(User $user): void

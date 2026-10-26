@@ -16,27 +16,27 @@ class UpdateProfileForm extends Form
     public User $user;
 
     /**
-     * The name attribute.
+     * The user's name.
      */
     public string $name = '';
 
     /**
-     * The email attribute.
+     * The user's email address.
      */
     public string $email = '';
 
     /**
-     * The current password attribute.
+     * The current password for verification.
      */
     public string $current_password = '';
 
     /**
-     * The new password attribute.
+     * The new password for the account.
      */
     public string $password = '';
 
     /**
-     * The new password confirmation attribute.
+     * Confirmation of the new password.
      */
     public string $password_confirmation = '';
 

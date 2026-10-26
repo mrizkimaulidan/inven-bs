@@ -180,6 +180,9 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     /**
      * Resolve the icon and badge styling for the given condition.
      */
+    /**
+     * Resolve the icon and badge styling for a condition.
+     */
     public function conditionStyle(CommodityCondition $condition): array
     {
         return match ($condition) {
@@ -198,6 +201,9 @@ new #[Title('Halaman Daftar Barang')] class extends Component
         };
     }
 
+    /**
+     * Generate a new QR code for the commodity.
+     */
     public function generateQrCode(Commodity $commodity): void
     {
         $commodity->update([
@@ -213,6 +219,14 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     protected function bulkPaginatorName(): string
     {
         return 'commodities';
+    }
+
+    /**
+     * Get the destination after a successful bulk delete.
+     */
+    protected function bulkRedirectPath(): ?string
+    {
+        return '/barang';
     }
 
     /**

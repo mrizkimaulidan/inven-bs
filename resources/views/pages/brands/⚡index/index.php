@@ -57,6 +57,14 @@ new #[Title('Halaman Daftar Merek')] class extends Component
     }
 
     /**
+     * Get the destination after a successful bulk delete.
+     */
+    protected function bulkRedirectPath(): ?string
+    {
+        return '/merek';
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(Brand $brand): void

@@ -12,6 +12,9 @@ use Spatie\Permission\Models\Role;
 
 new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
 {
+    /**
+     * The role being updated.
+     */
     public Role $role;
 
     /**

@@ -5,6 +5,9 @@ use Livewire\Component;
 
 new class extends Component
 {
+    /**
+     * The generated QR code image.
+     */
     public ?string $qrcode = null;
 
     /**
