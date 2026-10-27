@@ -115,6 +115,16 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
     }
 
     /**
+     * Preview URL for the image.
+     * Priority: new upload (temporary) → persisted image → null.
+     */
+    #[Computed]
+    public function imagePreview(): ?string
+    {
+        return $this->form->image ? $this->form->image->temporaryUrl() : null;
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function save(): void

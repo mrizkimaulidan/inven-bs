@@ -5,6 +5,7 @@ namespace App\Livewire\Forms;
 use App\Enums\CommodityCondition;
 use App\Models\Commodity;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
@@ -15,7 +16,7 @@ class UpdateCommodityForm extends Form
     /**
      * The commodity instance.
      */
-    public Commodity $commodity;
+    public ?Commodity $commodity = null;
 
     /**
      * The replacement image uploaded for the commodity.
@@ -65,7 +66,7 @@ class UpdateCommodityForm extends Form
     /**
      * The current condition of the commodity.
      */
-    public CommodityCondition $condition;
+    public ?CommodityCondition $condition = null;
 
     /**
      * The number of commodity units.
@@ -83,6 +84,31 @@ class UpdateCommodityForm extends Form
     public ?string $notes = null;
 
     /**
+     * Fill the form from a persisted commodity.
+     */
+    public function fillFromModel(Commodity $commodity): void
+    {
+        $this->commodity = $commodity;
+
+        $this->image = null;
+
+        $this->fill([
+            'commodity_funding_source_id' => $commodity->commodity_funding_source_id,
+            'commodity_location_id' => $commodity->commodity_location_id,
+            'brand_id' => $commodity->brand_id,
+            'material_id' => $commodity->material_id,
+            'item_code' => $commodity->item_code,
+            'qr_code' => $commodity->qr_code,
+            'name' => $commodity->name,
+            'purchase_year' => $commodity->purchase_year,
+            'condition' => $commodity->condition,
+            'quantity' => $commodity->quantity,
+            'unit_price' => $commodity->unit_price,
+            'notes' => $commodity->notes,
+        ]);
+    }
+
+    /**
      * Validate the input and persist the changes.
      */
     public function update(): void
@@ -97,17 +123,17 @@ class UpdateCommodityForm extends Form
         $validated->put('total_price', $quantity * $unitPrice);
         $validated->put('updated_by', auth()->id());
 
+        $oldImage = $this->commodity->image;
+
         if ($this->image) {
-            $path = $this->image->store('barang', 'public');
-
-            if ($this->commodity->image && Storage::disk('public')->exists($this->commodity->image)) {
-                Storage::disk('public')->delete($this->commodity->image);
-            }
-
-            $validated->put('image', $path);
+            $validated->put('image', $this->image->store('barang', 'public'));
         }
 
-        $this->commodity->update($validated->toArray());
+        DB::transaction(fn () => $this->commodity->update($validated->toArray()));
+
+        if ($this->image && $oldImage && Storage::disk('public')->exists($oldImage)) {
+            Storage::disk('public')->delete($oldImage);
+        }
     }
 
     /**
@@ -117,14 +143,16 @@ class UpdateCommodityForm extends Form
      */
     protected function rules(): array
     {
+        $ignoreId = $this->commodity?->id;
+
         return [
             'commodity_location_id' => ['required', 'exists:commodity_locations,id'],
             'commodity_funding_source_id' => ['required', 'exists:commodity_funding_sources,id'],
             'brand_id' => ['required', 'exists:brands,id'],
             'material_id' => ['required', 'exists:materials,id'],
             'name' => ['required', 'string', 'max:255'],
-            'item_code' => ['required', 'string', 'max:255', Rule::unique('commodities', 'item_code')->ignore($this->commodity->id)],
-            'qr_code' => ['nullable', 'string', 'max:255', Rule::unique('commodities', 'qr_code')->ignore($this->commodity->id)],
+            'item_code' => ['required', 'string', 'max:255', Rule::unique('commodities', 'item_code')->ignore($ignoreId)],
+            'qr_code' => ['nullable', 'string', 'max:255', Rule::unique('commodities', 'qr_code')->ignore($ignoreId)],
             'purchase_year' => ['required', 'integer', 'min:1900', 'max:'.now()->year],
             'condition' => [
                 'required',

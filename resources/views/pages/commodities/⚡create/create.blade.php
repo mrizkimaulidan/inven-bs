@@ -190,7 +190,6 @@
                                             id="form.image"
                                             class="custom-file-input @error('form.image') is-invalid @enderror"
                                             accept="image/*"
-                                            required
                                         />
                                         <label class="custom-file-label" for="form.image"> Pilih file gambar... </label>
                                     </div>
@@ -207,16 +206,16 @@
                                     </div>
 
                                     <div class="mt-2" wire:loading.remove wire:target="form.image">
-                                        @if ($form->image)
+                                        @if ($this->imagePreview)
                                             <img
-                                                src="{{ $form->image->temporaryUrl() }}"
+                                                src="{{ $this->imagePreview }}"
                                                 alt="Preview Foto Barang"
                                                 class="img-thumbnail"
                                                 style="max-height: 120px; max-width: 120px; object-fit: cover"
                                             />
                                             <small class="form-text text-muted d-block">
                                                 <i class="fas fa-check-circle text-success mr-1"></i>
-                                                Gambar siap diunggah
+                                                {{ $form->image ? 'Gambar siap diunggah' : 'Gambar sekarang' }}
                                             </small>
                                         @else
                                             <div
@@ -235,12 +234,11 @@
 
                             <div class="col-md-6">
                                 <x-textarea
+                                    wire:model="form.notes"
                                     name="form.notes"
+                                    icon="fa-sticky-note"
                                     label="Catatan"
                                     placeholder="Masukan catatan (opsional)"
-                                    help="Masukan catatan (opsional)"
-                                    rows="5"
-                                    wire:model="form.notes"
                                 />
                             </div>
                         </div>

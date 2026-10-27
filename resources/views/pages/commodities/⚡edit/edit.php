@@ -30,36 +30,32 @@ new class extends Component
     public UpdateCommodityForm $form;
 
     /**
-     * The current image URL.
-     */
-    public string $currentImage;
-
-    /**
      * Mount the component.
      */
     public function mount(Commodity $commodity): void
     {
         $this->commodity = $commodity;
+        $this->form->fillFromModel($commodity);
+    }
 
-        if (Storage::disk('public')->exists($commodity->image)) {
-            $this->currentImage = Storage::url($commodity->image);
+    /**
+     * Preview URL for the image.
+     * Priority: new upload (temporary) → persisted image → null.
+     */
+    #[Computed]
+    public function imagePreview(): ?string
+    {
+        // 1) User just picked a new file → use its temporary URL.
+        if ($this->form->image) {
+            return $this->form->image->temporaryUrl();
         }
 
-        $this->form->fill([
-            'commodity' => $commodity,
-            'commodity_funding_source_id' => $commodity->commodity_funding_source_id,
-            'commodity_location_id' => $commodity->commodity_location_id,
-            'brand_id' => $commodity->brand_id,
-            'material_id' => $commodity->material_id,
-            'item_code' => $commodity->item_code,
-            'qr_code' => $commodity->qr_code,
-            'name' => $commodity->name,
-            'purchase_year' => $commodity->purchase_year,
-            'condition' => $commodity->condition,
-            'quantity' => $commodity->quantity,
-            'unit_price' => $commodity->unit_price,
-            'notes' => $commodity->notes,
-        ]);
+        // 2) Fall back to the persisted image, if any.
+        $path = $this->commodity->image;
+
+        return $path && Storage::disk('public')->exists($path)
+            ? Storage::url($path)
+            : null;
     }
 
     /**
@@ -139,9 +135,7 @@ new class extends Component
             return '';
         }
 
-        return Number::withLocale('id', function () {
-            return ucfirst(Number::spell($this->totalPrice));
-        });
+        return Number::withLocale('id', fn () => ucfirst(Number::spell($this->totalPrice)));
     }
 
     /**

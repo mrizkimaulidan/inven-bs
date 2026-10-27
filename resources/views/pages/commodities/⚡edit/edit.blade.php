@@ -206,27 +206,16 @@
                                     </div>
 
                                     <div class="mt-2" wire:loading.remove wire:target="form.image">
-                                        @if ($form->image)
+                                        @if ($this->imagePreview)
                                             <img
-                                                src="{{ $form->image->temporaryUrl() }}"
+                                                src="{{ $this->imagePreview }}"
                                                 alt="Preview Foto Barang"
                                                 class="img-thumbnail"
                                                 style="max-height: 120px; max-width: 120px; object-fit: cover"
                                             />
                                             <small class="form-text text-muted d-block">
                                                 <i class="fas fa-check-circle text-success mr-1"></i>
-                                                Gambar siap diunggah
-                                            </small>
-                                        @elseif ($currentImage)
-                                            <img
-                                                src="{{ $currentImage }}"
-                                                alt="Preview Foto Barang"
-                                                class="img-thumbnail"
-                                                style="max-height: 120px; max-width: 120px; object-fit: cover"
-                                            />
-                                            <small class="form-text text-muted d-block">
-                                                <i class="fas fa-check-circle text-success mr-1"></i>
-                                                Gambar sekarang
+                                                {{ $form->image ? 'Gambar siap diunggah' : 'Gambar sekarang' }}
                                             </small>
                                         @else
                                             <div
