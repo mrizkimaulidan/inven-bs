@@ -17,6 +17,6 @@ new class extends Component
     {
         $this->form->store();
 
-        $this->redirect('/lokasi', navigate: true);
+        $this->redirect('/ruangan', navigate: true);
     }
 };
