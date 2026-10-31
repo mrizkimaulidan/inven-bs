@@ -1,5 +1,11 @@
 <div>
     {{-- Modal --}}
+    @if ($activeModal === 'export')
+        @teleport('body')
+            <livewire:pages::brands.export />
+        @endteleport
+    @endif
+
     @if ($activeModal === 'create')
         @teleport('body')
             <livewire:pages::brands.create />
@@ -37,7 +43,7 @@
                     <x-button
                         wire:click="$dispatch('showModal', {modalName: 'export'})"
                         icon="fa-file-export"
-                        label="Export"
+                        label="Ekspor"
                         variant="info"
                         class="mr-2 mb-2"
                     />
