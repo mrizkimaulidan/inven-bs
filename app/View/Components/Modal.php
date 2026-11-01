@@ -6,6 +6,9 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
+/**
+ * Render a modal shell with optional Livewire submit and close actions.
+ */
 class Modal extends Component
 {
     /**
@@ -21,6 +24,7 @@ class Modal extends Component
      * @param  string  $size  Modal size: sm, md, lg, xl.
      * @param  bool  $scrollable  Whether the modal body is scrollable.
      * @param  string|null  $id  Optional DOM id for the modal element.
+     * @return void
      */
     public function __construct(
         public string $title,
@@ -29,14 +33,17 @@ class Modal extends Component
         public bool $scrollable = false,
         public ?string $id = null,
     ) {
-        // Ensure the modal size is valid, otherwise fall back to "md".
-        if (! in_array($this->size, self::SIZES, true)) {
+        /**
+         * Fall back to the default size when the requested size is unsupported.
+         */ if (! in_array($this->size, self::SIZES, true)) {
             $this->size = 'md';
         }
     }
 
     /**
      * Get the resolved DOM id for the modal element.
+     *
+     * @return string
      */
     public function modalId(): string
     {
@@ -45,6 +52,8 @@ class Modal extends Component
 
     /**
      * Get the view / contents that represent the component.
+     *
+     * @return View|Closure|string
      */
     public function render(): View|Closure|string
     {

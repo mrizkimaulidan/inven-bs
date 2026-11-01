@@ -7,6 +7,9 @@ use Illuminate\Validation\Rule;
 use Livewire\Form;
 use Spatie\Permission\Models\Role;
 
+/**
+ * Validate role changes and synchronize the role's assigned permissions.
+ */
 class UpdateRoleAndPermissionForm extends Form
 {
     /**
@@ -28,6 +31,8 @@ class UpdateRoleAndPermissionForm extends Form
 
     /**
      * Validate the input and persist the role and its permissions.
+     *
+     * @return void
      */
     public function update(): void
     {

@@ -6,6 +6,9 @@ use App\Models\Material;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
 
+/**
+ * Validate material fields and update the existing material.
+ */
 class UpdateMaterialForm extends Form
 {
     /**
@@ -20,6 +23,8 @@ class UpdateMaterialForm extends Form
 
     /**
      * Validate the input and persist the changes.
+     *
+     * @return void
      */
     public function update(): void
     {

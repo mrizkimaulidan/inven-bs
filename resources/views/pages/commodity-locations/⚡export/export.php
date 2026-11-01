@@ -5,7 +5,11 @@ use App\Livewire\Forms\ExportForm;
 use App\Models\CommodityLocation;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
+/**
+ * Validate the export format and download the commodity location spreadsheet.
+ */
 new class extends Component
 {
     /**
@@ -15,6 +19,8 @@ new class extends Component
 
     /**
      * Get the total number of rows that will be exported.
+     *
+     * @return int
      */
     #[Computed]
     public function totalRows(): int
@@ -24,6 +30,8 @@ new class extends Component
 
     /**
      * Handle the export request.
+     *
+     * @return BinaryFileResponse
      */
     public function export()
     {

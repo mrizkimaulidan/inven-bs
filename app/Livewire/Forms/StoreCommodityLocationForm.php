@@ -6,6 +6,9 @@ use App\Models\CommodityLocation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
 
+/**
+ * Validate location fields and persist a new commodity location record.
+ */
 class StoreCommodityLocationForm extends Form
 {
     /**
@@ -20,6 +23,8 @@ class StoreCommodityLocationForm extends Form
 
     /**
      * Validate the input and persist a new record.
+     *
+     * @return void
      */
     public function store(): void
     {

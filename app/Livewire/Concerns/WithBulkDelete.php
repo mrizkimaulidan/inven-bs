@@ -44,6 +44,8 @@ trait WithBulkDelete
      *
      * Override this in the consuming component if your paginator
      * is not named "items".
+     *
+     * @return string
      */
     protected function bulkPaginatorName(): string
     {
@@ -54,6 +56,8 @@ trait WithBulkDelete
      * The model class used for the bulk delete.
      *
      * Override this if the model differs from the paginator's model.
+     *
+     * @return ?string
      */
     protected function bulkModelClass(): ?string
     {
@@ -62,6 +66,8 @@ trait WithBulkDelete
 
     /**
      * The URL to visit after a successful bulk delete.
+     *
+     * @return ?string
      */
     protected function bulkRedirectPath(): ?string
     {
@@ -70,6 +76,8 @@ trait WithBulkDelete
 
     /**
      * Get the paginator instance for the current page.
+     *
+     * @return mixed
      */
     protected function bulkPaginator(): mixed
     {
@@ -85,7 +93,7 @@ trait WithBulkDelete
     {
         return $this->bulkPaginator()
             ->pluck('id')
-            ->map(fn ($id) => (string) $id)
+            ->map(fn ($recordId) => (string) $recordId)
             ->toArray();
     }
 
@@ -97,19 +105,21 @@ trait WithBulkDelete
     #[Computed]
     public function selectedRecords(): Collection
     {
-        $ids = array_intersect($this->selected, $this->bulkPageIds());
+        $selectedRecordIds = array_intersect($this->selected, $this->bulkPageIds());
 
-        if (empty($ids)) {
+        if (empty($selectedRecordIds)) {
             return new Collection;
         }
 
-        $model = $this->bulkModel();
+        $modelClass = $this->bulkModel();
 
-        return $model::query()->whereIn('id', $ids)->get(['id', 'name']);
+        return $modelClass::query()->whereIn('id', $selectedRecordIds)->get(['id', 'name']);
     }
 
     /**
      * Resolve the model class used for the bulk delete.
+     *
+     * @return string
      */
     protected function bulkModel(): string
     {
@@ -117,17 +127,20 @@ trait WithBulkDelete
             return $this->bulkModelClass();
         }
 
-        $first = $this->bulkPaginator()->getCollection()->first();
+        $firstModel = $this->bulkPaginator()->getCollection()->first();
 
-        if ($first === null) {
+        if ($firstModel === null) {
             throw new \RuntimeException('Unable to resolve bulk model: the current page is empty.');
         }
 
-        return $first::class;
+        return $firstModel::class;
     }
 
     /**
      * Handle the "select all" checkbox toggle.
+     *
+     * @param  bool  $value
+     * @return void
      */
     public function updatedSelectAll(bool $value): void
     {
@@ -136,6 +149,8 @@ trait WithBulkDelete
 
     /**
      * Sync the "select all" state when an individual checkbox is toggled.
+     *
+     * @return void
      */
     public function updatedSelected(): void
     {
@@ -151,6 +166,10 @@ trait WithBulkDelete
      * Using the generic hook (rather than updatingPage()) so this
      * also works correctly if the host component ever uses a named
      * paginator (multiple paginators on one page).
+     *
+     * @param  mixed  $page
+     * @param  string  $pageName
+     * @return void
      */
     public function updatingPaginators($page, $pageName): void
     {
@@ -159,6 +178,8 @@ trait WithBulkDelete
 
     /**
      * Clear the current selection.
+     *
+     * @return void
      */
     public function resetSelection(): void
     {
@@ -168,6 +189,8 @@ trait WithBulkDelete
 
     /**
      * Open the shared bulk-delete confirmation modal.
+     *
+     * @return void
      */
     #[On('showBulkDeleteConfirmationModal')]
     public function showBulkDeleteConfirmation(): void
@@ -183,6 +206,8 @@ trait WithBulkDelete
 
     /**
      * Handle confirmation from the shared bulk-delete modal.
+     *
+     * @return void
      */
     #[On('confirmBulkDelete')]
     public function confirmBulkDelete(): void
@@ -193,20 +218,22 @@ trait WithBulkDelete
 
     /**
      * Remove the selected resources from storage.
+     *
+     * @return void
      */
     public function destroySelected(): void
     {
-        $ids = array_intersect($this->selected, $this->bulkPageIds());
+        $selectedRecordIds = array_intersect($this->selected, $this->bulkPageIds());
 
-        if (empty($ids)) {
+        if (empty($selectedRecordIds)) {
             return;
         }
 
-        $count = $this->bulkModel()::whereIn('id', $ids)->delete();
+        $deletedCount = $this->bulkModel()::whereIn('id', $selectedRecordIds)->delete();
 
         $this->resetSelection();
 
-        if ($count > 0 && $this->bulkRedirectPath() !== null) {
+        if ($deletedCount > 0 && $this->bulkRedirectPath() !== null) {
             $this->redirect($this->bulkRedirectPath(), navigate: true);
         }
     }

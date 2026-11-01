@@ -6,6 +6,9 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
+/**
+ * Render a validated multiline input with optional label and help text.
+ */
 class Textarea extends Component
 {
     /**
@@ -17,6 +20,7 @@ class Textarea extends Component
      * @param  string|null  $icon  The Font Awesome icon class.
      * @param  string|null  $help  The help text.
      * @param  int  $rows  The number of visible text lines.
+     * @return void
      */
     public function __construct(
         public string $name,
@@ -25,12 +29,12 @@ class Textarea extends Component
         public ?string $icon = null,
         public ?string $help = null,
         public int $rows = 3,
-    ) {
-        //
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.
+     *
+     * @return View|Closure|string
      */
     public function render(): View|Closure|string
     {

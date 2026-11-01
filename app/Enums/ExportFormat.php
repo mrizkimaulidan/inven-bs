@@ -4,6 +4,9 @@ namespace App\Enums;
 
 use Maatwebsite\Excel\Excel;
 
+/**
+ * List supported spreadsheet formats and resolve their writer types.
+ */
 enum ExportFormat: string
 {
     case Xlsx = 'xlsx';
@@ -15,6 +18,8 @@ enum ExportFormat: string
 
     /**
      * Get the writer type constant for the export.
+     *
+     * @return string
      */
     public function writerType(): string
     {
@@ -30,6 +35,8 @@ enum ExportFormat: string
 
     /**
      * Get the human-readable label.
+     *
+     * @return string
      */
     public function label(): string
     {

@@ -6,6 +6,9 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
+/**
+ * Render a validated select control with optional label and help text.
+ */
 class Select extends Component
 {
     /**
@@ -17,6 +20,7 @@ class Select extends Component
      * @param  bool  $required  Indicates whether the select is required.
      * @param  bool  $disabled  Indicates whether the select is disabled.
      * @param  string|null  $help  The help text.
+     * @return void
      */
     public function __construct(
         public string $name,
@@ -25,12 +29,12 @@ class Select extends Component
         public bool $required = false,
         public bool $disabled = false,
         public ?string $help = null,
-    ) {
-        //
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.
+     *
+     * @return View|Closure|string
      */
     public function render(): View|Closure|string
     {

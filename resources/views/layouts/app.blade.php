@@ -197,7 +197,7 @@
                 </aside>
             </div>
 
-            <!-- Main Content -->
+            <!-- Page content -->
             <div class="main-content">
                 <section class="section">
                     <div class="section-header">

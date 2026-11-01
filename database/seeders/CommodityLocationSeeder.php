@@ -5,15 +5,18 @@ namespace Database\Seeders;
 use App\Models\CommodityLocation;
 use Illuminate\Database\Seeder;
 
+/** Seed the initial commodity storage locations. */
 class CommodityLocationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     *
+     * @return void
      */
     public function run(): void
     {
-        $locations = collect([
-            // Administrasi & Guru
+        $locationNames = collect([
+            /** Administration and staff locations. */
             'Ruang Guru',
             'Ruang Kepala Sekolah',
             'Ruang Wakil Kepala Sekolah',
@@ -21,14 +24,14 @@ class CommodityLocationSeeder extends Seeder
             'Ruang Kepala Tata Usaha (TU)',
             'Ruangan Guru BP (Bimbingan Penyuluhan)',
 
-            // Belajar & Lab
+            /** Learning and laboratory locations. */
             'Ruang Laboratorium',
             'Ruang Komputer',
             'Ruang Praktek',
             'Perpustakaan Bawah',
             'Perpustakaan Atas',
 
-            // Kelas
+            /** Classroom locations. */
             'Kelas 1',
             'Kelas 2',
             'Kelas 3',
@@ -36,13 +39,13 @@ class CommodityLocationSeeder extends Seeder
             'Kelas 5',
             'Kelas 6',
 
-            // Kegiatan
+            /** Activity locations. */
             'Ruang OSIS',
             'Ruang Seni Musik',
             'Ruang Kegiatan Ekstrakurikuler',
             'Ruang Serba Guna',
 
-            // Fasilitas
+            /** Facility locations. */
             'Ruang Gudang',
             'Ruang Kantin',
             'Ruang Koperasi',
@@ -55,13 +58,13 @@ class CommodityLocationSeeder extends Seeder
 
         $now = now();
 
-        $transformedData = $locations->map(fn (string $location) => [
-            'name' => $location,
-            'description' => "Lokasi: $location",
+        $locationRecords = $locationNames->map(fn (string $locationName) => [
+            'name' => $locationName,
+            'description' => "Lokasi: $locationName",
             'created_at' => $now,
             'updated_at' => $now,
         ])->toArray();
 
-        CommodityLocation::insert($transformedData);
+        CommodityLocation::insert($locationRecords);
     }
 }

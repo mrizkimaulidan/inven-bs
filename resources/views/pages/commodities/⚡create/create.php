@@ -14,6 +14,9 @@ use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
+/**
+ * Load commodity options, calculate totals, and save the commodity and image.
+ */
 new #[Title('Halaman Tambah Data Barang')] class extends Component
 {
     use WithFileUploads;
@@ -29,7 +32,9 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
     public array $conditions;
 
     /**
-     * Mount the component.
+     * Load the available condition options for the form.
+     *
+     * @return void
      */
     public function mount(): void
     {
@@ -38,6 +43,8 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
 
     /**
      * Get a listing of the commodity funding sources.
+     *
+     * @return Collection
      */
     #[Computed]
     public function commodityFundingSources(): Collection
@@ -47,6 +54,8 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
 
     /**
      * Get a listing of the materials.
+     *
+     * @return Collection
      */
     #[Computed]
     public function materials(): Collection
@@ -56,6 +65,8 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
 
     /**
      * Get a listing of the brands.
+     *
+     * @return Collection
      */
     #[Computed]
     public function brands(): Collection
@@ -65,6 +76,8 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
 
     /**
      * Get a listing of the commodity locations.
+     *
+     * @return Collection
      */
     #[Computed]
     public function commodityLocations(): Collection
@@ -74,6 +87,8 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
 
     /**
      * Get a listing of the users.
+     *
+     * @return Collection
      */
     #[Computed]
     public function createdBy(): Collection
@@ -83,6 +98,8 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
 
     /**
      * Get the total price formatted as Indonesian Rupiah.
+     *
+     * @return string
      */
     #[Computed]
     public function totalPriceFormatted(): string
@@ -92,6 +109,8 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
 
     /**
      * Get the total price spelled out in Indonesian words.
+     *
+     * @return string
      */
     #[Computed]
     public function totalInWords(): string
@@ -107,6 +126,8 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
 
     /**
      * Get the raw total price.
+     *
+     * @return float
      */
     #[Computed]
     public function totalPrice(): float
@@ -117,6 +138,8 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
     /**
      * Preview URL for the image.
      * Priority: new upload (temporary) → persisted image → null.
+     *
+     * @return ?string
      */
     #[Computed]
     public function imagePreview(): ?string
@@ -126,6 +149,8 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @return void
      */
     public function save(): void
     {

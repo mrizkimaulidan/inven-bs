@@ -6,6 +6,9 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
+/**
+ * Render a styled button with an optional icon and label.
+ */
 class Button extends Component
 {
     /**
@@ -28,6 +31,7 @@ class Button extends Component
      * @param  string|null  $icon  The Font Awesome icon class.
      * @param  string  $variant  The Bootstrap button variant.
      * @param  string  $type  The native button type.
+     * @return void
      */
     public function __construct(
         public string $label,
@@ -35,20 +39,23 @@ class Button extends Component
         public string $variant = 'primary',
         public string $type = 'button',
     ) {
-        // Ensure the variant is valid, otherwise fall back to the default.
-        if (! in_array($this->variant, self::VARIANTS, true)) {
+        /**
+         * Fall back to the default style when the requested variant is unsupported.
+         */ if (! in_array($this->variant, self::VARIANTS, true)) {
             $this->variant = 'primary';
         }
 
-        // Ensure the button type is valid, otherwise default to "button"
-        // to avoid unintended form submissions.
-        if (! in_array($this->type, self::TYPES, true)) {
+        /**
+         * Default to a non-submitting button when the requested type is unsupported.
+         */ if (! in_array($this->type, self::TYPES, true)) {
             $this->type = 'button';
         }
     }
 
     /**
      * Get the view / contents that represent the component.
+     *
+     * @return View|Closure|string
      */
     public function render(): View|Closure|string
     {

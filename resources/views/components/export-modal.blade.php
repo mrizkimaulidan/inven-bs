@@ -1,6 +1,7 @@
 <div>
     <x-modal :title="$title" submit="export">
         <x-slot:body>
+            {{-- Export summary and format selection --}}
             <div class="alert alert-info alert-has-icon" role="alert">
                 <div class="alert-icon">
                     <i class="fas fa-download"></i>
@@ -21,6 +22,7 @@
         </x-slot:body>
 
         <x-slot:footer>
+            {{-- Export action --}}
             <x-button type="submit" icon="fa-download" label="Ekspor" />
         </x-slot:footer>
     </x-modal>

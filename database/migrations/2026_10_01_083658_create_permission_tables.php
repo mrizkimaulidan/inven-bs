@@ -8,6 +8,8 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
     public function up(): void
     {
@@ -24,7 +26,8 @@ return new class extends Migration
          * See `docs/prerequisites.md` for suggested lengths on 'name' and 'guard_name' if "1071 Specified key was too long" errors are encountered.
          */
         Schema::create($tableNames['permissions'], static function (Blueprint $table) {
-            $table->id(); // permission id
+            /** Define the permission record's primary key. */
+            $table->id();
             $table->string('name');
             $table->string('guard_name');
             $table->timestamps();
@@ -36,8 +39,10 @@ return new class extends Migration
          * See `docs/prerequisites.md` for suggested lengths on 'name' and 'guard_name' if "1071 Specified key was too long" errors are encountered.
          */
         Schema::create($tableNames['roles'], static function (Blueprint $table) use ($teams, $columnNames) {
-            $table->id(); // role id
-            if ($teams || config('permission.testing')) { // permission.testing is a fix for sqlite testing
+            /** Define the role record's primary key. */
+            $table->id();
+            /** Include team ownership when teams are enabled or in SQLite tests. */
+            if ($teams || config('permission.testing')) {
                 $table->unsignedBigInteger($columnNames['team_foreign_key'])->nullable();
                 $table->index($columnNames['team_foreign_key'], 'roles_team_foreign_key_index');
             }
@@ -58,8 +63,9 @@ return new class extends Migration
             $table->unsignedBigInteger($columnNames['model_morph_key']);
             $table->index([$columnNames['model_morph_key'], 'model_type'], 'model_has_permissions_model_id_model_type_index');
 
+            /** Reference the permissions table primary key. */
             $table->foreign($pivotPermission)
-                ->references('id') // permission id
+                ->references('id')
                 ->on($tableNames['permissions'])
                 ->cascadeOnDelete();
             if ($teams) {
@@ -81,8 +87,9 @@ return new class extends Migration
             $table->unsignedBigInteger($columnNames['model_morph_key']);
             $table->index([$columnNames['model_morph_key'], 'model_type'], 'model_has_roles_model_id_model_type_index');
 
+            /** Reference the roles table primary key. */
             $table->foreign($pivotRole)
-                ->references('id') // role id
+                ->references('id')
                 ->on($tableNames['roles'])
                 ->cascadeOnDelete();
             if ($teams) {
@@ -101,13 +108,15 @@ return new class extends Migration
             $table->unsignedBigInteger($pivotPermission);
             $table->unsignedBigInteger($pivotRole);
 
+            /** Reference the permissions table primary key. */
             $table->foreign($pivotPermission)
-                ->references('id') // permission id
+                ->references('id')
                 ->on($tableNames['permissions'])
                 ->cascadeOnDelete();
 
+            /** Reference the roles table primary key. */
             $table->foreign($pivotRole)
-                ->references('id') // role id
+                ->references('id')
                 ->on($tableNames['roles'])
                 ->cascadeOnDelete();
 
@@ -121,6 +130,8 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
     public function down(): void
     {

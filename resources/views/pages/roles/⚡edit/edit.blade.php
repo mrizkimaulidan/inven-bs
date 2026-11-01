@@ -4,6 +4,7 @@
             <div class="card">
                 <div class="card-body">
                     <form wire:submit="save">
+                        {{-- Role details and permission summary --}}
                         <div class="row">
                             <div class="col-md-6">
                                 <x-input
@@ -60,6 +61,7 @@
                             </div>
                         </div>
 
+                        {{-- Permission assignments grouped by module --}}
                         @foreach ($this->groupedPermissions as $module)
                             <div class="row" wire:key="module-{{ $module['key'] }}">
                                 <div class="col-12">

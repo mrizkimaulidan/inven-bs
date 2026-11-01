@@ -11,6 +11,9 @@ use Illuminate\Validation\Rule;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\Form;
 
+/**
+ * Validate commodity changes and replace the image when a new one is provided.
+ */
 class UpdateCommodityForm extends Form
 {
     /**
@@ -85,6 +88,9 @@ class UpdateCommodityForm extends Form
 
     /**
      * Fill the form from a persisted commodity.
+     *
+     * @param  Commodity  $commodity
+     * @return void
      */
     public function fillFromModel(Commodity $commodity): void
     {
@@ -110,6 +116,8 @@ class UpdateCommodityForm extends Form
 
     /**
      * Validate the input and persist the changes.
+     *
+     * @return void
      */
     public function update(): void
     {

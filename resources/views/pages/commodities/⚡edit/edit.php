@@ -15,6 +15,9 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
+/**
+ * Load commodity options, preview images, and save commodity changes.
+ */
 new class extends Component
 {
     use WithFileUploads;
@@ -30,7 +33,10 @@ new class extends Component
     public UpdateCommodityForm $form;
 
     /**
-     * Mount the component.
+     * Load the commodity and populate the edit form with its current values.
+     *
+     * @param  Commodity  $commodity
+     * @return void
      */
     public function mount(Commodity $commodity): void
     {
@@ -41,25 +47,31 @@ new class extends Component
     /**
      * Preview URL for the image.
      * Priority: new upload (temporary) → persisted image → null.
+     *
+     * @return ?string
      */
     #[Computed]
     public function imagePreview(): ?string
     {
-        // 1) User just picked a new file → use its temporary URL.
-        if ($this->form->image) {
+        /**
+         * Use the temporary URL when the user has selected a replacement image.
+         */ if ($this->form->image) {
             return $this->form->image->temporaryUrl();
         }
 
-        // 2) Fall back to the persisted image, if any.
-        $path = $this->commodity->image;
+        /**
+         * Otherwise, use the persisted image when available.
+         */ $path = $this->commodity->image;
 
-        return $path && Storage::disk('public')->exists($path)
-            ? Storage::url($path)
+        return $path
+            ? (Storage::disk('public')->exists($path) ? Storage::url($path) : asset($path))
             : null;
     }
 
     /**
      * Get a listing of the commodity funding sources.
+     *
+     * @return Collection
      */
     #[Computed]
     public function commodityFundingSources(): Collection
@@ -69,6 +81,8 @@ new class extends Component
 
     /**
      * Get a listing of the materials.
+     *
+     * @return Collection
      */
     #[Computed]
     public function materials(): Collection
@@ -78,6 +92,8 @@ new class extends Component
 
     /**
      * Get a listing of the brands.
+     *
+     * @return Collection
      */
     #[Computed]
     public function brands(): Collection
@@ -87,6 +103,8 @@ new class extends Component
 
     /**
      * Get a listing of the commodity locations.
+     *
+     * @return Collection
      */
     #[Computed]
     public function commodityLocations(): Collection
@@ -96,6 +114,8 @@ new class extends Component
 
     /**
      * Get a listing of the unique commodity purchase years.
+     *
+     * @return array
      */
     #[Computed]
     public function purchaseYears(): array
@@ -109,6 +129,8 @@ new class extends Component
 
     /**
      * Get a listing of the commodity condition options.
+     *
+     * @return array
      */
     #[Computed]
     public function conditions(): array
@@ -118,6 +140,8 @@ new class extends Component
 
     /**
      * Get the total price formatted as Indonesian Rupiah.
+     *
+     * @return string
      */
     #[Computed]
     public function totalPriceFormatted(): string
@@ -127,6 +151,8 @@ new class extends Component
 
     /**
      * Get the total price spelled out in Indonesian words.
+     *
+     * @return string
      */
     #[Computed]
     public function totalInWords(): string
@@ -140,6 +166,8 @@ new class extends Component
 
     /**
      * Get the raw total price.
+     *
+     * @return float
      */
     #[Computed]
     public function totalPrice(): float
@@ -149,6 +177,8 @@ new class extends Component
 
     /**
      * Update the specified resource in storage.
+     *
+     * @return void
      */
     public function edit(): void
     {
@@ -161,6 +191,8 @@ new class extends Component
 
     /**
      * Render the component.
+     *
+     * @return View
      */
     public function render(): View
     {

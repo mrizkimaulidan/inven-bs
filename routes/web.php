@@ -1,5 +1,7 @@
 <?php
 
+/** Register application web routes. */
+
 use App\Http\Controllers\CommodityVerificationController;
 use Illuminate\Support\Facades\Route;
 

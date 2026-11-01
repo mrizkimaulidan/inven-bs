@@ -10,19 +10,22 @@ use App\Models\Material;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
+/** Seed sample commodities with catalog relationships. */
 class CommoditySeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     *
+     * @return void
      */
     public function run(): void
     {
-        $locationIds = CommodityLocation::pluck('id');
-        $fundingIds = CommodityFundingSource::pluck('id');
+        $commodityLocationIds = CommodityLocation::pluck('id');
+        $fundingSourceIds = CommodityFundingSource::pluck('id');
         $brandIds = Brand::pluck('id');
         $materialIds = Material::pluck('id');
 
-        $commodities = collect([
+        $commodityNames = collect([
             'Meja', 'Kursi', 'Kursi Roda Dua', 'Lemari Kamera', 'Lemari Buku',
             'Lemari Sepatu', 'Penghapus Papan Tulis Putih', 'Meja Guru', 'Kursi Guru',
             'Rak Sepatu', 'Rak Peralatan Sekolah', 'Rak Helm', 'Rak Sepatu Guru',
@@ -32,9 +35,9 @@ class CommoditySeeder extends Seeder
 
         $conditions = collect([1, 2, 3]);
 
-        $transformedData = $commodities->map(fn (string $commodity) => [
-            'commodity_funding_source_id' => $fundingIds->random(),
-            'commodity_location_id' => $locationIds->random(),
+        $commodityRecords = $commodityNames->map(fn (string $commodityName) => [
+            'commodity_funding_source_id' => $fundingSourceIds->random(),
+            'commodity_location_id' => $commodityLocationIds->random(),
             'created_by' => 1,
             'updated_by' => 1,
 
@@ -42,21 +45,21 @@ class CommoditySeeder extends Seeder
             'material_id' => $materialIds->random(),
 
             'item_code' => 'BRG-'.rand(100000, 999999),
-            'name' => $commodity,
+            'name' => $commodityName,
             'purchase_year' => rand(2010, date('Y')),
             'condition' => $conditions->random(),
 
-            'image' => Str::slug($commodity).'.jpg',
+            'image' => Str::slug($commodityName).'.jpg',
 
-            'quantity' => $qty = rand(5, 50),
-            'total_price' => $qty * ($price = rand(2500, 150000)),
-            'unit_price' => $price,
-            'notes' => "Keterangan barang $commodity",
+            'quantity' => $quantity = rand(5, 50),
+            'total_price' => $quantity * ($unitPrice = rand(2500, 150000)),
+            'unit_price' => $unitPrice,
+            'notes' => "Keterangan barang $commodityName",
 
             'created_at' => now(),
             'updated_at' => now(),
         ])->toArray();
 
-        Commodity::insert($transformedData);
+        Commodity::insert($commodityRecords);
     }
 }

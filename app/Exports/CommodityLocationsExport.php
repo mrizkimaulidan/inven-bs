@@ -13,6 +13,9 @@ use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumns;
 
+/**
+ * Build spreadsheet columns for exporting commodity location records.
+ */
 class CommodityLocationsExport implements FromCollection, WithColumns
 {
     use Exportable;
@@ -27,9 +30,9 @@ class CommodityLocationsExport implements FromCollection, WithColumns
         return CommodityLocation::query()
             ->withCount([
                 'commodities',
-                'commodities as good_conditions_count' => fn (Builder $q) => $q->where('condition', CommodityCondition::GOOD),
-                'commodities as poor_conditions_count' => fn (Builder $q) => $q->where('condition', CommodityCondition::POOR),
-                'commodities as heavily_damaged_conditions_count' => fn (Builder $q) => $q->where('condition', CommodityCondition::HEAVILY_DAMAGED),
+                'commodities as good_conditions_count' => fn (Builder $query) => $query->where('condition', CommodityCondition::GOOD),
+                'commodities as poor_conditions_count' => fn (Builder $query) => $query->where('condition', CommodityCondition::POOR),
+                'commodities as heavily_damaged_conditions_count' => fn (Builder $query) => $query->where('condition', CommodityCondition::HEAVILY_DAMAGED),
             ])
             ->orderBy('name')
             ->get(['name', 'description'])

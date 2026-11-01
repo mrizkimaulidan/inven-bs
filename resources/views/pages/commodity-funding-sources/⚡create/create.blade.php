@@ -1,6 +1,7 @@
 <div>
     <x-modal title="Tambah Data Perolehan" submit="save">
         <x-slot:body>
+            {{-- Form fields --}}
             <x-input
                 wire:model="form.name"
                 name="form.name"
@@ -18,6 +19,7 @@
         </x-slot:body>
 
         <x-slot:footer>
+            {{-- Form actions --}}
             <x-button type="submit" icon="fa-plus-circle" label="Simpan Data" class="btn-primary" />
         </x-slot:footer>
     </x-modal>

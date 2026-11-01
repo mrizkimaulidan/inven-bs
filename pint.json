@@ -1,6 +1,7 @@
 {
     "preset": "laravel",
     "rules": {
-        "Pint/laravel_blade": true
+        "Pint/laravel_blade": true,
+        "no_superfluous_phpdoc_tags": false
     }
 }

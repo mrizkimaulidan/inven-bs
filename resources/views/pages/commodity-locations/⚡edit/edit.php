@@ -4,6 +4,9 @@ use App\Livewire\Forms\UpdateCommodityLocationForm;
 use App\Models\CommodityLocation;
 use Livewire\Component;
 
+/**
+ * Load the selected location into the form and save its validated changes.
+ */
 new class extends Component
 {
     /**
@@ -12,7 +15,10 @@ new class extends Component
     public UpdateCommodityLocationForm $form;
 
     /**
-     * Mount the component.
+     * Load the selected location and populate the edit form.
+     *
+     * @param  int  $commodityLocationId
+     * @return void
      */
     public function mount(int $commodityLocationId): void
     {
@@ -27,6 +33,8 @@ new class extends Component
 
     /**
      * Update the specified resource in storage.
+     *
+     * @return void
      */
     public function edit(): void
     {

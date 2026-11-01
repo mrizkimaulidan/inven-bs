@@ -4,11 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Enums\CommodityCondition;
 use App\Models\Commodity;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\Response;
 
+/**
+ * Find commodities by QR code and render their verification details.
+ */
 class CommodityVerificationController extends Controller
 {
     /**
-     * Handle the incoming request.
+     * Find the commodity by QR code and render its verification page or a not-found response.
+     *
+     * @param  string  $qrcode
+     * @return Response|View
      */
     public function __invoke(string $qrcode)
     {
@@ -38,6 +46,9 @@ class CommodityVerificationController extends Controller
 
     /**
      * Resolve the icon and badge styling for the given condition.
+     *
+     * @param  CommodityCondition  $condition
+     * @return array
      */
     private function conditionStyle(CommodityCondition $condition): array
     {

@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * Represent an inventory commodity and define its relations and attribute casts.
+ */
 #[Fillable([
     'commodity_funding_source_id',
     'commodity_location_id',
@@ -45,6 +48,8 @@ class Commodity extends Model
      * Get the user who created the commodity.
      *
      * Relates via the `created_by` column.
+     *
+     * @return BelongsTo
      */
     public function creator(): BelongsTo
     {
@@ -55,6 +60,8 @@ class Commodity extends Model
      * Get the user who updated the commodity.
      *
      * Relates via the `updated_by` column.
+     *
+     * @return BelongsTo
      */
     public function updater(): BelongsTo
     {
@@ -63,6 +70,8 @@ class Commodity extends Model
 
     /**
      * Get the funding source associated with the commodity.
+     *
+     * @return BelongsTo
      */
     public function commodityFundingSource(): BelongsTo
     {
@@ -71,6 +80,8 @@ class Commodity extends Model
 
     /**
      * Get the location associated with the commodity.
+     *
+     * @return BelongsTo
      */
     public function commodityLocation(): BelongsTo
     {
@@ -79,6 +90,8 @@ class Commodity extends Model
 
     /**
      * Get the brand associated with the commodity.
+     *
+     * @return BelongsTo
      */
     public function brand(): BelongsTo
     {
@@ -87,6 +100,8 @@ class Commodity extends Model
 
     /**
      * Get the material associated with the commodity.
+     *
+     * @return BelongsTo
      */
     public function material(): BelongsTo
     {
@@ -95,6 +110,10 @@ class Commodity extends Model
 
     /**
      * Apply the search filter to the query.
+     *
+     * @param  Builder  $query
+     * @param  string  $searchQuery
+     * @return void
      */
     #[Scope]
     public function search(Builder $query, string $searchQuery): void

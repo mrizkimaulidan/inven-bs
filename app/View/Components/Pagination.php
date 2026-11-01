@@ -7,6 +7,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\Component;
 
+/**
+ * Build page navigation links and display the current paginator range.
+ */
 class Pagination extends Component
 {
     /**
@@ -21,18 +24,19 @@ class Pagination extends Component
      * @param  string|null  $infoText  The custom info text template.
      * @param  string|null  $wrapperCss  The custom wrapper CSS class.
      * @param  string  $pageName  The paginator page name.
+     * @return void
      */
     public function __construct(
         public readonly LengthAwarePaginator $paginator,
         public readonly ?string $infoText = null,
         public readonly ?string $wrapperCss = null,
         public readonly string $pageName = 'page',
-    ) {
-        //
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.
+     *
+     * @return View|Closure|string
      */
     public function render(): View|Closure|string
     {
@@ -41,24 +45,28 @@ class Pagination extends Component
 
     /**
      * Get the formatted pagination info text.
+     *
+     * @return string
      */
     public function getInfoText(): string
     {
-        $start = $this->paginator->firstItem() ?? 0;
-        $end = $this->paginator->lastItem() ?? 0;
-        $total = $this->paginator->total();
+        $firstItem = $this->paginator->firstItem() ?? 0;
+        $lastItem = $this->paginator->lastItem() ?? 0;
+        $totalItems = $this->paginator->total();
 
-        $text = $this->infoText ?? $this->getDefaultInfoText();
+        $infoText = $this->infoText ?? $this->getDefaultInfoText();
 
         return str_replace(
             [':start', ':end', ':total'],
-            [$start, $end, $total],
-            $text
+            [$firstItem, $lastItem, $totalItems],
+            $infoText
         );
     }
 
     /**
      * Get the default info text based on the current locale.
+     *
+     * @return string
      */
     private function getDefaultInfoText(): string
     {
@@ -71,6 +79,8 @@ class Pagination extends Component
 
     /**
      * Determine if pagination should be shown.
+     *
+     * @return bool
      */
     public function shouldShow(): bool
     {
@@ -79,6 +89,8 @@ class Pagination extends Component
 
     /**
      * Determine if pagination has more than one page.
+     *
+     * @return bool
      */
     public function hasPages(): bool
     {
@@ -87,6 +99,8 @@ class Pagination extends Component
 
     /**
      * Get the current page number.
+     *
+     * @return int
      */
     public function currentPage(): int
     {
@@ -95,6 +109,8 @@ class Pagination extends Component
 
     /**
      * Get the last page number.
+     *
+     * @return int
      */
     public function lastPage(): int
     {
@@ -103,6 +119,8 @@ class Pagination extends Component
 
     /**
      * Determine if the current page is the first page.
+     *
+     * @return bool
      */
     public function onFirstPage(): bool
     {
@@ -111,6 +129,8 @@ class Pagination extends Component
 
     /**
      * Determine if there are more pages to display.
+     *
+     * @return bool
      */
     public function hasMorePages(): bool
     {
@@ -119,52 +139,58 @@ class Pagination extends Component
 
     /**
      * Get the start page number for pagination links.
+     *
+     * @return int
      */
     public function startPage(): int
     {
-        $current = $this->currentPage();
-        $last = $this->lastPage();
+        $currentPage = $this->currentPage();
+        $lastPage = $this->lastPage();
 
-        if ($last <= 3) {
+        if ($lastPage <= 3) {
             return 1;
         }
 
-        if ($current <= 2) {
+        if ($currentPage <= 2) {
             return 1;
         }
 
-        if ($current >= $last - 1) {
-            return max(1, $last - 2);
+        if ($currentPage >= $lastPage - 1) {
+            return max(1, $lastPage - 2);
         }
 
-        return max(1, $current - self::WINDOW);
+        return max(1, $currentPage - self::WINDOW);
     }
 
     /**
      * Get the end page number for pagination links.
+     *
+     * @return int
      */
     public function endPage(): int
     {
-        $current = $this->currentPage();
-        $last = $this->lastPage();
+        $currentPage = $this->currentPage();
+        $lastPage = $this->lastPage();
 
-        if ($last <= 3) {
-            return $last;
+        if ($lastPage <= 3) {
+            return $lastPage;
         }
 
-        if ($current <= 2) {
-            return min(3, $last);
+        if ($currentPage <= 2) {
+            return min(3, $lastPage);
         }
 
-        if ($current >= $last - 1) {
-            return $last;
+        if ($currentPage >= $lastPage - 1) {
+            return $lastPage;
         }
 
-        return min($last, $current + self::WINDOW);
+        return min($lastPage, $currentPage + self::WINDOW);
     }
 
     /**
      * Determine if the first page link should be shown.
+     *
+     * @return bool
      */
     public function shouldShowFirstPage(): bool
     {
@@ -173,6 +199,8 @@ class Pagination extends Component
 
     /**
      * Determine if the start ellipsis should be shown.
+     *
+     * @return bool
      */
     public function shouldShowEllipsisStart(): bool
     {
@@ -181,6 +209,8 @@ class Pagination extends Component
 
     /**
      * Determine if the end ellipsis should be shown.
+     *
+     * @return bool
      */
     public function shouldShowEllipsisEnd(): bool
     {
@@ -189,6 +219,8 @@ class Pagination extends Component
 
     /**
      * Determine if the last page link should be shown.
+     *
+     * @return bool
      */
     public function shouldShowLastPage(): bool
     {
@@ -202,19 +234,22 @@ class Pagination extends Component
      */
     public function pageRange(): array
     {
-        $start = $this->startPage();
-        $end = $this->endPage();
+        $startPage = $this->startPage();
+        $endPage = $this->endPage();
 
-        // Guard against invalid ranges to avoid range() throwing.
-        if ($start > $end) {
+        /**
+         * Return no page links when the calculated range is invalid.
+         */ if ($startPage > $endPage) {
             return [];
         }
 
-        return range($start, $end);
+        return range($startPage, $endPage);
     }
 
     /**
-     * Get the wrapper class for the component.
+     * Build the CSS classes for the pagination wrapper.
+     *
+     * @return string
      */
     public function wrapperClasses(): string
     {

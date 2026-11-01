@@ -3,6 +3,9 @@
 use App\Livewire\Forms\StoreMaterialForm;
 use Livewire\Component;
 
+/**
+ * Validate the form, create a material, and redirect to the listing.
+ */
 new class extends Component
 {
     /**
@@ -12,6 +15,8 @@ new class extends Component
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @return void
      */
     public function save(): void
     {

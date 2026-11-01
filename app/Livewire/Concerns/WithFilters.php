@@ -38,6 +38,7 @@ trait WithFilters
      * values already hydrated from the URL query string.
      *
      * @param  array<string, mixed>  $defaults
+     * @return void
      */
     protected function initializeFilters(array $defaults): void
     {
@@ -46,15 +47,19 @@ trait WithFilters
 
     /**
      * Get the number of filters that currently have a non-empty value.
+     *
+     * @return int
      */
     #[Computed]
     public function activeFiltersCount(): int
     {
-        return collect($this->filters)->filter(fn ($value) => filled($value))->count();
+        return collect($this->filters)->filter(fn ($filterValue) => filled($filterValue))->count();
     }
 
     /**
      * Determine if any filter is active.
+     *
+     * @return bool
      */
     #[Computed]
     public function hasActiveFilters(): bool
@@ -65,6 +70,8 @@ trait WithFilters
     /**
      * Reset all filters back to an empty state (not back to the
      * defaults passed to initializeFilters()) and return to page 1.
+     *
+     * @return void
      */
     public function resetFilters(): void
     {
@@ -74,6 +81,8 @@ trait WithFilters
 
     /**
      * Reset pagination when any filter value changes.
+     *
+     * @return void
      */
     public function updatedFilters(): void
     {
@@ -87,25 +96,27 @@ trait WithFilters
      * - 'column_name'
      * - ['column' => 'column_name', 'cast' => 'int']
      * - ['scope' => 'scopeName', 'cast' => 'int']
-     * - fn (Builder $query, mixed $value) => $query->...
+     * - fn (Builder $query, mixed $filterValue) => $query->...
      *
      * Closures are self-contained and are not passed through
      * `castFilterValue()`; if a closure needs a typed value, it is
      * responsible for casting it itself.
      *
+     * @param  Builder  $query
      * @param  array<string, string|array|Closure>  $filterMap
+     * @return Builder
      */
     protected function applyFilters(Builder $query, array $filterMap): Builder
     {
         foreach ($filterMap as $filterKey => $definition) {
-            $value = $this->filters[$filterKey] ?? null;
+            $filterValue = $this->filters[$filterKey] ?? null;
 
-            if (blank($value)) {
+            if (blank($filterValue)) {
                 continue;
             }
 
             if ($definition instanceof Closure) {
-                $definition($query, $value);
+                $definition($query, $filterValue);
 
                 continue;
             }
@@ -114,7 +125,7 @@ trait WithFilters
                 $definition = ['column' => $definition];
             }
 
-            $castValue = $this->castFilterValue($value, $definition['cast'] ?? null);
+            $castValue = $this->castFilterValue($filterValue, $definition['cast'] ?? null);
 
             if (isset($definition['scope'])) {
                 $query->{$definition['scope']}($castValue);
@@ -130,6 +141,10 @@ trait WithFilters
 
     /**
      * Cast the given filter value to the requested type.
+     *
+     * @param  mixed  $value
+     * @param  ?string  $cast
+     * @return mixed
      */
     protected function castFilterValue(mixed $value, ?string $cast): mixed
     {

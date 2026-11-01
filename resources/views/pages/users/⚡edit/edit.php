@@ -7,6 +7,9 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
 
+/**
+ * Load the user and available roles, then save account changes.
+ */
 new class extends Component
 {
     /**
@@ -16,6 +19,8 @@ new class extends Component
 
     /**
      * Get the roles available for assignment.
+     *
+     * @return Collection
      */
     #[Computed]
     public function roles(): Collection
@@ -24,7 +29,10 @@ new class extends Component
     }
 
     /**
-     * Mount the component.
+     * Load the user and populate the form with its current role and details.
+     *
+     * @param  int  $userId
+     * @return void
      */
     public function mount(int $userId): void
     {
@@ -40,6 +48,8 @@ new class extends Component
 
     /**
      * Update the specified resource in storage.
+     *
+     * @return void
      */
     public function edit(): void
     {

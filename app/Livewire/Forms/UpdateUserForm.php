@@ -8,6 +8,9 @@ use Illuminate\Validation\Rules\Password;
 use Livewire\Form;
 use Spatie\Permission\Models\Role;
 
+/**
+ * Validate user changes and synchronize the user's assigned role.
+ */
 class UpdateUserForm extends Form
 {
     /**
@@ -42,6 +45,8 @@ class UpdateUserForm extends Form
 
     /**
      * Validate the input and persist the changes.
+     *
+     * @return User
      */
     public function update(): User
     {
@@ -67,6 +72,8 @@ class UpdateUserForm extends Form
 
     /**
      * Get the validation rules for the form.
+     *
+     * @return array
      */
     protected function rules(): array
     {
@@ -104,6 +111,8 @@ class UpdateUserForm extends Form
 
     /**
      * Get the custom validation messages.
+     *
+     * @return array
      */
     protected function messages(): array
     {

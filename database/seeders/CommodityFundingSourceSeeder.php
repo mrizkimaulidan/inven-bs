@@ -5,23 +5,26 @@ namespace Database\Seeders;
 use App\Models\CommodityFundingSource;
 use Illuminate\Database\Seeder;
 
+/** Seed the initial commodity funding sources. */
 class CommodityFundingSourceSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     *
+     * @return void
      */
     public function run(): void
     {
-        $sources = collect(['BOSNAS', 'BOSDA']);
+        $fundingSourceNames = collect(['BOSNAS', 'BOSDA']);
         $now = now();
 
-        $transformedData = $sources->map(fn (string $source) => [
-            'name' => $source,
-            'description' => "Deskripsi: $source",
+        $fundingSourceRecords = $fundingSourceNames->map(fn (string $fundingSourceName) => [
+            'name' => $fundingSourceName,
+            'description' => "Deskripsi: $fundingSourceName",
             'created_at' => $now,
             'updated_at' => $now,
         ])->toArray();
 
-        CommodityFundingSource::insert($transformedData);
+        CommodityFundingSource::insert($fundingSourceRecords);
     }
 }

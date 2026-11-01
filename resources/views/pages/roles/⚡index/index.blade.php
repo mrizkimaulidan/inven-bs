@@ -1,5 +1,5 @@
 <div>
-    {{-- Modal --}}
+    {{-- Modal dialogs --}}
     @if ($activeModal === 'export')
         @teleport('body')
             <livewire:pages::roles.export />
@@ -28,12 +28,12 @@
         @endteleport
     @endif
 
-    {{-- Main Card --}}
+    {{-- Listing page --}}
     <x-page :searchable="true">
+        {{-- Toolbar actions --}}
         <x-slot:toolbar>
             <div class="d-flex justify-content-between align-items-center flex-wrap pb-3">
                 <div class="d-flex flex-wrap">
-                    <x-button icon="fa-file-import" label="Import" variant="success" class="mr-2 mb-2" />
                     <x-button
                         wire:click="$dispatch('showModal', {modalName: 'export'})"
                         icon="fa-file-export"
@@ -67,8 +67,9 @@
             </div>
         </x-slot:toolbar>
 
-        {{-- Table --}}
+        {{-- Data table --}}
         <x-table :targets="['']" :paginator="$this->roles">
+            {{-- Table headings --}}
             <x-slot:thead>
                 <tr>
                     <th class="text-center" style="width: 40px">
@@ -86,6 +87,7 @@
                 </tr>
             </x-slot:thead>
 
+            {{-- Table rows --}}
             <x-slot:tbody>
                 @forelse ($this->roles as $role)
                     <tr wire:key="role-{{ $role->id }}">

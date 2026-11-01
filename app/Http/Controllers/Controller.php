@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-abstract class Controller
-{
-    //
-}
+/**
+ * Provide the base class for application HTTP controllers.
+ */
+abstract class Controller {}

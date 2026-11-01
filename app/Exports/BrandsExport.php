@@ -13,6 +13,9 @@ use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumns;
 
+/**
+ * Build spreadsheet columns for exporting brand records.
+ */
 class BrandsExport implements FromCollection, WithColumns
 {
     use Exportable;

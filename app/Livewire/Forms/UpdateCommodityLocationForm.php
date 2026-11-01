@@ -6,6 +6,9 @@ use App\Models\CommodityLocation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
 
+/**
+ * Validate location fields and update the existing commodity location.
+ */
 class UpdateCommodityLocationForm extends Form
 {
     /**
@@ -25,6 +28,8 @@ class UpdateCommodityLocationForm extends Form
 
     /**
      * Validate the input and persist the changes.
+     *
+     * @return void
      */
     public function update(): void
     {

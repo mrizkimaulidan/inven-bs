@@ -1,7 +1,7 @@
 <div>
     <div class="accordion pb-3" id="{{ $id }}">
         <div class="accordion-item rounded border">
-            {{-- Header --}}
+            {{-- Filter title and active-filter count --}}
             <a
                 wire:ignore.self
                 class="accordion-header card-header d-flex align-items-center text-decoration-none text-dark bg-white p-3"
@@ -20,7 +20,7 @@
                 <i class="fas fa-chevron-down text-muted"></i>
             </a>
 
-            {{-- Body --}}
+            {{-- Filter controls and reset action --}}
             <div
                 wire:ignore.self
                 class="accordion-body collapse"

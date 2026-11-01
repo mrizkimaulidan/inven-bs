@@ -6,6 +6,9 @@ use App\Enums\ExportFormat;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
 
+/**
+ * Validate spreadsheet format choices and build dated export filenames.
+ */
 class ExportForm extends Form
 {
     /**
@@ -40,6 +43,8 @@ class ExportForm extends Form
 
     /**
      * Resolve the current format as an enum instance.
+     *
+     * @return ExportFormat
      */
     public function formatEnum(): ExportFormat
     {
@@ -48,6 +53,9 @@ class ExportForm extends Form
 
     /**
      * Build the export filename.
+     *
+     * @param  string  $prefix
+     * @return string
      */
     public function filename(string $prefix = 'data'): string
     {

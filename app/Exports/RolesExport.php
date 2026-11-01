@@ -11,6 +11,9 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumns;
 use Spatie\Permission\Models\Role;
 
+/**
+ * Build spreadsheet columns for exporting role records.
+ */
 class RolesExport implements FromCollection, WithColumns
 {
     use Exportable;

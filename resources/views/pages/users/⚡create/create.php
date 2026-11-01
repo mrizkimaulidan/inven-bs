@@ -6,6 +6,9 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
 
+/**
+ * Load assignable roles and create a user with the selected roles.
+ */
 new class extends Component
 {
     /**
@@ -15,6 +18,8 @@ new class extends Component
 
     /**
      * Get the roles available for assignment.
+     *
+     * @return Collection
      */
     #[Computed]
     public function roles(): Collection
@@ -24,6 +29,8 @@ new class extends Component
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @return void
      */
     public function save(): void
     {

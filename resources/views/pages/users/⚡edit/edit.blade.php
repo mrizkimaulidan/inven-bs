@@ -1,6 +1,7 @@
 <div>
     <x-modal title="Ubah Data Pengguna" submit="edit">
         <x-slot:body>
+            {{-- Form fields --}}
             <x-input
                 wire:model="form.name"
                 name="form.name"
@@ -19,6 +20,7 @@
 
             <x-select name="form.role_id" label="Pilih Peran" wire:model="form.role_id" required>
                 <option value="">Pilih Peran</option>
+                {{-- Role assignment --}}
                 @foreach ($this->roles as $role)
                     <option value="{{ $role->id }}">{{ $role->name }}</option>
                 @endforeach
@@ -42,6 +44,7 @@
         </x-slot:body>
 
         <x-slot:footer>
+            {{-- Form actions --}}
             <x-button type="submit" icon="fa-plus-circle" label="Simpan Data" class="btn-primary" />
         </x-slot:footer>
     </x-modal>

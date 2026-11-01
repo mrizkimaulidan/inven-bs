@@ -6,6 +6,9 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
+/**
+ * Render a reusable form input.
+ */
 class Input extends Component
 {
     /**
@@ -26,6 +29,8 @@ class Input extends Component
      * @param  string|null  $icon  The Font Awesome icon class.
      * @param  string|null  $help  The help text.
      * @param  string  $type  The native input type.
+     * @param  string|null  $selectedFileName  The selected file name for file inputs.
+     * @return void
      */
     public function __construct(
         public string $name,
@@ -34,15 +39,19 @@ class Input extends Component
         public ?string $icon = null,
         public ?string $help = null,
         public string $type = 'text',
+        public ?string $selectedFileName = null,
     ) {
-        // Ensure the input type is valid, otherwise fall back to "text".
-        if (! in_array($this->type, self::TYPES, true)) {
+        /**
+         * Fall back to text when the requested input type is unsupported.
+         */ if (! in_array($this->type, self::TYPES, true)) {
             $this->type = 'text';
         }
     }
 
     /**
      * Get the view / contents that represent the component.
+     *
+     * @return View|Closure|string
      */
     public function render(): View|Closure|string
     {

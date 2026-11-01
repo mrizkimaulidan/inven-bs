@@ -1,6 +1,7 @@
 <div>
     <x-modal title="Konfirmasi Hapus Data {{ ucfirst($resourceLabel) }}" submit="$dispatch('confirmBulkDelete')">
         <x-slot:body>
+            {{-- Deletion warning and selected records --}}
             <p class="mb-3">
                 Anda akan menghapus <strong>{{ count($records) }}</strong> data {{ $resourceLabel }} berikut. Tindakan
                 ini tidak dapat dibatalkan.
@@ -14,6 +15,7 @@
         </x-slot:body>
 
         <x-slot:footer>
+            {{-- Confirm deletion action --}}
             <x-button type="submit" icon="fa-trash-alt" label="Ya, Hapus" class="btn-danger" />
         </x-slot:footer>
     </x-modal>

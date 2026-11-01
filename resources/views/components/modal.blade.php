@@ -15,7 +15,7 @@
                 <form wire:submit="{{ $submit }}">
             @endif
 
-            {{-- Header --}}
+            {{-- Modal title and close action --}}
             <div class="modal-header">
                 <h5 class="modal-title" id="{{ $modalId() }}-title">{{ $title }}</h5>
                 <button wire:click="$dispatch('closeModal')" type="button" class="close" aria-label="Tutup">
@@ -23,10 +23,10 @@
                 </button>
             </div>
 
-            {{-- Body --}}
+            {{-- Modal content --}}
             <div class="modal-body">{{ $body }}</div>
 
-            {{-- Footer --}}
+            {{-- Modal actions --}}
             <div class="modal-footer bg-whitesmoke br">
                 <button wire:click="$dispatch('closeModal')" type="button" class="btn btn-secondary">Tutup</button>
 

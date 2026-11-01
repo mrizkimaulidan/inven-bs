@@ -5,6 +5,9 @@ use App\Models\Commodity;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
+/**
+ * Load the selected commodity and its related records for the detail view.
+ */
 new class extends Component
 {
     /**
@@ -13,7 +16,10 @@ new class extends Component
     public ?Commodity $commodity = null;
 
     /**
-     * Mount the component.
+     * Load the selected commodity and its related records.
+     *
+     * @param  int  $commodityId
+     * @return void
      */
     public function mount(int $commodityId): void
     {
@@ -31,6 +37,8 @@ new class extends Component
 
     /**
      * Resolve the icon, badge, and label styling for the commodity condition.
+     *
+     * @return array
      */
     #[Computed]
     public function conditionStyle(): array

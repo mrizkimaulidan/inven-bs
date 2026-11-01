@@ -8,6 +8,9 @@ use Illuminate\Support\Str;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\Form;
 
+/**
+ * Validate commodity details, store its image, and create the inventory record.
+ */
 class StoreCommodityForm extends Form
 {
     /**
@@ -77,6 +80,8 @@ class StoreCommodityForm extends Form
 
     /**
      * Validate the input and persist a new record.
+     *
+     * @return void
      */
     public function store(): void
     {

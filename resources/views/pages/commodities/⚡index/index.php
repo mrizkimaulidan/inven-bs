@@ -20,6 +20,9 @@ use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+/**
+ * Filter and paginate inventory, manage modal state, and handle commodity actions.
+ */
 new #[Title('Halaman Daftar Barang')] class extends Component
 {
     use WithBulkDelete, WithFilters, WithModal, WithPagination;
@@ -37,7 +40,9 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     public string $search = '';
 
     /**
-     * Mount the component.
+     * Initialize the default inventory filters.
+     *
+     * @return void
      */
     public function mount(): void
     {
@@ -59,6 +64,8 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     /**
      * Get a listing of the commodity funding sources.
+     *
+     * @return Collection
      */
     #[Computed]
     public function commodityFundingSources(): Collection
@@ -68,6 +75,8 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     /**
      * Get a listing of the materials.
+     *
+     * @return Collection
      */
     #[Computed]
     public function materials(): Collection
@@ -77,6 +86,8 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     /**
      * Get a listing of the brands.
+     *
+     * @return Collection
      */
     #[Computed]
     public function brands(): Collection
@@ -86,6 +97,8 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     /**
      * Get a listing of the commodity locations.
+     *
+     * @return Collection
      */
     #[Computed]
     public function commodityLocations(): Collection
@@ -95,6 +108,8 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     /**
      * Get a listing of the unique commodity purchase years.
+     *
+     * @return array
      */
     #[Computed]
     public function purchaseYears(): array
@@ -108,6 +123,8 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     /**
      * Get a listing of the users.
+     *
+     * @return Collection
      */
     #[Computed]
     public function createdBy(): Collection
@@ -117,6 +134,8 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     /**
      * Get a listing of the commodity condition options.
+     *
+     * @return array
      */
     #[Computed]
     public function conditions(): array
@@ -126,6 +145,8 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     /**
      * Map each filter key to its corresponding column, scope, or resolver.
+     *
+     * @return array
      */
     protected function filterMap(): array
     {
@@ -137,15 +158,17 @@ new #[Title('Halaman Daftar Barang')] class extends Component
             'brand' => ['column' => 'brand_id', 'cast' => 'int'],
             'location' => ['column' => 'commodity_location_id', 'cast' => 'int'],
             'created_by' => ['column' => 'created_by', 'cast' => 'int'],
-            'price_min' => fn (Builder $query, mixed $value) => $query->where('unit_price', '>=', (int) $value),
-            'price_max' => fn (Builder $query, mixed $value) => $query->where('unit_price', '<=', (int) $value),
-            'quantity_min' => fn (Builder $query, mixed $value) => $query->where('quantity', '>=', (int) $value),
-            'quantity_max' => fn (Builder $query, mixed $value) => $query->where('quantity', '<=', (int) $value),
+            'price_min' => fn (Builder $query, mixed $filterValue) => $query->where('unit_price', '>=', (int) $filterValue),
+            'price_max' => fn (Builder $query, mixed $filterValue) => $query->where('unit_price', '<=', (int) $filterValue),
+            'quantity_min' => fn (Builder $query, mixed $filterValue) => $query->where('quantity', '>=', (int) $filterValue),
+            'quantity_max' => fn (Builder $query, mixed $filterValue) => $query->where('quantity', '<=', (int) $filterValue),
         ];
     }
 
     /**
      * Get a listing of the commodities with pagination.
+     *
+     * @return LengthAwarePaginator
      */
     #[Computed]
     public function commodities(): LengthAwarePaginator
@@ -182,6 +205,9 @@ new #[Title('Halaman Daftar Barang')] class extends Component
      */
     /**
      * Resolve the icon and badge styling for a condition.
+     *
+     * @param  CommodityCondition  $condition
+     * @return array
      */
     public function conditionStyle(CommodityCondition $condition): array
     {
@@ -203,6 +229,9 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     /**
      * Generate a new QR code for the commodity.
+     *
+     * @param  Commodity  $commodity
+     * @return void
      */
     public function generateQrCode(Commodity $commodity): void
     {
@@ -215,6 +244,8 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     /**
      * The name of the computed property used by WithBulkDelete.
+     *
+     * @return string
      */
     protected function bulkPaginatorName(): string
     {
@@ -223,6 +254,8 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     /**
      * Get the destination after a successful bulk delete.
+     *
+     * @return ?string
      */
     protected function bulkRedirectPath(): ?string
     {
@@ -231,6 +264,9 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param  Commodity  $commodity
+     * @return void
      */
     public function destroy(Commodity $commodity): void
     {
@@ -241,6 +277,9 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     /**
      * Called after updating a property.
+     *
+     * @param  string  $property
+     * @return void
      */
     public function updated(string $property): void
     {

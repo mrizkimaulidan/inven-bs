@@ -6,6 +6,9 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
+/**
+ * Render a table empty state with search-aware title and guidance.
+ */
 class EmptyState extends Component
 {
     /**
@@ -13,19 +16,23 @@ class EmptyState extends Component
      *
      * @param  string|null  $search  The active search query, if any.
      * @param  int  $colspan  The number of table columns the row spans.
+     * @return void
      */
     public function __construct(
         public ?string $search = null,
         public int $colspan = 1,
     ) {
-        // Ensure colspan is at least 1 to avoid invalid HTML.
-        if ($this->colspan < 1) {
+        /**
+         * Keep the table cell span valid.
+         */ if ($this->colspan < 1) {
             $this->colspan = 1;
         }
     }
 
     /**
      * Determine whether a search query is currently active.
+     *
+     * @return bool
      */
     public function hasSearch(): bool
     {
@@ -34,6 +41,8 @@ class EmptyState extends Component
 
     /**
      * Get the view / contents that represent the component.
+     *
+     * @return View|Closure|string
      */
     public function render(): View|Closure|string
     {

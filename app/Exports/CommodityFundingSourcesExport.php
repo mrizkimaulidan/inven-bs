@@ -13,6 +13,9 @@ use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumns;
 
+/**
+ * Build spreadsheet columns for exporting funding source records.
+ */
 class CommodityFundingSourcesExport implements FromCollection, WithColumns
 {
     use Exportable;
@@ -34,10 +37,10 @@ class CommodityFundingSourcesExport implements FromCollection, WithColumns
             ->orderBy('name')
             ->get(['id', 'name', 'description'])
             ->values()
-            ->map(function (CommodityFundingSource $source, int $index) {
-                $source->row_number = $index + 1;
+            ->map(function (CommodityFundingSource $fundingSource, int $index) {
+                $fundingSource->row_number = $index + 1;
 
-                return $source;
+                return $fundingSource;
             });
     }
 

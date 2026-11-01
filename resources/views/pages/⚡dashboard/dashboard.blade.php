@@ -1,4 +1,5 @@
 <div>
+    {{-- Summary cards --}}
     <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <div class="card card-statistic-1">
@@ -53,6 +54,7 @@
             </div>
         </div>
     </div>
+    {{-- Statistics and recent activity --}}
     <div class="row">
         <div class="col-lg-8 col-md-12 col-sm-12 col-12">
             <div class="card">
@@ -167,6 +169,7 @@
             </div>
         </div>
     </div>
+    {{-- Weather and authors --}}
     <div class="row">
         <div class="col-lg-6 col-md-12 col-sm-12 col-12">
             <div class="card">
@@ -243,6 +246,7 @@
             </div>
         </div>
     </div>
+    {{-- Traffic and sales reports --}}
     <div class="row">
         <div class="col-lg-6 col-md-6 col-12">
             <div class="card">
@@ -583,6 +587,7 @@
             </div>
         </div>
     </div>
+    {{-- Draft and latest posts --}}
     <div class="row">
         <div class="col-lg-5 col-md-12 col-sm-12 col-12">
             <form method="post" class="needs-validation" novalidate="">

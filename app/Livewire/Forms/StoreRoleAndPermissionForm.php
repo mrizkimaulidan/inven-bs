@@ -6,6 +6,9 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
 use Spatie\Permission\Models\Role;
 
+/**
+ * Validate role details and save the selected permission assignments.
+ */
 class StoreRoleAndPermissionForm extends Form
 {
     /**
@@ -22,6 +25,8 @@ class StoreRoleAndPermissionForm extends Form
 
     /**
      * Validate the input and persist a new role with its permissions.
+     *
+     * @return void
      */
     public function store(): void
     {

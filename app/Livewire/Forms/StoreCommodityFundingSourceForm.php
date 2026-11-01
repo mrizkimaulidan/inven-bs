@@ -6,6 +6,9 @@ use App\Models\CommodityFundingSource;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
 
+/**
+ * Validate funding source fields and create a new funding source.
+ */
 class StoreCommodityFundingSourceForm extends Form
 {
     /**
@@ -20,6 +23,8 @@ class StoreCommodityFundingSourceForm extends Form
 
     /**
      * Validate the input and persist a new record.
+     *
+     * @return void
      */
     public function store(): void
     {

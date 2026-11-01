@@ -22,7 +22,9 @@ trait WithModal
     /**
      * Open the modal with the given name and parameters.
      *
+     * @param  string  $modalName
      * @param  array<string, mixed>|null  $params
+     * @return void
      */
     #[On('showModal')]
     public function showModal(string $modalName, ?array $params = null): void
@@ -33,6 +35,8 @@ trait WithModal
 
     /**
      * Close the active modal.
+     *
+     * @return void
      */
     #[On('closeModal')]
     public function closeModal(): void

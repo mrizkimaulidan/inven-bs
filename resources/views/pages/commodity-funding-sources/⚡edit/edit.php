@@ -4,6 +4,9 @@ use App\Livewire\Forms\UpdateCommodityFundingSourceForm;
 use App\Models\CommodityFundingSource;
 use Livewire\Component;
 
+/**
+ * Load the selected funding source and save its validated changes.
+ */
 new class extends Component
 {
     /**
@@ -12,7 +15,10 @@ new class extends Component
     public UpdateCommodityFundingSourceForm $form;
 
     /**
-     * Mount the component.
+     * Load the selected funding source and populate the edit form.
+     *
+     * @param  int  $commodityFundingSourceId
+     * @return void
      */
     public function mount(int $commodityFundingSourceId): void
     {
@@ -27,6 +33,8 @@ new class extends Component
 
     /**
      * Update the specified resource in storage.
+     *
+     * @return void
      */
     public function edit(): void
     {

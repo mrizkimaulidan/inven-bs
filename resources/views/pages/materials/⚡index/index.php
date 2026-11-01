@@ -12,6 +12,9 @@ use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+/**
+ * Provide the materials listing, filters, pagination, and record actions.
+ */
 new #[Title('Halaman Daftar Bahan')] class extends Component
 {
     use WithBulkDelete, WithModal, WithPagination;
@@ -30,15 +33,17 @@ new #[Title('Halaman Daftar Bahan')] class extends Component
 
     /**
      * Get a listing of the resource with pagination.
+     *
+     * @return LengthAwarePaginator
      */
     #[Computed]
     public function materials(): LengthAwarePaginator
     {
         $query = Material::query()->withCount([
             'commodities',
-            'commodities as good_conditions_count' => fn (Builder $q) => $q->where('condition', CommodityCondition::GOOD),
-            'commodities as poor_conditions_count' => fn (Builder $q) => $q->where('condition', CommodityCondition::POOR),
-            'commodities as heavily_damaged_conditions_count' => fn (Builder $q) => $q->where('condition', CommodityCondition::HEAVILY_DAMAGED),
+            'commodities as good_conditions_count' => fn (Builder $query) => $query->where('condition', CommodityCondition::GOOD),
+            'commodities as poor_conditions_count' => fn (Builder $query) => $query->where('condition', CommodityCondition::POOR),
+            'commodities as heavily_damaged_conditions_count' => fn (Builder $query) => $query->where('condition', CommodityCondition::HEAVILY_DAMAGED),
         ]);
 
         $query->when(filled($this->search), function (Builder $query) {
@@ -50,6 +55,8 @@ new #[Title('Halaman Daftar Bahan')] class extends Component
 
     /**
      * The name of the computed property used by WithBulkDelete.
+     *
+     * @return string
      */
     protected function bulkPaginatorName(): string
     {
@@ -58,6 +65,8 @@ new #[Title('Halaman Daftar Bahan')] class extends Component
 
     /**
      * Get the destination after a successful bulk delete.
+     *
+     * @return ?string
      */
     protected function bulkRedirectPath(): ?string
     {
@@ -66,6 +75,9 @@ new #[Title('Halaman Daftar Bahan')] class extends Component
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param  Material  $material
+     * @return void
      */
     public function destroy(Material $material): void
     {
@@ -76,6 +88,9 @@ new #[Title('Halaman Daftar Bahan')] class extends Component
 
     /**
      * Called after updating a property.
+     *
+     * @param  string  $property
+     * @return void
      */
     public function updated(string $property): void
     {

@@ -3,6 +3,9 @@
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
+/**
+ * Initialize the selected records for the bulk-delete confirmation modal.
+ */
 new class extends Component
 {
     /**
@@ -20,7 +23,9 @@ new class extends Component
     /**
      * Initialize the confirmation modal.
      *
+     * @param  string  $resourceLabel
      * @param  array<int, string>  $records
+     * @return void
      */
     public function mount(string $resourceLabel, array $records): void
     {

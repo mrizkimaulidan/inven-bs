@@ -6,6 +6,9 @@ use App\Models\Material;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
 
+/**
+ * Validate material fields and persist a new material record.
+ */
 class StoreMaterialForm extends Form
 {
     /**
@@ -15,6 +18,8 @@ class StoreMaterialForm extends Form
 
     /**
      * Validate the input and persist a new record.
+     *
+     * @return void
      */
     public function store(): void
     {

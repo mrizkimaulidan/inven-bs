@@ -7,12 +7,19 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
+/**
+ * Provide export row counts and format options to the export view.
+ */
 class ExportModal extends Component
 {
     public array $options;
 
     /**
      * Create a new component instance.
+     *
+     * @param  string  $title
+     * @param  int  $totalRows
+     * @return void
      */
     public function __construct(
         public string $title,
@@ -23,6 +30,8 @@ class ExportModal extends Component
 
     /**
      * Get the view / contents that represent the component.
+     *
+     * @return View|Closure|string
      */
     public function render(): View|Closure|string
     {

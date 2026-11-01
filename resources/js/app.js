@@ -1,1 +1,1 @@
-//
+// Initialize application scripts.

@@ -6,6 +6,9 @@ use App\Models\User;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Form;
 
+/**
+ * Validate user details and save the account with its selected roles.
+ */
 class StoreUserForm extends Form
 {
     /**
@@ -35,6 +38,8 @@ class StoreUserForm extends Form
 
     /**
      * Validate the input and persist a new record.
+     *
+     * @return User
      */
     public function store(): User
     {
@@ -53,6 +58,8 @@ class StoreUserForm extends Form
 
     /**
      * Get the validation rules for the form.
+     *
+     * @return array
      */
     protected function rules(): array
     {
@@ -90,6 +97,8 @@ class StoreUserForm extends Form
 
     /**
      * Get the custom validation messages.
+     *
+     * @return array
      */
     protected function messages(): array
     {

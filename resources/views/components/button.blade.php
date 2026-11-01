@@ -8,7 +8,7 @@
     }}
     type="{{ $type }}"
 >
-    {{-- Render the icon when provided. --}}
+    {{-- Optional button icon --}}
     @if ($icon)
         <i class="fas {{ $icon }} mr-1"></i>
     @endif

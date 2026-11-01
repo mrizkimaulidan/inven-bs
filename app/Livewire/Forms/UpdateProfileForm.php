@@ -8,6 +8,9 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Form;
 
+/**
+ * Validate profile changes and persist them for the current user.
+ */
 class UpdateProfileForm extends Form
 {
     /**
@@ -42,6 +45,8 @@ class UpdateProfileForm extends Form
 
     /**
      * Validate the input and persist the changes.
+     *
+     * @return void
      */
     public function update(): void
     {
@@ -60,12 +65,15 @@ class UpdateProfileForm extends Form
 
         $this->user->update($validated);
 
-        // Bersihkan field password setelah berhasil disimpan
-        $this->reset('current_password', 'password', 'password_confirmation');
+        /**
+         * Clear password fields after a successful update.
+         */ $this->reset('current_password', 'password', 'password_confirmation');
     }
 
     /**
      * Get the validation rules for the form.
+     *
+     * @return array
      */
     protected function rules(): array
     {
@@ -101,6 +109,8 @@ class UpdateProfileForm extends Form
 
     /**
      * Get the custom validation messages.
+     *
+     * @return array
      */
     protected function messages(): array
     {

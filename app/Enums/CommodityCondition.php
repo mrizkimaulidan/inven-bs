@@ -23,15 +23,32 @@ enum CommodityCondition: int
     case HEAVILY_DAMAGED = 3;
 
     /**
+     * Label mapping keyed by enum value.
+     *
+     * @var array<int, string>
+     */
+    private const LABELS = [
+        self::GOOD->value => 'Baik',
+        self::POOR->value => 'Kurang Baik',
+        self::HEAVILY_DAMAGED->value => 'Rusak Berat',
+    ];
+
+    /**
      * Get the human-readable label for the condition.
      */
     public function label(): string
     {
-        return match ($this) {
-            self::GOOD => 'Baik',
-            self::POOR => 'Kurang Baik',
-            self::HEAVILY_DAMAGED => 'Rusak Berat',
-        };
+        return self::LABELS[$this->value];
+    }
+
+    /**
+     * Get the enum case from its human-readable label.
+     */
+    public static function fromLabel(string $label): ?self
+    {
+        $value = array_search($label, self::LABELS, true);
+
+        return $value === false ? null : self::from($value);
     }
 
     /**
@@ -41,11 +58,7 @@ enum CommodityCondition: int
      */
     public static function options(): array
     {
-        return [
-            self::GOOD->value => self::GOOD->label(),
-            self::POOR->value => self::POOR->label(),
-            self::HEAVILY_DAMAGED->value => self::HEAVILY_DAMAGED->label(),
-        ];
+        return self::LABELS;
     }
 
     /**
@@ -53,9 +66,6 @@ enum CommodityCondition: int
      */
     public function isUsable(): bool
     {
-        return match ($this) {
-            self::GOOD, self::POOR => true,
-            self::HEAVILY_DAMAGED => false,
-        };
+        return $this !== self::HEAVILY_DAMAGED;
     }
 }

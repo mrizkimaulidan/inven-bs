@@ -6,6 +6,9 @@ use App\Models\Brand;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
 
+/**
+ * Validate brand fields and update the existing brand.
+ */
 class UpdateBrandForm extends Form
 {
     /**
@@ -20,6 +23,8 @@ class UpdateBrandForm extends Form
 
     /**
      * Validate the input and persist the changes.
+     *
+     * @return void
      */
     public function update(): void
     {

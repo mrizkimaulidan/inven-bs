@@ -10,6 +10,9 @@ use Livewire\Component;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
+/**
+ * Load a role, synchronize permission selection, and save its changes.
+ */
 new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
 {
     /**
@@ -67,7 +70,10 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
     ];
 
     /**
-     * Mount the component.
+     * Load the role and populate its current name and permissions.
+     *
+     * @param  Role  $role
+     * @return void
      */
     public function mount(Role $role): void
     {
@@ -95,6 +101,8 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
 
     /**
      * Get the total number of permissions available.
+     *
+     * @return int
      */
     #[Computed]
     public function totalPermissions(): int
@@ -121,15 +129,15 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
     #[Computed]
     public function groupedPermissions(): array
     {
-        $grouped = [];
+        $permissionsByModule = [];
 
         foreach ($this->permissions as $permission) {
             [$actionKey, $moduleKey] = array_pad(explode(' ', $permission->name, 2), 2, '');
             $actionKey = strtolower($actionKey);
             $moduleKey = strtolower($moduleKey);
 
-            if (! isset($grouped[$moduleKey])) {
-                $grouped[$moduleKey] = [
+            if (! isset($permissionsByModule[$moduleKey])) {
+                $permissionsByModule[$moduleKey] = [
                     'key' => $moduleKey,
                     'label' => self::MODULE_META[$moduleKey]['label'] ?? ucfirst($moduleKey),
                     'icon' => self::MODULE_META[$moduleKey]['icon'] ?? 'fa-key',
@@ -137,7 +145,7 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
                 ];
             }
 
-            $grouped[$moduleKey]['permissions'][] = [
+            $permissionsByModule[$moduleKey]['permissions'][] = [
                 'id' => $permission->id,
                 'name' => $permission->name,
                 'label' => self::ACTION_META[$actionKey]['label'] ?? ucfirst($actionKey),
@@ -146,11 +154,13 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
             ];
         }
 
-        return array_values($grouped);
+        return array_values($permissionsByModule);
     }
 
     /**
      * Get the number of currently selected permissions.
+     *
+     * @return int
      */
     #[Computed]
     public function selectedPermissionsCount(): int
@@ -160,64 +170,76 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
 
     /**
      * Handle updates to a module select-all checkbox.
+     *
+     * @param  mixed  $value
+     * @param  string  $key
+     * @return void
      */
     public function updatedSelectAll(mixed $value, string $key): void
     {
-        $module = collect($this->groupedPermissions)->firstWhere('key', $key);
+        $moduleData = collect($this->groupedPermissions)->firstWhere('key', $key);
 
-        if (! $module) {
+        if (! $moduleData) {
             return;
         }
 
-        $names = array_column($module['permissions'], 'name');
-        $current = $this->form->permissions ?? [];
+        $modulePermissionNames = array_column($moduleData['permissions'], 'name');
+        $selectedPermissionNames = $this->form->permissions ?? [];
 
         if ((bool) $value) {
-            $this->form->permissions = array_values(array_unique(array_merge($current, $names)));
+            $this->form->permissions = array_values(array_unique(array_merge($selectedPermissionNames, $modulePermissionNames)));
         } else {
-            $this->form->permissions = array_values(array_diff($current, $names));
+            $this->form->permissions = array_values(array_diff($selectedPermissionNames, $modulePermissionNames));
         }
     }
 
     /**
      * Sync module select-all state after individual permission changes.
+     *
+     * @return void
      */
     public function updatedFormPermissions(): void
     {
-        $current = $this->form->permissions ?? [];
+        $selectedPermissionNames = $this->form->permissions ?? [];
 
-        foreach ($this->groupedPermissions as $module) {
-            $names = array_column($module['permissions'], 'name');
-            $this->selectAll[$module['key']] = count(array_diff($names, $current)) === 0;
+        foreach ($this->groupedPermissions as $moduleData) {
+            $modulePermissionNames = array_column($moduleData['permissions'], 'name');
+            $this->selectAll[$moduleData['key']] = count(array_diff($modulePermissionNames, $selectedPermissionNames)) === 0;
         }
     }
 
     /**
      * Select all available permissions.
+     *
+     * @return void
      */
     public function selectAllPermissions(): void
     {
         $this->form->permissions = $this->permissions->pluck('name')->all();
 
-        foreach ($this->selectAll as $key => $value) {
-            $this->selectAll[$key] = true;
+        foreach (array_keys($this->selectAll) as $moduleKey) {
+            $this->selectAll[$moduleKey] = true;
         }
     }
 
     /**
      * Reset all selected permissions.
+     *
+     * @return void
      */
     public function resetPermissions(): void
     {
         $this->form->permissions = [];
 
-        foreach ($this->selectAll as $key => $value) {
-            $this->selectAll[$key] = false;
+        foreach (array_keys($this->selectAll) as $moduleKey) {
+            $this->selectAll[$moduleKey] = false;
         }
     }
 
     /**
      * Persist the new role along with its assigned permissions.
+     *
+     * @return void
      */
     public function save(): void
     {

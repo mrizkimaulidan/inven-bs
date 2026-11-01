@@ -3,6 +3,9 @@
 use Akira\QrCode\Facades\QrCode;
 use Livewire\Component;
 
+/**
+ * Generate a QR code that links to the commodity verification page.
+ */
 new class extends Component
 {
     /**
@@ -11,7 +14,10 @@ new class extends Component
     public ?string $qrcode = null;
 
     /**
-     * Mount the component.
+     * Generate an SVG QR code for the commodity verification URL.
+     *
+     * @param  ?string  $qrcode
+     * @return void
      */
     public function mount(?string $qrcode): void
     {

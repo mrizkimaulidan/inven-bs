@@ -5,11 +5,11 @@
         'badge-pill' => $pill,
     ])
 }}>
-    {{-- Render the icon when provided. --}}
+    {{-- Optional badge icon --}}
     @if ($icon)
         <i class="fas {{ $icon }} mr-1"></i>
     @endif
 
-    {{-- Badge label. --}}
+    {{-- Badge text --}}
     {{ $label }}
 </span>

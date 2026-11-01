@@ -1,5 +1,6 @@
 <x-modal title="Detail Ruangan" size="lg">
     <x-slot:body>
+        {{-- Record details --}}
         <div class="mb-4">
             <h4 class="font-weight-bold mb-2">{{ $commodityLocation->name }}</h4>
             <p class="text-muted mb-0">{{ $commodityLocation->description }}</p>
@@ -7,6 +8,7 @@
 
         <hr />
 
+        {{-- Related commodity statistics --}}
         <h6 class="text-uppercase text-muted font-weight-bold mb-3">Statistik Barang</h6>
 
         <div class="d-flex align-items-center mb-3 flex-wrap">

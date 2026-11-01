@@ -4,6 +4,9 @@ use App\Livewire\Forms\UpdateBrandForm;
 use App\Models\Brand;
 use Livewire\Component;
 
+/**
+ * Load the selected brand into the form and save its validated changes.
+ */
 new class extends Component
 {
     /**
@@ -12,7 +15,10 @@ new class extends Component
     public UpdateBrandForm $form;
 
     /**
-     * Mount the component.
+     * Load the selected brand and populate the edit form.
+     *
+     * @param  int  $brandId
+     * @return void
      */
     public function mount(int $brandId): void
     {
@@ -26,6 +32,8 @@ new class extends Component
 
     /**
      * Update the specified resource in storage.
+     *
+     * @return void
      */
     public function edit(): void
     {

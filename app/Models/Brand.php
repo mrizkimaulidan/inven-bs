@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * Represent commodity brands and define their commodity relationship.
+ */
 #[Fillable([
     'name',
 ])]
@@ -13,6 +16,8 @@ class Brand extends Model
 {
     /**
      * Get the commodities associated with the brand.
+     *
+     * @return HasMany
      */
     public function commodities(): HasMany
     {

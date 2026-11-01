@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
+/**
+ * Load and update the signed-in user profile.
+ */
 new #[Title('Pengaturan Profil')] class extends Component
 {
     /**
@@ -13,7 +16,9 @@ new #[Title('Pengaturan Profil')] class extends Component
     public UpdateProfileForm $form;
 
     /**
-     * Mount the component.
+     * Load the signed-in user and populate the profile form.
+     *
+     * @return void
      */
     public function mount(): void
     {
@@ -30,6 +35,8 @@ new #[Title('Pengaturan Profil')] class extends Component
 
     /**
      * Update the specified resource in storage.
+     *
+     * @return void
      */
     public function edit(): void
     {

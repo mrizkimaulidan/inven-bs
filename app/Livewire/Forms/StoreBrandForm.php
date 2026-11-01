@@ -6,6 +6,9 @@ use App\Models\Brand;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
 
+/**
+ * Validate brand fields and persist a new brand record.
+ */
 class StoreBrandForm extends Form
 {
     /**
@@ -15,6 +18,8 @@ class StoreBrandForm extends Form
 
     /**
      * Validate the input and persist a new record.
+     *
+     * @return void
      */
     public function store(): void
     {

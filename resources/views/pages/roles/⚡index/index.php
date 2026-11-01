@@ -11,6 +11,9 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
 
+/**
+ * Provide the roles listing, filters, pagination, and record actions.
+ */
 new #[Title('Halaman Daftar Peran & Hak Akses')] class extends Component
 {
     use WithBulkDelete, WithModal, WithPagination;
@@ -29,6 +32,8 @@ new #[Title('Halaman Daftar Peran & Hak Akses')] class extends Component
 
     /**
      * Get a listing of the resource with pagination.
+     *
+     * @return LengthAwarePaginator
      */
     #[Computed]
     public function roles(): LengthAwarePaginator
@@ -44,6 +49,8 @@ new #[Title('Halaman Daftar Peran & Hak Akses')] class extends Component
 
     /**
      * The name of the computed property used by WithBulkDelete.
+     *
+     * @return string
      */
     protected function bulkPaginatorName(): string
     {
@@ -52,6 +59,8 @@ new #[Title('Halaman Daftar Peran & Hak Akses')] class extends Component
 
     /**
      * Get the destination after a successful bulk delete.
+     *
+     * @return ?string
      */
     protected function bulkRedirectPath(): ?string
     {
@@ -60,6 +69,9 @@ new #[Title('Halaman Daftar Peran & Hak Akses')] class extends Component
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param  Role  $role
+     * @return void
      */
     public function destroy(Role $role): void
     {
@@ -70,6 +82,9 @@ new #[Title('Halaman Daftar Peran & Hak Akses')] class extends Component
 
     /**
      * Called after updating a property.
+     *
+     * @param  string  $property
+     * @return void
      */
     public function updated(string $property): void
     {
