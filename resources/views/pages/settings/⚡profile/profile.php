@@ -1,7 +1,6 @@
 <?php
 
 use App\Livewire\Forms\UpdateProfileForm;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -22,8 +21,6 @@ new #[Title('Pengaturan Profil')] class extends Component
      */
     public function mount(): void
     {
-        Auth::loginUsingId(1);
-
         $user = auth()->user();
 
         $this->form->fill([

@@ -130,9 +130,7 @@
                                 <i class="fas fa-cog"></i> Settings
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item has-icon text-danger">
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </a>
+                            @livewire('logout')
                         </div>
                     </li>
                 </ul>
@@ -190,9 +188,7 @@
                     </ul>
 
                     <div class="hide-sidebar-mini mt-4 mb-4 p-3">
-                        <a href="https://getstisla.com/docs" class="btn btn-danger btn-lg btn-block btn-icon-split">
-                            <i class="fas fa-right-from-bracket"></i> Logout
-                        </a>
+                        @livewire('logout', ['placement' => 'sidebar'])
                     </div>
                 </aside>
             </div>

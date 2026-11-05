@@ -9,26 +9,32 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::livewire('/beranda', 'pages::dashboard');
+Route::middleware('guest')->group(function () {
+    Route::livewire('/login', 'pages::authentication.login')->name('login');
+});
 
-Route::livewire('/barang', 'pages::commodities.index');
-Route::livewire('/barang/tambah', 'pages::commodities.create');
-Route::livewire('/barang/{commodity}/ubah', 'pages::commodities.edit');
+Route::middleware('auth')->group(function () {
+    Route::livewire('/beranda', 'pages::dashboard');
 
-Route::livewire('/ruangan', 'pages::commodity-locations.index');
+    Route::livewire('/barang', 'pages::commodities.index');
+    Route::livewire('/barang/tambah', 'pages::commodities.create');
+    Route::livewire('/barang/{commodity}/ubah', 'pages::commodities.edit');
 
-Route::livewire('/merek', 'pages::brands.index');
+    Route::livewire('/ruangan', 'pages::commodity-locations.index');
 
-Route::livewire('/bahan', 'pages::materials.index');
+    Route::livewire('/merek', 'pages::brands.index');
 
-Route::livewire('/perolehan', 'pages::commodity-funding-sources.index');
+    Route::livewire('/bahan', 'pages::materials.index');
 
-Route::livewire('/pengaturan/profil', 'pages::settings.profile');
+    Route::livewire('/perolehan', 'pages::commodity-funding-sources.index');
 
-Route::livewire('/peran-dan-hak-akses', 'pages::roles.index');
-Route::livewire('/peran-dan-hak-akses/tambah', 'pages::roles.create');
-Route::livewire('/peran-dan-hak-akses/{role}/ubah', 'pages::roles.edit');
+    Route::livewire('/pengaturan/profil', 'pages::settings.profile');
 
-Route::livewire('/pengguna', 'pages::users.index');
+    Route::livewire('/peran-dan-hak-akses', 'pages::roles.index');
+    Route::livewire('/peran-dan-hak-akses/tambah', 'pages::roles.create');
+    Route::livewire('/peran-dan-hak-akses/{role}/ubah', 'pages::roles.edit');
+
+    Route::livewire('/pengguna', 'pages::users.index');
+});
 
 Route::get('/verifikasi/barang/{qrcode}', CommodityVerificationController::class)->name('verifikasi.barang');
