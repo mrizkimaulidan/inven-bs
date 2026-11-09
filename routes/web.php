@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/barang/{commodity:qr_code}/pdf', [CommodityController::class, 'generatePdf'])
         ->name('barang.pdf');
+    Route::get('/barang/pdf', [CommodityController::class, 'generateAllPdf']);
 
     Route::livewire('/ruangan', 'pages::commodity-locations.index');
 

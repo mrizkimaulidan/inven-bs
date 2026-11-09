@@ -103,7 +103,16 @@
                         variant="danger"
                         :disabled="empty($selected)"
                     />
-                    <x-button icon="fa-print" label="Print" variant="secondary" class="mr-2 mb-2" />
+                    <a
+                        href="/barang/pdf"
+                        class="btn btn-secondary mr-2 mb-2"
+                        title="Print"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <i class="fas fa-print"></i>
+                        Print
+                    </a>
                     <x-button
                         wire:click="$refresh"
                         icon="fa-sync-alt"
