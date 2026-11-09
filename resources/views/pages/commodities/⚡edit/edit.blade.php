@@ -33,11 +33,11 @@
                                 <x-select
                                     icon="fa-map-marker-alt"
                                     name="form.commodity_location_id"
-                                    label="Lokasi"
+                                    label="Ruangan"
                                     wire:model="form.commodity_location_id"
                                     required
                                 >
-                                    <option value="">Pilih Lokasi</option>
+                                    <option value="">Pilih Ruangan</option>
                                     @foreach ($this->commodityLocations as $location)
                                         <option value="{{ $location->id }}">{{ $location->name }}</option>
                                     @endforeach
@@ -67,11 +67,11 @@
                                 <x-select
                                     icon="fa-cube"
                                     name="form.material_id"
-                                    label="Material"
+                                    label="Bahan"
                                     wire:model="form.material_id"
                                     required
                                 >
-                                    <option value="">Pilih Material</option>
+                                    <option value="">Pilih Bahan</option>
                                     @foreach ($this->materials as $material)
                                         <option value="{{ $material->id }}">{{ $material->name }}</option>
                                     @endforeach

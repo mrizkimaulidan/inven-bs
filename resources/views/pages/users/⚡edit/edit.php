@@ -25,7 +25,13 @@ new class extends Component
     #[Computed]
     public function roles(): Collection
     {
-        return Role::all();
+        $permissionNames = auth()->user()->getAllPermissions()->pluck('name');
+        $currentRoleId = $this->form->user->roles()->value('roles.id');
+
+        return Role::with('permissions')->get()
+            ->filter(fn (Role $role) => $role->id === $currentRoleId
+                || $role->permissions->pluck('name')->diff($permissionNames)->isEmpty())
+            ->values();
     }
 
     /**

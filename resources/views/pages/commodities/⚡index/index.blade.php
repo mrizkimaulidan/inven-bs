@@ -81,52 +81,62 @@
         <x-slot:toolbar>
             <div class="d-flex justify-content-between align-items-center flex-wrap pb-3">
                 <div class="d-flex flex-wrap">
-                    <x-button
-                        wire:click="$dispatch('showModal', {modalName: 'import'})"
-                        icon="fa-file-import"
-                        label="Import"
-                        variant="success"
-                        class="mr-2 mb-2"
-                    />
-                    <x-button
-                        wire:click="$dispatch('showModal', {modalName: 'export'})"
-                        icon="fa-file-export"
-                        label="Ekspor"
-                        variant="info"
-                        class="mr-2 mb-2"
-                    />
-                    <x-button
-                        wire:click="$dispatch('showBulkDeleteConfirmationModal')"
-                        icon="fa-trash-alt"
-                        label="Hapus Terpilih"
-                        class="mr-2 mb-2"
-                        variant="danger"
-                        :disabled="empty($selected)"
-                    />
-                    <a
-                        href="/barang/pdf"
-                        class="btn btn-secondary mr-2 mb-2"
-                        title="Print"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <i class="fas fa-print"></i>
-                        Print
-                    </a>
+                    @can('impor barang')
+                        <x-button
+                            wire:click="$dispatch('showModal', {modalName: 'import'})"
+                            icon="fa-file-import"
+                            label="Impor"
+                            variant="success"
+                            class="mr-2 mb-2"
+                        />
+                    @endcan
+                    @can('ekspor barang')
+                        <x-button
+                            wire:click="$dispatch('showModal', {modalName: 'export'})"
+                            icon="fa-file-export"
+                            label="Ekspor"
+                            variant="info"
+                            class="mr-2 mb-2"
+                        />
+                    @endcan
+                    @can('hapus barang')
+                        <x-button
+                            wire:click="$dispatch('showBulkDeleteConfirmationModal')"
+                            icon="fa-trash-alt"
+                            label="Hapus Terpilih"
+                            class="mr-2 mb-2"
+                            variant="danger"
+                            :disabled="empty($selected)"
+                        />
+                    @endcan
+                    @can('print barang')
+                        <a
+                            href="/barang/pdf"
+                            class="btn btn-secondary mr-2 mb-2"
+                            title="Cetak"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <i class="fas fa-print"></i>
+                            Cetak
+                        </a>
+                    @endcan
                     <x-button
                         wire:click="$refresh"
                         icon="fa-sync-alt"
-                        label="Refresh"
+                        label="Muat Ulang"
                         variant="light"
                         class="mb-2"
                         data-toggle="tooltip"
-                        title="Refresh"
+                        title="Muat Ulang"
                     />
                 </div>
-                <a wire:navigate href="/barang/tambah" class="btn btn-primary mb-2">
-                    <i class="fas fa-plus-circle"></i>
-                    Tambah Data
-                </a>
+                @can('tambah barang')
+                    <a wire:navigate href="/barang/tambah" class="btn btn-primary mb-2">
+                        <i class="fas fa-plus-circle"></i>
+                        Tambah Data
+                    </a>
+                @endcan
             </div>
         </x-slot:toolbar>
 
@@ -206,7 +216,7 @@
 
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
                     <x-select name="filters.brand" label="Merek" icon="fa-trademark" wire:model.live="filters.brand">
-                        <option value="">Semua Merk</option>
+                        <option value="">Semua Merek</option>
                         @foreach ($this->brands as $brand)
                             <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                         @endforeach
@@ -216,11 +226,11 @@
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
                     <x-select
                         name="filters.location"
-                        label="Lokasi"
+                        label="Ruangan"
                         icon="fa-map-marker-alt"
                         wire:model.live="filters.location"
                     >
-                        <option value="">Semua Lokasi</option>
+                        <option value="">Semua Ruangan</option>
                         @foreach ($this->commodityLocations as $location)
                             <option value="{{ $location->id }}">{{ $location->name }}</option>
                         @endforeach
@@ -234,7 +244,7 @@
                         icon="fa-user"
                         wire:model.live="filters.created_by"
                     >
-                        <option value="">Semua User</option>
+                        <option value="">Semua Pengguna</option>
                         @foreach ($this->createdBy as $user)
                             <option value="{{ $user->id }}">{{ $user->name }}</option>
                         @endforeach
@@ -251,7 +261,7 @@
                             type="number"
                             class="form-control"
                             wire:model.live.debounce.500ms="filters.price_min"
-                            placeholder="Min"
+                            placeholder="Min."
                             min="0"
                         />
                         <div class="input-group-prepend">
@@ -261,7 +271,7 @@
                             type="number"
                             class="form-control"
                             wire:model.live.debounce.500ms="filters.price_max"
-                            placeholder="Max"
+                            placeholder="Maks."
                             min="0"
                         />
                     </div>
@@ -274,7 +284,7 @@
                             type="number"
                             class="form-control"
                             wire:model.live.debounce.500ms="filters.quantity_min"
-                            placeholder="Min"
+                            placeholder="Min."
                             min="0"
                         />
                         <div class="input-group-prepend">
@@ -284,7 +294,7 @@
                             type="number"
                             class="form-control"
                             wire:model.live.debounce.500ms="filters.quantity_max"
-                            placeholder="Max"
+                            placeholder="Maks."
                             min="0"
                         />
                     </div>
@@ -320,7 +330,7 @@
                         </div>
                     </th>
                     <th>Nama Barang</th>
-                    <th>Bahan &amp; Merk</th>
+                    <th>Merek &amp; Bahan</th>
                     <th>Gambar</th>
                     <th>Tahun</th>
                     <th>Jumlah</th>
@@ -375,68 +385,79 @@
 
                             <div class="table-links">
                                 @if ($commodity->qr_code)
-                                    <a
-                                        wire:click="$dispatch('showModal', {modalName: 'qrcode', params: {qrcode: @js($commodity->qr_code)}})"
-                                        class="btn btn-sm btn-outline-dark"
-                                        data-toggle="tooltip"
-                                        data-placement="top"
-                                        title="QR Code"
-                                    >
-                                        <i class="fas fa-qrcode"></i>
-                                    </a>
-
+                                    @can('detail barang')
+                                        <a
+                                            wire:click="$dispatch('showModal', {modalName: 'qrcode', params: {qrcode: @js($commodity->qr_code)}})"
+                                            class="btn btn-sm btn-outline-dark"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="Kode QR"
+                                        >
+                                            <i class="fas fa-qrcode"></i>
+                                        </a>
+                                    @endcan
                                 @else
-                                    <a
-                                        wire:click="generateQrCode({{ $commodity->id }})"
-                                        class="btn btn-sm btn-outline-dark"
-                                        data-toggle="tooltip"
-                                        data-placement="top"
-                                        title="Generate QR Code"
-                                    >
-                                        <i class="fas fa-spinner"></i>
-                                    </a>
+                                    @can('ubah barang')
+                                        <a
+                                            wire:click="generateQrCode({{ $commodity->id }})"
+                                            class="btn btn-sm btn-outline-dark"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="Buat Kode QR"
+                                        >
+                                            <i class="fas fa-spinner"></i>
+                                        </a>
+                                    @endcan
                                 @endif
 
-                                <a
-                                    wire:click="$dispatch('showModal', {modalName: 'show', params: {id: {{ $commodity->id }}}})"
-                                    class="btn btn-sm btn-outline-info"
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title="Detail"
-                                >
-                                    <i class="fas fa-search"></i>
-                                </a>
-                                <a
-                                    wire:navigate
-                                    href="/barang/{{ $commodity->id }}/ubah"
-                                    class="btn btn-sm btn-outline-success"
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title="Ubah"
-                                >
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a
-                                    href="/barang/{{ $commodity->qr_code }}/pdf"
-                                    class="btn btn-sm btn-outline-secondary"
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title="Print"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <i class="fas fa-print"></i>
-                                </a>
-                                <a
-                                    href="#"
-                                    wire:click="destroy({{ $commodity->id }})"
-                                    class="btn btn-sm btn-outline-danger"
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title="Hapus"
-                                >
-                                    <i class="fas fa-trash"></i>
-                                </a>
+                                @can('detail barang')
+                                    <a
+                                        wire:click="$dispatch('showModal', {modalName: 'show', params: {id: {{ $commodity->id }}}})"
+                                        class="btn btn-sm btn-outline-info"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Detail"
+                                    >
+                                        <i class="fas fa-search"></i>
+                                    </a>
+                                @endcan
+                                @can('ubah barang')
+                                    <a
+                                        wire:navigate
+                                        href="/barang/{{ $commodity->id }}/ubah"
+                                        class="btn btn-sm btn-outline-success"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Ubah"
+                                    >
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                @endcan
+                                @can('print barang')
+                                    <a
+                                        href="/barang/{{ $commodity->qr_code }}/pdf"
+                                        class="btn btn-sm btn-outline-secondary"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Cetak"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <i class="fas fa-print"></i>
+                                    </a>
+                                @endcan
+                                @can('hapus barang')
+                                    <a
+                                        href="#"
+                                        wire:click="destroy({{ $commodity->id }})"
+                                        class="btn btn-sm btn-outline-danger"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Hapus"
+                                    >
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                @endcan
                             </div>
                         </td>
 

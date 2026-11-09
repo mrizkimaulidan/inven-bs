@@ -39,6 +39,8 @@ new #[Title('Pengaturan Profil')] class extends Component
     {
         $this->form->update();
 
+        session()->flash('success', 'Profil berhasil diperbarui.');
+
         $this->redirect('/pengaturan/profil', navigate: true);
     }
 };

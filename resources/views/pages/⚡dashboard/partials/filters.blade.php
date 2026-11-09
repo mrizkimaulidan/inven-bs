@@ -41,8 +41,8 @@
                     @enderror
                 </div>
                 <div class="col-lg-2 col-md-6 col-12">
-                    <x-select name="locationId" label="Lokasi" wire:model.live="filters.locationId">
-                        <option value="">Semua Lokasi</option>
+                    <x-select name="locationId" label="Ruangan" wire:model.live="filters.locationId">
+                        <option value="">Semua Ruangan</option>
                         @foreach ($pageData['filterOptions']['locations'] as $location)
                             <option value="{{ $location->id }}">{{ $location->name }}</option>
                         @endforeach

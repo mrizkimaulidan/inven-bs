@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Livewire\Concerns\AuthorizesModulePermissions;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
 use Spatie\Permission\Models\Role;
@@ -11,6 +12,8 @@ use Spatie\Permission\Models\Role;
  */
 class StoreRoleAndPermissionForm extends Form
 {
+    use AuthorizesModulePermissions;
+
     /**
      * The role name provided by the user.
      */
@@ -30,7 +33,12 @@ class StoreRoleAndPermissionForm extends Form
      */
     public function store(): void
     {
+        $this->authorizeModuleAction('tambah', 'peran');
+
         $validated = $this->validate();
+        $assignablePermissions = auth()->user()->getAllPermissions()->pluck('name');
+
+        abort_if(collect($validated['permissions'])->diff($assignablePermissions)->isNotEmpty(), 403);
 
         $role = Role::create([
             'name' => $validated['name'],

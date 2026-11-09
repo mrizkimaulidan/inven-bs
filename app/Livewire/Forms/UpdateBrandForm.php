@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Livewire\Concerns\AuthorizesModulePermissions;
 use App\Models\Brand;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
@@ -11,6 +12,8 @@ use Livewire\Form;
  */
 class UpdateBrandForm extends Form
 {
+    use AuthorizesModulePermissions;
+
     /**
      * The brand instance.
      */
@@ -28,6 +31,7 @@ class UpdateBrandForm extends Form
      */
     public function update(): void
     {
+        $this->authorizeModuleAction('ubah', 'merek');
         $this->brand->update($this->validate());
     }
 

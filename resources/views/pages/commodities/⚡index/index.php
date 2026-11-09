@@ -235,11 +235,13 @@ new #[Title('Halaman Daftar Barang')] class extends Component
      */
     public function generateQrCode(Commodity $commodity): void
     {
+        $this->authorizeModuleAction('ubah', 'barang');
+
         $commodity->update([
             'qr_code' => (string) Str::ulid(),
         ]);
 
-        session()->flash('success', 'Berhasil generate QR Code untuk Barang');
+        session()->flash('success', 'Kode QR barang berhasil dibuat.');
     }
 
     /**
@@ -262,6 +264,11 @@ new #[Title('Halaman Daftar Barang')] class extends Component
         return '/barang';
     }
 
+    protected function bulkPermissionModule(): string
+    {
+        return 'barang';
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -270,6 +277,8 @@ new #[Title('Halaman Daftar Barang')] class extends Component
      */
     public function destroy(Commodity $commodity): void
     {
+        $this->authorizeModuleAction('hapus', 'barang');
+
         $commodity->delete();
 
         session()->flash('success', 'Data barang berhasil dihapus!');

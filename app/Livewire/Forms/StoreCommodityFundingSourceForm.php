@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Livewire\Concerns\AuthorizesModulePermissions;
 use App\Models\CommodityFundingSource;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
@@ -11,6 +12,8 @@ use Livewire\Form;
  */
 class StoreCommodityFundingSourceForm extends Form
 {
+    use AuthorizesModulePermissions;
+
     /**
      * The funding source name provided by the user.
      */
@@ -28,6 +31,7 @@ class StoreCommodityFundingSourceForm extends Form
      */
     public function store(): void
     {
+        $this->authorizeModuleAction('tambah', 'perolehan');
         CommodityFundingSource::create($this->validate());
     }
 

@@ -37,6 +37,7 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
         'merek' => false,
         'bahan' => false,
         'pengguna' => false,
+        'peran' => false,
     ];
 
     /**
@@ -51,6 +52,7 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
         'merek' => ['label' => 'Merek',     'icon' => 'fa-tag'],
         'bahan' => ['label' => 'Bahan',     'icon' => 'fa-cube'],
         'pengguna' => ['label' => 'Pengguna',  'icon' => 'fa-users'],
+        'peran' => ['label' => 'Peran & Hak Akses', 'icon' => 'fa-user-shield'],
     ];
 
     /**
@@ -59,14 +61,14 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
      * @var array<string, array{label: string, icon: string, badge: string}>
      */
     private const ACTION_META = [
-        'tambah' => ['label' => 'Tambah', 'icon' => 'fa-plus',        'badge' => 'badge-success'],
-        'ubah' => ['label' => 'Ubah',   'icon' => 'fa-pen',         'badge' => 'badge-warning'],
-        'hapus' => ['label' => 'Hapus',  'icon' => 'fa-trash',       'badge' => 'badge-danger'],
-        'lihat' => ['label' => 'Lihat',  'icon' => 'fa-eye',         'badge' => 'badge-primary'],
-        'detail' => ['label' => 'Detail', 'icon' => 'fa-info-circle', 'badge' => 'badge-info'],
-        'impor' => ['label' => 'Impor',  'icon' => 'fa-download',    'badge' => 'badge-secondary'],
-        'ekspor' => ['label' => 'Ekspor', 'icon' => 'fa-upload',      'badge' => 'badge-secondary'],
-        'print' => ['label' => 'Print',  'icon' => 'fa-print',       'badge' => 'badge-dark'],
+        'tambah' => ['label' => 'Tambah', 'icon' => 'fa-plus',        'badge' => 'success'],
+        'ubah' => ['label' => 'Ubah',   'icon' => 'fa-pen',         'badge' => 'warning'],
+        'hapus' => ['label' => 'Hapus',  'icon' => 'fa-trash',       'badge' => 'danger'],
+        'lihat' => ['label' => 'Lihat',  'icon' => 'fa-eye',         'badge' => 'primary'],
+        'detail' => ['label' => 'Detail', 'icon' => 'fa-info-circle', 'badge' => 'info'],
+        'impor' => ['label' => 'Impor',  'icon' => 'fa-download',    'badge' => 'secondary'],
+        'ekspor' => ['label' => 'Ekspor', 'icon' => 'fa-upload',      'badge' => 'secondary'],
+        'print' => ['label' => 'Print',  'icon' => 'fa-print',       'badge' => 'dark'],
     ];
 
     /**
@@ -96,7 +98,11 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
     #[Computed]
     public function permissions(): Collection
     {
-        return Permission::all();
+        $assignablePermissions = auth()->user()->getAllPermissions()->pluck('name')
+            ->merge($this->role->permissions->pluck('name'))
+            ->unique();
+
+        return Permission::whereIn('name', $assignablePermissions)->get();
     }
 
     /**
@@ -150,7 +156,7 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
                 'name' => $permission->name,
                 'label' => self::ACTION_META[$actionKey]['label'] ?? ucfirst($actionKey),
                 'icon' => self::ACTION_META[$actionKey]['icon'] ?? 'fa-key',
-                'badge' => self::ACTION_META[$actionKey]['badge'] ?? 'badge-secondary',
+                'badge' => self::ACTION_META[$actionKey]['badge'] ?? 'secondary',
             ];
         }
 
@@ -244,6 +250,8 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
     public function save(): void
     {
         $this->form->update();
+
+        session()->flash('success', 'Peran berhasil diperbarui.');
 
         $this->redirect('/peran-dan-hak-akses', navigate: true);
     }

@@ -73,6 +73,11 @@ new #[Title('Halaman Daftar Bahan')] class extends Component
         return '/bahan';
     }
 
+    protected function bulkPermissionModule(): string
+    {
+        return 'bahan';
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -81,7 +86,11 @@ new #[Title('Halaman Daftar Bahan')] class extends Component
      */
     public function destroy(Material $material): void
     {
+        $this->authorizeModuleAction('hapus', 'bahan');
+
         $material->delete();
+
+        session()->flash('success', 'Data bahan berhasil dihapus.');
 
         $this->redirect('/bahan', navigate: true);
     }

@@ -73,6 +73,11 @@ new #[Title('Halaman Daftar Merek')] class extends Component
         return '/merek';
     }
 
+    protected function bulkPermissionModule(): string
+    {
+        return 'merek';
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -81,7 +86,11 @@ new #[Title('Halaman Daftar Merek')] class extends Component
      */
     public function destroy(Brand $brand): void
     {
+        $this->authorizeModuleAction('hapus', 'merek');
+
         $brand->delete();
+
+        session()->flash('success', 'Data merek berhasil dihapus.');
 
         $this->redirect('/merek', navigate: true);
     }

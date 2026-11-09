@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Livewire\Concerns\AuthorizesModulePermissions;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
@@ -12,6 +13,8 @@ use Spatie\Permission\Models\Role;
  */
 class UpdateRoleAndPermissionForm extends Form
 {
+    use AuthorizesModulePermissions;
+
     /**
      * The role instance.
      */
@@ -36,7 +39,13 @@ class UpdateRoleAndPermissionForm extends Form
      */
     public function update(): void
     {
+        $this->authorizeModuleAction('ubah', 'peran');
+
         $validated = $this->validate();
+        $assignablePermissions = auth()->user()->getAllPermissions()->pluck('name')
+            ->merge($this->role->permissions()->pluck('name'));
+
+        abort_if(collect($validated['permissions'])->diff($assignablePermissions)->isNotEmpty(), 403);
 
         $this->role->update($validated);
 

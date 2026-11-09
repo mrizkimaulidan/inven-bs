@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Livewire\Concerns\AuthorizesModulePermissions;
 use App\Models\CommodityLocation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
@@ -11,6 +12,8 @@ use Livewire\Form;
  */
 class StoreCommodityLocationForm extends Form
 {
+    use AuthorizesModulePermissions;
+
     /**
      * The location name provided by the user.
      */
@@ -28,6 +31,7 @@ class StoreCommodityLocationForm extends Form
      */
     public function store(): void
     {
+        $this->authorizeModuleAction('tambah', 'ruangan');
         CommodityLocation::create($this->validate());
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Livewire\Concerns\AuthorizesModulePermissions;
 use App\Models\CommodityFundingSource;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
@@ -11,6 +12,8 @@ use Livewire\Form;
  */
 class UpdateCommodityFundingSourceForm extends Form
 {
+    use AuthorizesModulePermissions;
+
     /**
      * The commodity funding source instance.
      */
@@ -33,6 +36,7 @@ class UpdateCommodityFundingSourceForm extends Form
      */
     public function update(): void
     {
+        $this->authorizeModuleAction('ubah', 'perolehan');
         $this->commodityFundingSource->update($this->validate());
     }
 

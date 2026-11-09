@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Livewire\Concerns\AuthorizesModulePermissions;
 use App\Models\Material;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
@@ -11,6 +12,8 @@ use Livewire\Form;
  */
 class StoreMaterialForm extends Form
 {
+    use AuthorizesModulePermissions;
+
     /**
      * The material name provided by the user.
      */
@@ -23,6 +26,7 @@ class StoreMaterialForm extends Form
      */
     public function store(): void
     {
+        $this->authorizeModuleAction('tambah', 'bahan');
         Material::create($this->validate());
     }
 

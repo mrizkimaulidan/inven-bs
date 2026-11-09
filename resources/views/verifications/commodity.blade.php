@@ -56,11 +56,11 @@
                     <span class="font-weight-bold">{{ $commodity->material->name ?? '-' }}</span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center border-bottom py-2">
-                    <span class="text-muted"><i class="fas fa-map-marker-alt mr-2"></i>Lokasi</span>
+                    <span class="text-muted"><i class="fas fa-map-marker-alt mr-2"></i>Ruangan</span>
                     <span class="font-weight-bold text-right">{{ $commodity->commodityLocation->name ?? '-' }}</span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center border-bottom py-2">
-                    <span class="text-muted"><i class="fas fa-hand-holding mr-2"></i>Sumber Dana</span>
+                    <span class="text-muted"><i class="fas fa-hand-holding mr-2"></i>Perolehan</span>
                     <span class="font-weight-bold text-right">{{ $commodity->commodityFundingSource->name ?? '-' }}</span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center border-bottom py-2">

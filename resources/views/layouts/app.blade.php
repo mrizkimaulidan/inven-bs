@@ -54,9 +54,9 @@
                         ></a>
                         <div class="dropdown-menu dropdown-list dropdown-menu-right">
                             <div class="dropdown-header">
-                                Notifications
+                                Pemberitahuan
                                 <div class="float-right">
-                                    <a href="#">Mark All As Read</a>
+                                    <a href="#">Tandai Semua Sudah Dibaca</a>
                                 </div>
                             </div>
                             <div class="dropdown-list-content dropdown-list-icons">
@@ -65,8 +65,8 @@
                                         <i class="fas fa-code"></i>
                                     </div>
                                     <div class="dropdown-item-desc">
-                                        Template update is available now!
-                                        <div class="time text-primary">2 Min Ago</div>
+                                        Pembaruan templat tersedia.
+                                        <div class="time text-primary">2 menit lalu</div>
                                     </div>
                                 </a>
                                 <a href="#" class="dropdown-item">
@@ -74,8 +74,8 @@
                                         <i class="far fa-user"></i>
                                     </div>
                                     <div class="dropdown-item-desc">
-                                        <b>You</b> and <b>Dedik Sugiharto</b> are now friends
-                                        <div class="time">10 Hours Ago</div>
+                                        <b>Anda</b> dan <b>Dedik Sugiharto</b> kini berteman.
+                                        <div class="time">10 jam lalu</div>
                                     </div>
                                 </a>
                                 <a href="#" class="dropdown-item">
@@ -83,8 +83,8 @@
                                         <i class="fas fa-check"></i>
                                     </div>
                                     <div class="dropdown-item-desc">
-                                        <b>Kusnaedi</b> has moved task <b>Fix bug header</b> to <b>Done</b>
-                                        <div class="time">12 Hours Ago</div>
+                                        <b>Kusnaedi</b> memindahkan tugas <b>Perbaiki tajuk</b> ke <b>Selesai</b>.
+                                        <div class="time">12 jam lalu</div>
                                     </div>
                                 </a>
                                 <a href="#" class="dropdown-item">
@@ -92,8 +92,8 @@
                                         <i class="fas fa-exclamation-triangle"></i>
                                     </div>
                                     <div class="dropdown-item-desc">
-                                        Low disk space. Let's clean it!
-                                        <div class="time">17 Hours Ago</div>
+                                        Ruang penyimpanan hampir habis. Segera bersihkan.
+                                        <div class="time">17 jam lalu</div>
                                     </div>
                                 </a>
                                 <a href="#" class="dropdown-item">
@@ -101,30 +101,34 @@
                                         <i class="fas fa-bell"></i>
                                     </div>
                                     <div class="dropdown-item-desc">
-                                        Welcome to Stisla template!
-                                        <div class="time">Yesterday</div>
+                                        Selamat datang di aplikasi.
+                                        <div class="time">Kemarin</div>
                                     </div>
                                 </a>
                             </div>
                             <div class="dropdown-footer text-center">
-                                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+                                <a href="#">Lihat Semua <i class="fas fa-chevron-right"></i></a>
                             </div>
                         </div>
                     </li>
                     <li class="dropdown">
                         <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            <img alt="image" src="{{ asset('img/avatar/avatar-1.png') }}" class="rounded-circle mr-1" />
-                            <div class="d-sm-none d-lg-inline-block">Hi, Ujang Maman</div></a>
+                            <img
+                                alt="foto profil"
+                                src="{{ asset('img/avatar/avatar-1.png') }}"
+                                class="rounded-circle mr-1"
+                            />
+                            <div class="d-sm-none d-lg-inline-block">Halo, Ujang Maman</div></a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <div class="dropdown-title">Logged in 5 min ago</div>
+                            <div class="dropdown-title">Masuk 5 menit lalu</div>
                             <a href="features-profile.html" class="dropdown-item has-icon">
-                                <i class="far fa-user"></i> Profile
+                                <i class="far fa-user"></i> Profil
                             </a>
                             <a href="features-activities.html" class="dropdown-item has-icon">
-                                <i class="fas fa-bolt"></i> Activities
+                                <i class="fas fa-bolt"></i> Aktivitas
                             </a>
                             <a href="features-settings.html" class="dropdown-item has-icon">
-                                <i class="fas fa-cog"></i> Settings
+                                <i class="fas fa-cog"></i> Pengaturan
                             </a>
                             <div class="dropdown-divider"></div>
                             @livewire('logout')
@@ -141,47 +145,61 @@
                         <a href="index.html">{{ Str::take(config('app.name'), 2) }}</a>
                     </div>
                     <ul class="sidebar-menu">
-                        <li class="menu-header">Dashboard</li>
+                        <li class="menu-header">Beranda</li>
                         <li @class(['active' => request()->is('beranda')])>
                             <a wire:navigate class="nav-link" href="/beranda"
                                 ><i class="fas fa-house"></i> <span>Beranda</span></a>
                         </li>
 
                         <li class="menu-header">Manajemen</li>
-                        <li @class(['active' => request()->is('barang')])>
-                            <a wire:navigate class="nav-link" href="/barang"
-                                ><i class="fas fa-boxes-stacked"></i> <span>Data Barang</span></a>
-                        </li>
-                        <li @class(['active' => request()->is('perolehan')])>
-                            <a wire:navigate class="nav-link" href="/perolehan"
-                                ><i class="fas fa-hand-holding"></i> <span>Data Perolehan</span></a>
-                        </li>
-                        <li @class(['active' => request()->is('ruangan')])>
-                            <a wire:navigate class="nav-link" href="/ruangan"
-                                ><i class="fas fa-map-location-dot"></i> <span>Data Ruangan</span></a>
-                        </li>
-                        <li @class(['active' => request()->is('merek')])>
-                            <a wire:navigate class="nav-link" href="/merek"
-                                ><i class="fas fa-tag"></i> <span>Data Merek</span></a>
-                        </li>
-                        <li @class(['active' => request()->is('bahan')])>
-                            <a wire:navigate class="nav-link" href="/bahan"
-                                ><i class="fas fa-cube"></i> <span>Data Bahan</span></a>
-                        </li>
-                        <li @class(['active' => request()->is('pengguna')])>
-                            <a wire:navigate class="nav-link" href="/pengguna"
-                                ><i class="fas fa-users"></i> <span>Data Pengguna</span></a>
-                        </li>
+                        @can('lihat barang')
+                            <li @class(['active' => request()->is('barang')])>
+                                <a wire:navigate class="nav-link" href="/barang"
+                                    ><i class="fas fa-boxes-stacked"></i> <span>Data Barang</span></a>
+                            </li>
+                        @endcan
+                        @can('lihat perolehan')
+                            <li @class(['active' => request()->is('perolehan')])>
+                                <a wire:navigate class="nav-link" href="/perolehan"
+                                    ><i class="fas fa-hand-holding"></i> <span>Data Perolehan</span></a>
+                            </li>
+                        @endcan
+                        @can('lihat ruangan')
+                            <li @class(['active' => request()->is('ruangan')])>
+                                <a wire:navigate class="nav-link" href="/ruangan"
+                                    ><i class="fas fa-map-location-dot"></i> <span>Data Ruangan</span></a>
+                            </li>
+                        @endcan
+                        @can('lihat merek')
+                            <li @class(['active' => request()->is('merek')])>
+                                <a wire:navigate class="nav-link" href="/merek"
+                                    ><i class="fas fa-tag"></i> <span>Data Merek</span></a>
+                            </li>
+                        @endcan
+                        @can('lihat bahan')
+                            <li @class(['active' => request()->is('bahan')])>
+                                <a wire:navigate class="nav-link" href="/bahan"
+                                    ><i class="fas fa-cube"></i> <span>Data Bahan</span></a>
+                            </li>
+                        @endcan
+                        @can('lihat pengguna')
+                            <li @class(['active' => request()->is('pengguna')])>
+                                <a wire:navigate class="nav-link" href="/pengguna"
+                                    ><i class="fas fa-users"></i> <span>Data Pengguna</span></a>
+                            </li>
+                        @endcan
 
                         <li class="menu-header">Pengaturan</li>
                         <li @class(['active' => request()->is('pengaturan/profil')])>
                             <a wire:navigate class="nav-link" href="/pengaturan/profil"
                                 ><i class="fas fa-gear"></i> <span>Pengaturan Profil</span></a>
                         </li>
-                        <li @class(['active' => request()->is('peran-dan-hak-akses')])>
-                            <a wire:navigate class="nav-link" href="/peran-dan-hak-akses"
-                                ><i class="fas fa-user-shield"></i> <span>Peran & Hak Akses</span></a>
-                        </li>
+                        @can('lihat peran')
+                            <li @class(['active' => request()->is('peran-dan-hak-akses')])>
+                                <a wire:navigate class="nav-link" href="/peran-dan-hak-akses"
+                                    ><i class="fas fa-user-shield"></i> <span>Peran & Hak Akses</span></a>
+                            </li>
+                        @endcan
                     </ul>
 
                     <div class="hide-sidebar-mini mt-4 mb-4 p-3">

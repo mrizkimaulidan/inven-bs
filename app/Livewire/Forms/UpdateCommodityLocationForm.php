@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Livewire\Concerns\AuthorizesModulePermissions;
 use App\Models\CommodityLocation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
@@ -11,6 +12,8 @@ use Livewire\Form;
  */
 class UpdateCommodityLocationForm extends Form
 {
+    use AuthorizesModulePermissions;
+
     /**
      * The commodity location instance.
      */
@@ -33,6 +36,7 @@ class UpdateCommodityLocationForm extends Form
      */
     public function update(): void
     {
+        $this->authorizeModuleAction('ubah', 'ruangan');
         $this->commodityLocation->update($this->validate());
     }
 

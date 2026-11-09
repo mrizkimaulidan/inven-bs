@@ -67,6 +67,11 @@ new #[Title('Halaman Daftar Pengguna')] class extends Component
         return '/pengguna';
     }
 
+    protected function bulkPermissionModule(): string
+    {
+        return 'pengguna';
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -75,6 +80,8 @@ new #[Title('Halaman Daftar Pengguna')] class extends Component
      */
     public function destroy(User $user): void
     {
+        $this->authorizeModuleAction('hapus', 'pengguna');
+
         $user->delete();
 
         session()->flash('success', 'Data pengguna berhasil dihapus!');

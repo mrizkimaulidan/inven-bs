@@ -13,5 +13,5 @@
     @else
         <i class="fas fa-sign-out-alt"></i>
     @endif
-    Logout
+    Keluar
 </button>

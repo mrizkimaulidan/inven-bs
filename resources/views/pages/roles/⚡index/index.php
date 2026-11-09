@@ -67,6 +67,11 @@ new #[Title('Halaman Daftar Peran & Hak Akses')] class extends Component
         return '/peran-dan-hak-akses';
     }
 
+    protected function bulkPermissionModule(): string
+    {
+        return 'peran';
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -75,7 +80,11 @@ new #[Title('Halaman Daftar Peran & Hak Akses')] class extends Component
      */
     public function destroy(Role $role): void
     {
+        $this->authorizeModuleAction('hapus', 'peran');
+
         $role->delete();
+
+        session()->flash('success', 'Peran berhasil dihapus.');
 
         $this->redirect('/peran-dan-hak-akses', navigate: true);
     }

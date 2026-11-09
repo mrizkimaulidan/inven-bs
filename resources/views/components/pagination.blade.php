@@ -3,7 +3,7 @@
         <div class="text-muted mb-md-0 mb-2">{{ $getInfoText() }}</div>
 
         @if ($hasPages())
-            <nav class="d-inline-block" aria-label="Pagination">
+            <nav class="d-inline-block" aria-label="Navigasi halaman">
                 <ul class="pagination mb-0">
                     {{-- Previous --}}
                     <li class="page-item {{ $onFirstPage() ? 'disabled' : '' }}">
@@ -46,7 +46,7 @@
                             >
                                 {{ $page }}
                                 @if ($page == $currentPage())
-                                    <span class="sr-only">(current)</span>
+                                    <span class="sr-only">(halaman saat ini)</span>
                                 @endif
                             </button>
                         </li>

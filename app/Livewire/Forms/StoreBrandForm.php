@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Livewire\Concerns\AuthorizesModulePermissions;
 use App\Models\Brand;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
@@ -11,6 +12,8 @@ use Livewire\Form;
  */
 class StoreBrandForm extends Form
 {
+    use AuthorizesModulePermissions;
+
     /**
      * The brand name provided by the user.
      */
@@ -23,6 +26,7 @@ class StoreBrandForm extends Form
      */
     public function store(): void
     {
+        $this->authorizeModuleAction('tambah', 'merek');
         Brand::create($this->validate());
     }
 

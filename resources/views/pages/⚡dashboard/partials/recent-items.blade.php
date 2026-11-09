@@ -19,7 +19,7 @@
                                 <th scope="col">Kode Barang</th>
                                 <th scope="col">Nama Barang</th>
                                 <th scope="col">Merek &amp; Bahan</th>
-                                <th scope="col">Lokasi</th>
+                                <th scope="col">Ruangan</th>
                                 <th scope="col" class="text-center">Jumlah</th>
                                 <th scope="col">Kondisi</th>
                                 <th scope="col">Tahun Pembelian</th>

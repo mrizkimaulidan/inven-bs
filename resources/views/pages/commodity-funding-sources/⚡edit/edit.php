@@ -40,6 +40,8 @@ new class extends Component
     {
         $this->form->update();
 
+        session()->flash('success', 'Data perolehan berhasil diperbarui.');
+
         $this->redirect('/perolehan', navigate: true);
     }
 };

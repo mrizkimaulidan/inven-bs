@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Enums\CommodityCondition;
+use App\Livewire\Concerns\AuthorizesModulePermissions;
 use App\Models\Commodity;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,8 @@ use Livewire\Form;
  */
 class UpdateCommodityForm extends Form
 {
+    use AuthorizesModulePermissions;
+
     /**
      * The commodity instance.
      */
@@ -121,6 +124,8 @@ class UpdateCommodityForm extends Form
      */
     public function update(): void
     {
+        $this->authorizeModuleAction('ubah', 'barang');
+
         $validated = collect($this->validate())->except('image');
 
         $quantity = $this->quantity ?? 0;
@@ -186,11 +191,11 @@ class UpdateCommodityForm extends Form
     protected function messages(): array
     {
         return [
-            'commodity_location_id.required' => 'Lokasi barang wajib dipilih.',
-            'commodity_location_id.exists' => 'Lokasi barang yang dipilih tidak valid.',
+            'commodity_location_id.required' => 'Ruangan barang wajib dipilih.',
+            'commodity_location_id.exists' => 'Ruangan yang dipilih tidak valid.',
 
-            'commodity_funding_source_id.required' => 'Sumber dana wajib dipilih.',
-            'commodity_funding_source_id.exists' => 'Sumber dana yang dipilih tidak valid.',
+            'commodity_funding_source_id.required' => 'Perolehan barang wajib dipilih.',
+            'commodity_funding_source_id.exists' => 'Perolehan yang dipilih tidak valid.',
 
             'brand_id.required' => 'Merek wajib dipilih.',
             'brand_id.exists' => 'Merek yang dipilih tidak valid.',
@@ -241,8 +246,8 @@ class UpdateCommodityForm extends Form
     protected function validationAttributes(): array
     {
         return [
-            'commodity_location_id' => 'lokasi barang',
-            'commodity_funding_source_id' => 'sumber dana',
+            'commodity_location_id' => 'ruangan barang',
+            'commodity_funding_source_id' => 'perolehan barang',
             'brand_id' => 'merek',
             'material_id' => 'bahan',
             'name' => 'nama barang',

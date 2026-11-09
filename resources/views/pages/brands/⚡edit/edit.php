@@ -39,6 +39,8 @@ new class extends Component
     {
         $this->form->update();
 
+        session()->flash('success', 'Data merek berhasil diperbarui.');
+
         $this->redirect('/merek', navigate: true);
     }
 };

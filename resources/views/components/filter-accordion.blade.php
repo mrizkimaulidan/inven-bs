@@ -40,7 +40,7 @@
                                     wire:target="resetFilters"
                                 >
                                     <i class="fas fa-undo mr-1"></i>
-                                    <span wire:loading.remove wire:target="resetFilters">Reset Filter</span>
+                                    <span wire:loading.remove wire:target="resetFilters">Atur Ulang Filter</span>
                                     <span wire:loading wire:target="resetFilters">
                                         <span
                                             class="spinner-border spinner-border-sm mr-1"

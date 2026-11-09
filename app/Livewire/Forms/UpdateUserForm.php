@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Livewire\Concerns\AuthorizesModulePermissions;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
@@ -13,6 +14,8 @@ use Spatie\Permission\Models\Role;
  */
 class UpdateUserForm extends Form
 {
+    use AuthorizesModulePermissions;
+
     /**
      * The user instance.
      */
@@ -50,6 +53,8 @@ class UpdateUserForm extends Form
      */
     public function update(): User
     {
+        $this->authorizeModuleAction('ubah', 'pengguna');
+
         $validated = $this->validate();
 
         $userData = [
@@ -57,15 +62,26 @@ class UpdateUserForm extends Form
             'email' => $validated['email'],
         ];
 
+        $currentRoleId = $this->user->roles()->value('roles.id');
+        $roleToAssign = null;
+
+        if ((int) $this->role_id !== (int) $currentRoleId) {
+            $roleToAssign = Role::with('permissions')->findOrFail($this->role_id);
+            $rolePermissionNames = $roleToAssign->permissions->pluck('name');
+            $actorPermissionNames = auth()->user()->getAllPermissions()->pluck('name');
+
+            abort_if($rolePermissionNames->diff($actorPermissionNames)->isNotEmpty(), 403);
+        }
+
         if (! empty($validated['password'])) {
             $userData['password'] = $validated['password'];
         }
 
         $this->user->update($userData);
 
-        $role = Role::findOrFail($this->role_id);
-
-        $this->user->syncRoles($role);
+        if ($roleToAssign !== null) {
+            $this->user->syncRoles($roleToAssign);
+        }
 
         return $this->user;
     }

@@ -22,6 +22,8 @@ new class extends Component
     {
         $this->form->store();
 
+        session()->flash('success', 'Data merek berhasil ditambahkan.');
+
         $this->redirect('/merek', navigate: true);
     }
 };

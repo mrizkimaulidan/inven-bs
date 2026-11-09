@@ -18,7 +18,7 @@
             <x-input
                 type="file"
                 name="importForm.spreadsheetFile"
-                label="File Spreadsheet"
+                label="Berkas Data"
                 icon="fa-file-import"
                 accept=".xlsx,.xls,.csv"
                 wire:model="importForm.spreadsheetFile"

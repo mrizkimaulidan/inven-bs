@@ -1,5 +1,5 @@
 <div>
-    <x-modal title="QR Code Barang">
+    <x-modal title="Kode QR Barang">
         <x-slot:body>
             <div class="qrcode-preview d-flex flex-column align-items-center justify-content-center px-3 py-5">
                 {{-- QR code image --}}
@@ -12,7 +12,7 @@
                 {{-- QR code label --}}
                 <div class="qrcode-preview__chip d-inline-flex align-items-center rounded-pill mt-4 border bg-white px-3 py-2 shadow-sm">
                     <i class="fas fa-qrcode text-muted mr-2"></i>
-                    <span class="small font-weight-bold text-dark">QR Code Barang</span>
+                    <span class="small font-weight-bold text-dark">Kode QR Barang</span>
                 </div>
 
                 {{-- Scan instructions --}}

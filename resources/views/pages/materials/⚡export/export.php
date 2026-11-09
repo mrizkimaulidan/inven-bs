@@ -1,6 +1,7 @@
 <?php
 
 use App\Exports\MaterialsExport;
+use App\Livewire\Concerns\AuthorizesModulePermissions;
 use App\Livewire\Forms\ExportForm;
 use App\Models\Material;
 use Livewire\Attributes\Computed;
@@ -12,6 +13,8 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
  */
 new class extends Component
 {
+    use AuthorizesModulePermissions;
+
     /**
      * The export form state.
      */
@@ -35,6 +38,8 @@ new class extends Component
      */
     public function export()
     {
+        $this->authorizeModuleAction('ekspor', 'bahan');
+
         $this->form->validate();
 
         return (new MaterialsExport)

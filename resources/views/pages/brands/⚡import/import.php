@@ -1,6 +1,7 @@
 <?php
 
 use App\Imports\BrandsImport;
+use App\Livewire\Concerns\AuthorizesModulePermissions;
 use App\Livewire\Forms\ImportForm;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -11,6 +12,7 @@ use Maatwebsite\Excel\Facades\Excel;
  */
 new class extends Component
 {
+    use AuthorizesModulePermissions;
     use WithFileUploads;
 
     /**
@@ -27,6 +29,8 @@ new class extends Component
      */
     public function import(): void
     {
+        $this->authorizeModuleAction('impor', 'merek');
+
         $this->importForm->validate();
 
         Excel::import(new BrandsImport, $this->importForm->spreadsheetFile);

@@ -6,18 +6,6 @@
         @endteleport
     @endif
 
-    @if ($activeModal === 'create')
-        @teleport('body')
-            <livewire:pages::brands.create />
-        @endteleport
-    @endif
-
-    @if ($activeModal === 'edit')
-        @teleport('body')
-            <livewire:pages::brands.edit :brandId="$modalParams['id']" wire:key="modal-edit-{{ $modalParams['id'] }}" />
-        @endteleport
-    @endif
-
     @if ($activeModal === 'bulk-destroy')
         @teleport('body')
             <livewire:bulk-destroy
@@ -34,44 +22,52 @@
         <x-slot:toolbar>
             <div class="d-flex justify-content-between align-items-center flex-wrap pb-3">
                 <div class="d-flex flex-wrap">
-                    <x-button
-                        wire:click="$dispatch('showModal', {modalName: 'export'})"
-                        icon="fa-file-export"
-                        label="Ekspor"
-                        variant="info"
-                        class="mr-2 mb-2"
-                    />
-                    <x-button
-                        wire:click="$dispatch('showBulkDeleteConfirmationModal')"
-                        icon="fa-trash-alt"
-                        label="Hapus Terpilih"
-                        class="mr-2 mb-2"
-                        variant="danger"
-                        :disabled="empty($selected)"
-                    />
-                    <a
-                        href="{{ route('peran.pdf') }}"
-                        class="btn btn-secondary mr-2 mb-2"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <i class="fas fa-print"></i>
-                        Print
-                    </a>
+                    @can('ekspor peran')
+                        <x-button
+                            wire:click="$dispatch('showModal', {modalName: 'export'})"
+                            icon="fa-file-export"
+                            label="Ekspor"
+                            variant="info"
+                            class="mr-2 mb-2"
+                        />
+                    @endcan
+                    @can('hapus peran')
+                        <x-button
+                            wire:click="$dispatch('showBulkDeleteConfirmationModal')"
+                            icon="fa-trash-alt"
+                            label="Hapus Terpilih"
+                            class="mr-2 mb-2"
+                            variant="danger"
+                            :disabled="empty($selected)"
+                        />
+                    @endcan
+                    @can('print peran')
+                        <a
+                            href="{{ route('peran.pdf') }}"
+                            class="btn btn-secondary mr-2 mb-2"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <i class="fas fa-print"></i>
+                            Cetak
+                        </a>
+                    @endcan
                     <x-button
                         wire:click="$refresh"
                         icon="fa-sync-alt"
-                        label="Refresh"
+                        label="Muat Ulang"
                         variant="light"
                         class="mb-2"
                         data-toggle="tooltip"
-                        title="Refresh"
+                        title="Muat Ulang"
                     />
                 </div>
-                <a wire:navigate href="/peran-dan-hak-akses/tambah" class="btn btn-primary mb-2">
-                    <i class="fas fa-plus-circle"></i>
-                    Tambah Data
-                </a>
+                @can('tambah peran')
+                    <a wire:navigate href="/peran-dan-hak-akses/tambah" class="btn btn-primary mb-2">
+                        <i class="fas fa-plus-circle"></i>
+                        Tambah Data
+                    </a>
+                @endcan
             </div>
         </x-slot:toolbar>
 
@@ -132,24 +128,28 @@
                             </div>
 
                             <div class="table-links">
-                                <a
-                                    wire:navigate
-                                    href="/peran-dan-hak-akses/{{ $role->id }}/ubah"
-                                    class="btn btn-sm btn-outline-success"
-                                    title="Ubah"
-                                >
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a
-                                    href="#"
-                                    wire:click="destroy({{ $role->id }})"
-                                    class="btn btn-sm btn-outline-danger"
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title="Hapus"
-                                >
-                                    <i class="fas fa-trash"></i>
-                                </a>
+                                @can('ubah peran')
+                                    <a
+                                        wire:navigate
+                                        href="/peran-dan-hak-akses/{{ $role->id }}/ubah"
+                                        class="btn btn-sm btn-outline-success"
+                                        title="Ubah"
+                                    >
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                @endcan
+                                @can('hapus peran')
+                                    <a
+                                        href="#"
+                                        wire:click="destroy({{ $role->id }})"
+                                        class="btn btn-sm btn-outline-danger"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Hapus"
+                                    >
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                @endcan
                             </div>
                         </td>
                     </tr>

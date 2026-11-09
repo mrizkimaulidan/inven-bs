@@ -9,6 +9,8 @@ use Livewire\Attributes\On;
  */
 trait WithModal
 {
+    use AuthorizesModulePermissions;
+
     /**
      * The currently active modal identifier.
      */
@@ -29,6 +31,18 @@ trait WithModal
     #[On('showModal')]
     public function showModal(string $modalName, ?array $params = null): void
     {
+        $action = match ($modalName) {
+            'create' => 'tambah',
+            'edit' => 'ubah',
+            'show', 'qrcode' => 'detail',
+            'import' => 'impor',
+            'export' => 'ekspor',
+            'bulk-destroy' => 'hapus',
+            default => abort(404),
+        };
+
+        $this->authorizeModuleAction($action, $this->bulkPermissionModule());
+
         $this->activeModal = $modalName;
         $this->modalParams = $params;
     }

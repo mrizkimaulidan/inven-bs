@@ -28,7 +28,7 @@
         <x-statistic-card
             icon="fa-map-marker-alt"
             bg-color="warning"
-            title="Lokasi Terpakai"
+            title="Ruangan Terpakai"
             :value="number_format($summary['totalLocations'], 0, ',', '.')"
         />
     </div>

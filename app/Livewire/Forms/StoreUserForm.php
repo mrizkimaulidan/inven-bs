@@ -2,15 +2,19 @@
 
 namespace App\Livewire\Forms;
 
+use App\Livewire\Concerns\AuthorizesModulePermissions;
 use App\Models\User;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Form;
+use Spatie\Permission\Models\Role;
 
 /**
  * Validate user details and save the account with its selected roles.
  */
 class StoreUserForm extends Form
 {
+    use AuthorizesModulePermissions;
+
     /**
      * The selected role ID.
      */
@@ -43,7 +47,12 @@ class StoreUserForm extends Form
      */
     public function store(): User
     {
+        $this->authorizeModuleAction('tambah', 'pengguna');
+
         $validated = $this->validate();
+
+        $role = Role::with('permissions')->findOrFail($validated['role_id']);
+        $this->ensureRoleIsAssignable($role);
 
         $user = User::create([
             'name' => $validated['name'],
@@ -54,6 +63,17 @@ class StoreUserForm extends Form
         $user->assignRole($this->role_id);
 
         return $user;
+    }
+
+    /**
+     * Ensure the current user can assign every permission on the role.
+     */
+    private function ensureRoleIsAssignable(Role $role): void
+    {
+        $rolePermissionNames = $role->permissions->pluck('name');
+        $actorPermissionNames = auth()->user()->getAllPermissions()->pluck('name');
+
+        abort_if($rolePermissionNames->diff($actorPermissionNames)->isNotEmpty(), 403);
     }
 
     /**

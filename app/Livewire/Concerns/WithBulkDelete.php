@@ -29,6 +29,8 @@ use Livewire\Attributes\On;
  */
 trait WithBulkDelete
 {
+    use AuthorizesModulePermissions;
+
     /**
      * The IDs of the selected records.
      */
@@ -72,6 +74,14 @@ trait WithBulkDelete
     protected function bulkRedirectPath(): ?string
     {
         return null;
+    }
+
+    /**
+     * Get the permission module used to authorize bulk actions.
+     */
+    protected function bulkPermissionModule(): string
+    {
+        throw new \LogicException('The bulk permission module must be defined by the consuming component.');
     }
 
     /**
@@ -195,6 +205,8 @@ trait WithBulkDelete
     #[On('showBulkDeleteConfirmationModal')]
     public function showBulkDeleteConfirmation(): void
     {
+        $this->authorizeModuleAction('hapus', $this->bulkPermissionModule());
+
         $this->selected = array_values(array_intersect($this->selected, $this->bulkPageIds()));
 
         if (empty($this->selected)) {
@@ -212,6 +224,8 @@ trait WithBulkDelete
     #[On('confirmBulkDelete')]
     public function confirmBulkDelete(): void
     {
+        $this->authorizeModuleAction('hapus', $this->bulkPermissionModule());
+
         $this->destroySelected();
         $this->closeModal();
     }
@@ -223,6 +237,8 @@ trait WithBulkDelete
      */
     public function destroySelected(): void
     {
+        $this->authorizeModuleAction('hapus', $this->bulkPermissionModule());
+
         $selectedRecordIds = array_intersect($this->selected, $this->bulkPageIds());
 
         if (empty($selectedRecordIds)) {
@@ -232,6 +248,10 @@ trait WithBulkDelete
         $deletedCount = $this->bulkModel()::whereIn('id', $selectedRecordIds)->delete();
 
         $this->resetSelection();
+
+        if ($deletedCount > 0) {
+            session()->flash('success', "{$deletedCount} data terpilih berhasil dihapus.");
+        }
 
         if ($deletedCount > 0 && $this->bulkRedirectPath() !== null) {
             $this->redirect($this->bulkRedirectPath(), navigate: true);

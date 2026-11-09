@@ -116,7 +116,6 @@
                                                                 <x-badge
                                                                     :label="$permission['label']"
                                                                     :icon="$permission['icon']"
-                                                                    ]
                                                                     :variant="$permission['badge']"
                                                                     class="mb-0"
                                                                 />

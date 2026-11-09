@@ -30,6 +30,7 @@ new class extends Component
         'merek' => false,
         'bahan' => false,
         'pengguna' => false,
+        'peran' => false,
     ];
 
     /**
@@ -44,6 +45,7 @@ new class extends Component
         'merek' => ['label' => 'Merek',     'icon' => 'fa-tag'],
         'bahan' => ['label' => 'Bahan',     'icon' => 'fa-cube'],
         'pengguna' => ['label' => 'Pengguna',  'icon' => 'fa-users'],
+        'peran' => ['label' => 'Peran & Hak Akses', 'icon' => 'fa-user-shield'],
     ];
 
     /**
@@ -70,7 +72,10 @@ new class extends Component
     #[Computed]
     public function permissions(): Collection
     {
-        return Permission::all();
+        return Permission::whereIn(
+            'name',
+            auth()->user()->getAllPermissions()->pluck('name')
+        )->get();
     }
 
     /**
@@ -218,6 +223,8 @@ new class extends Component
     public function save(): void
     {
         $this->form->store();
+
+        session()->flash('success', 'Peran berhasil ditambahkan.');
 
         $this->redirect('/peran-dan-hak-akses', navigate: true);
     }

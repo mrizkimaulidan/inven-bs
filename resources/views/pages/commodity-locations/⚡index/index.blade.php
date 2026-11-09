@@ -52,54 +52,64 @@
         <x-slot:toolbar>
             <div class="d-flex justify-content-between align-items-center flex-wrap pb-3">
                 <div class="d-flex flex-wrap">
-                    <x-button
-                        wire:click="$dispatch('showModal', {modalName: 'import'})"
-                        icon="fa-file-import"
-                        label="Import"
-                        variant="success"
-                        class="mr-2 mb-2"
-                    />
-                    <x-button
-                        wire:click="$dispatch('showModal', {modalName: 'export'})"
-                        icon="fa-file-export"
-                        label="Ekspor"
-                        variant="info"
-                        class="mr-2 mb-2"
-                    />
-                    <x-button
-                        wire:click="$dispatch('showBulkDeleteConfirmationModal')"
-                        icon="fa-trash-alt"
-                        label="Hapus Terpilih"
-                        class="mr-2 mb-2"
-                        variant="danger"
-                        :disabled="empty($selected)"
-                    />
-                    <a
-                        href="{{ route('ruangan.pdf') }}"
-                        class="btn btn-secondary mr-2 mb-2"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <i class="fas fa-print"></i>
-                        Print
-                    </a>
+                    @can('impor ruangan')
+                        <x-button
+                            wire:click="$dispatch('showModal', {modalName: 'import'})"
+                            icon="fa-file-import"
+                            label="Impor"
+                            variant="success"
+                            class="mr-2 mb-2"
+                        />
+                    @endcan
+                    @can('ekspor ruangan')
+                        <x-button
+                            wire:click="$dispatch('showModal', {modalName: 'export'})"
+                            icon="fa-file-export"
+                            label="Ekspor"
+                            variant="info"
+                            class="mr-2 mb-2"
+                        />
+                    @endcan
+                    @can('hapus ruangan')
+                        <x-button
+                            wire:click="$dispatch('showBulkDeleteConfirmationModal')"
+                            icon="fa-trash-alt"
+                            label="Hapus Terpilih"
+                            class="mr-2 mb-2"
+                            variant="danger"
+                            :disabled="empty($selected)"
+                        />
+                    @endcan
+                    @can('print ruangan')
+                        <a
+                            href="{{ route('ruangan.pdf') }}"
+                            class="btn btn-secondary mr-2 mb-2"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <i class="fas fa-print"></i>
+                            Cetak
+                        </a>
+                    @endcan
                     <x-button
                         wire:click="$refresh"
                         icon="fa-sync-alt"
-                        label="Refresh"
+                        label="Muat Ulang"
                         variant="light"
                         class="mb-2"
                         data-toggle="tooltip"
-                        title="Refresh"
+                        title="Muat Ulang"
                     />
                 </div>
-                <x-button
-                    wire:click="$dispatch('showModal', {modalName: 'create'})"
-                    icon="fa-plus-circle"
-                    label="Tambah Data"
-                    variant="primary"
-                    class="mb-2"
-                />
+                @can('tambah ruangan')
+                    <x-button
+                        wire:click="$dispatch('showModal', {modalName: 'create'})"
+                        icon="fa-plus-circle"
+                        label="Tambah Data"
+                        variant="primary"
+                        class="mb-2"
+                    />
+                @endcan
             </div>
         </x-slot:toolbar>
 
@@ -176,32 +186,38 @@
                             </div>
 
                             <div class="table-links">
-                                <a
-                                    href="#"
-                                    wire:click="$dispatch('showModal', {modalName: 'show', params: {id: {{ $location->id }}}})"
-                                    class="btn btn-sm btn-outline-info"
-                                    title="Detail"
-                                >
-                                    <i class="fas fa-search"></i>
-                                </a>
-                                <a
-                                    href="#"
-                                    wire:click="$dispatch('showModal', {modalName: 'edit', params: {id: {{ $location->id }}}})"
-                                    class="btn btn-sm btn-outline-success"
-                                    title="Ubah"
-                                >
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a
-                                    href="#"
-                                    wire:click="destroy({{ $location->id }})"
-                                    class="btn btn-sm btn-outline-danger"
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title="Hapus"
-                                >
-                                    <i class="fas fa-trash"></i>
-                                </a>
+                                @can('detail ruangan')
+                                    <a
+                                        href="#"
+                                        wire:click="$dispatch('showModal', {modalName: 'show', params: {id: {{ $location->id }}}})"
+                                        class="btn btn-sm btn-outline-info"
+                                        title="Detail"
+                                    >
+                                        <i class="fas fa-search"></i>
+                                    </a>
+                                @endcan
+                                @can('ubah ruangan')
+                                    <a
+                                        href="#"
+                                        wire:click="$dispatch('showModal', {modalName: 'edit', params: {id: {{ $location->id }}}})"
+                                        class="btn btn-sm btn-outline-success"
+                                        title="Ubah"
+                                    >
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                @endcan
+                                @can('hapus ruangan')
+                                    <a
+                                        href="#"
+                                        wire:click="destroy({{ $location->id }})"
+                                        class="btn btn-sm btn-outline-danger"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Hapus"
+                                    >
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                @endcan
                             </div>
                         </td>
 

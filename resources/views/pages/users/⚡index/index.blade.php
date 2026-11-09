@@ -35,47 +35,55 @@
         <x-slot:toolbar>
             <div class="d-flex justify-content-between align-items-center flex-wrap pb-3">
                 <div class="d-flex flex-wrap">
-                    <x-button
-                        wire:click="$dispatch('showModal', {modalName: 'export'})"
-                        icon="fa-file-export"
-                        label="Ekspor"
-                        variant="info"
-                        class="mr-2 mb-2"
-                    />
-                    <x-button
-                        wire:click="$dispatch('showBulkDeleteConfirmationModal')"
-                        icon="fa-trash-alt"
-                        label="Hapus Terpilih"
-                        class="mr-2 mb-2"
-                        variant="danger"
-                        :disabled="empty($selected)"
-                    />
-                    <a
-                        href="{{ route('pengguna.pdf') }}"
-                        class="btn btn-secondary mr-2 mb-2"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <i class="fas fa-print"></i>
-                        Print
-                    </a>
+                    @can('ekspor pengguna')
+                        <x-button
+                            wire:click="$dispatch('showModal', {modalName: 'export'})"
+                            icon="fa-file-export"
+                            label="Ekspor"
+                            variant="info"
+                            class="mr-2 mb-2"
+                        />
+                    @endcan
+                    @can('hapus pengguna')
+                        <x-button
+                            wire:click="$dispatch('showBulkDeleteConfirmationModal')"
+                            icon="fa-trash-alt"
+                            label="Hapus Terpilih"
+                            class="mr-2 mb-2"
+                            variant="danger"
+                            :disabled="empty($selected)"
+                        />
+                    @endcan
+                    @can('print pengguna')
+                        <a
+                            href="{{ route('pengguna.pdf') }}"
+                            class="btn btn-secondary mr-2 mb-2"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <i class="fas fa-print"></i>
+                            Cetak
+                        </a>
+                    @endcan
                     <x-button
                         wire:click="$refresh"
                         icon="fa-sync-alt"
-                        label="Refresh"
+                        label="Muat Ulang"
                         variant="light"
                         class="mb-2"
                         data-toggle="tooltip"
-                        title="Refresh"
+                        title="Muat Ulang"
                     />
                 </div>
-                <x-button
-                    wire:click="$dispatch('showModal', {modalName: 'create'})"
-                    icon="fa-plus-circle"
-                    label="Tambah Data"
-                    variant="primary"
-                    class="mb-2"
-                />
+                @can('tambah pengguna')
+                    <x-button
+                        wire:click="$dispatch('showModal', {modalName: 'create'})"
+                        icon="fa-plus-circle"
+                        label="Tambah Data"
+                        variant="primary"
+                        class="mb-2"
+                    />
+                @endcan
             </div>
         </x-slot:toolbar>
 
@@ -128,21 +136,25 @@
                                 />
                             </div>
                             <div class="table-links">
-                                <a
-                                    href="#"
-                                    wire:click="$dispatch('showModal', {modalName: 'edit', params: {id: {{ $user->id }}}})"
-                                    class="btn btn-sm btn-outline-success"
-                                    title="Ubah"
-                                >
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a
-                                    wire:click="destroy({{ $user->id }})"
-                                    class="btn btn-sm btn-outline-danger"
-                                    title="Hapus"
-                                >
-                                    <i class="fas fa-trash"></i>
-                                </a>
+                                @can('ubah pengguna')
+                                    <a
+                                        href="#"
+                                        wire:click="$dispatch('showModal', {modalName: 'edit', params: {id: {{ $user->id }}}})"
+                                        class="btn btn-sm btn-outline-success"
+                                        title="Ubah"
+                                    >
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                @endcan
+                                @can('hapus pengguna')
+                                    <a
+                                        wire:click="destroy({{ $user->id }})"
+                                        class="btn btn-sm btn-outline-danger"
+                                        title="Hapus"
+                                    >
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                @endcan
                             </div>
                         </td>
                         <td><div class="font-weight-bold">{{ Str::mask($user->email, '*', 3) }}</div></td>

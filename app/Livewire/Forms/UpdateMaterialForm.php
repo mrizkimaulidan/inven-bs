@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Livewire\Concerns\AuthorizesModulePermissions;
 use App\Models\Material;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
@@ -11,6 +12,8 @@ use Livewire\Form;
  */
 class UpdateMaterialForm extends Form
 {
+    use AuthorizesModulePermissions;
+
     /**
      * The material instance.
      */
@@ -28,6 +31,7 @@ class UpdateMaterialForm extends Form
      */
     public function update(): void
     {
+        $this->authorizeModuleAction('ubah', 'bahan');
         $this->material->update($this->validate());
     }
 
