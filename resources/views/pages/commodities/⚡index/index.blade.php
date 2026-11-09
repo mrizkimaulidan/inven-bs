@@ -408,11 +408,13 @@
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <a
-                                    href="#"
+                                    href="/barang/{{ $commodity->qr_code }}/pdf"
                                     class="btn btn-sm btn-outline-secondary"
                                     data-toggle="tooltip"
                                     data-placement="top"
                                     title="Print"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                 >
                                     <i class="fas fa-print"></i>
                                 </a>

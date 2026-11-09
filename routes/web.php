@@ -2,6 +2,7 @@
 
 /** Register application web routes. */
 
+use App\Http\Controllers\CommodityController;
 use App\Http\Controllers\CommodityVerificationController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,9 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/barang/tambah', 'pages::commodities.create');
     Route::livewire('/barang/{commodity}/ubah', 'pages::commodities.edit');
 
+    Route::get('/barang/{commodity:qr_code}/pdf', [CommodityController::class, 'generatePdf'])
+        ->name('barang.pdf');
+
     Route::livewire('/ruangan', 'pages::commodity-locations.index');
 
     Route::livewire('/merek', 'pages::brands.index');
@@ -37,4 +41,6 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/pengguna', 'pages::users.index');
 });
 
-Route::get('/verifikasi/barang/{qrcode}', CommodityVerificationController::class)->name('verifikasi.barang');
+Route::get('/verifikasi/barang/{commodity:qr_code}', CommodityVerificationController::class)
+    ->middleware('throttle:30,1')
+    ->name('verifikasi.barang');
