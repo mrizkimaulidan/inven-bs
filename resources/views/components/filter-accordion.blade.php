@@ -20,12 +20,7 @@
             </a>
 
             {{-- Filter controls and reset action --}}
-            <div
-                class="accordion-body collapse"
-                id="{{ $id }}-body"
-                :class="{ show: expanded }"
-                aria-labelledby="{{ $id }}-header"
-            >
+            <div class="accordion-body" id="{{ $id }}-body" x-show="expanded" aria-labelledby="{{ $id }}-header">
                 <div class="card-body pt-3">
                     <form wire:submit.prevent>
                         {{ $slot }}
