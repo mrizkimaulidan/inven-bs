@@ -22,6 +22,7 @@
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/components.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}" />
     <!-- Start GA -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
     <script>
@@ -41,15 +42,13 @@
         <div class="main-wrapper main-wrapper-1">
             <div class="navbar-bg"></div>
             <nav class="navbar navbar-expand-lg main-navbar">
-                <form class="form-inline mr-auto">
-                    <ul class="navbar-nav mr-3">
-                        <li>
-                            <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"
-                                ><i class="fas fa-bars"></i
-                            ></a>
-                        </li>
-                    </ul>
-                </form>
+                <ul class="navbar-nav mr-auto">
+                    <li>
+                        <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"
+                            ><i class="fas fa-bars"></i
+                        ></a>
+                    </li>
+                </ul>
                 <ul class="navbar-nav navbar-right">
                     <li class="dropdown dropdown-list-toggle">
                         <a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep"

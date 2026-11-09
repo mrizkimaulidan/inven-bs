@@ -5,4 +5,36 @@
  * 
  */
 
+.main-navbar {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.main-navbar > .navbar-nav {
+    flex-direction: row;
+    align-items: center;
+}
+
+.main-navbar > .navbar-right {
+    flex: 0 0 auto;
+    margin-left: auto;
+}
+
+.main-navbar > .navbar-nav > li {
+    display: flex;
+    align-items: center;
+}
+
+.main-navbar .nav-link {
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 1024px) {
+    .main-navbar {
+        right: 5px;
+    }
+}
+
 /*# sourceMappingURL=custom.css.map */
