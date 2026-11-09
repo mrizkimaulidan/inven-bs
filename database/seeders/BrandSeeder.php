@@ -15,15 +15,6 @@ class BrandSeeder extends Seeder
      */
     public function run(): void
     {
-        $brandNames = collect(['IKEA', 'Livien', 'iFurnholic', 'Red Sun', 'JYSXK', 'Olympic', 'Informa', "Dove's", 'Funika', 'Atria', 'Vivere']);
-        $now = now();
-
-        $brandRecords = $brandNames->map(fn (string $brandName) => [
-            'name' => $brandName,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ])->toArray();
-
-        Brand::insert($brandRecords);
+        Brand::factory()->count(24)->create();
     }
 }

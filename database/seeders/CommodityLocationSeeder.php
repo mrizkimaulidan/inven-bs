@@ -56,15 +56,6 @@ class CommodityLocationSeeder extends Seeder
             'Lapangan Olahraga',
         ]);
 
-        $now = now();
-
-        $locationRecords = $locationNames->map(fn (string $locationName) => [
-            'name' => $locationName,
-            'description' => "Lokasi: $locationName",
-            'created_at' => $now,
-            'updated_at' => $now,
-        ])->toArray();
-
-        CommodityLocation::insert($locationRecords);
+        CommodityLocation::factory()->count(30)->create();
     }
 }

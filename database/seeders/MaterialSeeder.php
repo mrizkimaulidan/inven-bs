@@ -15,15 +15,6 @@ class MaterialSeeder extends Seeder
      */
     public function run(): void
     {
-        $materialNames = collect(['Kayu Solid', 'Kayu Lapis', 'Blockboard', 'MDF', 'Melaminto', 'Partikel', 'Rotan']);
-
-        $now = now();
-        $materialRecords = $materialNames->map(fn (string $materialName) => [
-            'name' => $materialName,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ])->toArray();
-
-        Material::insert($materialRecords);
+        Material::factory()->count(16)->create();
     }
 }
