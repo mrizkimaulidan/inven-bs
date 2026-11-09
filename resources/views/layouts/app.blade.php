@@ -44,9 +44,7 @@
             <nav class="navbar navbar-expand-lg main-navbar">
                 <ul class="navbar-nav mr-auto">
                     <li>
-                        <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"
-                            ><i class="fas fa-bars"></i
-                        ></a>
+                        <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a>
                     </li>
                 </ul>
                 <ul class="navbar-nav navbar-right">
@@ -216,27 +214,27 @@
     @livewireScripts
 
     <!-- General JS Scripts -->
-    <script src="{{ asset('modules/jquery.min.js') }}"></script>
-    <script src="{{ asset('modules/popper.js') }}"></script>
-    <script src="{{ asset('modules/tooltip.js') }}"></script>
-    <script src="{{ asset('modules/bootstrap/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('modules/nicescroll/jquery.nicescroll.min.js') }}"></script>
-    <script src="{{ asset('modules/moment.min.js') }}"></script>
-    <script src="{{ asset('js/stisla.js') }}"></script>
+    <script src="{{ asset('modules/jquery.min.js') }}" data-navigate-once></script>
+    <script src="{{ asset('modules/popper.js') }}" data-navigate-once></script>
+    <script src="{{ asset('modules/tooltip.js') }}" data-navigate-once></script>
+    <script src="{{ asset('modules/bootstrap/js/bootstrap.min.js') }}" data-navigate-once></script>
+    <script src="{{ asset('modules/nicescroll/jquery.nicescroll.min.js') }}" data-navigate-once></script>
+    <script src="{{ asset('modules/moment.min.js') }}" data-navigate-once></script>
+    <script src="{{ asset('js/stisla.js') }}" data-navigate-once></script>
 
     <!-- JS Libraies -->
-    <script src="{{ asset('modules/simple-weather/jquery.simpleWeather.min.js') }}"></script>
-    <script src="{{ asset('modules/chart.min.js') }}"></script>
-    <script src="{{ asset('modules/jqvmap/dist/jquery.vmap.min.js') }}"></script>
-    <script src="{{ asset('modules/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
-    <script src="{{ asset('modules/summernote/summernote-bs4.js') }}"></script>
-    <script src="{{ asset('modules/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
+    <script src="{{ asset('modules/simple-weather/jquery.simpleWeather.min.js') }}" data-navigate-once></script>
+    <script src="{{ asset('modules/chart.min.js') }}" data-navigate-once></script>
+    <script src="{{ asset('modules/jqvmap/dist/jquery.vmap.min.js') }}" data-navigate-once></script>
+    <script src="{{ asset('modules/jqvmap/dist/maps/jquery.vmap.world.js') }}" data-navigate-once></script>
+    <script src="{{ asset('modules/summernote/summernote-bs4.js') }}" data-navigate-once></script>
+    <script src="{{ asset('modules/chocolat/dist/js/jquery.chocolat.min.js') }}" data-navigate-once></script>
 
     <!-- Page Specific JS File -->
-    <script src="{{ asset('js/page/index-0.js') }}"></script>
+    <script src="{{ asset('js/page/index-0.js') }}" data-navigate-once></script>
 
     <!-- Template JS File -->
-    <script src="{{ asset('js/scripts.js') }}"></script>
-    <script src="{{ asset('js/custom.js') }}"></script>
+    <script src="{{ asset('js/scripts.js') }}" data-navigate-once></script>
+    <script src="{{ asset('js/custom.js') }}" data-navigate-once></script>
 </body>
 </html>

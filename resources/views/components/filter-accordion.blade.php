@@ -1,15 +1,14 @@
-<div>
+<div x-data="{ expanded: false }">
     <div class="accordion pb-3" id="{{ $id }}">
         <div class="accordion-item rounded border">
             {{-- Filter title and active-filter count --}}
             <a
-                wire:ignore.self
                 class="accordion-header card-header d-flex align-items-center text-decoration-none text-dark bg-white p-3"
                 id="{{ $id }}-header"
-                data-toggle="collapse"
                 href="#{{ $id }}-body"
                 role="button"
-                aria-expanded="false"
+                @click.prevent="expanded = ! expanded"
+                :aria-expanded="expanded.toString()"
                 aria-controls="{{ $id }}-body"
             >
                 <i class="fas fa-filter text-primary mr-2"></i>
@@ -22,10 +21,9 @@
 
             {{-- Filter controls and reset action --}}
             <div
-                wire:ignore.self
                 class="accordion-body collapse"
                 id="{{ $id }}-body"
-                data-parent="#{{ $id }}"
+                :class="{ show: expanded }"
                 aria-labelledby="{{ $id }}-header"
             >
                 <div class="card-body pt-3">

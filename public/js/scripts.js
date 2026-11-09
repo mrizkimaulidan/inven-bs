@@ -20,35 +20,6 @@ if(window.Dropzone) {
   Dropzone.autoDiscover = false;
 }
 
-// Basic confirm box
-$('[data-confirm]').each(function() {
-  var me = $(this),
-      me_data = me.data('confirm');
-
-  me_data = me_data.split("|");
-  me.fireModal({
-    title: me_data[0],
-    body: me_data[1],
-    buttons: [
-      {
-        text: me.data('confirm-text-yes') || 'Yes',
-        class: 'btn btn-danger btn-shadow',
-        handler: function() {
-          eval(me.data('confirm-yes'));
-        }
-      },
-      {
-        text: me.data('confirm-text-cancel') || 'Cancel',
-        class: 'btn btn-secondary',
-        handler: function(modal) {
-          $.destroyModal(modal);
-          eval(me.data('confirm-no'));
-        }
-      }
-    ]
-  })
-});
-
 // Global
 $(function() {
   let sidebar_nicescroll_opts = {
@@ -81,7 +52,9 @@ $(function() {
 
   var sidebar_dropdown = function() {
     if($(".main-sidebar").length) {
-      $(".main-sidebar").niceScroll(sidebar_nicescroll_opts);
+      if(!$(".main-sidebar").getNiceScroll().length) {
+        $(".main-sidebar").niceScroll(sidebar_nicescroll_opts);
+      }
       sidebar_nicescroll = $(".main-sidebar").getNiceScroll();
 
       $(".main-sidebar .sidebar-menu li a.has-dropdown").off('click').on('click', function() {
@@ -154,7 +127,7 @@ $(function() {
     }
   }
 
-  $("[data-toggle='sidebar']").click(function() {
+  $(document).on('click', "[data-toggle='sidebar']", function() {
     var body = $("body"),
       w = $(window);
 
@@ -276,6 +249,22 @@ $(function() {
   }
   toggleLayout();
   $(window).resize(toggleLayout);
+  document.addEventListener('livewire:navigating', function() {
+    if(sidebar_nicescroll != null) {
+      sidebar_nicescroll.remove();
+      sidebar_nicescroll = null;
+    }
+  });
+  document.addEventListener('livewire:navigated', function() {
+    sidebar_dropdown();
+    toggleLayout();
+    if($(window).outerWidth() > 1024 && $("body").hasClass('sidebar-mini')) {
+      toggle_sidebar_mini(true);
+    }
+    $(".main-content").css({
+      minHeight: $(window).outerHeight() - 95
+    });
+  });
 
   $("[data-toggle='search']").click(function() {
     var body = $("body");
@@ -474,13 +463,13 @@ $(function() {
   });
 
   // Bootstrap 4 Validation
-  $(".needs-validation").submit(function() {
-    var form = $(this);
-    if (form[0].checkValidity() === false) {
+  $(document).on('submit', '.needs-validation', function(event) {
+    if (this.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     }
-    form.addClass('was-validated');
+
+    $(this).addClass('was-validated');
   });
 
   // alert dismissible
