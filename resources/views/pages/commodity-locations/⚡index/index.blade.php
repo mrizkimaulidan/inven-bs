@@ -74,7 +74,15 @@
                         variant="danger"
                         :disabled="empty($selected)"
                     />
-                    <x-button icon="fa-print" label="Print" variant="secondary" class="mr-2 mb-2" />
+                    <a
+                        href="{{ route('ruangan.pdf') }}"
+                        class="btn btn-secondary mr-2 mb-2"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <i class="fas fa-print"></i>
+                        Print
+                    </a>
                     <x-button
                         wire:click="$refresh"
                         icon="fa-sync-alt"
