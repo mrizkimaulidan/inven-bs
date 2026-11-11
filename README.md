@@ -1,58 +1,148 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Inven BS
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi inventaris barang sekolah berbasis Laravel dan Livewire. Aplikasi ini membantu pengelolaan barang, data referensi, pengguna, serta hak akses.
 
-## About Laravel
+## Fitur
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Dashboard dengan ringkasan dan grafik inventaris.
+- Pengelolaan barang, termasuk unggah foto, pencarian, dan filter.
+- Kode QR untuk melihat informasi dan memverifikasi barang.
+- Cetak daftar barang dan dokumen barang individual dalam PDF.
+- Impor dan ekspor data barang.
+- Pengelolaan data perolehan, ruangan, merek, bahan, pengguna, dan peran.
+- Hak akses berdasarkan peran.
+- Pengaturan profil pengguna.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Teknologi
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP `^8.3`
+- Laravel `^13.17`
+- Livewire `^4.4`
+- MySQL/MariaDB atau SQLite
+- Node.js dan npm untuk membangun aset frontend
 
-## Learning Laravel
+## Instalasi
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Prasyarat
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- PHP 8.3 atau lebih baru yang memenuhi constraint `^8.3`.
+- Composer.
+- Node.js `^20.19` atau `>=22.12` dan npm.
+- MySQL/MariaDB atau SQLite.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+XAMPP dapat digunakan untuk menyediakan PHP dan MySQL/MariaDB di lingkungan lokal.
 
-## Agentic Development
+### Langkah setup
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+1. Clone repository dan masuk ke direktori proyek:
+
+   ```bash
+   git clone https://github.com/mrizkimaulidan/inven-bs.git
+   cd inven-bs
+   ```
+
+2. Pasang dependensi PHP dan siapkan konfigurasi:
+
+   ```bash
+   composer install
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+   Pada Windows PowerShell, gunakan `Copy-Item .env.example .env` sebagai pengganti `cp`.
+
+3. Siapkan database melalui `.env`. Konfigurasi contoh sudah menggunakan SQLite. Pastikan `database/database.sqlite` tersedia; buat file kosong jika belum ada:
+
+   ```bash
+   touch database/database.sqlite
+   ```
+
+   Di Windows PowerShell:
+
+   ```powershell
+   if (!(Test-Path database/database.sqlite)) { New-Item database/database.sqlite -ItemType File }
+   ```
+
+   Jika menggunakan MySQL/MariaDB, buat database terlebih dahulu lalu sesuaikan konfigurasi berikut:
+
+   ```dotenv
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=inven_bs
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+4. Pasang dependensi frontend dan bangun aset:
+
+   ```bash
+   npm ci
+   npm run build
+   ```
+
+5. Buat symbolic link untuk foto barang, lalu jalankan migrasi dan data awal:
+
+   ```bash
+   php artisan storage:link
+   php artisan migrate --seed
+   ```
+
+6. Jalankan server lokal:
+
+   ```bash
+   php artisan serve
+   ```
+
+   Buka `http://127.0.0.1:8000`. Halaman `/` akan mengarahkan pengguna yang belum login ke halaman login; setelah login, pengguna diarahkan ke `/beranda`.
+
+### Akun demo
+
+Seeder menyediakan akun berikut:
+
+| Peran | Email | Kata sandi |
+|---|---|---|
+| Administrator | `admin@mail.com` | `secret` |
+| Staff TU | `stafftu@mail.com` | `secret` |
+
+Seeder juga membuat data contoh, termasuk 1.000 barang dan 50 pengguna tambahan. Gunakan akun demo hanya untuk pengembangan lokal; ganti kredensial dan jangan gunakan data seeder di produksi.
+
+## Pengembangan dan pengujian
+
+Untuk menjalankan Vite dalam mode pengembangan:
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+npm run dev
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Jalankan pengujian aplikasi dengan:
 
-## Contributing
+```bash
+php artisan test
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Tangkapan layar
 
-## Code of Conduct
+| Halaman | Pratinjau |
+|---|---|
+| Login | [Lihat gambar](https://i.imgur.com/AGhOYoI.jpeg) |
+| Beranda | [Lihat gambar](https://i.imgur.com/E6nX2az.jpeg) |
+| Daftar barang | [Lihat gambar](https://i.imgur.com/cM1nqA7.jpeg) |
+| Cetak daftar barang | [Lihat gambar](https://i.imgur.com/sxtWCBX.png) |
+| Cetak barang individual | [Lihat gambar](https://i.imgur.com/ZSZaqcW.png) |
+| Kode QR | [Lihat gambar](https://i.imgur.com/vdfEaiU.png) |
+| Daftar perolehan | [Lihat gambar](https://i.imgur.com/7mtWj3K.jpeg) |
+| Daftar ruangan | [Lihat gambar](https://i.imgur.com/s5PTRrs.jpeg) |
+| Daftar merek | [Lihat gambar](https://i.imgur.com/uidq6oW.jpeg) |
+| Daftar bahan | [Lihat gambar](https://i.imgur.com/EQpLa36.jpeg) |
+| Daftar pengguna | [Lihat gambar](https://i.imgur.com/19hBiBC.jpeg) |
+| Pengaturan profil | [Lihat gambar](https://i.imgur.com/QRpiOot.jpeg) |
+| Daftar peran dan hak akses | [Lihat gambar](https://i.imgur.com/44f7P1Q.jpeg) |
+| Verifikasi barang | [Lihat gambar](https://i.imgur.com/RKX6ysA.jpeg) |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Catatan
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Nama aplikasi pada antarmuka dapat diatur melalui `APP_NAME` di `.env`.
+- Atur `APP_URL` sesuai alamat aplikasi agar tautan verifikasi pada kode QR mengarah ke host yang benar.
+- Foto yang diunggah disimpan pada disk publik Laravel; jalankan `php artisan storage:link` agar dapat diakses dari browser.
+- Sebelum deployment, gunakan konfigurasi produksi yang aman dan jangan aktifkan `APP_DEBUG`.

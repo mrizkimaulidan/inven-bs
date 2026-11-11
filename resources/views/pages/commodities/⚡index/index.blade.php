@@ -446,31 +446,29 @@
                             <div class="btn-group table-action-group" role="group" aria-label="Aksi barang">
                                 @if ($commodity->qr_code)
                                     @can('detail barang')
-                                        <x-button
-                                            label=""
-                                            icon="fa-qrcode"
-                                            variant="dark"
-                                            class="btn-sm"
+                                        <a
                                             wire:click="$dispatch('showModal', {modalName: 'qrcode', params: {qrcode: @js($commodity->qr_code)}})"
+                                            class="btn btn-sm btn-dark"
                                             aria-label="Lihat kode QR barang"
                                             data-toggle="tooltip"
                                             data-placement="top"
                                             title="Kode QR"
-                                        />
+                                        >
+                                            <i class="fas fa-qrcode"></i>
+                                        </a>
                                     @endcan
                                 @else
                                     @can('ubah barang')
-                                        <x-button
-                                            label=""
-                                            icon="fa-spinner"
-                                            variant="dark"
-                                            class="btn-sm"
+                                        <a
                                             wire:click="generateQrCode({{ $commodity->id }})"
+                                            class="btn btn-sm btn-dark"
                                             aria-label="Buat kode QR barang"
                                             data-toggle="tooltip"
                                             data-placement="top"
                                             title="Buat Kode QR"
-                                        />
+                                        >
+                                            <i class="fas fa-spinner"></i>
+                                        </a>
                                     @endcan
                                 @endif
 
