@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
+
+use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
@@ -14,6 +16,6 @@ class ExampleTest extends TestCase
     {
         $response = $this->get('/');
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_FOUND);
     }
 }
