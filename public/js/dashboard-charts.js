@@ -163,6 +163,7 @@
     mount($wire, initialCharts) {
       let charts = initialCharts;
       let waitingForChartJs = false;
+      let renderFrame = null;
       let stopListening = function () {};
 
       const renderWhenReady = () => {
@@ -192,18 +193,39 @@
         }
       };
 
+      const scheduleRender = () => {
+        if (renderFrame !== null) {
+          cancelAnimationFrame(renderFrame);
+        }
+
+        renderFrame = requestAnimationFrame(() => {
+          renderFrame = requestAnimationFrame(() => {
+            renderFrame = null;
+            renderWhenReady();
+
+            instances.forEach((chart) => chart.resize());
+          });
+        });
+      };
+
       if (charts.length > 0) {
-        renderWhenReady();
+        scheduleRender();
       }
 
       stopListening = $wire.on("inventory-dashboard-updated", (event) => {
         charts = event.charts;
-        renderWhenReady();
+        scheduleRender();
       });
+
+      document.addEventListener("livewire:navigated", scheduleRender);
 
       document.addEventListener(
         "livewire:navigating",
         () => {
+          document.removeEventListener("livewire:navigated", scheduleRender);
+          if (renderFrame !== null) {
+            cancelAnimationFrame(renderFrame);
+          }
           stopListening();
           destroyCharts();
         },

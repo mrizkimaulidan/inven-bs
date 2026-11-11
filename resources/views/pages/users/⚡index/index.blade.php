@@ -106,6 +106,7 @@
                     <th>Nama Pengguna</th>
                     <th>Alamat Email</th>
                     <th>Ditambahkan Pada</th>
+                    <th class="text-center">Aksi</th>
                 </tr>
             </x-slot:thead>
 
@@ -135,36 +136,41 @@
                                     class="mr-1"
                                 />
                             </div>
-                            <div class="table-links">
-                                @can('ubah pengguna')
-                                    <a
-                                        href="#"
-                                        wire:click="$dispatch('showModal', {modalName: 'edit', params: {id: {{ $user->id }}}})"
-                                        class="btn btn-sm btn-outline-success"
-                                        title="Ubah"
-                                    >
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                @endcan
-                                @can('hapus pengguna')
-                                    <a
-                                        wire:click="destroy({{ $user->id }})"
-                                        class="btn btn-sm btn-outline-danger"
-                                        title="Hapus"
-                                    >
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                @endcan
-                            </div>
                         </td>
                         <td><div class="font-weight-bold">{{ Str::mask($user->email, '*', 3) }}</div></td>
                         <td>
                             <div class="font-weight-bold">{{ $user->created_at->translatedFormat('d F Y H:i') }}</div>
                         </td>
+                        <td class="text-center align-middle">
+                            <div class="btn-group table-action-group" role="group" aria-label="Aksi pengguna">
+                                @can('ubah pengguna')
+                                    <x-button
+                                        label=""
+                                        icon="fa-edit"
+                                        variant="success"
+                                        class="btn-sm"
+                                        wire:click="$dispatch('showModal', {modalName: 'edit', params: {id: {{ $user->id }}}})"
+                                        aria-label="Ubah pengguna"
+                                        title="Ubah"
+                                    />
+                                @endcan
+                                @can('hapus pengguna')
+                                    <x-button
+                                        label=""
+                                        icon="fa-trash"
+                                        variant="danger"
+                                        class="btn-sm"
+                                        wire:click="destroy({{ $user->id }})"
+                                        aria-label="Hapus pengguna"
+                                        title="Hapus"
+                                    />
+                                @endcan
+                            </div>
+                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <x-empty-state :search="$this->search" colspan="4" />
+                        <x-empty-state :search="$this->search" colspan="5" />
                     </tr>
                 @endforelse
             </x-slot:tbody>

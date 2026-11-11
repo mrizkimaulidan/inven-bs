@@ -336,6 +336,7 @@
                     <th>Jumlah</th>
                     <th>Harga</th>
                     <th>Kondisi</th>
+                    <th class="text-center">Aksi</th>
                 </tr>
             </x-slot:thead>
 
@@ -382,83 +383,6 @@
                                     class="mb-1"
                                 />
                             </div>
-
-                            <div class="table-links">
-                                @if ($commodity->qr_code)
-                                    @can('detail barang')
-                                        <a
-                                            wire:click="$dispatch('showModal', {modalName: 'qrcode', params: {qrcode: @js($commodity->qr_code)}})"
-                                            class="btn btn-sm btn-outline-dark"
-                                            data-toggle="tooltip"
-                                            data-placement="top"
-                                            title="Kode QR"
-                                        >
-                                            <i class="fas fa-qrcode"></i>
-                                        </a>
-                                    @endcan
-                                @else
-                                    @can('ubah barang')
-                                        <a
-                                            wire:click="generateQrCode({{ $commodity->id }})"
-                                            class="btn btn-sm btn-outline-dark"
-                                            data-toggle="tooltip"
-                                            data-placement="top"
-                                            title="Buat Kode QR"
-                                        >
-                                            <i class="fas fa-spinner"></i>
-                                        </a>
-                                    @endcan
-                                @endif
-
-                                @can('detail barang')
-                                    <a
-                                        wire:click="$dispatch('showModal', {modalName: 'show', params: {id: {{ $commodity->id }}}})"
-                                        class="btn btn-sm btn-outline-info"
-                                        data-toggle="tooltip"
-                                        data-placement="top"
-                                        title="Detail"
-                                    >
-                                        <i class="fas fa-search"></i>
-                                    </a>
-                                @endcan
-                                @can('ubah barang')
-                                    <a
-                                        wire:navigate
-                                        href="/barang/{{ $commodity->id }}/ubah"
-                                        class="btn btn-sm btn-outline-success"
-                                        data-toggle="tooltip"
-                                        data-placement="top"
-                                        title="Ubah"
-                                    >
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                @endcan
-                                @can('print barang')
-                                    <a
-                                        href="/barang/{{ $commodity->qr_code }}/pdf"
-                                        class="btn btn-sm btn-outline-secondary"
-                                        data-toggle="tooltip"
-                                        data-placement="top"
-                                        title="Cetak"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <i class="fas fa-print"></i>
-                                    </a>
-                                @endcan
-                                @can('hapus barang')
-                                    <a
-                                        href="#"
-                                        wire:click="destroy({{ $commodity->id }})"
-                                        class="btn btn-sm btn-outline-danger"
-                                        data-toggle="tooltip"
-                                        data-placement="top"
-                                        title="Hapus"
-                                    >
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                @endcan
-                            </div>
                         </td>
 
                         <td class="align-middle">
@@ -467,15 +391,23 @@
                         </td>
 
                         <td class="text-center align-middle">
+                            @php
+                                $imagePath = $commodity->image;
+                                $hasStoredImage = filled($imagePath) && Storage::disk('public')->exists($imagePath);
+                                $hasPublicImage = filled($imagePath) && file_exists(public_path($imagePath));
+                                $imageUrl = $hasStoredImage
+                                    ? Storage::url($imagePath)
+                                    : ($hasPublicImage ? asset($imagePath) : 'https://placehold.co/96x72?text=No+Picture');
+                            @endphp
                             <img
-                                alt="image"
-                                src="https://picsum.photos/50/50?random={{ $commodity->id }}"
-                                class="rounded-circle border"
-                                width="45"
-                                height="45"
+                                alt="{{ $hasStoredImage || $hasPublicImage ? 'Foto '.$commodity->name : 'No Picture' }}"
+                                src="{{ $imageUrl }}"
+                                class="rounded border"
+                                width="96"
+                                height="72"
                                 style="object-fit: cover"
-                                data-toggle="tooltip"
-                                title="Klik untuk melihat gambar"
+                                loading="lazy"
+                                decoding="async"
                             />
                         </td>
 
@@ -510,10 +442,95 @@
                                 {{ $commodity->condition->label() }}
                             </span>
                         </td>
+                        <td class="text-center align-middle">
+                            <div class="btn-group table-action-group" role="group" aria-label="Aksi barang">
+                                @if ($commodity->qr_code)
+                                    @can('detail barang')
+                                        <x-button
+                                            label=""
+                                            icon="fa-qrcode"
+                                            variant="dark"
+                                            class="btn-sm"
+                                            wire:click="$dispatch('showModal', {modalName: 'qrcode', params: {qrcode: @js($commodity->qr_code)}})"
+                                            aria-label="Lihat kode QR barang"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="Kode QR"
+                                        />
+                                    @endcan
+                                @else
+                                    @can('ubah barang')
+                                        <x-button
+                                            label=""
+                                            icon="fa-spinner"
+                                            variant="dark"
+                                            class="btn-sm"
+                                            wire:click="generateQrCode({{ $commodity->id }})"
+                                            aria-label="Buat kode QR barang"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="Buat Kode QR"
+                                        />
+                                    @endcan
+                                @endif
+
+                                @can('detail barang')
+                                    <x-button
+                                        label=""
+                                        icon="fa-search"
+                                        variant="info"
+                                        class="btn-sm"
+                                        wire:click="$dispatch('showModal', {modalName: 'show', params: {id: {{ $commodity->id }}}})"
+                                        aria-label="Detail barang"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Detail"
+                                    />
+                                @endcan
+                                @can('ubah barang')
+                                    <a
+                                        wire:navigate
+                                        href="/barang/{{ $commodity->id }}/ubah"
+                                        class="btn btn-sm btn-success"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Ubah"
+                                    >
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                @endcan
+                                @can('print barang')
+                                    <a
+                                        href="/barang/{{ $commodity->qr_code }}/pdf"
+                                        class="btn btn-sm btn-secondary"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Cetak"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <i class="fas fa-print"></i>
+                                    </a>
+                                @endcan
+                                @can('hapus barang')
+                                    <x-button
+                                        label=""
+                                        icon="fa-trash"
+                                        variant="danger"
+                                        class="btn-sm"
+                                        wire:click="destroy({{ $commodity->id }})"
+                                        aria-label="Hapus barang"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Hapus"
+                                    />
+                                @endcan
+                            </div>
+                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <x-empty-state :search="$this->search" colspan="8" />
+                        <x-empty-state :search="$this->search" colspan="9" />
                     </tr>
                 @endforelse
             </x-slot:tbody>

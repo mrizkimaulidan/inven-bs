@@ -124,6 +124,7 @@
                         </div>
                     </th>
                     <th>Nama Merek</th>
+                    <th class="text-center">Aksi</th>
                 </tr>
             </x-slot:thead>
 
@@ -176,39 +177,43 @@
                                     variant="danger"
                                 />
                             </div>
-
-                            <div class="table-links">
+                        </td>
+                        <td class="text-center align-middle">
+                            <div class="btn-group table-action-group" role="group" aria-label="Aksi merek">
                                 @can('detail merek')
-                                    <a
-                                        href="#"
+                                    <x-button
+                                        label=""
+                                        icon="fa-search"
+                                        variant="info"
+                                        class="btn-sm"
                                         wire:click="$dispatch('showModal', {modalName: 'show', params: {id: {{ $brand->id }}}})"
-                                        class="btn btn-sm btn-outline-info"
+                                        aria-label="Detail merek"
                                         title="Detail"
-                                    >
-                                        <i class="fas fa-search"></i>
-                                    </a>
+                                    />
                                 @endcan
                                 @can('ubah merek')
-                                    <a
-                                        href="#"
+                                    <x-button
+                                        label=""
+                                        icon="fa-edit"
+                                        variant="success"
+                                        class="btn-sm"
                                         wire:click="$dispatch('showModal', {modalName: 'edit', params: {id: {{ $brand->id }}}})"
-                                        class="btn btn-sm btn-outline-success"
+                                        aria-label="Ubah merek"
                                         title="Ubah"
-                                    >
-                                        <i class="fas fa-edit"></i>
-                                    </a>
+                                    />
                                 @endcan
                                 @can('hapus merek')
-                                    <a
-                                        href="#"
+                                    <x-button
+                                        label=""
+                                        icon="fa-trash"
+                                        variant="danger"
+                                        class="btn-sm"
                                         wire:click="destroy({{ $brand->id }})"
-                                        class="btn btn-sm btn-outline-danger"
+                                        aria-label="Hapus merek"
                                         data-toggle="tooltip"
                                         data-placement="top"
                                         title="Hapus"
-                                    >
-                                        <i class="fas fa-trash"></i>
-                                    </a>
+                                    />
                                 @endcan
                             </div>
                         </td>

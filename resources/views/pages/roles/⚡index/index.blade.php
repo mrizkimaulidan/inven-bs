@@ -88,6 +88,7 @@
                         </div>
                     </th>
                     <th>Nama Peran</th>
+                    <th class="text-center">Aksi</th>
                 </tr>
             </x-slot:thead>
 
@@ -126,29 +127,31 @@
                                     class="mr-1"
                                 />
                             </div>
-
-                            <div class="table-links">
+                        </td>
+                        <td class="text-center align-middle">
+                            <div class="btn-group table-action-group" role="group" aria-label="Aksi peran">
                                 @can('ubah peran')
                                     <a
                                         wire:navigate
                                         href="/peran-dan-hak-akses/{{ $role->id }}/ubah"
-                                        class="btn btn-sm btn-outline-success"
+                                        class="btn btn-sm btn-success"
                                         title="Ubah"
                                     >
                                         <i class="fas fa-edit"></i>
                                     </a>
                                 @endcan
                                 @can('hapus peran')
-                                    <a
-                                        href="#"
+                                    <x-button
+                                        label=""
+                                        icon="fa-trash"
+                                        variant="danger"
+                                        class="btn-sm"
                                         wire:click="destroy({{ $role->id }})"
-                                        class="btn btn-sm btn-outline-danger"
+                                        aria-label="Hapus peran"
                                         data-toggle="tooltip"
                                         data-placement="top"
                                         title="Hapus"
-                                    >
-                                        <i class="fas fa-trash"></i>
-                                    </a>
+                                    />
                                 @endcan
                             </div>
                         </td>

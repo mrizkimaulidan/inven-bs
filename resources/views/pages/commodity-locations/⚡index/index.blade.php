@@ -131,6 +131,7 @@
                     </th>
                     <th>Nama Ruangan</th>
                     <th>Deskripsi</th>
+                    <th class="text-center">Aksi</th>
                 </tr>
             </x-slot:thead>
 
@@ -184,51 +185,55 @@
                                     variant="danger"
                                 />
                             </div>
-
-                            <div class="table-links">
-                                @can('detail ruangan')
-                                    <a
-                                        href="#"
-                                        wire:click="$dispatch('showModal', {modalName: 'show', params: {id: {{ $location->id }}}})"
-                                        class="btn btn-sm btn-outline-info"
-                                        title="Detail"
-                                    >
-                                        <i class="fas fa-search"></i>
-                                    </a>
-                                @endcan
-                                @can('ubah ruangan')
-                                    <a
-                                        href="#"
-                                        wire:click="$dispatch('showModal', {modalName: 'edit', params: {id: {{ $location->id }}}})"
-                                        class="btn btn-sm btn-outline-success"
-                                        title="Ubah"
-                                    >
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                @endcan
-                                @can('hapus ruangan')
-                                    <a
-                                        href="#"
-                                        wire:click="destroy({{ $location->id }})"
-                                        class="btn btn-sm btn-outline-danger"
-                                        data-toggle="tooltip"
-                                        data-placement="top"
-                                        title="Hapus"
-                                    >
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                @endcan
-                            </div>
                         </td>
 
                         {{-- Deskripsi --}}
                         <td class="py-3 align-middle">
                             <span class="text-muted">{{ $location->description ?: '—' }}</span>
                         </td>
+                        <td class="text-center align-middle">
+                            <div class="btn-group table-action-group" role="group" aria-label="Aksi ruangan">
+                                @can('detail ruangan')
+                                    <x-button
+                                        label=""
+                                        icon="fa-search"
+                                        variant="info"
+                                        class="btn-sm"
+                                        wire:click="$dispatch('showModal', {modalName: 'show', params: {id: {{ $location->id }}}})"
+                                        aria-label="Detail ruangan"
+                                        title="Detail"
+                                    />
+                                @endcan
+                                @can('ubah ruangan')
+                                    <x-button
+                                        label=""
+                                        icon="fa-edit"
+                                        variant="success"
+                                        class="btn-sm"
+                                        wire:click="$dispatch('showModal', {modalName: 'edit', params: {id: {{ $location->id }}}})"
+                                        aria-label="Ubah ruangan"
+                                        title="Ubah"
+                                    />
+                                @endcan
+                                @can('hapus ruangan')
+                                    <x-button
+                                        label=""
+                                        icon="fa-trash"
+                                        variant="danger"
+                                        class="btn-sm"
+                                        wire:click="destroy({{ $location->id }})"
+                                        aria-label="Hapus ruangan"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Hapus"
+                                    />
+                                @endcan
+                            </div>
+                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <x-empty-state :search="$this->search" colspan="3" />
+                        <x-empty-state :search="$this->search" colspan="4" />
                     </tr>
                 @endforelse
             </x-slot:tbody>

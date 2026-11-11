@@ -10,7 +10,7 @@
 >
     {{-- Optional button icon --}}
     @if ($icon)
-        <i class="fas {{ $icon }} mr-1"></i>
+        <i class="fas {{ $icon }} {{ $label !== '' ? 'mr-1' : '' }}"></i>
     @endif
 
     {{ $label }}
