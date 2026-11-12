@@ -19,7 +19,7 @@ class CommodityController extends Controller
     {
         $url = route('verifikasi.barang', $commodity->qr_code);
 
-        $qrCode = QrCode::format('png')->size(120)->generate($url);
+        $qrCode = QrCode::format('png')->size(120)->color(0, 0, 0, 100)->generate($url);
 
         return Pdf::loadView('commodities.pdf', compact('commodity', 'qrCode'))
             ->setPaper('a4')
@@ -44,7 +44,7 @@ class CommodityController extends Controller
             }
 
             $url = route('verifikasi.barang', $commodity->qr_code);
-            $qrCodes[$commodity->id] = QrCode::format('png')->size(120)->generate($url);
+            $qrCodes[$commodity->id] = QrCode::format('png')->size(120)->color(0, 0, 0, 100)->generate($url);
         }
 
         return Pdf::loadView('commodities.pdf-multiple', compact('commodities', 'qrCodes'))
