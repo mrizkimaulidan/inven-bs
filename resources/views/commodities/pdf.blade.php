@@ -2,7 +2,6 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Detail Barang</title>
     <style>
         @page {
@@ -12,10 +11,15 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
         }
 
         table {
+            width: 55%;
             margin: 0 auto;
+            table-layout: fixed;
             border-collapse: collapse;
         }
 
@@ -24,10 +28,14 @@
             border: 1px solid #000;
             padding: 8px;
             text-align: center;
+            word-wrap: break-word;
         }
 
-        th {
-            width: 35%;
+        .qr-wrapper img {
+            width: 120px;
+            height: 120px;
+            display: block;
+            margin: 0 auto;
         }
 
         .scan-hint {
@@ -44,6 +52,10 @@
 </head>
 <body>
     <table>
+        <colgroup>
+            <col style="width: 35%" />
+            <col style="width: 65%" />
+        </colgroup>
         <tbody>
             <tr>
                 <th>Kode Barang</th>
@@ -55,13 +67,17 @@
             </tr>
             <tr>
                 <th>Asal Perolehan</th>
-                <td>{{ $commodity->commodityFundingSource->name }}</td>
+                <td>{{ $commodity->commodityFundingSource->name ?? '-' }}</td>
             </tr>
             <tr>
                 <th>QR Code</th>
-                <td>
-                    {{ $qrCode }}
-                    <div class="scan-hint">Scan untuk verifikasi</div>
+                <td class="qr-wrapper">
+                    @if ($qrCode !== null)
+                        {{ $qrCode }}
+                        <div class="scan-hint">Scan untuk verifikasi</div>
+                    @else
+                        -
+                    @endif
                 </td>
             </tr>
         </tbody>

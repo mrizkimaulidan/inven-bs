@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Akira\QrCode\Facades\QrCode;
 use App\Models\Commodity;
+use App\Services\QrCodeService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Symfony\Component\HttpFoundation\Response;
 
 class CommodityController extends Controller
 {
+    public function __construct(
+        private readonly QrCodeService $qrCodeService,
+    ) {}
+
     /**
      * Generate and download a PDF document for a single commodity.
      *
@@ -17,9 +21,7 @@ class CommodityController extends Controller
      */
     public function generatePdf(Commodity $commodity): Response
     {
-        $url = route('verifikasi.barang', $commodity->qr_code);
-
-        $qrCode = QrCode::format('png')->size(120)->color(0, 0, 0, 100)->generate($url);
+        $qrCode = $this->qrCodeService->forPdf($commodity->qr_code);
 
         return Pdf::loadView('commodities.pdf', compact('commodity', 'qrCode'))
             ->setPaper('a4')
@@ -43,8 +45,7 @@ class CommodityController extends Controller
                 continue;
             }
 
-            $url = route('verifikasi.barang', $commodity->qr_code);
-            $qrCodes[$commodity->id] = QrCode::format('png')->size(120)->color(0, 0, 0, 100)->generate($url);
+            $qrCodes[$commodity->id] = $this->qrCodeService->forPdf($commodity->qr_code);
         }
 
         return Pdf::loadView('commodities.pdf-multiple', compact('commodities', 'qrCodes'))
