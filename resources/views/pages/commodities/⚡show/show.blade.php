@@ -6,7 +6,7 @@
             {{-- Left column --}}
             <div class="col-md-5 mb-md-0 mb-3">
                 <img
-                    src="{{ Storage::disk('public')->exists($commodity->image) ? Storage::url($commodity->image) : asset($commodity->image) }}"
+                    src="{{ Storage::disk('public')->exists($commodity->image) ? Storage::url($commodity->image) : 'https://placehold.co/96x72?text=No+Picture' }}"
                     alt="Foto Barang"
                     class="img-fluid w-100 rounded border"
                     style="height: 280px; object-fit: cover"

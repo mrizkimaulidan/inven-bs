@@ -64,7 +64,7 @@ new class extends Component
          */ $path = $this->commodity->image;
 
         return $path
-            ? (Storage::disk('public')->exists($path) ? Storage::url($path) : asset($path))
+            ? (Storage::disk('public')->exists($path) ? Storage::url($path) : 'https://placehold.co/96x72?text=No+Picture')
             : null;
     }
 
