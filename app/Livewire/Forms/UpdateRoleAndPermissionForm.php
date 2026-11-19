@@ -3,10 +3,10 @@
 namespace App\Livewire\Forms;
 
 use App\Livewire\Concerns\AuthorizesModulePermissions;
+use App\Models\Role;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
-use Spatie\Permission\Models\Role;
 
 /**
  * Validate role changes and synchronize the role's assigned permissions.
@@ -49,7 +49,7 @@ class UpdateRoleAndPermissionForm extends Form
 
         $this->role->update($validated);
 
-        $this->role->syncPermissions($validated['permissions']);
+        $this->role->syncPermissionsWithLog($validated['permissions']);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 use App\Livewire\Concerns\WithBulkDelete;
 use App\Livewire\Concerns\WithModal;
+use App\Models\Role;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Computed;
@@ -9,7 +10,6 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Spatie\Permission\Models\Role;
 
 /**
  * Provide the roles listing, filters, pagination, and record actions.

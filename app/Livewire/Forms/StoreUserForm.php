@@ -3,10 +3,10 @@
 namespace App\Livewire\Forms;
 
 use App\Livewire\Concerns\AuthorizesModulePermissions;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Form;
-use Spatie\Permission\Models\Role;
 
 /**
  * Validate user details and save the account with its selected roles.
@@ -60,7 +60,7 @@ class StoreUserForm extends Form
             'password' => $validated['password'],
         ]);
 
-        $user->assignRole($this->role_id);
+        $user->syncRoleWithLog($role);
 
         return $user;
     }

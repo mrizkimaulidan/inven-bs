@@ -43,7 +43,7 @@
                     @endcan
                     @can('print peran')
                         <a
-                            href="{{ route('peran.pdf') }}"
+                            href="{{ route('peran-dan-hak-akses.pdf') }}"
                             class="btn btn-secondary mr-2 mb-2"
                             target="_blank"
                             rel="noopener noreferrer"

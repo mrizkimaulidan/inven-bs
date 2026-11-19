@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\HasLogActivity;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 ])]
 class Brand extends Model
 {
-    use HasFactory;
+    use HasFactory, HasLogActivity;
 
     /**
      * Get the commodities associated with the brand.

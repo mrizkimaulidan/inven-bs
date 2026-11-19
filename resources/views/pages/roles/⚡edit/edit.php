@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 use App\Livewire\Forms\UpdateRoleAndPermissionForm;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 /**
  * Load a role, synchronize permission selection, and save its changes.

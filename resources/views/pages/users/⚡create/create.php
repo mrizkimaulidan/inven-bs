@@ -1,10 +1,10 @@
 <?php
 
 use App\Livewire\Forms\StoreUserForm;
+use App\Models\Role;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Spatie\Permission\Models\Role;
 
 /**
  * Load assignable roles and create a user with the selected roles.

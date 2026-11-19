@@ -3,11 +3,11 @@
 namespace App\Livewire\Forms;
 
 use App\Livewire\Concerns\AuthorizesModulePermissions;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Form;
-use Spatie\Permission\Models\Role;
 
 /**
  * Validate user changes and synchronize the user's assigned role.
@@ -80,7 +80,7 @@ class UpdateUserForm extends Form
         $this->user->update($userData);
 
         if ($roleToAssign !== null) {
-            $this->user->syncRoles($roleToAssign);
+            $this->user->syncRoleWithLog($roleToAssign);
         }
 
         return $this->user;

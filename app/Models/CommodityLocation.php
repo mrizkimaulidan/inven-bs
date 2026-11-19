@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\HasLogActivity;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 ])]
 class CommodityLocation extends Model
 {
-    use HasFactory;
+    use HasFactory, HasLogActivity;
 
     /**
      * Get the commodities associated with the location.

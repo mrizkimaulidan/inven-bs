@@ -3,9 +3,9 @@
 namespace App\Livewire\Forms;
 
 use App\Livewire\Concerns\AuthorizesModulePermissions;
+use App\Models\Role;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
-use Spatie\Permission\Models\Role;
 
 /**
  * Validate role details and save the selected permission assignments.
@@ -45,7 +45,7 @@ class StoreRoleAndPermissionForm extends Form
             'guard_name' => 'web',
         ]);
 
-        $role->syncPermissions($validated['permissions']);
+        $role->syncPermissionsWithLog($validated['permissions']);
     }
 
     /**

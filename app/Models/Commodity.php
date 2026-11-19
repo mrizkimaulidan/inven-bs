@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\CommodityCondition;
+use App\HasLogActivity;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
@@ -33,7 +34,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 ])]
 class Commodity extends Model
 {
-    use HasFactory;
+    use HasFactory, HasLogActivity;
 
     /**
      * Get the attributes that should be cast.
