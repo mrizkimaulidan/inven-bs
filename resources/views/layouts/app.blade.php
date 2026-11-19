@@ -190,12 +190,12 @@
                         @endcan
 
                         <li class="menu-header">Pengaturan</li>
-                        <li @class(['active' => request()->routeIs('pengaturan/profil')])>
+                        <li @class(['active' => request()->routeIs('profil.index')])>
                             <a wire:navigate class="nav-link" href="/pengaturan/profil"
                                 ><i class="fas fa-gear"></i> <span>Pengaturan Profil</span></a>
                         </li>
                         @can('lihat peran')
-                            <li @class(['active' => request()->routeIs('peran-dan-hak-akses')])>
+                            <li @class(['active' => request()->routeIs('peran-dan-hak-akses.*')])>
                                 <a wire:navigate class="nav-link" href="/peran-dan-hak-akses"
                                     ><i class="fas fa-user-shield"></i> <span>Peran & Hak Akses</span></a>
                             </li>

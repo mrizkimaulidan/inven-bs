@@ -96,7 +96,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // Profile
-    Route::livewire('/pengaturan/profil', 'pages::settings.profile')->name('profil');
+    Route::livewire('/pengaturan/profil', 'pages::settings.profile')->name('profil.index');
 
     // Roles and permissions
     Route::prefix('peran-dan-hak-akses')->name('peran-dan-hak-akses.')->group(function () {
