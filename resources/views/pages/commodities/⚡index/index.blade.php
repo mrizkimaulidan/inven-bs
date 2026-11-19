@@ -62,6 +62,7 @@
             <x-statistic-card
                 icon="fas fa-exclamation-circle"
                 bg-color="warning"
+                class="text-dark"
                 title="Kondisi Kurang Baik"
                 :value="$this->conditionCounts['poor']"
             />
@@ -95,7 +96,7 @@
                             wire:click="$dispatch('showModal', {modalName: 'export'})"
                             icon="fa-file-export"
                             label="Ekspor"
-                            variant="info"
+                            variant="primary"
                             class="mr-2 mb-2"
                         />
                     @endcan
@@ -127,6 +128,8 @@
                         label="Muat Ulang"
                         variant="light"
                         class="mb-2"
+                        wire:loading.attr="disabled"
+                        wire:target="$refresh"
                         data-toggle="tooltip"
                         title="Muat Ulang"
                     />
@@ -263,6 +266,8 @@
                             wire:model.live.debounce.500ms="filters.price_min"
                             placeholder="Min."
                             min="0"
+                            step="any"
+                            inputmode="numeric"
                         />
                         <div class="input-group-prepend">
                             <span class="input-group-text">-</span>
@@ -273,6 +278,8 @@
                             wire:model.live.debounce.500ms="filters.price_max"
                             placeholder="Maks."
                             min="0"
+                            step="any"
+                            inputmode="numeric"
                         />
                     </div>
                 </div>
@@ -286,6 +293,8 @@
                             wire:model.live.debounce.500ms="filters.quantity_min"
                             placeholder="Min."
                             min="0"
+                            step="1"
+                            inputmode="numeric"
                         />
                         <div class="input-group-prepend">
                             <span class="input-group-text">-</span>
@@ -296,6 +305,8 @@
                             wire:model.live.debounce.500ms="filters.quantity_max"
                             placeholder="Maks."
                             min="0"
+                            step="1"
+                            inputmode="numeric"
                         />
                     </div>
                 </div>
@@ -326,7 +337,7 @@
                                 id="checkbox-all"
                                 wire:model.live="selectAll"
                             />
-                            <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
+                            <label for="checkbox-all" class="custom-control-label" aria-hidden="true"></label>
                         </div>
                     </th>
                     <th>Nama Barang</th>
@@ -353,7 +364,11 @@
                                     wire:model.live="selected"
                                     value="{{ $commodity->id }}"
                                 />
-                                <label for="checkbox-{{ $commodity->id }}" class="custom-control-label">&nbsp;</label>
+                                <label
+                                    for="checkbox-{{ $commodity->id }}"
+                                    class="custom-control-label"
+                                    aria-hidden="true"
+                                ></label>
                             </div>
                         </td>
 
@@ -379,7 +394,7 @@
                                 <x-badge
                                     :label="$commodity->commodityFundingSource->name"
                                     icon="fa-hand-holding"
-                                    variant="info"
+                                    variant="primary"
                                     class="mb-1"
                                 />
                             </div>
@@ -446,7 +461,8 @@
                             <div class="btn-group table-action-group" role="group" aria-label="Aksi barang">
                                 @if ($commodity->qr_code)
                                     @can('detail barang')
-                                        <a
+                                        <button
+                                            type="button"
                                             wire:click="$dispatch('showModal', {modalName: 'qrcode', params: {qrcode: @js($commodity->qr_code)}})"
                                             class="btn btn-sm btn-dark"
                                             aria-label="Lihat kode QR barang"
@@ -455,20 +471,27 @@
                                             title="Kode QR"
                                         >
                                             <i class="fas fa-qrcode"></i>
-                                        </a>
+                                        </button>
                                     @endcan
                                 @else
                                     @can('ubah barang')
-                                        <a
+                                        <button
+                                            type="button"
                                             wire:click="generateQrCode({{ $commodity->id }})"
+                                            wire:loading.attr="disabled"
+                                            wire:target="generateQrCode({{ $commodity->id }})"
                                             class="btn btn-sm btn-dark"
                                             aria-label="Buat kode QR barang"
                                             data-toggle="tooltip"
                                             data-placement="top"
                                             title="Buat Kode QR"
                                         >
-                                            <i class="fas fa-spinner"></i>
-                                        </a>
+                                            <i
+                                                class="fas fa-spinner"
+                                                wire:loading.class="fa-spin"
+                                                wire:target="generateQrCode({{ $commodity->id }})"
+                                            ></i>
+                                        </button>
                                     @endcan
                                 @endif
 
@@ -517,6 +540,9 @@
                                         variant="danger"
                                         class="btn-sm"
                                         wire:click="destroy({{ $commodity->id }})"
+                                        wire:confirm="Yakin ingin menghapus barang '{{ $commodity->name }}'?"
+                                        wire:loading.attr="disabled"
+                                        wire:target="destroy"
                                         aria-label="Hapus barang"
                                         data-toggle="tooltip"
                                         data-placement="top"

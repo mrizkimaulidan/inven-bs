@@ -1,14 +1,14 @@
 <div>
-    {{-- Modals --}}
+    {{-- Modal dialogs --}}
     @if ($activeModal === 'export')
         @teleport('body')
-            <livewire:pages::users.export />
+            <livewire:pages::users.export wire:key="modal-export" />
         @endteleport
     @endif
 
     @if ($activeModal === 'create')
         @teleport('body')
-            <livewire:pages::users.create />
+            <livewire:pages::users.create wire:key="modal-create" />
         @endteleport
     @endif
 
@@ -30,17 +30,16 @@
 
     {{-- Listing page --}}
     <x-page :searchable="true">
-        {{-- Toolbar --}}
         {{-- Toolbar actions --}}
         <x-slot:toolbar>
-            <div class="d-flex justify-content-between align-items-center flex-wrap pb-3">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
                 <div class="d-flex flex-wrap">
                     @can('ekspor pengguna')
                         <x-button
                             wire:click="$dispatch('showModal', {modalName: 'export'})"
                             icon="fa-file-export"
                             label="Ekspor"
-                            variant="info"
+                            variant="primary"
                             class="mr-2 mb-2"
                         />
                     @endcan
@@ -58,10 +57,11 @@
                         <a
                             href="{{ route('pengguna.pdf') }}"
                             class="btn btn-secondary mr-2 mb-2"
+                            title="Cetak"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <i class="fas fa-print"></i>
+                            <i class="fas fa-print" aria-hidden="true"></i>
                             Cetak
                         </a>
                     @endcan
@@ -71,6 +71,8 @@
                         label="Muat Ulang"
                         variant="light"
                         class="mb-2"
+                        wire:loading.attr="disabled"
+                        wire:target="$refresh"
                         data-toggle="tooltip"
                         title="Muat Ulang"
                     />
@@ -81,32 +83,32 @@
                         icon="fa-plus-circle"
                         label="Tambah Data"
                         variant="primary"
-                        class="mb-2"
+                        class="mb-2 ml-auto"
                     />
                 @endcan
             </div>
         </x-slot:toolbar>
 
         {{-- Data table --}}
-        <x-table :paginator="$this->users">
+        <x-table :targets="[]" :paginator="$this->users">
             {{-- Table headings --}}
             <x-slot:thead>
                 <tr>
-                    <th class="text-center" style="width: 40px">
+                    <th scope="col" class="text-center" style="width: 40px">
                         <div class="custom-control custom-checkbox">
                             <input
                                 type="checkbox"
                                 class="custom-control-input"
                                 id="checkbox-all"
-                                wire:model.live="selectAll"
+                                wire:model.live.debounce.200ms="selectAll"
                             />
-                            <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
+                            <label for="checkbox-all" class="custom-control-label" aria-hidden="true"></label>
                         </div>
                     </th>
-                    <th>Nama Pengguna</th>
-                    <th>Alamat Email</th>
-                    <th>Ditambahkan Pada</th>
-                    <th class="text-center">Aksi</th>
+                    <th scope="col">Nama Pengguna</th>
+                    <th scope="col">Alamat Email</th>
+                    <th scope="col">Ditambahkan Pada</th>
+                    <th scope="col" class="text-center">Aksi</th>
                 </tr>
             </x-slot:thead>
 
@@ -114,33 +116,51 @@
             <x-slot:tbody>
                 @forelse ($this->users as $user)
                     <tr wire:key="user-{{ $user->id }}">
-                        <td class="text-center align-middle" style="width: 40px">
+                        {{-- Checkbox --}}
+                        <td class="text-center align-middle">
                             <div class="custom-control custom-checkbox">
                                 <input
                                     type="checkbox"
                                     class="custom-control-input"
                                     id="checkbox-{{ $user->id }}"
-                                    wire:model.live="selected"
+                                    wire:model.live.debounce.200ms="selected"
                                     value="{{ $user->id }}"
                                 />
-                                <label for="checkbox-{{ $user->id }}" class="custom-control-label">&nbsp;</label>
+                                <label
+                                    for="checkbox-{{ $user->id }}"
+                                    class="custom-control-label"
+                                    aria-hidden="true"
+                                ></label>
                             </div>
                         </td>
+
+                        {{-- Nama & badge peran --}}
                         <td class="py-3 align-middle">
                             <div class="font-weight-bold mb-2">{{ $user->name }}</div>
-                            <div class="d-flex align-items-center mb-3 flex-wrap">
-                                <x-badge
-                                    :label="$user->roles->first()->name"
-                                    icon="fa-shield-alt"
-                                    variant="primary"
-                                    class="mr-1"
-                                />
-                            </div>
+
+                            @if ($user->roles->isNotEmpty())
+                                <div class="d-flex align-items-center flex-wrap">
+                                    <x-badge
+                                        :label="$user->roles->first()->name"
+                                        icon="fa-shield-alt"
+                                        variant="primary"
+                                        class="mb-1"
+                                    />
+                                </div>
+                            @endif
                         </td>
-                        <td><div class="font-weight-bold">{{ Str::mask($user->email, '*', 3) }}</div></td>
-                        <td>
-                            <div class="font-weight-bold">{{ $user->created_at->translatedFormat('d F Y H:i') }}</div>
+
+                        {{-- Alamat Email --}}
+                        <td class="py-3 align-middle">
+                            <span class="font-weight-bold">{{ Str::mask($user->email, '*', 3) }}</span>
                         </td>
+
+                        {{-- Ditambahkan Pada --}}
+                        <td class="py-3 align-middle">
+                            <span class="text-muted">{{ $user->created_at->translatedFormat('d F Y H:i') }}</span>
+                        </td>
+
+                        {{-- Aksi --}}
                         <td class="text-center align-middle">
                             <div class="btn-group table-action-group" role="group" aria-label="Aksi pengguna">
                                 @can('ubah pengguna')
@@ -151,6 +171,8 @@
                                         class="btn-sm"
                                         wire:click="$dispatch('showModal', {modalName: 'edit', params: {id: {{ $user->id }}}})"
                                         aria-label="Ubah pengguna"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
                                         title="Ubah"
                                     />
                                 @endcan
@@ -161,7 +183,12 @@
                                         variant="danger"
                                         class="btn-sm"
                                         wire:click="destroy({{ $user->id }})"
+                                        wire:confirm="Yakin ingin menghapus pengguna '{{ $user->name }}'?"
+                                        wire:loading.attr="disabled"
+                                        wire:target="destroy"
                                         aria-label="Hapus pengguna"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
                                         title="Hapus"
                                     />
                                 @endcan

@@ -2,7 +2,7 @@
     {{-- Modal dialogs --}}
     @if ($activeModal === 'export')
         @teleport('body')
-            <livewire:pages::roles.export />
+            <livewire:pages::roles.export wire:key="modal-export" />
         @endteleport
     @endif
 
@@ -20,14 +20,14 @@
     <x-page :searchable="true">
         {{-- Toolbar actions --}}
         <x-slot:toolbar>
-            <div class="d-flex justify-content-between align-items-center flex-wrap pb-3">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
                 <div class="d-flex flex-wrap">
                     @can('ekspor peran')
                         <x-button
                             wire:click="$dispatch('showModal', {modalName: 'export'})"
                             icon="fa-file-export"
                             label="Ekspor"
-                            variant="info"
+                            variant="primary"
                             class="mr-2 mb-2"
                         />
                     @endcan
@@ -45,10 +45,11 @@
                         <a
                             href="{{ route('peran-dan-hak-akses.pdf') }}"
                             class="btn btn-secondary mr-2 mb-2"
+                            title="Cetak"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <i class="fas fa-print"></i>
+                            <i class="fas fa-print" aria-hidden="true"></i>
                             Cetak
                         </a>
                     @endcan
@@ -58,13 +59,15 @@
                         label="Muat Ulang"
                         variant="light"
                         class="mb-2"
+                        wire:loading.attr="disabled"
+                        wire:target="$refresh"
                         data-toggle="tooltip"
                         title="Muat Ulang"
                     />
                 </div>
                 @can('tambah peran')
-                    <a wire:navigate href="/peran-dan-hak-akses/tambah" class="btn btn-primary mb-2">
-                        <i class="fas fa-plus-circle"></i>
+                    <a wire:navigate href="/peran-dan-hak-akses/tambah" class="btn btn-primary mb-2 ml-auto">
+                        <i class="fas fa-plus-circle" aria-hidden="true"></i>
                         Tambah Data
                     </a>
                 @endcan
@@ -72,23 +75,23 @@
         </x-slot:toolbar>
 
         {{-- Data table --}}
-        <x-table :targets="['']" :paginator="$this->roles">
+        <x-table :targets="[]" :paginator="$this->roles">
             {{-- Table headings --}}
             <x-slot:thead>
                 <tr>
-                    <th class="text-center" style="width: 40px">
+                    <th scope="col" class="text-center" style="width: 40px">
                         <div class="custom-control custom-checkbox">
                             <input
                                 type="checkbox"
                                 class="custom-control-input"
                                 id="checkbox-all"
-                                wire:model.live="selectAll"
+                                wire:model.live.debounce.200ms="selectAll"
                             />
-                            <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
+                            <label for="checkbox-all" class="custom-control-label" aria-hidden="true"></label>
                         </div>
                     </th>
-                    <th>Nama Peran</th>
-                    <th class="text-center">Aksi</th>
+                    <th scope="col">Nama Peran</th>
+                    <th scope="col" class="text-center">Aksi</th>
                 </tr>
             </x-slot:thead>
 
@@ -97,37 +100,44 @@
                 @forelse ($this->roles as $role)
                     <tr wire:key="role-{{ $role->id }}">
                         {{-- Checkbox --}}
-                        <td class="text-center align-middle" style="width: 40px">
+                        <td class="text-center align-middle">
                             <div class="custom-control custom-checkbox">
                                 <input
                                     type="checkbox"
                                     class="custom-control-input"
                                     id="checkbox-{{ $role->id }}"
-                                    wire:model.live="selected"
+                                    wire:model.live.debounce.200ms="selected"
                                     value="{{ $role->id }}"
                                 />
-                                <label for="checkbox-{{ $role->id }}" class="custom-control-label">&nbsp;</label>
+                                <label
+                                    for="checkbox-{{ $role->id }}"
+                                    class="custom-control-label"
+                                    aria-hidden="true"
+                                ></label>
                             </div>
                         </td>
 
+                        {{-- Nama & badge informasi --}}
                         <td class="py-3 align-middle">
                             <div class="font-weight-bold mb-2">{{ $role->name }}</div>
 
-                            <div class="d-flex align-items-center mb-3 flex-wrap">
+                            <div class="d-flex align-items-center flex-wrap">
                                 <x-badge
                                     :label="'Hak Akses: '.$role->permissions_count"
                                     icon="fa-key"
                                     variant="primary"
-                                    class="mr-1"
+                                    class="mr-1 mb-1"
                                 />
                                 <x-badge
                                     :label="'Pengguna: '.$role->users_count"
                                     icon="fa-users"
                                     variant="info"
-                                    class="mr-1"
+                                    class="mb-1"
                                 />
                             </div>
                         </td>
+
+                        {{-- Aksi --}}
                         <td class="text-center align-middle">
                             <div class="btn-group table-action-group" role="group" aria-label="Aksi peran">
                                 @can('ubah peran')
@@ -135,9 +145,12 @@
                                         wire:navigate
                                         href="/peran-dan-hak-akses/{{ $role->id }}/ubah"
                                         class="btn btn-sm btn-success"
+                                        aria-label="Ubah peran"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
                                         title="Ubah"
                                     >
-                                        <i class="fas fa-edit"></i>
+                                        <i class="fas fa-edit" aria-hidden="true"></i>
                                     </a>
                                 @endcan
                                 @can('hapus peran')
@@ -147,6 +160,9 @@
                                         variant="danger"
                                         class="btn-sm"
                                         wire:click="destroy({{ $role->id }})"
+                                        wire:confirm="Yakin ingin menghapus peran '{{ $role->name }}'?"
+                                        wire:loading.attr="disabled"
+                                        wire:target="destroy"
                                         aria-label="Hapus peran"
                                         data-toggle="tooltip"
                                         data-placement="top"

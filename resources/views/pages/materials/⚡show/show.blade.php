@@ -1,64 +1,84 @@
+```blade
 <x-modal title="Detail Bahan" size="lg">
     <x-slot:body>
-        {{-- Record details --}}
+        {{-- Informasi bahan --}}
         <div class="mb-4">
             <h4 class="font-weight-bold mb-2">{{ $material->name }}</h4>
         </div>
 
         <hr />
 
-        {{-- Related commodity statistics --}}
-        <h6 class="text-uppercase text-muted font-weight-bold mb-3">Statistik Barang</h6>
-
-        <div class="d-flex align-items-center mb-3 flex-wrap">
-            <x-badge :label="$material->commodities_count" icon="fa-boxes-alt" variant="info" class="mr-1" />
-            <x-badge :label="$material->good_conditions_count" icon="fa-check-circle" variant="success" class="mr-1" />
-            <x-badge
-                :label="$material->poor_conditions_count"
-                icon="fa-exclamation-circle"
-                variant="warning"
-                class="mr-1"
-            />
-            <x-badge :label="$material->heavily_damaged_conditions_count" variant="danger" icon="fa-circle-xmark" />
+        {{-- Statistik barang --}}
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="text-uppercase text-muted font-weight-bold mb-0">Statistik Barang</h6>
+            <small class="text-muted"> Ringkasan kondisi barang </small>
         </div>
 
-        <div class="row mt-4">
-            <div class="col-md-6">
-                <div class="d-flex justify-content-between align-items-center border-bottom py-2">
-                    <span>
-                        <i class="fas fa-boxes-alt text-primary mr-2"></i>
-                        Total Barang
-                    </span>
-                    <span class="badge badge-primary badge-pill">{{ $material->commodities_count }}</span>
+        <div class="row">
+            {{-- Total barang --}}
+            <div class="col-md-6 mb-3">
+                <div class="h-100 rounded border p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <small class="text-muted d-block mb-1"> Total Barang </small>
+                            <h4 class="font-weight-bold text-primary mb-0">
+                                {{ number_format($material->commodities_count, 0, ',', '.') }}
+                            </h4>
+                        </div>
+
+                        <i class="fas fa-boxes-alt fa-2x text-primary" aria-hidden="true"></i>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="d-flex justify-content-between align-items-center border-bottom py-2">
-                    <span>
-                        <i class="fas fa-check-circle text-success mr-2"></i>
-                        Kondisi Baik
-                    </span>
-                    <span class="badge badge-success badge-pill">{{ $material->good_conditions_count }}</span>
+
+            {{-- Kondisi baik --}}
+            <div class="col-md-6 mb-3">
+                <div class="h-100 rounded border p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <small class="text-muted d-block mb-1"> Kondisi Baik </small>
+                            <h4 class="font-weight-bold text-success mb-0">
+                                {{ number_format($material->good_conditions_count, 0, ',', '.') }}
+                            </h4>
+                        </div>
+
+                        <i class="fas fa-check-circle fa-2x text-success" aria-hidden="true"></i>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="d-flex justify-content-between align-items-center border-bottom py-2">
-                    <span>
-                        <i class="fas fa-exclamation-circle text-warning mr-2"></i>
-                        Kondisi Kurang Baik
-                    </span>
-                    <span class="badge badge-warning badge-pill">{{ $material->poor_conditions_count }}</span>
+
+            {{-- Kondisi kurang baik --}}
+            <div class="col-md-6 mb-3">
+                <div class="h-100 rounded border p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <small class="text-muted d-block mb-1"> Kondisi Kurang Baik </small>
+                            <h4 class="font-weight-bold text-warning mb-0">
+                                {{ number_format($material->poor_conditions_count, 0, ',', '.') }}
+                            </h4>
+                        </div>
+
+                        <i class="fas fa-exclamation-circle fa-2x text-warning" aria-hidden="true"></i>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="d-flex justify-content-between align-items-center border-bottom py-2">
-                    <span>
-                        <i class="fas fa-circle-xmark text-danger mr-2"></i>
-                        Rusak Berat
-                    </span>
-                    <span class="badge badge-danger badge-pill">{{ $material->heavily_damaged_conditions_count }}</span>
+
+            {{-- Rusak berat --}}
+            <div class="col-md-6 mb-3">
+                <div class="h-100 rounded border p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <small class="text-muted d-block mb-1"> Rusak Berat </small>
+                            <h4 class="font-weight-bold text-danger mb-0">
+                                {{ number_format($material->heavily_damaged_conditions_count, 0, ',', '.') }}
+                            </h4>
+                        </div>
+
+                        <i class="fas fa-times-circle fa-2x text-danger" aria-hidden="true"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </x-slot:body>
 </x-modal>
+```
