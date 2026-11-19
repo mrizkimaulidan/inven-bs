@@ -146,56 +146,56 @@
                     </div>
                     <ul class="sidebar-menu">
                         <li class="menu-header">Beranda</li>
-                        <li @class(['active' => request()->is('beranda')])>
+                        <li @class(['active' => request()->routeIs('beranda')])>
                             <a wire:navigate class="nav-link" href="/beranda"
                                 ><i class="fas fa-house"></i> <span>Beranda</span></a>
                         </li>
 
                         <li class="menu-header">Manajemen</li>
                         @can('lihat barang')
-                            <li @class(['active' => request()->is('barang')])>
+                            <li @class(['active' => request()->routeIs('barang.*')])>
                                 <a wire:navigate class="nav-link" href="/barang"
                                     ><i class="fas fa-boxes-stacked"></i> <span>Data Barang</span></a>
                             </li>
                         @endcan
                         @can('lihat perolehan')
-                            <li @class(['active' => request()->is('perolehan')])>
+                            <li @class(['active' => request()->routeIs('perolehan.*')])>
                                 <a wire:navigate class="nav-link" href="/perolehan"
                                     ><i class="fas fa-hand-holding"></i> <span>Data Perolehan</span></a>
                             </li>
                         @endcan
                         @can('lihat ruangan')
-                            <li @class(['active' => request()->is('ruangan')])>
+                            <li @class(['active' => request()->routeIs('ruangan.*')])>
                                 <a wire:navigate class="nav-link" href="/ruangan"
                                     ><i class="fas fa-map-location-dot"></i> <span>Data Ruangan</span></a>
                             </li>
                         @endcan
                         @can('lihat merek')
-                            <li @class(['active' => request()->is('merek')])>
+                            <li @class(['active' => request()->routeIs('merek.*')])>
                                 <a wire:navigate class="nav-link" href="/merek"
                                     ><i class="fas fa-tag"></i> <span>Data Merek</span></a>
                             </li>
                         @endcan
                         @can('lihat bahan')
-                            <li @class(['active' => request()->is('bahan')])>
+                            <li @class(['active' => request()->routeIs('bahan.*')])>
                                 <a wire:navigate class="nav-link" href="/bahan"
                                     ><i class="fas fa-cube"></i> <span>Data Bahan</span></a>
                             </li>
                         @endcan
                         @can('lihat pengguna')
-                            <li @class(['active' => request()->is('pengguna')])>
+                            <li @class(['active' => request()->routeIs('pengguna.*')])>
                                 <a wire:navigate class="nav-link" href="/pengguna"
                                     ><i class="fas fa-users"></i> <span>Data Pengguna</span></a>
                             </li>
                         @endcan
 
                         <li class="menu-header">Pengaturan</li>
-                        <li @class(['active' => request()->is('pengaturan/profil')])>
+                        <li @class(['active' => request()->routeIs('pengaturan/profil')])>
                             <a wire:navigate class="nav-link" href="/pengaturan/profil"
                                 ><i class="fas fa-gear"></i> <span>Pengaturan Profil</span></a>
                         </li>
                         @can('lihat peran')
-                            <li @class(['active' => request()->is('peran-dan-hak-akses')])>
+                            <li @class(['active' => request()->routeIs('peran-dan-hak-akses')])>
                                 <a wire:navigate class="nav-link" href="/peran-dan-hak-akses"
                                     ><i class="fas fa-user-shield"></i> <span>Peran & Hak Akses</span></a>
                             </li>
