@@ -20,7 +20,7 @@
             {{-- Commodity image --}}
             @if ($commodity->image)
                 <img
-                    src="{{ asset('storage/' . $commodity->image) }}"
+                    src="{{ Storage::disk('public')->exists($commodity->image) ? Storage::url($commodity->image) : 'https://placehold.co/96x72?text=No+Picture' }}"
                     alt="{{ $commodity->name }}"
                     class="img-fluid mb-4 w-100 rounded border"
                     style="height: 220px; object-fit: cover"
