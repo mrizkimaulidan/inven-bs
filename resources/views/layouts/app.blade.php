@@ -200,6 +200,13 @@
                                     ><i class="fas fa-user-shield"></i> <span>Peran & Hak Akses</span></a>
                             </li>
                         @endcan
+
+                        @can('lihat log aktivitas')
+                            <li @class(['active' => request()->routeIs('log-aktivitas.*')])>
+                                <a wire:navigate class="nav-link" href="/log-aktivitas"
+                                    ><i class="fas fa-clock-rotate-left"></i> <span>Log Aktivitas</span></a>
+                            </li>
+                        @endcan
                     </ul>
 
                     <div class="hide-sidebar-mini mt-4 mb-4 p-3">

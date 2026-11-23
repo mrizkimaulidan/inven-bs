@@ -19,7 +19,7 @@ class RoleAndPermissionSeeder extends Seeder
     {
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-        $menuNames = collect(['barang', 'perolehan', 'ruangan', 'merek', 'bahan', 'pengguna', 'peran']);
+        $menuNames = collect(['barang', 'perolehan', 'ruangan', 'merek', 'bahan', 'pengguna', 'peran', 'log aktivitas']);
         $actions = collect(['tambah', 'ubah', 'hapus', 'lihat', 'detail', 'impor', 'ekspor', 'print']);
 
         $menuNames->each(function (string $menu) use ($actions): void {
@@ -35,6 +35,7 @@ class RoleAndPermissionSeeder extends Seeder
         $staff->syncPermissions(
             Permission::whereNotLike('name', '% pengguna')
                 ->whereNotLike('name', '% peran')
+                ->whereNotLike('name', '% log aktivitas')
                 ->pluck('id')
         );
 

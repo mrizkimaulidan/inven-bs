@@ -98,6 +98,8 @@ Route::middleware('auth')->group(function () {
     // Profile
     Route::livewire('/pengaturan/profil', 'pages::settings.profile')->name('profil.index');
 
+    Route::livewire('/log-aktivitas', 'pages::activity-logs.index')->middleware('permission:lihat log aktivitas')->name('log-aktivitas.index');
+
     // Roles and permissions
     Route::prefix('peran-dan-hak-akses')->name('peran-dan-hak-akses.')->group(function () {
         Route::livewire('/', 'pages::roles.index')
