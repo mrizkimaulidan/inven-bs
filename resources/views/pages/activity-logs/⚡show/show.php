@@ -1,6 +1,9 @@
+
+
 <?php
 
 use App\Models\AuditLog;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 new class extends Component
@@ -19,5 +22,98 @@ new class extends Component
     public function mount(int $auditLogId): void
     {
         $this->auditLog = AuditLog::findOrFail($auditLogId);
+    }
+
+    /**
+     * Normalized diff rows ready for rendering.
+     *
+     * @return array<int, array{field: string, old: string, new: string}>
+     */
+    #[Computed]
+    public function diffItems(): array
+    {
+        $diff = $this->decodeJsonField($this->auditLog?->diff);
+
+        if (! is_array($diff) || $diff === []) {
+            return [];
+        }
+
+        $items = [];
+
+        foreach ($diff as $field => $changes) {
+            $oldVal = is_array($changes) ? ($changes['old'] ?? $changes['before'] ?? null) : null;
+            $newVal = is_array($changes) ? ($changes['new'] ?? $changes['after'] ?? $changes) : $changes;
+
+            $items[] = [
+                'field' => (string) $field,
+                'old' => $this->formatValue($oldVal),
+                'new' => $this->formatValue($newVal),
+            ];
+        }
+
+        return $items;
+    }
+
+    /**
+     * Pretty-printed JSON string for additional properties.
+     *
+     * @return ?string
+     */
+    #[Computed]
+    public function formattedProperties(): ?string
+    {
+        $properties = $this->decodeJsonField($this->auditLog?->properties);
+
+        if (empty($properties)) {
+            return null;
+        }
+
+        $encoded = json_encode($properties, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        return $encoded !== false ? $encoded : null;
+    }
+
+    /**
+     * Decode array or JSON string field safely.
+     *
+     * @param  mixed  $value
+     * @return mixed
+     */
+    private function decodeJsonField(mixed $value): mixed
+    {
+        if (is_array($value)) {
+            return $value;
+        }
+
+        if (! is_string($value) || trim($value) === '') {
+            return null;
+        }
+
+        $decoded = json_decode($value, true);
+
+        return json_last_error() === JSON_ERROR_NONE ? $decoded : null;
+    }
+
+    /**
+     * Format a diff value for display.
+     *
+     * @param  mixed  $val
+     * @return string
+     */
+    private function formatValue(mixed $val): string
+    {
+        if (is_null($val)) {
+            return '-';
+        }
+
+        if (is_bool($val)) {
+            return $val ? 'true' : 'false';
+        }
+
+        if (is_scalar($val)) {
+            return (string) $val;
+        }
+
+        return json_encode($val, JSON_UNESCAPED_UNICODE) ?: '-';
     }
 };
