@@ -89,6 +89,20 @@
             </div>
         </x-slot:toolbar>
 
+        <x-filter-accordion id="filter-accordion" title="Filter Data" :active-filters-count="$this->activeFiltersCount">
+            {{-- Filter: Select Inputs --}}
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                    <x-select name="filters.role" label="Peran" icon="fa-shield-alt" wire:model.live="filters.role">
+                        <option value="">Semua Peran</option>
+                        @foreach ($this->roles as $role)
+                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                        @endforeach
+                    </x-select>
+                </div>
+            </div>
+        </x-filter-accordion>
+
         {{-- Data table --}}
         <x-table :targets="[]" :paginator="$this->users">
             {{-- Table headings --}}
