@@ -12,9 +12,11 @@ new class extends Component
      * The label shown for the selected resource.
      */
     #[Locked]
-    public string $resourceLabel;
+    public string $resourceLabel = '';
 
     /**
+     * Selected record labels to display for confirmation.
+     *
      * @var array<int, string>
      */
     #[Locked]
@@ -23,13 +25,14 @@ new class extends Component
     /**
      * Initialize the confirmation modal.
      *
-     * @param  string  $resourceLabel
-     * @param  array<int, string>  $records
-     * @return void
+     * @param  array<int, mixed>  $records
      */
     public function mount(string $resourceLabel, array $records): void
     {
-        $this->resourceLabel = $resourceLabel;
-        $this->records = $records;
+        $this->resourceLabel = trim($resourceLabel);
+        $this->records = array_values(array_map(
+            static fn (mixed $record): string => (string) $record,
+            $records,
+        ));
     }
 };
