@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\Form;
+use RuntimeException;
 
 /**
  * Validate commodity changes and replace the image when a new one is provided.
@@ -20,7 +21,7 @@ class UpdateCommodityForm extends Form
     use AuthorizesModulePermissions;
 
     /**
-     * The commodity instance.
+     * The commodity model instance being updated.
      */
     public ?Commodity $commodity = null;
 
@@ -90,15 +91,11 @@ class UpdateCommodityForm extends Form
     public ?string $notes = null;
 
     /**
-     * Fill the form from a persisted commodity.
-     *
-     * @param  Commodity  $commodity
-     * @return void
+     * Fill the form fields from a persisted commodity record.
      */
     public function fillFromModel(Commodity $commodity): void
     {
         $this->commodity = $commodity;
-
         $this->image = null;
 
         $this->fill([
@@ -118,39 +115,44 @@ class UpdateCommodityForm extends Form
     }
 
     /**
-     * Validate the input and persist the changes.
-     *
-     * @return void
+     * Validate the input and persist changes to the commodity record.
      */
     public function update(): void
     {
         $this->authorizeModuleAction('ubah', 'barang');
 
+        if (! $this->commodity instanceof Commodity) {
+            throw new RuntimeException('Commodity model must be loaded before updating.');
+        }
+
+        $commodity = $this->commodity;
         $validated = collect($this->validate())->except('image');
 
         $quantity = $this->quantity ?? 0;
         $unitPrice = $this->unit_price ?? 0;
+        $oldImage = $commodity->image;
+        $hasNewImage = $this->image instanceof TemporaryUploadedFile;
 
         $validated->put('quantity', $quantity);
         $validated->put('unit_price', $unitPrice);
         $validated->put('total_price', $quantity * $unitPrice);
-        $validated->put('updated_by', auth()->id());
+        $validated->put('updated_by', auth()->id() ?? $commodity->updated_by ?? 1);
 
-        $oldImage = $this->commodity->image;
-
-        if ($this->image) {
+        if ($hasNewImage) {
             $validated->put('image', $this->image->store('barang', 'public'));
         }
 
-        DB::transaction(fn () => $this->commodity->update($validated->toArray()));
+        DB::transaction(static function () use ($commodity, $validated): void {
+            $commodity->update($validated->toArray());
+        });
 
-        if ($this->image && $oldImage && Storage::disk('public')->exists($oldImage)) {
+        if ($hasNewImage && is_string($oldImage) && $oldImage !== '' && Storage::disk('public')->exists($oldImage)) {
             Storage::disk('public')->delete($oldImage);
         }
     }
 
     /**
-     * Get the validation rules for the form.
+     * Get the validation rules for the commodity update form.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
@@ -159,10 +161,10 @@ class UpdateCommodityForm extends Form
         $ignoreId = $this->commodity?->id;
 
         return [
-            'commodity_location_id' => ['required', 'exists:commodity_locations,id'],
-            'commodity_funding_source_id' => ['required', 'exists:commodity_funding_sources,id'],
-            'brand_id' => ['required', 'exists:brands,id'],
-            'material_id' => ['required', 'exists:materials,id'],
+            'commodity_location_id' => ['required', 'integer', 'exists:commodity_locations,id'],
+            'commodity_funding_source_id' => ['required', 'integer', 'exists:commodity_funding_sources,id'],
+            'brand_id' => ['required', 'integer', 'exists:brands,id'],
+            'material_id' => ['required', 'integer', 'exists:materials,id'],
             'name' => ['required', 'string', 'max:255'],
             'item_code' => ['required', 'string', 'max:255', Rule::unique('commodities', 'item_code')->ignore($ignoreId)],
             'qr_code' => ['nullable', 'string', 'max:255', Rule::unique('commodities', 'qr_code')->ignore($ignoreId)],
@@ -178,13 +180,13 @@ class UpdateCommodityForm extends Form
                 'mimes:jpg,jpeg,png,webp',
                 'max:2048',
             ],
-            'unit_price' => ['nullable', 'numeric', 'min:0'],
+            'unit_price' => ['nullable', 'integer', 'min:0'],
             'notes' => ['nullable', 'string'],
         ];
     }
 
     /**
-     * Get the custom validation messages.
+     * Get the custom validation messages in Indonesian.
      *
      * @return array<string, string>
      */
@@ -192,15 +194,19 @@ class UpdateCommodityForm extends Form
     {
         return [
             'commodity_location_id.required' => 'Ruangan barang wajib dipilih.',
+            'commodity_location_id.integer' => 'Ruangan yang dipilih tidak valid.',
             'commodity_location_id.exists' => 'Ruangan yang dipilih tidak valid.',
 
             'commodity_funding_source_id.required' => 'Perolehan barang wajib dipilih.',
+            'commodity_funding_source_id.integer' => 'Perolehan yang dipilih tidak valid.',
             'commodity_funding_source_id.exists' => 'Perolehan yang dipilih tidak valid.',
 
             'brand_id.required' => 'Merek wajib dipilih.',
+            'brand_id.integer' => 'Merek yang dipilih tidak valid.',
             'brand_id.exists' => 'Merek yang dipilih tidak valid.',
 
             'material_id.required' => 'Bahan wajib dipilih.',
+            'material_id.integer' => 'Bahan yang dipilih tidak valid.',
             'material_id.exists' => 'Bahan yang dipilih tidak valid.',
 
             'name.required' => 'Nama barang wajib diisi.',
@@ -222,7 +228,7 @@ class UpdateCommodityForm extends Form
             'purchase_year.max' => 'Tahun pembelian tidak boleh melebihi tahun sekarang.',
 
             'condition.required' => 'Kondisi barang wajib dipilih.',
-            'condition.integer' => 'Kondisi barang tidak valid.',
+            'condition.enum' => 'Kondisi barang tidak valid.',
 
             'quantity.integer' => 'Jumlah harus berupa angka.',
             'quantity.min' => 'Jumlah tidak boleh negatif.',
@@ -231,7 +237,7 @@ class UpdateCommodityForm extends Form
             'image.mimes' => 'Format gambar harus jpg, jpeg, png, atau webp.',
             'image.max' => 'Ukuran gambar maksimal 2MB.',
 
-            'unit_price.numeric' => 'Harga satuan harus berupa angka.',
+            'unit_price.integer' => 'Harga satuan harus berupa angka.',
             'unit_price.min' => 'Harga satuan tidak boleh negatif.',
 
             'notes.string' => 'Catatan harus berupa teks.',
@@ -239,7 +245,7 @@ class UpdateCommodityForm extends Form
     }
 
     /**
-     * Get the custom validation attribute names.
+     * Get the custom validation attribute names in Indonesian.
      *
      * @return array<string, string>
      */

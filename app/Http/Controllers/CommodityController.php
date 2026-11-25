@@ -7,6 +7,9 @@ use App\Services\QrCodeService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Handle PDF generation actions for commodity records.
+ */
 class CommodityController extends Controller
 {
     public function __construct(
@@ -14,10 +17,7 @@ class CommodityController extends Controller
     ) {}
 
     /**
-     * Generate and download a PDF document for a single commodity.
-     *
-     * @param  Commodity  $commodity
-     * @return Response
+     * Generate and stream a PDF document for a single commodity.
      */
     public function generatePdf(Commodity $commodity): Response
     {
@@ -29,23 +29,20 @@ class CommodityController extends Controller
     }
 
     /**
-     * Generate and download a PDF document for all commodities.
-     *
-     * @return Response
+     * Generate and stream a PDF document for all commodities.
      */
     public function generateAllPdf(): Response
     {
-        $commodities = Commodity::with('commodityFundingSource')->get();
+        $commodities = Commodity::query()
+            ->with('commodityFundingSource')
+            ->get();
 
         $qrCodes = [];
+
         foreach ($commodities as $commodity) {
-            if (is_null($commodity->qr_code) || $commodity->qr_code === '') {
-                $qrCodes[$commodity->id] = null;
-
-                continue;
-            }
-
-            $qrCodes[$commodity->id] = $this->qrCodeService->forPdf($commodity->qr_code);
+            $qrCodes[$commodity->id] = blank($commodity->qr_code)
+                ? null
+                : $this->qrCodeService->forPdf($commodity->qr_code);
         }
 
         return Pdf::loadView('commodities.pdf-multiple', compact('commodities', 'qrCodes'))

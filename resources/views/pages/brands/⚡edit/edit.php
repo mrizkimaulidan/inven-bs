@@ -16,9 +16,6 @@ new class extends Component
 
     /**
      * Load the selected brand and populate the edit form.
-     *
-     * @param  int  $brandId
-     * @return void
      */
     public function mount(int $brandId): void
     {
@@ -32,8 +29,6 @@ new class extends Component
 
     /**
      * Update the specified resource in storage.
-     *
-     * @return void
      */
     public function edit(): void
     {
@@ -41,6 +36,6 @@ new class extends Component
 
         session()->flash('success', 'Data merek berhasil diperbarui.');
 
-        $this->redirect('/merek', navigate: true);
+        $this->redirect(route('merek.index'), navigate: true);
     }
 };

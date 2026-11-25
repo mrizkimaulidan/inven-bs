@@ -1,10 +1,16 @@
-{{-- Render a reusable form input. --}}
+@php
+    $fieldId = filled($id ?? null) ? (string) $id : $name;
+    $iconClass = is_string($icon) ? trim($icon) : '';
+    $fileLabel = is_string($selectedFileName) && trim($selectedFileName) !== ''
+        ? trim($selectedFileName)
+        : 'Pilih file...';
+@endphp
+
 <div class="form-group">
-    {{-- Label with optional icon and required marker. --}}
-    @if ($label)
-        <label for="{{ $id ?? $name }}">
-            @if ($icon)
-                <i class="fas {{ $icon }} mr-1"></i>
+    @if (filled($label))
+        <label for="{{ $fieldId }}">
+            @if ($iconClass !== '')
+                <i class="fas {{ $iconClass }} mr-1" aria-hidden="true"></i>
             @endif
             {{ $label }}
             @if ($required)
@@ -18,32 +24,26 @@
             <input
                 {{ $attributes->class(['custom-file-input', 'is-invalid' => $errors->has($name)]) }}
                 type="{{ $type }}"
-                id="{{ $id ?? $name }}"
+                id="{{ $fieldId }}"
                 name="{{ $name }}"
                 @required($required)
             />
-            <label class="custom-file-label text-truncate" for="{{ $id ?? $name }}">
-                {{ $selectedFileName ?? 'Pilih file...' }}
-            </label>
+            <label class="custom-file-label text-truncate" for="{{ $fieldId }}"> {{ $fileLabel }} </label>
         </div>
     @else
-        {{-- Input field. Caller-supplied attributes (wire:model, placeholder, etc.)
-             are merged onto the element. --}}
         <input
             {{ $attributes->class(['form-control', 'is-invalid' => $errors->has($name)]) }}
             type="{{ $type }}"
-            id="{{ $id ?? $name }}"
+            id="{{ $fieldId }}"
             name="{{ $name }}"
             @required($required)
         />
     @endif
 
-    {{-- Helper text. --}}
-    @if ($help)
+    @if (filled($help))
         <div class="form-text text-muted">{{ $help }}</div>
     @endif
 
-    {{-- Validation error message. --}}
     @error($name)
         <div class="invalid-feedback d-block">{{ $message }}</div>
     @enderror

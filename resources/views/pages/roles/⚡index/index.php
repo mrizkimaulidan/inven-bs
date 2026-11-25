@@ -33,24 +33,25 @@ new #[Title('Halaman Daftar Peran & Hak Akses')] class extends Component
     /**
      * Get a listing of the resource with pagination.
      *
-     * @return LengthAwarePaginator
+     * @return LengthAwarePaginator<int, Role>
      */
     #[Computed]
     public function roles(): LengthAwarePaginator
     {
-        $query = Role::query()->with('permissions')->withCount('permissions', 'users');
+        $perPage = max(1, $this->perPage);
+        $keyword = trim($this->search);
 
-        $query->when(filled($this->search), function (Builder $query) {
-            $query->whereAny(['name'], 'like', "%$this->search%");
+        $query = Role::query()->withCount(['permissions', 'users']);
+
+        $query->when($keyword !== '', static function (Builder $query) use ($keyword): void {
+            $query->whereAny(['name'], 'like', "%{$keyword}%");
         });
 
-        return $query->paginate($this->perPage);
+        return $query->paginate($perPage);
     }
 
     /**
      * The name of the computed property used by WithBulkDelete.
-     *
-     * @return string
      */
     protected function bulkPaginatorName(): string
     {
@@ -59,14 +60,15 @@ new #[Title('Halaman Daftar Peran & Hak Akses')] class extends Component
 
     /**
      * Get the destination after a successful bulk delete.
-     *
-     * @return ?string
      */
     protected function bulkRedirectPath(): ?string
     {
-        return '/peran-dan-hak-akses';
+        return route('peran-dan-hak-akses.index');
     }
 
+    /**
+     * Get the permission module name used by bulk delete actions.
+     */
     protected function bulkPermissionModule(): string
     {
         return 'peran';
@@ -74,9 +76,6 @@ new #[Title('Halaman Daftar Peran & Hak Akses')] class extends Component
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  Role  $role
-     * @return void
      */
     public function destroy(Role $role): void
     {
@@ -86,18 +85,15 @@ new #[Title('Halaman Daftar Peran & Hak Akses')] class extends Component
 
         session()->flash('success', 'Peran berhasil dihapus.');
 
-        $this->redirect('/peran-dan-hak-akses', navigate: true);
+        $this->redirect(route('peran-dan-hak-akses.index'), navigate: true);
     }
 
     /**
-     * Called after updating a property.
-     *
-     * @param  string  $property
-     * @return void
+     * Reset pagination and selection state when filter or page-size properties change.
      */
     public function updated(string $property): void
     {
-        if (in_array($property, ['search', 'perPage'])) {
+        if (in_array($property, ['search', 'perPage'], true)) {
             $this->resetPage();
         }
 

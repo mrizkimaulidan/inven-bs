@@ -1,3 +1,13 @@
+@php
+    $currentYear = (int) now()->year;
+    $years = range(1900, $currentYear);
+    $rawTotal = (float) ($this->totalPrice ?? 0.0);
+    $previewUrl = $this->imagePreview;
+    $uploadedFileName = $form->image != null
+        ? $form->image->getClientOriginalName()
+        : 'Pilih file gambar...';
+@endphp
+
 <div>
     <div class="row">
         <div class="col-12">
@@ -39,7 +49,9 @@
                                 >
                                     <option value="">Pilih Ruangan</option>
                                     @foreach ($this->commodityLocations as $location)
-                                        <option value="{{ $location->id }}">{{ $location->name }}</option>
+                                        <option value="{{ $location->id }}" wire:key="location-{{ $location->id }}">
+                                            {{ $location->name }}
+                                        </option>
                                     @endforeach
                                 </x-select>
                             </div>
@@ -54,7 +66,10 @@
                                 >
                                     <option value="">Pilih Perolehan</option>
                                     @foreach ($this->commodityFundingSources as $commodityFundingSource)
-                                        <option value="{{ $commodityFundingSource->id }}">
+                                        <option
+                                            value="{{ $commodityFundingSource->id }}"
+                                            wire:key="funding-source-{{ $commodityFundingSource->id }}"
+                                        >
                                             {{ $commodityFundingSource->name }}
                                         </option>
                                     @endforeach
@@ -73,7 +88,9 @@
                                 >
                                     <option value="">Pilih Bahan</option>
                                     @foreach ($this->materials as $material)
-                                        <option value="{{ $material->id }}">{{ $material->name }}</option>
+                                        <option value="{{ $material->id }}" wire:key="material-{{ $material->id }}">
+                                            {{ $material->name }}
+                                        </option>
                                     @endforeach
                                 </x-select>
                             </div>
@@ -88,7 +105,9 @@
                                 >
                                     <option value="">Pilih Merek</option>
                                     @foreach ($this->brands as $brand)
-                                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                        <option value="{{ $brand->id }}" wire:key="brand-{{ $brand->id }}">
+                                            {{ $brand->name }}
+                                        </option>
                                     @endforeach
                                 </x-select>
                             </div>
@@ -104,8 +123,10 @@
                                     required
                                 >
                                     <option value="">Pilih Tahun</option>
-                                    @foreach (range(1900, date('Y')) as $year)
-                                        <option value="{{ $year }}">{{ $year }}</option>
+                                    @foreach ($years as $year)
+                                        <option value="{{ $year }}" wire:key="purchase-year-{{ $year }}">
+                                            {{ $year }}
+                                        </option>
                                     @endforeach
                                 </x-select>
                             </div>
@@ -120,7 +141,9 @@
                                 >
                                     <option value="">Pilih Kondisi</option>
                                     @foreach ($conditions as $value => $label)
-                                        <option value="{{ $value }}">{{ $label }}</option>
+                                        <option value="{{ $value }}" wire:key="condition-{{ $value }}">
+                                            {{ $label }}
+                                        </option>
                                     @endforeach
                                 </x-select>
                             </div>
@@ -154,22 +177,25 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="total_price">
-                                        <i class="fas fa-calculator mr-1"></i>
+                                        <i class="fas fa-calculator mr-1" aria-hidden="true"></i>
                                         Total Harga (Rp)
                                     </label>
 
                                     <div id="total_price" class="bg-light rounded border px-3 py-2">
                                         <div class="font-weight-bold">{{ $this->totalPriceFormatted }}</div>
-                                        @if ($this->totalPrice > 0)
-                                            <hr />
-                                            <small class="font-weight-bold font-italic">
+                                        @if ($rawTotal > 0)
+                                            <hr class="my-2" />
+                                            <small class="font-weight-bold font-italic d-block">
                                                 {{ $this->totalInWords }}
                                             </small>
                                         @endif
                                     </div>
 
                                     <small class="form-text text-muted">
-                                        <i class="fas fa-equals"></i> Jumlah <i class="fas fa-times"></i> harga satuan
+                                        <i class="fas fa-equals" aria-hidden="true"></i>
+                                        Jumlah
+                                        <i class="fas fa-times" aria-hidden="true"></i>
+                                        harga satuan
                                     </small>
                                 </div>
                             </div>
@@ -178,8 +204,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="image">
-                                        <i class="fas fa-image mr-1"></i>
+                                    <label for="form.image">
+                                        <i class="fas fa-image mr-1" aria-hidden="true"></i>
                                         Foto Barang
                                     </label>
 
@@ -191,8 +217,11 @@
                                             class="custom-file-input @error('form.image') is-invalid @enderror"
                                             accept="image/*"
                                         />
-                                        <label class="custom-file-label" for="form.image"> Pilih file gambar... </label>
+                                        <label class="custom-file-label" for="form.image">
+                                            {{ $uploadedFileName }}
+                                        </label>
                                     </div>
+
                                     @error('form.image')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
@@ -201,28 +230,29 @@
                                         <span
                                             class="spinner-border spinner-border-sm text-primary"
                                             role="status"
+                                            aria-hidden="true"
                                         ></span>
                                         <small class="text-muted ml-1">Mengunggah gambar...</small>
                                     </div>
 
                                     <div class="mt-2" wire:loading.remove wire:target="form.image">
-                                        @if ($this->imagePreview)
+                                        @if ($previewUrl)
                                             <img
-                                                src="{{ $this->imagePreview }}"
+                                                src="{{ $previewUrl }}"
                                                 alt="Preview Foto Barang"
                                                 class="img-thumbnail"
                                                 style="max-height: 120px; max-width: 120px; object-fit: cover"
                                             />
                                             <small class="form-text text-muted d-block">
-                                                <i class="fas fa-check-circle text-success mr-1"></i>
-                                                {{ $form->image ? 'Gambar siap diunggah' : 'Gambar sekarang' }}
+                                                <i class="fas fa-check-circle text-success mr-1" aria-hidden="true"></i>
+                                                Gambar siap diunggah
                                             </small>
                                         @else
                                             <div
                                                 class="d-flex align-items-center justify-content-center bg-light rounded border"
                                                 style="width: 120px; height: 120px"
                                             >
-                                                <i class="fas fa-image fa-2x text-muted"></i>
+                                                <i class="fas fa-image fa-2x text-muted" aria-hidden="true"></i>
                                             </div>
                                             <small class="form-text text-muted">
                                                 Format: JPG, PNG, atau WEBP. Maks. 2 MB.
@@ -238,29 +268,40 @@
                                     name="form.notes"
                                     icon="fa-sticky-note"
                                     label="Catatan"
-                                    placeholder="Masukan catatan (opsional)"
+                                    placeholder="Masukkan catatan (opsional)"
                                 />
                             </div>
                         </div>
 
                         <div class="d-flex justify-content-between align-items-center flex-wrap pb-3">
                             <div class="d-flex flex-wrap">
-                                <a wire:navigate href="/barang" class="btn btn-outline-secondary mr-2 mb-2">
-                                    <i class="fas fa-arrow-left"></i>
+                                <a
+                                    wire:navigate
+                                    href="{{ route('barang.index') }}"
+                                    class="btn btn-outline-secondary mr-2 mb-2"
+                                >
+                                    <i class="fas fa-arrow-left mr-1" aria-hidden="true"></i>
                                     Kembali
                                 </a>
+
                                 <x-button
+                                    type="button"
                                     wire:click="resetForm"
                                     icon="fa-rotate-left"
                                     label="Reset"
                                     class="btn-outline-warning mr-2 mb-2"
+                                    wire:loading.attr="disabled"
+                                    wire:target="resetForm"
                                 />
                             </div>
+
                             <x-button
                                 type="submit"
                                 icon="fa-plus-circle"
                                 label="Simpan Data"
                                 class="btn-primary mb-2"
+                                wire:loading.attr="disabled"
+                                wire:target="save"
                             />
                         </div>
                     </form>

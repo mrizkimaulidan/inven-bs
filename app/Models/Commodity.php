@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Represent an inventory commodity and define its relations and attribute casts.
+ * Represent an inventory commodity and define its relations, casts, and search scope.
  */
 #[Fillable([
     'commodity_funding_source_id',
@@ -39,7 +39,7 @@ class Commodity extends Model
     /**
      * Get the attributes that should be cast.
      *
-     * @return array<string, string>
+     * @return array<string, class-string<CommodityCondition>|string>
      */
     protected function casts(): array
     {
@@ -53,7 +53,7 @@ class Commodity extends Model
      *
      * Relates via the `created_by` column.
      *
-     * @return BelongsTo
+     * @return BelongsTo<User, $this>
      */
     public function creator(): BelongsTo
     {
@@ -65,7 +65,7 @@ class Commodity extends Model
      *
      * Relates via the `updated_by` column.
      *
-     * @return BelongsTo
+     * @return BelongsTo<User, $this>
      */
     public function updater(): BelongsTo
     {
@@ -75,7 +75,7 @@ class Commodity extends Model
     /**
      * Get the funding source associated with the commodity.
      *
-     * @return BelongsTo
+     * @return BelongsTo<CommodityFundingSource, $this>
      */
     public function commodityFundingSource(): BelongsTo
     {
@@ -85,7 +85,7 @@ class Commodity extends Model
     /**
      * Get the location associated with the commodity.
      *
-     * @return BelongsTo
+     * @return BelongsTo<CommodityLocation, $this>
      */
     public function commodityLocation(): BelongsTo
     {
@@ -95,7 +95,7 @@ class Commodity extends Model
     /**
      * Get the brand associated with the commodity.
      *
-     * @return BelongsTo
+     * @return BelongsTo<Brand, $this>
      */
     public function brand(): BelongsTo
     {
@@ -105,7 +105,7 @@ class Commodity extends Model
     /**
      * Get the material associated with the commodity.
      *
-     * @return BelongsTo
+     * @return BelongsTo<Material, $this>
      */
     public function material(): BelongsTo
     {
@@ -113,15 +113,13 @@ class Commodity extends Model
     }
 
     /**
-     * Apply the search filter to the query.
+     * Apply the search filter to the commodity query.
      *
-     * @param  Builder  $query
-     * @param  string  $searchQuery
-     * @return void
+     * @param  Builder<static>  $query
      */
     #[Scope]
     public function search(Builder $query, string $searchQuery): void
     {
-        $query->whereAny(['item_code', 'name'], 'like', "%$searchQuery%");
+        $query->whereAny(['item_code', 'name'], 'like', '%'.$searchQuery.'%');
     }
 }

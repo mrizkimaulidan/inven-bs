@@ -2,7 +2,6 @@
 
 namespace App\View\Components;
 
-use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
@@ -20,7 +19,6 @@ class Textarea extends Component
      * @param  string|null  $icon  The Font Awesome icon class.
      * @param  string|null  $help  The help text.
      * @param  int  $rows  The number of visible text lines.
-     * @return void
      */
     public function __construct(
         public string $name,
@@ -29,14 +27,16 @@ class Textarea extends Component
         public ?string $icon = null,
         public ?string $help = null,
         public int $rows = 3,
-    ) {}
+    ) {
+        if ($this->rows < 1) {
+            $this->rows = 1;
+        }
+    }
 
     /**
-     * Get the view / contents that represent the component.
-     *
-     * @return View|Closure|string
+     * Get the view or contents that represent the component.
      */
-    public function render(): View|Closure|string
+    public function render(): View
     {
         return view('components.textarea');
     }

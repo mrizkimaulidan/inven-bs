@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumns;
 
 /**
- * Build spreadsheet columns for exporting commodity records.
+ * Export commodity records with related attributes and condition labels.
  */
 class CommoditiesExport implements FromCollection, WithColumns
 {
@@ -34,8 +34,7 @@ class CommoditiesExport implements FromCollection, WithColumns
             ])
             ->orderBy('name')
             ->get()
-            ->values()
-            ->map(function (Commodity $commodity, int $index) {
+            ->map(function (Commodity $commodity, int $index): Commodity {
                 $commodity->row_number = $index + 1;
 
                 return $commodity;
@@ -43,9 +42,9 @@ class CommoditiesExport implements FromCollection, WithColumns
     }
 
     /**
-     * Define the columns and their data types.
+     * Define the export columns and their data types.
      *
-     * @return array<int, Column>
+     * @return list<Column>
      */
     public function columns(): array
     {
@@ -53,12 +52,12 @@ class CommoditiesExport implements FromCollection, WithColumns
             Number::make('No', 'row_number'),
             Text::make('Kode Barang', 'item_code'),
             Text::make('Nama Barang', 'name'),
-            Text::make('Merek', fn (Commodity $commodity) => $commodity->brand?->name),
-            Text::make('Bahan', fn (Commodity $commodity) => $commodity->material?->name),
-            Text::make('Ruangan', fn (Commodity $commodity) => $commodity->commodityLocation?->name),
-            Text::make('Sumber Perolehan', fn (Commodity $commodity) => $commodity->commodityFundingSource?->name),
+            Text::make('Merek', fn (Commodity $commodity): ?string => $commodity->brand?->name),
+            Text::make('Bahan', fn (Commodity $commodity): ?string => $commodity->material?->name),
+            Text::make('Ruangan', fn (Commodity $commodity): ?string => $commodity->commodityLocation?->name),
+            Text::make('Sumber Perolehan', fn (Commodity $commodity): ?string => $commodity->commodityFundingSource?->name),
             Number::make('Tahun Perolehan', 'purchase_year'),
-            Text::make('Kondisi', fn (Commodity $commodity) => $commodity->condition?->label()),
+            Text::make('Kondisi', fn (Commodity $commodity): ?string => $commodity->condition?->label()),
             Number::make('Jumlah', 'quantity'),
             Number::make('Harga Satuan', 'unit_price'),
             Number::make('Total Harga', 'total_price'),

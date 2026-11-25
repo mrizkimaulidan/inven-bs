@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use App\Livewire\Forms\StoreRoleAndPermissionForm;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
@@ -31,57 +29,68 @@ new class extends Component
         'bahan' => false,
         'pengguna' => false,
         'peran' => false,
+        'log aktivitas' => false,
     ];
 
     /**
-     * Module display metadata (label & icon).
+     * Module display metadata (label and icon).
      *
      * @var array<string, array{label: string, icon: string}>
      */
     private const MODULE_META = [
-        'barang' => ['label' => 'Barang',    'icon' => 'fa-boxes-stacked'],
+        'barang' => ['label' => 'Barang', 'icon' => 'fa-boxes-stacked'],
         'perolehan' => ['label' => 'Perolehan', 'icon' => 'fa-hand-holding'],
-        'ruangan' => ['label' => 'Ruangan',   'icon' => 'fa-map-location-dot'],
-        'merek' => ['label' => 'Merek',     'icon' => 'fa-tag'],
-        'bahan' => ['label' => 'Bahan',     'icon' => 'fa-cube'],
-        'pengguna' => ['label' => 'Pengguna',  'icon' => 'fa-users'],
+        'ruangan' => ['label' => 'Ruangan', 'icon' => 'fa-map-location-dot'],
+        'merek' => ['label' => 'Merek', 'icon' => 'fa-tag'],
+        'bahan' => ['label' => 'Bahan', 'icon' => 'fa-cube'],
+        'pengguna' => ['label' => 'Pengguna', 'icon' => 'fa-users'],
         'peran' => ['label' => 'Peran & Hak Akses', 'icon' => 'fa-user-shield'],
+        'log aktivitas' => ['label' => 'Log Aktivitas', 'icon' => 'fa-history'],
     ];
 
     /**
-     * Action display metadata (label, icon & badge color).
+     * Action display metadata (label, icon, and badge color).
      *
      * @var array<string, array{label: string, icon: string, badge: string}>
      */
     private const ACTION_META = [
-        'tambah' => ['label' => 'Tambah', 'icon' => 'fa-plus',        'badge' => 'success'],
-        'ubah' => ['label' => 'Ubah',   'icon' => 'fa-pen',         'badge' => 'warning'],
-        'hapus' => ['label' => 'Hapus',  'icon' => 'fa-trash',       'badge' => 'danger'],
-        'lihat' => ['label' => 'Lihat',  'icon' => 'fa-eye',         'badge' => 'primary'],
+        'tambah' => ['label' => 'Tambah', 'icon' => 'fa-plus', 'badge' => 'success'],
+        'ubah' => ['label' => 'Ubah', 'icon' => 'fa-pen', 'badge' => 'warning'],
+        'hapus' => ['label' => 'Hapus', 'icon' => 'fa-trash', 'badge' => 'danger'],
+        'lihat' => ['label' => 'Lihat', 'icon' => 'fa-eye', 'badge' => 'primary'],
         'detail' => ['label' => 'Detail', 'icon' => 'fa-info-circle', 'badge' => 'info'],
-        'impor' => ['label' => 'Impor',  'icon' => 'fa-download',    'badge' => 'secondary'],
-        'ekspor' => ['label' => 'Ekspor', 'icon' => 'fa-upload',      'badge' => 'secondary'],
-        'print' => ['label' => 'Print',  'icon' => 'fa-print',       'badge' => 'dark'],
+        'impor' => ['label' => 'Impor', 'icon' => 'fa-download', 'badge' => 'secondary'],
+        'ekspor' => ['label' => 'Ekspor', 'icon' => 'fa-upload', 'badge' => 'secondary'],
+        'print' => ['label' => 'Print', 'icon' => 'fa-print', 'badge' => 'dark'],
     ];
 
     /**
-     * Get all permissions from the database.
+     * Get permissions assigned or available to the current user.
      *
      * @return Collection<int, Permission>
      */
     #[Computed]
     public function permissions(): Collection
     {
-        return Permission::whereIn(
-            'name',
-            auth()->user()->getAllPermissions()->pluck('name')
-        )->get();
+        $user = auth()->user();
+
+        if (! $user) {
+            return new Collection;
+        }
+
+        $permissionNames = $user->getAllPermissions()->pluck('name')->all();
+
+        if ($permissionNames === []) {
+            return new Collection;
+        }
+
+        return Permission::query()
+            ->whereIn('name', $permissionNames)
+            ->get();
     }
 
     /**
      * Get the total number of permissions available.
-     *
-     * @return int
      */
     #[Computed]
     public function totalPermissions(): int
@@ -111,9 +120,9 @@ new class extends Component
         $permissionsByModule = [];
 
         foreach ($this->permissions as $permission) {
-            [$actionKey, $moduleKey] = array_pad(explode(' ', $permission->name, 2), 2, '');
-            $actionKey = strtolower($actionKey);
-            $moduleKey = strtolower($moduleKey);
+            [$actionKey, $moduleKey] = array_pad(explode(' ', (string) $permission->name, 2), 2, '');
+            $actionKey = strtolower(trim($actionKey));
+            $moduleKey = strtolower(trim($moduleKey));
 
             if (! isset($permissionsByModule[$moduleKey])) {
                 $permissionsByModule[$moduleKey] = [
@@ -125,11 +134,11 @@ new class extends Component
             }
 
             $permissionsByModule[$moduleKey]['permissions'][] = [
-                'id' => $permission->id,
-                'name' => $permission->name,
+                'id' => (int) $permission->id,
+                'name' => (string) $permission->name,
                 'label' => self::ACTION_META[$actionKey]['label'] ?? ucfirst($actionKey),
                 'icon' => self::ACTION_META[$actionKey]['icon'] ?? 'fa-key',
-                'badge' => self::ACTION_META[$actionKey]['badge'] ?? 'badge-secondary',
+                'badge' => self::ACTION_META[$actionKey]['badge'] ?? 'secondary',
             ];
         }
 
@@ -138,24 +147,22 @@ new class extends Component
 
     /**
      * Get the number of currently selected permissions.
-     *
-     * @return int
      */
     #[Computed]
     public function selectedPermissionsCount(): int
     {
-        return count($this->form->permissions);
+        return count($this->form->permissions ?? []);
     }
 
     /**
      * Handle updates to a module select-all checkbox.
-     *
-     * @param  mixed  $value
-     * @param  string  $key
-     * @return void
      */
-    public function updatedSelectAll(mixed $value, string $key): void
+    public function updatedSelectAll(mixed $value, ?string $key = null): void
     {
+        if (blank($key)) {
+            return;
+        }
+
         $moduleData = collect($this->groupedPermissions)->firstWhere('key', $key);
 
         if (! $moduleData) {
@@ -174,8 +181,6 @@ new class extends Component
 
     /**
      * Sync module select-all state after individual permission changes.
-     *
-     * @return void
      */
     public function updatedFormPermissions(): void
     {
@@ -189,8 +194,6 @@ new class extends Component
 
     /**
      * Select all available permissions.
-     *
-     * @return void
      */
     public function selectAllPermissions(): void
     {
@@ -203,8 +206,6 @@ new class extends Component
 
     /**
      * Reset all selected permissions.
-     *
-     * @return void
      */
     public function resetPermissions(): void
     {
@@ -217,8 +218,6 @@ new class extends Component
 
     /**
      * Persist the new role along with its assigned permissions.
-     *
-     * @return void
      */
     public function save(): void
     {
@@ -226,6 +225,6 @@ new class extends Component
 
         session()->flash('success', 'Peran berhasil ditambahkan.');
 
-        $this->redirect('/peran-dan-hak-akses', navigate: true);
+        $this->redirect(route('peran-dan-hak-akses.index'), navigate: true);
     }
 };

@@ -1,8 +1,20 @@
+@php
+    $reportTitle = filled($title ?? null) ? (string) $title : 'Laporan Data';
+    $printedLabel = filled($printedAt ?? null) ? (string) $printedAt : '-';
+    $columnHeaders = is_array($headers ?? null)
+        ? $headers
+        : (is_iterable($headers ?? null) ? collect($headers)->all() : []);
+    $rowItems = is_array($rows ?? null)
+        ? collect($rows)
+        : (is_iterable($rows ?? null) ? collect($rows) : collect());
+    $rowCount = $rowItems->count();
+    $colspanCount = max(1, count($columnHeaders) + 1);
+@endphp
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8" />
-    <title>{{ $title }}</title>
+    <title>{{ $reportTitle }}</title>
     <style>
         @page {
             margin: 12mm;
@@ -61,29 +73,29 @@
     </style>
 </head>
 <body>
-    <h1>{{ $title }}</h1>
-    <p class="print-meta">Dicetak {{ $printedAt }} — Total {{ $rows->count() }} data</p>
+    <h1>{{ $reportTitle }}</h1>
+    <p class="print-meta">Dicetak: {{ $printedLabel }} &mdash; Total: {{ $rowCount }} data</p>
 
     <table>
         <thead>
             <tr>
                 <th style="width: 36px">No.</th>
-                @foreach ($headers as $header)
+                @foreach ($columnHeaders as $header)
                     <th>{{ $header }}</th>
                 @endforeach
             </tr>
         </thead>
         <tbody>
-            @forelse ($rows as $index => $row)
+            @forelse ($rowItems as $row)
                 <tr>
-                    <td>{{ $index + 1 }}</td>
-                    @foreach ($row as $value)
-                        <td>{{ $value }}</td>
+                    <td>{{ $loop->iteration }}</td>
+                    @foreach ((array) $row as $value)
+                        <td>{{ filled($value) || $value === 0 || $value === '0' ? $value : '-' }}</td>
                     @endforeach
                 </tr>
             @empty
                 <tr>
-                    <td class="empty" colspan="{{ count($headers) + 1 }}">Belum ada data untuk dicetak.</td>
+                    <td class="empty" colspan="{{ $colspanCount }}">Belum ada data untuk dicetak.</td>
                 </tr>
             @endforelse
         </tbody>

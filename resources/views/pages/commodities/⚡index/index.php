@@ -41,8 +41,6 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     /**
      * Initialize the default inventory filters.
-     *
-     * @return void
      */
     public function mount(): void
     {
@@ -65,7 +63,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     /**
      * Get a listing of the commodity funding sources.
      *
-     * @return Collection
+     * @return Collection<int, CommodityFundingSource>
      */
     #[Computed]
     public function commodityFundingSources(): Collection
@@ -76,7 +74,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     /**
      * Get a listing of the materials.
      *
-     * @return Collection
+     * @return Collection<int, Material>
      */
     #[Computed]
     public function materials(): Collection
@@ -87,7 +85,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     /**
      * Get a listing of the brands.
      *
-     * @return Collection
+     * @return Collection<int, Brand>
      */
     #[Computed]
     public function brands(): Collection
@@ -98,7 +96,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     /**
      * Get a listing of the commodity locations.
      *
-     * @return Collection
+     * @return Collection<int, CommodityLocation>
      */
     #[Computed]
     public function commodityLocations(): Collection
@@ -109,7 +107,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     /**
      * Get a listing of the unique commodity purchase years.
      *
-     * @return array
+     * @return array<int, mixed>
      */
     #[Computed]
     public function purchaseYears(): array
@@ -124,7 +122,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     /**
      * Get a listing of the users.
      *
-     * @return Collection
+     * @return Collection<int, User>
      */
     #[Computed]
     public function createdBy(): Collection
@@ -135,7 +133,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     /**
      * Get a listing of the commodity condition options.
      *
-     * @return array
+     * @return array<string, string>
      */
     #[Computed]
     public function conditions(): array
@@ -146,7 +144,7 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     /**
      * Map each filter key to its corresponding column, scope, or resolver.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     protected function filterMap(): array
     {
@@ -158,30 +156,33 @@ new #[Title('Halaman Daftar Barang')] class extends Component
             'brand' => ['column' => 'brand_id', 'cast' => 'int'],
             'location' => ['column' => 'commodity_location_id', 'cast' => 'int'],
             'created_by' => ['column' => 'created_by', 'cast' => 'int'],
-            'price_min' => fn (Builder $query, mixed $filterValue) => $query->where('unit_price', '>=', (int) $filterValue),
-            'price_max' => fn (Builder $query, mixed $filterValue) => $query->where('unit_price', '<=', (int) $filterValue),
-            'quantity_min' => fn (Builder $query, mixed $filterValue) => $query->where('quantity', '>=', (int) $filterValue),
-            'quantity_max' => fn (Builder $query, mixed $filterValue) => $query->where('quantity', '<=', (int) $filterValue),
+            'price_min' => static fn (Builder $query, mixed $filterValue): Builder => $query->where('unit_price', '>=', (int) $filterValue),
+            'price_max' => static fn (Builder $query, mixed $filterValue): Builder => $query->where('unit_price', '<=', (int) $filterValue),
+            'quantity_min' => static fn (Builder $query, mixed $filterValue): Builder => $query->where('quantity', '>=', (int) $filterValue),
+            'quantity_max' => static fn (Builder $query, mixed $filterValue): Builder => $query->where('quantity', '<=', (int) $filterValue),
         ];
     }
 
     /**
      * Get a listing of the commodities with pagination.
      *
-     * @return LengthAwarePaginator
+     * @return LengthAwarePaginator<int, Commodity>
      */
     #[Computed]
     public function commodities(): LengthAwarePaginator
     {
+        $perPage = max(1, $this->perPage);
+        $keyword = trim($this->search);
+
         $query = Commodity::query()->with(['commodityFundingSource', 'commodityLocation', 'brand', 'material']);
 
-        $query->when(filled($this->search), function (Builder $query) {
-            $query->search($this->search);
+        $query->when($keyword !== '', static function (Builder $query) use ($keyword): void {
+            $query->search($keyword);
         });
 
         $this->applyFilters($query, $this->filterMap());
 
-        return $query->paginate($this->perPage);
+        return $query->paginate($perPage);
     }
 
     /**
@@ -201,13 +202,9 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * Resolve the icon and badge styling for the given condition.
-     */
-    /**
      * Resolve the icon and badge styling for a condition.
      *
-     * @param  CommodityCondition  $condition
-     * @return array
+     * @return array{icon: string, badge: string}
      */
     public function conditionStyle(CommodityCondition $condition): array
     {
@@ -229,9 +226,6 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     /**
      * Generate a new QR code for the commodity.
-     *
-     * @param  Commodity  $commodity
-     * @return void
      */
     public function generateQrCode(Commodity $commodity): void
     {
@@ -246,8 +240,6 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     /**
      * The name of the computed property used by WithBulkDelete.
-     *
-     * @return string
      */
     protected function bulkPaginatorName(): string
     {
@@ -256,14 +248,15 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     /**
      * Get the destination after a successful bulk delete.
-     *
-     * @return ?string
      */
     protected function bulkRedirectPath(): ?string
     {
-        return '/barang';
+        return route('barang.index');
     }
 
+    /**
+     * Get the permission module name used by bulk delete actions.
+     */
     protected function bulkPermissionModule(): string
     {
         return 'barang';
@@ -271,9 +264,6 @@ new #[Title('Halaman Daftar Barang')] class extends Component
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  Commodity  $commodity
-     * @return void
      */
     public function destroy(Commodity $commodity): void
     {
@@ -285,14 +275,11 @@ new #[Title('Halaman Daftar Barang')] class extends Component
     }
 
     /**
-     * Called after updating a property.
-     *
-     * @param  string  $property
-     * @return void
+     * Reset pagination and selection state when filter or page-size properties change.
      */
     public function updated(string $property): void
     {
-        if (in_array($property, ['search', 'perPage'])) {
+        if (in_array($property, ['search', 'perPage'], true)) {
             $this->resetPage();
         }
 

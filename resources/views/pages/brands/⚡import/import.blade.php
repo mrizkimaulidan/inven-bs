@@ -1,8 +1,12 @@
+@php
+    $uploadedSpreadsheet = $importForm->spreadsheetFile ?? null;
+    $templateUrl = asset(rawurlencode('Template Data Merek.xlsx'));
+@endphp
+
 <div>
-    {{-- Brand import modal --}}
     <x-import-modal
         modalTitle="Impor Data Merek"
-        :uploadedFile="$importForm->spreadsheetFile"
-        :templateDownloadUrl="asset('Template Data Merek.xlsx')"
+        :uploadedFile="$uploadedSpreadsheet"
+        :templateDownloadUrl="$templateUrl"
     />
 </div>

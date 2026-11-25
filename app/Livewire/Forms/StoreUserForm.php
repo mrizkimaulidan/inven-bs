@@ -7,9 +7,10 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Form;
+use RuntimeException;
 
 /**
- * Validate user details and save the account with its selected roles.
+ * Validate user details and create an account with its assigned role.
  */
 class StoreUserForm extends Form
 {
@@ -21,7 +22,7 @@ class StoreUserForm extends Form
     public int $role_id = 0;
 
     /**
-     * The user's name.
+     * The user's full name.
      */
     public string $name = '';
 
@@ -41,20 +42,23 @@ class StoreUserForm extends Form
     public string $password_confirmation = '';
 
     /**
-     * Validate the input and persist a new record.
-     *
-     * @return User
+     * Validate the input and persist a new user record with its role.
      */
     public function store(): User
     {
         $this->authorizeModuleAction('tambah', 'pengguna');
 
+        $this->name = trim($this->name);
+        $this->email = strtolower(trim($this->email));
+
         $validated = $this->validate();
 
-        $role = Role::with('permissions')->findOrFail($validated['role_id']);
+        /** @var Role $role */
+        $role = Role::query()->with('permissions')->findOrFail($validated['role_id']);
         $this->ensureRoleIsAssignable($role);
 
-        $user = User::create([
+        /** @var User $user */
+        $user = User::query()->create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => $validated['password'],
@@ -66,20 +70,26 @@ class StoreUserForm extends Form
     }
 
     /**
-     * Ensure the current user can assign every permission on the role.
+     * Ensure the authenticated user holds every permission granted by the target role.
      */
     private function ensureRoleIsAssignable(Role $role): void
     {
+        $actor = auth()->user();
+
+        if (! $actor instanceof User) {
+            throw new RuntimeException('Authenticated user is not available.');
+        }
+
         $rolePermissionNames = $role->permissions->pluck('name');
-        $actorPermissionNames = auth()->user()->getAllPermissions()->pluck('name');
+        $actorPermissionNames = $actor->getAllPermissions()->pluck('name');
 
         abort_if($rolePermissionNames->diff($actorPermissionNames)->isNotEmpty(), 403);
     }
 
     /**
-     * Get the validation rules for the form.
+     * Get the validation rules for the user form.
      *
-     * @return array
+     * @return array<string, list<string|Password>>
      */
     protected function rules(): array
     {
@@ -116,9 +126,9 @@ class StoreUserForm extends Form
     }
 
     /**
-     * Get the custom validation messages.
+     * Get the custom validation messages in Indonesian.
      *
-     * @return array
+     * @return array<string, string>
      */
     protected function messages(): array
     {

@@ -15,8 +15,6 @@ new class extends Component
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @return void
      */
     public function save(): void
     {
@@ -24,6 +22,6 @@ new class extends Component
 
         session()->flash('success', 'Data ruangan berhasil ditambahkan.');
 
-        $this->redirect('/ruangan', navigate: true);
+        $this->redirect(route('ruangan.index'), navigate: true);
     }
 };

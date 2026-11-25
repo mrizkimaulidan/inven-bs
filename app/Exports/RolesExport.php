@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Concerns\WithColumns;
 use Spatie\Permission\Models\Role;
 
 /**
- * Build spreadsheet columns for exporting role records.
+ * Export role records along with assigned permissions and counts.
  */
 class RolesExport implements FromCollection, WithColumns
 {
@@ -27,11 +27,10 @@ class RolesExport implements FromCollection, WithColumns
     {
         return Role::query()
             ->with('permissions')
-            ->withCount('permissions', 'users')
+            ->withCount(['permissions', 'users'])
             ->orderBy('name')
             ->get()
-            ->values()
-            ->map(function (Role $role, int $index) {
+            ->map(function (Role $role, int $index): Role {
                 $role->row_number = $index + 1;
 
                 return $role;
@@ -39,16 +38,16 @@ class RolesExport implements FromCollection, WithColumns
     }
 
     /**
-     * Define the columns and their data types.
+     * Define the export columns and their data types.
      *
-     * @return array<int, Column>
+     * @return list<Column>
      */
     public function columns(): array
     {
         return [
             Number::make('No', 'row_number'),
             Text::make('Nama Peran', 'name'),
-            Text::make('Hak Akses', fn (Role $role) => $role->permissions->pluck('name')->implode(', ')),
+            Text::make('Hak Akses', fn (Role $role): string => $role->permissions->pluck('name')->implode(', ')),
             Number::make('Jumlah Hak Akses', 'permissions_count'),
             Number::make('Jumlah Pengguna', 'users_count'),
         ];

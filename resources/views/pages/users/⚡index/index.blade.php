@@ -1,5 +1,15 @@
+@php
+    $userPaginator = $this->users;
+    $roleOptions = $this->roles ?? collect();
+    $activeFiltersCount = (int) ($this->activeFiltersCount ?? 0);
+    $modalId = $modalParams['id'] ?? null;
+    $hasModalId = filled($modalId);
+    $selectedRecords = $this->selectedRecords;
+    $selectedNames = $selectedRecords->pluck('name')->all();
+    $selectedKeys = implode('-', $selectedRecords->modelKeys());
+@endphp
+
 <div>
-    {{-- Modal dialogs --}}
     @if ($activeModal === 'export')
         @teleport('body')
             <livewire:pages::users.export wire:key="modal-export" />
@@ -12,9 +22,9 @@
         @endteleport
     @endif
 
-    @if ($activeModal === 'edit')
+    @if ($activeModal === 'edit' && $hasModalId)
         @teleport('body')
-            <livewire:pages::users.edit :userId="$modalParams['id']" wire:key="modal-edit-{{ $modalParams['id'] }}" />
+            <livewire:pages::users.edit :userId="$modalId" wire:key="modal-edit-{{ $modalId }}" />
         @endteleport
     @endif
 
@@ -22,15 +32,13 @@
         @teleport('body')
             <livewire:bulk-destroy
                 resource-label="pengguna"
-                :records="$this->selectedRecords->pluck('name')->all()"
-                wire:key="modal-bulk-destroy-{{ implode('-', $this->selectedRecords->modelKeys()) }}"
+                :records="$selectedNames"
+                wire:key="modal-bulk-destroy-{{ $selectedKeys !== '' ? $selectedKeys : 'empty' }}"
             />
         @endteleport
     @endif
 
-    {{-- Listing page --}}
     <x-page :searchable="true">
-        {{-- Toolbar actions --}}
         <x-slot:toolbar>
             <div class="d-flex justify-content-between align-items-center flex-wrap">
                 <div class="d-flex flex-wrap">
@@ -43,6 +51,7 @@
                             class="mr-2 mb-2"
                         />
                     @endcan
+
                     @can('hapus pengguna')
                         <x-button
                             wire:click="$dispatch('showBulkDeleteConfirmationModal')"
@@ -53,6 +62,7 @@
                             :disabled="empty($selected)"
                         />
                     @endcan
+
                     @can('print pengguna')
                         <a
                             href="{{ route('pengguna.pdf') }}"
@@ -65,6 +75,7 @@
                             Cetak
                         </a>
                     @endcan
+
                     <x-button
                         wire:click="$refresh"
                         icon="fa-sync-alt"
@@ -77,6 +88,7 @@
                         title="Muat Ulang"
                     />
                 </div>
+
                 @can('tambah pengguna')
                     <x-button
                         wire:click="$dispatch('showModal', {modalName: 'create'})"
@@ -89,23 +101,22 @@
             </div>
         </x-slot:toolbar>
 
-        <x-filter-accordion id="filter-accordion" title="Filter Data" :active-filters-count="$this->activeFiltersCount">
-            {{-- Filter: Select Inputs --}}
+        <x-filter-accordion id="filter-accordion" title="Filter Data" :active-filters-count="$activeFiltersCount">
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
                     <x-select name="filters.role" label="Peran" icon="fa-shield-alt" wire:model.live="filters.role">
                         <option value="">Semua Peran</option>
-                        @foreach ($this->roles as $role)
-                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                        @foreach ($roleOptions as $role)
+                            <option value="{{ $role->id }}" wire:key="filter-role-{{ $role->id }}">
+                                {{ $role->name }}
+                            </option>
                         @endforeach
                     </x-select>
                 </div>
             </div>
         </x-filter-accordion>
 
-        {{-- Data table --}}
-        <x-table :targets="[]" :paginator="$this->users">
-            {{-- Table headings --}}
+        <x-table :targets="[]" :paginator="$userPaginator">
             <x-slot:thead>
                 <tr>
                     <th scope="col" class="text-center" style="width: 40px">
@@ -126,11 +137,16 @@
                 </tr>
             </x-slot:thead>
 
-            {{-- Table rows --}}
             <x-slot:tbody>
-                @forelse ($this->users as $user)
+                @forelse ($userPaginator as $user)
+                    @php
+                        $userName = $user->name ?? '-';
+                        $roleName = $user->roles->first()?->name;
+                        $maskedEmail = filled($user->email) ? \Illuminate\Support\Str::mask($user->email, '*', 3) : '-';
+                        $createdAtLabel = $user->created_at?->translatedFormat('d F Y H:i') ?? '-';
+                    @endphp
+
                     <tr wire:key="user-{{ $user->id }}">
-                        {{-- Checkbox --}}
                         <td class="text-center align-middle">
                             <div class="custom-control custom-checkbox">
                                 <input
@@ -148,33 +164,24 @@
                             </div>
                         </td>
 
-                        {{-- Nama & badge peran --}}
                         <td class="py-3 align-middle">
-                            <div class="font-weight-bold mb-2">{{ $user->name }}</div>
+                            <div class="font-weight-bold mb-2">{{ $userName }}</div>
 
-                            @if ($user->roles->isNotEmpty())
+                            @if (filled($roleName))
                                 <div class="d-flex align-items-center flex-wrap">
-                                    <x-badge
-                                        :label="$user->roles->first()->name"
-                                        icon="fa-shield-alt"
-                                        variant="primary"
-                                        class="mb-1"
-                                    />
+                                    <x-badge :label="$roleName" icon="fa-shield-alt" variant="primary" class="mb-1" />
                                 </div>
                             @endif
                         </td>
 
-                        {{-- Alamat Email --}}
                         <td class="py-3 align-middle">
-                            <span class="font-weight-bold">{{ Str::mask($user->email, '*', 3) }}</span>
+                            <span class="font-weight-bold">{{ $maskedEmail }}</span>
                         </td>
 
-                        {{-- Ditambahkan Pada --}}
                         <td class="py-3 align-middle">
-                            <span class="text-muted">{{ $user->created_at->translatedFormat('d F Y H:i') }}</span>
+                            <span class="text-muted">{{ $createdAtLabel }}</span>
                         </td>
 
-                        {{-- Aksi --}}
                         <td class="text-center align-middle">
                             <div class="btn-group table-action-group" role="group" aria-label="Aksi pengguna">
                                 @can('ubah pengguna')
@@ -190,6 +197,7 @@
                                         title="Ubah"
                                     />
                                 @endcan
+
                                 @can('hapus pengguna')
                                     <x-button
                                         label=""
@@ -197,9 +205,9 @@
                                         variant="danger"
                                         class="btn-sm"
                                         wire:click="destroy({{ $user->id }})"
-                                        wire:confirm="Yakin ingin menghapus pengguna '{{ $user->name }}'?"
+                                        wire:confirm="Yakin ingin menghapus pengguna '{{ $userName }}'?"
                                         wire:loading.attr="disabled"
-                                        wire:target="destroy"
+                                        wire:target="destroy({{ $user->id }})"
                                         aria-label="Hapus pengguna"
                                         data-toggle="tooltip"
                                         data-placement="top"

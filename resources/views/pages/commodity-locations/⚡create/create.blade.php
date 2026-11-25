@@ -1,7 +1,6 @@
 <div>
-    <x-modal title="Tambah Data" submit="save">
+    <x-modal title="Tambah Data Ruangan" submit="save">
         <x-slot:body>
-            {{-- Form fields --}}
             <x-input
                 wire:model="form.name"
                 name="form.name"
@@ -12,15 +11,21 @@
 
             <x-textarea
                 wire:model="form.description"
-                label="Deskripsi Ruangan"
-                placeholder="Masukan deskripsi ruangan (opsional)"
                 name="form.description"
+                label="Deskripsi Ruangan"
+                placeholder="Masukkan deskripsi ruangan (opsional)"
             />
         </x-slot:body>
 
         <x-slot:footer>
-            {{-- Form actions --}}
-            <x-button type="submit" icon="fa-plus-circle" label="Simpan Data" class="btn-primary" />
+            <x-button
+                type="submit"
+                icon="fa-plus-circle"
+                label="Simpan Data"
+                class="btn-primary"
+                wire:loading.attr="disabled"
+                wire:target="save"
+            />
         </x-slot:footer>
     </x-modal>
 </div>

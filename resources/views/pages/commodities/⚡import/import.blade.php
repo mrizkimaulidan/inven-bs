@@ -1,8 +1,12 @@
+@php
+    $uploadedSpreadsheet = $importForm->spreadsheetFile ?? null;
+    $templateUrl = asset(rawurlencode('Template Data Barang.xlsx'));
+@endphp
+
 <div>
-    {{-- Commodity import modal --}}
     <x-import-modal
         modalTitle="Impor Data Barang"
-        :uploadedFile="$importForm->spreadsheetFile"
-        :templateDownloadUrl="asset('Template Data Barang.xlsx')"
+        :uploadedFile="$uploadedSpreadsheet"
+        :templateDownloadUrl="$templateUrl"
     />
 </div>

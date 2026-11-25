@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\View\Components;
 
-use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
@@ -16,8 +17,10 @@ class Alert extends Component
      *
      * Each entry defines the alert title and Font Awesome icon
      * used when the corresponding session key is present.
+     *
+     * @var array<string, array{title: string, icon: string}>
      */
-    public const ALERT_TYPES = [
+    public const array ALERT_TYPES = [
         'success' => ['title' => 'Berhasil!',   'icon' => 'fa-check-circle'],
         'danger' => ['title' => 'Gagal!',      'icon' => 'fa-exclamation-circle'],
         'warning' => ['title' => 'Peringatan!', 'icon' => 'fa-exclamation-triangle'],
@@ -25,11 +28,9 @@ class Alert extends Component
     ];
 
     /**
-     * Get the view / contents that represent the component.
-     *
-     * @return View|Closure|string
+     * Get the view or contents that represent the component.
      */
-    public function render(): View|Closure|string
+    public function render(): View
     {
         return view('components.alert', [
             'alertTypes' => self::ALERT_TYPES,

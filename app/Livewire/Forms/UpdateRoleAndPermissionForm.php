@@ -4,9 +4,11 @@ namespace App\Livewire\Forms;
 
 use App\Livewire\Concerns\AuthorizesModulePermissions;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
+use RuntimeException;
 
 /**
  * Validate role changes and synchronize the role's assigned permissions.
@@ -16,9 +18,9 @@ class UpdateRoleAndPermissionForm extends Form
     use AuthorizesModulePermissions;
 
     /**
-     * The role instance.
+     * The role model instance being updated.
      */
-    public Role $role;
+    public ?Role $role = null;
 
     /**
      * The role name provided by the user.
@@ -33,41 +35,56 @@ class UpdateRoleAndPermissionForm extends Form
     public array $permissions = [];
 
     /**
-     * Validate the input and persist the role and its permissions.
-     *
-     * @return void
+     * Validate the input and persist changes to the role and its permissions.
      */
     public function update(): void
     {
         $this->authorizeModuleAction('ubah', 'peran');
 
+        if (! $this->role instanceof Role) {
+            throw new RuntimeException('Role model must be loaded before updating.');
+        }
+
+        $actor = auth()->user();
+
+        if (! $actor instanceof User) {
+            throw new RuntimeException('Authenticated user is not available.');
+        }
+
+        $this->name = trim($this->name);
         $validated = $this->validate();
-        $assignablePermissions = auth()->user()->getAllPermissions()->pluck('name')
+
+        $assignablePermissions = $actor->getAllPermissions()
+            ->pluck('name')
             ->merge($this->role->permissions()->pluck('name'));
 
         abort_if(collect($validated['permissions'])->diff($assignablePermissions)->isNotEmpty(), 403);
 
-        $this->role->update($validated);
+        $this->role->update([
+            'name' => $validated['name'],
+        ]);
 
         $this->role->syncPermissionsWithLog($validated['permissions']);
     }
 
     /**
-     * Get the validation rules for the form.
+     * Get the validation rules for the role update form.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
     protected function rules(): array
     {
+        $ignoreId = $this->role?->id;
+
         return [
-            'name' => ['required', 'string', 'min:3', 'max:255', Rule::unique('roles')->ignore($this->role->id)],
+            'name' => ['required', 'string', 'min:3', 'max:255', Rule::unique('roles', 'name')->ignore($ignoreId)],
             'permissions' => ['required', 'array', 'min:1'],
             'permissions.*' => ['string', 'exists:permissions,name'],
         ];
     }
 
     /**
-     * Get the custom validation messages.
+     * Get the custom validation messages in Indonesian.
      *
      * @return array<string, string>
      */

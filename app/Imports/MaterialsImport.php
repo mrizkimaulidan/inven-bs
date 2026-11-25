@@ -3,7 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Material;
-use Illuminate\Database\Eloquent\Model;
+use InvalidArgumentException;
 use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -14,13 +14,20 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 class MaterialsImport implements SkipsEmptyRows, ToModel, WithHeadingRow
 {
     /**
-     * Create a material from an imported row.
+     * Build a material model instance from an imported spreadsheet row.
      *
      * @param  array<string, mixed>  $spreadsheetRow
-     * @return Model|null
      */
-    public function model(array $spreadsheetRow): ?Model
+    public function model(array $spreadsheetRow): ?Material
     {
-        return new Material(['name' => $spreadsheetRow['nama_bahan']]);
+        $materialName = trim((string) ($spreadsheetRow['nama_bahan'] ?? ''));
+
+        if ($materialName === '') {
+            throw new InvalidArgumentException('Kolom Nama Bahan wajib diisi.');
+        }
+
+        return new Material([
+            'name' => $materialName,
+        ]);
     }
 }

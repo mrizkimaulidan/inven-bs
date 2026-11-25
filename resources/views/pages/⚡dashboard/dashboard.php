@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use App\Enums\CommodityCondition;
 use App\Livewire\Forms\DashboardFilterForm;
 use App\Services\InventoryDashboardService;
@@ -14,6 +12,11 @@ new #[Title('Beranda')] class extends Component
 {
     public DashboardFilterForm $filters;
 
+    /**
+     * Build dashboard filter options and summary payload.
+     *
+     * @return array<string, mixed>|null
+     */
     #[Computed]
     public function dashboardPageData(): ?array
     {
@@ -34,16 +37,26 @@ new #[Title('Beranda')] class extends Component
         }
     }
 
+    /**
+     * Validate updated filter fields and refresh dashboard chart data.
+     */
     public function updated(string $property): void
     {
         if (! str_starts_with($property, 'filters.')) {
             return;
         }
 
-        $this->filters->validateOnly(substr($property, strlen('filters.')));
+        $field = substr($property, strlen('filters.'));
+        if ($field !== '') {
+            $this->filters->validateOnly($field);
+        }
+
         $this->dispatchChartUpdate();
     }
 
+    /**
+     * Reset all active filters and clear validation errors.
+     */
     public function resetFilters(): void
     {
         $this->filters->reset();
@@ -51,12 +64,18 @@ new #[Title('Beranda')] class extends Component
         $this->dispatchChartUpdate();
     }
 
+    /**
+     * Retry loading dashboard data after a query failure.
+     */
     public function retryDashboard(): void
     {
         $this->resetValidation('dashboard');
         $this->dispatchChartUpdate();
     }
 
+    /**
+     * Map commodity condition to a Bootstrap badge variant.
+     */
     public function conditionVariant(CommodityCondition $condition): string
     {
         return match ($condition) {
@@ -66,17 +85,20 @@ new #[Title('Beranda')] class extends Component
         };
     }
 
+    /**
+     * Refresh computed dashboard data and dispatch updated chart payload.
+     */
     private function dispatchChartUpdate(): void
     {
         unset($this->dashboardPageData);
 
         $pageData = $this->dashboardPageData;
+        $charts = is_array($pageData['dashboard'] ?? null)
+            ? ($pageData['dashboard']['charts'] ?? [])
+            : [];
 
         if ($pageData !== null) {
-            $this->dispatch(
-                'inventory-dashboard-updated',
-                charts: $pageData['dashboard']['charts'],
-            );
+            $this->dispatch('inventory-dashboard-updated', charts: $charts);
         }
     }
 };

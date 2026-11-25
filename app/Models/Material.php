@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Represent commodity materials and define their commodity relationship.
+ * Represent commodity materials and define their commodity relationship and search scope.
  */
 #[Fillable([
     'name',
@@ -21,9 +21,9 @@ class Material extends Model
     use HasFactory, HasLogActivity;
 
     /**
-     * Get the commodities associated with the brand.
+     * Get the commodities associated with the material.
      *
-     * @return HasMany
+     * @return HasMany<Commodity, $this>
      */
     public function commodities(): HasMany
     {
@@ -31,15 +31,13 @@ class Material extends Model
     }
 
     /**
-     * Apply the search filter to the query.
+     * Apply the search filter to the material query.
      *
-     * @param  Builder  $query
-     * @param  string  $searchQuery
-     * @return void
+     * @param  Builder<static>  $query
      */
     #[Scope]
     public function search(Builder $query, string $searchQuery): void
     {
-        $query->whereAny(['name'], 'like', "%$searchQuery%");
+        $query->whereAny(['name'], 'like', '%'.$searchQuery.'%');
     }
 }

@@ -7,7 +7,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 /**
- * Load assignable roles and create a user with the selected roles.
+ * Load assignable roles and create a user with the selected role.
  */
 new class extends Component
 {
@@ -19,22 +19,22 @@ new class extends Component
     /**
      * Get the roles available for assignment.
      *
-     * @return Collection
+     * @return Collection<int, Role>
      */
     #[Computed]
     public function roles(): Collection
     {
-        $permissionNames = auth()->user()->getAllPermissions()->pluck('name');
+        $permissionNames = auth()->user()?->getAllPermissions()->pluck('name') ?? collect();
 
-        return Role::with('permissions')->get()
-            ->filter(fn (Role $role) => $role->permissions->pluck('name')->diff($permissionNames)->isEmpty())
+        return Role::query()
+            ->with('permissions')
+            ->get()
+            ->filter(static fn (Role $role): bool => $role->permissions->pluck('name')->diff($permissionNames)->isEmpty())
             ->values();
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @return void
      */
     public function save(): void
     {
@@ -42,6 +42,6 @@ new class extends Component
 
         session()->flash('success', 'Data pengguna berhasil ditambahkan!');
 
-        $this->redirect('/pengguna', navigate: true);
+        $this->redirect(route('pengguna.index'), navigate: true);
     }
 };

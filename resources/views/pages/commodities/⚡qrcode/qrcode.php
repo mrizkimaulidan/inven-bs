@@ -1,8 +1,7 @@
-
-
 <?php
 
 use App\Services\QrCodeService;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -30,8 +29,8 @@ new class extends Component
             return;
         }
 
-        $this->code = $qrcode;
-        $this->qrcode = $qrCodeService->forWeb($qrcode)->toHtml();
+        $this->code = trim($qrcode);
+        $this->qrcode = $qrCodeService->forWeb($this->code)->toHtml();
     }
 
     /**
@@ -44,12 +43,13 @@ new class extends Component
         }
 
         $code = $this->code;
+        $safeFilename = 'qrcode-'.Str::slug($code).'.png';
 
         return response()->streamDownload(
             static function () use ($qrCodeService, $code): void {
                 echo $qrCodeService->forDownload($code);
             },
-            "qrcode-{$code}.png",
+            $safeFilename !== 'qrcode-.png' ? $safeFilename : 'qrcode.png',
             ['Content-Type' => 'image/png'],
         );
     }

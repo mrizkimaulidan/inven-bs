@@ -16,9 +16,6 @@ new class extends Component
 
     /**
      * Load the selected funding source and populate the edit form.
-     *
-     * @param  int  $commodityFundingSourceId
-     * @return void
      */
     public function mount(int $commodityFundingSourceId): void
     {
@@ -33,8 +30,6 @@ new class extends Component
 
     /**
      * Update the specified resource in storage.
-     *
-     * @return void
      */
     public function edit(): void
     {
@@ -42,6 +37,6 @@ new class extends Component
 
         session()->flash('success', 'Data perolehan berhasil diperbarui.');
 
-        $this->redirect('/perolehan', navigate: true);
+        $this->redirect(route('perolehan.index'), navigate: true);
     }
 };

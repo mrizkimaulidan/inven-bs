@@ -17,15 +17,11 @@ new class extends Component
 
     /**
      * The import form state.
-     *
-     * @var ImportForm
      */
     public ImportForm $importForm;
 
     /**
-     * Import the uploaded spreadsheet.
-     *
-     * @return void
+     * Import the uploaded spreadsheet and redirect to the listing.
      */
     public function import(): void
     {
@@ -37,6 +33,6 @@ new class extends Component
 
         session()->flash('success', 'Data barang berhasil diimpor!');
 
-        $this->redirect('/barang', navigate: true);
+        $this->redirect(route('barang.index'), navigate: true);
     }
 };

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Services;
 
 use App\Enums\CommodityCondition;
@@ -11,11 +9,28 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use LogicException;
 
+/**
+ * Aggregate inventory query builders into chart series datasets for the dashboard.
+ */
 class InventoryDashboardChartService
 {
     private const TREND_MONTHS = 6;
 
     /**
+     * Allowed dimension tables mapped to their foreign key column on `commodities`.
+     *
+     * @var array<string, string>
+     */
+    private const DIMENSION_FOREIGN_KEYS = [
+        'commodity_locations' => 'commodity_location_id',
+        'materials' => 'material_id',
+        'brands' => 'brand_id',
+        'commodity_funding_sources' => 'commodity_funding_source_id',
+    ];
+
+    /**
+     * Build all chart datasets from the given filtered commodity query.
+     *
      * @param  Builder<Commodity>  $query
      * @return array<string, mixed>
      */
@@ -27,6 +42,7 @@ class InventoryDashboardChartService
             'brand' => $this->groupDimension($query, 'brands', 'brand_id'),
             'funding' => $this->groupDimension($query, 'commodity_funding_sources', 'commodity_funding_source_id'),
         ];
+
         $years = $this->groupPurchaseYears($query);
         $conditions = $this->groupConditions($query);
         $trends = $this->registrationTrends($query);
@@ -66,11 +82,18 @@ class InventoryDashboardChartService
     }
 
     /**
+     * Group commodity metrics by a dimension table and its foreign key.
+     *
      * @param  Builder<Commodity>  $query
      * @return list<array<string, int|float|string>>
      */
     private function groupDimension(Builder $query, string $table, string $foreignKey): array
     {
+        if (! isset(self::DIMENSION_FOREIGN_KEYS[$table]) || self::DIMENSION_FOREIGN_KEYS[$table] !== $foreignKey) {
+            throw new LogicException("Unsupported dimension configuration for [{$table}].");
+        }
+
+        /** @var list<array<string, int|float|string>> $rows */
         $rows = (clone $query)
             ->join($table, $table.'.id', '=', 'commodities.'.$foreignKey)
             ->select($table.'.id', $table.'.name')
@@ -95,12 +118,15 @@ class InventoryDashboardChartService
     }
 
     /**
+     * Group commodity metrics by purchase year in descending order.
+     *
      * @param  Builder<Commodity>  $query
      * @return list<array<string, int|float>>
      */
     private function groupPurchaseYears(Builder $query): array
     {
-        return (clone $query)
+        /** @var list<array<string, int|float>> $rows */
+        $rows = (clone $query)
             ->select('commodities.purchase_year')
             ->selectRaw(
                 'COUNT(*) AS record_count, SUM(commodities.quantity) AS unit_count, SUM(commodities.total_price) AS inventory_value',
@@ -115,15 +141,20 @@ class InventoryDashboardChartService
                 'value' => (float) $row->inventory_value,
             ])
             ->all();
+
+        return $rows;
     }
 
     /**
+     * Group commodity metrics by condition enum value.
+     *
      * @param  Builder<Commodity>  $query
      * @return array<int, array{units: int, count: int, totalValue: float, averagePrice: float}>
      */
     private function groupConditions(Builder $query): array
     {
-        return (clone $query)
+        /** @var array<int, array{units: int, count: int, totalValue: float, averagePrice: float}> $grouped */
+        $grouped = (clone $query)
             ->select('commodities.condition')
             ->selectRaw(
                 'SUM(commodities.quantity) AS unit_count, COUNT(*) AS record_count, SUM(commodities.total_price) AS inventory_value, AVG(commodities.unit_price) AS average_price',
@@ -145,9 +176,13 @@ class InventoryDashboardChartService
                 ];
             })
             ->all();
+
+        return $grouped;
     }
 
     /**
+     * Format condition metric rows across all enum cases.
+     *
      * @param  array<int, array{units: int, count: int, totalValue: float, averagePrice: float}>  $conditions
      * @return list<array<string, int|float|string>>
      */
@@ -178,23 +213,32 @@ class InventoryDashboardChartService
     }
 
     /**
-     * @param  list<array<string, int|float>>  $rows
+     * Sort rows by an optional metric descending and filter keys to the requested fields.
+     *
+     * @param  list<array<string, int|float|string>>  $rows
      * @param  list<string>  $fields
      * @return list<array<string, int|float|string>>
      */
     private function pick(array $rows, array $fields, ?string $sortBy = null): array
     {
         if ($sortBy !== null) {
-            usort($rows, static fn (array $first, array $second): int => $second[$sortBy] <=> $first[$sortBy]);
+            usort(
+                $rows,
+                static fn (array $first, array $second): int => ($second[$sortBy] ?? 0) <=> ($first[$sortBy] ?? 0),
+            );
         }
 
+        $allowedKeys = array_flip($fields);
+
         return array_map(
-            static fn (array $row): array => array_intersect_key($row, array_flip($fields)),
+            static fn (array $row): array => array_intersect_key($row, $allowedKeys),
             $rows,
         );
     }
 
     /**
+     * Bucket inventory value and unit counts into age ranges relative to the current year.
+     *
      * @param  list<array<string, int|float>>  $years
      * @return list<array{label: string, value: float, units: int}>
      */
@@ -209,8 +253,9 @@ class InventoryDashboardChartService
         ];
         $currentYear = (int) now()->format('Y');
 
-        foreach ($years as $year) {
-            $age = $currentYear - $year['year'];
+        foreach ($years as $yearRow) {
+            $year = (int) ($yearRow['year'] ?? $currentYear);
+            $age = $currentYear - $year;
             $label = match (true) {
                 $age < 0 => 'Tahun mendatang',
                 $age <= 2 => '0–2 tahun',
@@ -218,8 +263,8 @@ class InventoryDashboardChartService
                 $age <= 10 => '6–10 tahun',
                 default => '>10 tahun',
             };
-            $bands[$label]['value'] += $year['value'];
-            $bands[$label]['units'] += $year['units'];
+            $bands[$label]['value'] += (float) ($yearRow['value'] ?? 0.0);
+            $bands[$label]['units'] += (int) ($yearRow['units'] ?? 0);
         }
 
         return array_map(
@@ -230,6 +275,8 @@ class InventoryDashboardChartService
     }
 
     /**
+     * Build monthly trend series for records, units, and total inventory value.
+     *
      * @param  Builder<Commodity>  $query
      * @return array{
      *     records: array{labels: list<string>, values: list<int>},
@@ -277,40 +324,50 @@ class InventoryDashboardChartService
     }
 
     /**
+     * Retrieve commodities ordered by total inventory value descending.
+     *
      * @param  Builder<Commodity>  $query
      * @return list<array{id: int, itemCode: string, name: string, value: float}>
      */
     private function highestValueItems(Builder $query): array
     {
-        return (clone $query)
+        /** @var list<array{id: int, itemCode: string, name: string, value: float}> $items */
+        $items = (clone $query)
             ->select(['commodities.id', 'commodities.item_code', 'commodities.name', 'commodities.total_price'])
             ->orderByDesc('commodities.total_price')
             ->get()
             ->map(static fn (Commodity $item): array => [
-                'id' => $item->id,
-                'itemCode' => $item->item_code,
-                'name' => $item->name,
+                'id' => (int) $item->id,
+                'itemCode' => (string) $item->item_code,
+                'name' => (string) $item->name,
                 'value' => (float) $item->total_price,
             ])
             ->all();
+
+        return $items;
     }
 
     /**
+     * Retrieve commodities ordered by unit quantity descending.
+     *
      * @param  Builder<Commodity>  $query
      * @return list<array{id: int, itemCode: string, name: string, units: int}>
      */
     private function highestQuantityItems(Builder $query): array
     {
-        return (clone $query)
+        /** @var list<array{id: int, itemCode: string, name: string, units: int}> $items */
+        $items = (clone $query)
             ->select(['commodities.id', 'commodities.item_code', 'commodities.name', 'commodities.quantity'])
             ->orderByDesc('commodities.quantity')
             ->get()
             ->map(static fn (Commodity $item): array => [
-                'id' => $item->id,
-                'itemCode' => $item->item_code,
-                'name' => $item->name,
+                'id' => (int) $item->id,
+                'itemCode' => (string) $item->item_code,
+                'name' => (string) $item->name,
                 'units' => (int) $item->quantity,
             ])
             ->all();
+
+        return $items;
     }
 }

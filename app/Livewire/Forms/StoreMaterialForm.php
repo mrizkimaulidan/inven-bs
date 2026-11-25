@@ -20,39 +20,40 @@ class StoreMaterialForm extends Form
     public string $name = '';
 
     /**
-     * Validate the input and persist a new record.
-     *
-     * @return void
+     * Validate the input and persist a new material record.
      */
     public function store(): void
     {
         $this->authorizeModuleAction('tambah', 'bahan');
-        Material::create($this->validate());
+
+        $this->name = trim($this->name);
+
+        Material::query()->create($this->validate());
     }
 
     /**
-     * Get the validation rules for the form.
+     * Get the validation rules for the material form.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
     protected function rules(): array
     {
         return [
-            'name' => ['required', 'min:3', 'max:255'],
+            'name' => ['required', 'string', 'min:3', 'max:255'],
         ];
     }
 
     /**
-     * Get the custom validation messages.
+     * Get the custom validation messages in Indonesian.
      *
      * @return array<string, string>
      */
     protected function messages(): array
     {
         return [
-            'name.required' => 'Nama merek wajib diisi!',
-            'name.min' => 'Nama merek minimal :min karakter!',
-            'name.max' => 'Nama merek maksimal :max karakter!',
+            'name.required' => 'Nama bahan wajib diisi!',
+            'name.min' => 'Nama bahan minimal :min karakter!',
+            'name.max' => 'Nama bahan maksimal :max karakter!',
         ];
     }
 }

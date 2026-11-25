@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Livewire\Forms;
 
 use App\Enums\CommodityCondition;
@@ -9,6 +7,9 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\In;
 use Livewire\Form;
 
+/**
+ * Represent and validate filter inputs for the dashboard view.
+ */
 class DashboardFilterForm extends Form
 {
     public string $search = '';
@@ -24,7 +25,16 @@ class DashboardFilterForm extends Form
     public string $purchaseYear = '';
 
     /**
-     * @return array{search: string, brandId: string, materialId: string, locationId: string, condition: string, purchaseYear: string}
+     * Get the current filter values as an associative array.
+     *
+     * @return array{
+     *     search: string,
+     *     brandId: string,
+     *     materialId: string,
+     *     locationId: string,
+     *     condition: string,
+     *     purchaseYear: string,
+     * }
      */
     public function values(): array
     {
@@ -39,6 +49,8 @@ class DashboardFilterForm extends Form
     }
 
     /**
+     * Define validation rules for dashboard filters.
+     *
      * @return array<string, array<int, string|In>>
      */
     protected function rules(): array
@@ -54,6 +66,8 @@ class DashboardFilterForm extends Form
     }
 
     /**
+     * Define custom validation messages in Indonesian.
+     *
      * @return array<string, string>
      */
     protected function messages(): array
@@ -74,6 +88,8 @@ class DashboardFilterForm extends Form
     }
 
     /**
+     * Define human-readable attribute labels for validation errors.
+     *
      * @return array<string, string>
      */
     protected function validationAttributes(): array

@@ -30,30 +30,38 @@ new #[Title('Halaman Daftar Log Aktivitas')] class extends Component
 
     /**
      * Get a listing of the resource with pagination.
+     *
+     * @return LengthAwarePaginator<int, AuditLog>
      */
     #[Computed]
     public function activityLogs(): LengthAwarePaginator
     {
+        $perPage = max(1, $this->perPage);
+        $keyword = trim($this->search);
+
         return AuditLog::query()
             ->with('causer')
-            ->when(filled($this->search), function (Builder $query) {
-                $query->search($this->search);
+            ->when($keyword !== '', static function (Builder $query) use ($keyword): void {
+                $query->search($keyword);
             })
             ->latest()
-            ->paginate($this->perPage);
+            ->paginate($perPage);
     }
 
+    /**
+     * Get the permission module name used by bulk delete actions.
+     */
     protected function bulkPermissionModule(): string
     {
         return 'log aktivitas';
     }
 
     /**
-     * Called after updating a property.
+     * Reset pagination when filter or page-size properties change.
      */
     public function updated(string $property): void
     {
-        if (in_array($property, ['search', 'perPage'])) {
+        if (in_array($property, ['search', 'perPage'], true)) {
             $this->resetPage();
         }
     }

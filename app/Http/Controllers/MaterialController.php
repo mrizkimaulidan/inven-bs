@@ -8,14 +8,18 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\Eloquent\Builder;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Handle PDF reporting actions for material records.
+ */
 class MaterialController extends Controller
 {
     /**
-     * Generate and stream a PDF document for all materials.
+     * Generate and stream a PDF document containing all materials and commodity counts.
      */
     public function generateAllPdf(): Response
     {
-        $materials = Material::query()
+        $rows = Material::query()
+            ->select(['id', 'name'])
             ->withCount([
                 'commodities',
                 'commodities as good_conditions_count' => fn (Builder $query): Builder => $query
@@ -37,8 +41,14 @@ class MaterialController extends Controller
 
         return Pdf::loadView('print.catalog', [
             'title' => 'Daftar Bahan',
-            'headers' => ['Nama Bahan', 'Total Barang', 'Kondisi Baik', 'Kurang Baik', 'Rusak Berat'],
-            'rows' => $materials,
+            'headers' => [
+                'Nama Bahan',
+                'Total Barang',
+                CommodityCondition::GOOD->label(),
+                CommodityCondition::POOR->label(),
+                CommodityCondition::HEAVILY_DAMAGED->label(),
+            ],
+            'rows' => $rows,
             'printedAt' => now()->translatedFormat('d F Y H:i'),
         ])
             ->setPaper('a4', 'landscape')

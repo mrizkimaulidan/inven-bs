@@ -17,33 +17,32 @@ new class extends Component
 
     /**
      * Load the selected commodity and its related records.
-     *
-     * @param  int  $commodityId
-     * @return void
      */
     public function mount(int $commodityId): void
     {
         $this->commodity = Commodity::findOrFail($commodityId);
 
-        $this->commodity->load(
+        $this->commodity->load([
             'creator',
             'updater',
             'commodityFundingSource',
             'commodityLocation',
             'brand',
             'material',
-        );
+        ]);
     }
 
     /**
      * Resolve the icon, badge, and label styling for the commodity condition.
      *
-     * @return array
+     * @return array{icon: string, badge: string, label: string}
      */
     #[Computed]
     public function conditionStyle(): array
     {
-        return match ($this->commodity->condition) {
+        $condition = $this->commodity?->condition;
+
+        return match ($condition) {
             CommodityCondition::GOOD => [
                 'icon' => 'fa-check-circle',
                 'badge' => 'badge-success',

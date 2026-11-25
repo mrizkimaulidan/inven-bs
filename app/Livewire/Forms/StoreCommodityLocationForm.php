@@ -25,31 +25,33 @@ class StoreCommodityLocationForm extends Form
     public ?string $description = null;
 
     /**
-     * Validate the input and persist a new record.
-     *
-     * @return void
+     * Validate the input and persist a new commodity location record.
      */
     public function store(): void
     {
         $this->authorizeModuleAction('tambah', 'ruangan');
-        CommodityLocation::create($this->validate());
+
+        $this->name = trim($this->name);
+        $this->description = $this->description !== null ? trim($this->description) : null;
+
+        CommodityLocation::query()->create($this->validate());
     }
 
     /**
-     * Get the validation rules for the form.
+     * Get the validation rules for the location form.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
     protected function rules(): array
     {
         return [
-            'name' => ['required', 'min:3', 'max:255'],
+            'name' => ['required', 'string', 'min:3', 'max:255'],
             'description' => ['nullable', 'string'],
         ];
     }
 
     /**
-     * Get the custom validation messages.
+     * Get the custom validation messages in Indonesian.
      *
      * @return array<string, string>
      */
@@ -60,7 +62,7 @@ class StoreCommodityLocationForm extends Form
             'name.min' => 'Nama ruangan minimal :min karakter!',
             'name.max' => 'Nama ruangan maksimal :max karakter!',
 
-            'description.string' => 'Deskripsi ruangan harus berupa karakter!',
+            'description.string' => 'Deskripsi ruangan harus berupa teks!',
         ];
     }
 }

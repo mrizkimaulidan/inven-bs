@@ -5,7 +5,7 @@ namespace App\Enums;
 use Maatwebsite\Excel\Excel;
 
 /**
- * List supported spreadsheet formats and resolve their writer types.
+ * Represent supported export formats and resolve their writer types.
  */
 enum ExportFormat: string
 {
@@ -17,9 +17,7 @@ enum ExportFormat: string
     case Html = 'html';
 
     /**
-     * Get the writer type constant for the export.
-     *
-     * @return string
+     * Get the Maatwebsite Excel writer type constant for this format.
      */
     public function writerType(): string
     {
@@ -34,9 +32,7 @@ enum ExportFormat: string
     }
 
     /**
-     * Get the human-readable label.
-     *
-     * @return string
+     * Get the human-readable label for display in UI controls.
      */
     public function label(): string
     {
@@ -51,12 +47,30 @@ enum ExportFormat: string
     }
 
     /**
-     * Get all cases for rendering in a view.
+     * Get the file extension for this format.
+     */
+    public function extension(): string
+    {
+        return $this->value;
+    }
+
+    /**
+     * Get all enum cases for rendering in a view.
      *
-     * @return array<int, self>
+     * @return list<self>
      */
     public static function options(): array
     {
         return self::cases();
+    }
+
+    /**
+     * Get all supported format values for validation rules.
+     *
+     * @return list<string>
+     */
+    public static function values(): array
+    {
+        return array_column(self::cases(), 'value');
     }
 }

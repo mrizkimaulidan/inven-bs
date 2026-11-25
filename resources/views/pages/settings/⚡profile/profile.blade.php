@@ -4,9 +4,9 @@
             <div class="card">
                 <div class="card-body">
                     <form wire:submit="edit">
-                        {{-- Section: Informasi Akun --}}
                         <h6 class="text-uppercase text-muted font-weight-bold mb-3">
-                            <i class="fas fa-user-circle mr-1"></i> Informasi Akun
+                            <i class="fas fa-user-circle mr-1" aria-hidden="true"></i>
+                            Informasi Akun
                         </h6>
 
                         <div class="row">
@@ -38,9 +38,9 @@
 
                         <hr class="my-4" />
 
-                        {{-- Section: Ubah Kata Sandi --}}
                         <h6 class="text-uppercase text-muted font-weight-bold mb-3">
-                            <i class="fas fa-lock mr-1"></i> Ubah Kata Sandi
+                            <i class="fas fa-lock mr-1" aria-hidden="true"></i>
+                            Ubah Kata Sandi
                             <small class="text-muted text-lowercase font-weight-normal ml-1">
                                 (biarkan kosong jika tidak ingin mengubah)
                             </small>
@@ -86,11 +86,14 @@
 
                         <hr class="my-4" />
 
-                        {{-- Actions --}}
                         <div class="d-flex justify-content-between align-items-center flex-wrap pb-3">
                             <div class="d-flex flex-wrap">
-                                <a href="/" class="btn btn-outline-secondary mr-2 mb-2">
-                                    <i class="fas fa-arrow-left"></i>
+                                <a
+                                    wire:navigate
+                                    href="{{ route('beranda') }}"
+                                    class="btn btn-outline-secondary mr-2 mb-2"
+                                >
+                                    <i class="fas fa-arrow-left" aria-hidden="true"></i>
                                     Kembali
                                 </a>
                                 <x-button
@@ -100,7 +103,14 @@
                                     class="btn-outline-warning mr-2 mb-2"
                                 />
                             </div>
-                            <x-button type="submit" icon="fa-save" label="Simpan Perubahan" class="btn-primary mb-2" />
+                            <x-button
+                                type="submit"
+                                icon="fa-save"
+                                label="Simpan Perubahan"
+                                class="btn-primary mb-2"
+                                wire:loading.attr="disabled"
+                                wire:target="edit"
+                            />
                         </div>
                     </form>
                 </div>

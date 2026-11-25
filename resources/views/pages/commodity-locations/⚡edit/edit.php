@@ -16,9 +16,6 @@ new class extends Component
 
     /**
      * Load the selected location and populate the edit form.
-     *
-     * @param  int  $commodityLocationId
-     * @return void
      */
     public function mount(int $commodityLocationId): void
     {
@@ -33,8 +30,6 @@ new class extends Component
 
     /**
      * Update the specified resource in storage.
-     *
-     * @return void
      */
     public function edit(): void
     {
@@ -42,6 +37,6 @@ new class extends Component
 
         session()->flash('success', 'Data ruangan berhasil diperbarui.');
 
-        $this->redirect('/ruangan', navigate: true);
+        $this->redirect(route('ruangan.index'), navigate: true);
     }
 };

@@ -23,7 +23,7 @@ enum CommodityCondition: int
     case HEAVILY_DAMAGED = 3;
 
     /**
-     * Label mapping keyed by enum value.
+     * Human-readable label mapping keyed by enum value.
      *
      * @var array<int, string>
      */
@@ -42,7 +42,7 @@ enum CommodityCondition: int
     }
 
     /**
-     * Get the enum case from its human-readable label.
+     * Resolve the enum case from its human-readable label.
      */
     public static function fromLabel(string $label): ?self
     {
@@ -52,7 +52,7 @@ enum CommodityCondition: int
     }
 
     /**
-     * Get the condition options for select inputs.
+     * Get the commodity condition options for select inputs.
      *
      * @return array<int, string>
      */
@@ -62,7 +62,17 @@ enum CommodityCondition: int
     }
 
     /**
-     * Determine if the commodity is usable.
+     * Get all raw enum values.
+     *
+     * @return list<int>
+     */
+    public static function values(): array
+    {
+        return array_column(self::cases(), 'value');
+    }
+
+    /**
+     * Determine whether the commodity is still usable.
      */
     public function isUsable(): bool
     {

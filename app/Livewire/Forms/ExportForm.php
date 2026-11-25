@@ -12,7 +12,7 @@ use Livewire\Form;
 class ExportForm extends Form
 {
     /**
-     * The selected export format.
+     * The selected export format value.
      */
     public string $format = ExportFormat::Xlsx->value;
 
@@ -42,23 +42,18 @@ class ExportForm extends Form
     }
 
     /**
-     * Resolve the current format as an enum instance.
-     *
-     * @return ExportFormat
+     * Resolve the current format as an ExportFormat enum instance.
      */
     public function formatEnum(): ExportFormat
     {
-        return ExportFormat::from($this->format);
+        return ExportFormat::tryFrom($this->format) ?? ExportFormat::Xlsx;
     }
 
     /**
-     * Build the export filename.
-     *
-     * @param  string  $prefix
-     * @return string
+     * Build the dated export filename for the given prefix.
      */
     public function filename(string $prefix = 'data'): string
     {
-        return sprintf('%s (%s).%s', $prefix, now()->format('d-m-Y'), $this->format);
+        return sprintf('%s (%s).%s', $prefix, now()->format('d-m-Y'), $this->formatEnum()->value);
     }
 }

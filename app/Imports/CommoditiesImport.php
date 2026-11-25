@@ -4,42 +4,52 @@ namespace App\Imports;
 
 use App\Enums\CommodityCondition;
 use App\Models\Commodity;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 /**
- * Create inventory records from spreadsheet rows with placeholder foreign keys.
+ * Create commodity records from spreadsheet rows with default foreign keys.
  */
 class CommoditiesImport implements SkipsEmptyRows, ToModel, WithHeadingRow
 {
     /**
-     * Create a commodity from spreadsheet values and placeholder relationships.
+     * Build a commodity model instance from an imported spreadsheet row.
      *
      * @param  array<string, mixed>  $spreadsheetRow
-     * @return Model|null
      */
-    public function model(array $spreadsheetRow): ?Model
+    public function model(array $spreadsheetRow): ?Commodity
     {
+        $conditionLabel = trim((string) ($spreadsheetRow['kondisi'] ?? ''));
+        $condition = CommodityCondition::fromLabel($conditionLabel);
+
+        if ($condition === null) {
+            throw new InvalidArgumentException("Nilai kondisi '{$conditionLabel}' tidak valid.");
+        }
+
+        $quantity = (int) ($spreadsheetRow['jumlah'] ?? 0);
+        $unitPrice = (float) ($spreadsheetRow['harga_satuan'] ?? 0);
+        $actorId = auth()->id() ?? 1;
+
         return new Commodity([
             'commodity_funding_source_id' => 1,
             'commodity_location_id' => 1,
-            'created_by' => 1,
-            'updated_by' => 1,
+            'created_by' => $actorId,
+            'updated_by' => $actorId,
             'brand_id' => 1,
             'material_id' => 1,
-            'item_code' => $spreadsheetRow['kode_barang'],
+            'item_code' => trim((string) ($spreadsheetRow['kode_barang'] ?? '')),
             'qr_code' => (string) Str::ulid(),
-            'name' => $spreadsheetRow['nama_barang'],
-            'purchase_year' => $spreadsheetRow['tahun_pembelian'],
-            'condition' => CommodityCondition::fromLabel($spreadsheetRow['kondisi']),
+            'name' => trim((string) ($spreadsheetRow['nama_barang'] ?? '')),
+            'purchase_year' => (int) ($spreadsheetRow['tahun_pembelian'] ?? now()->year),
+            'condition' => $condition,
             'image' => 'img/products/product-1.jpg',
-            'quantity' => $spreadsheetRow['jumlah'],
-            'unit_price' => $spreadsheetRow['harga_satuan'],
-            'total_price' => $spreadsheetRow['jumlah'] * $spreadsheetRow['harga_satuan'],
-            'notes' => $spreadsheetRow['catatan'],
+            'quantity' => $quantity,
+            'unit_price' => $unitPrice,
+            'total_price' => $quantity * $unitPrice,
+            'notes' => isset($spreadsheetRow['catatan']) ? trim((string) $spreadsheetRow['catatan']) : null,
         ]);
     }
 }

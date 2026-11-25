@@ -51,15 +51,18 @@ new #[Title('Halaman Daftar Pengguna')] class extends Component
     #[Computed]
     public function users(): LengthAwarePaginator
     {
+        $perPage = max(1, $this->perPage);
+        $keyword = trim($this->search);
+
         $query = User::query()->with('roles');
 
-        $query->when(filled($this->search), function (Builder $query): void {
-            $query->search($this->search);
+        $query->when($keyword !== '', static function (Builder $query) use ($keyword): void {
+            $query->search($keyword);
         });
 
         $this->applyFilters($query, $this->filterMap());
 
-        return $query->paginate($this->perPage);
+        return $query->paginate($perPage);
     }
 
     /**
@@ -70,7 +73,7 @@ new #[Title('Halaman Daftar Pengguna')] class extends Component
     #[Computed]
     public function roles(): Collection
     {
-        return Role::all();
+        return Role::query()->orderBy('name')->get();
     }
 
     /**
@@ -81,10 +84,18 @@ new #[Title('Halaman Daftar Pengguna')] class extends Component
     protected function filterMap(): array
     {
         return [
-            'role' => fn (Builder $query, mixed $filterValue): Builder => $query->whereHas(
-                'roles',
-                fn (Builder $roleQuery): Builder => $roleQuery->whereKey((int) $filterValue)
-            ),
+            'role' => static function (Builder $query, mixed $filterValue): Builder {
+                $roleId = (int) $filterValue;
+
+                if ($roleId <= 0) {
+                    return $query;
+                }
+
+                return $query->whereHas(
+                    'roles',
+                    static fn (Builder $roleQuery): Builder => $roleQuery->whereKey($roleId),
+                );
+            },
         ];
     }
 
@@ -101,7 +112,7 @@ new #[Title('Halaman Daftar Pengguna')] class extends Component
      */
     protected function bulkRedirectPath(): ?string
     {
-        return '/pengguna';
+        return route('pengguna.index');
     }
 
     /**
@@ -122,6 +133,8 @@ new #[Title('Halaman Daftar Pengguna')] class extends Component
         $user->delete();
 
         session()->flash('success', 'Data pengguna berhasil dihapus!');
+
+        $this->redirect(route('pengguna.index'), navigate: true);
     }
 
     /**

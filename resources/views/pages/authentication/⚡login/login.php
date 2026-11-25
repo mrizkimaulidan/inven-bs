@@ -8,23 +8,23 @@ use Livewire\Component;
 new #[Layout('layouts::authentication.app')] class extends Component
 {
     /**
-     * The login form.
+     * The login form object.
      */
     public LoginForm $form;
 
     /**
-     * Authenticate the user.
-     *
-     * @return void
+     * Authenticate the user and regenerate the session on success.
      */
     public function authenticate(): void
     {
         $validated = $this->form->validate();
 
+        $remember = (bool) ($validated['remember'] ?? false);
+
         if (! Auth::attempt([
             'email' => $validated['email'],
             'password' => $validated['password'],
-        ], $validated['remember'])) {
+        ], $remember)) {
             $this->addError('form.email', 'Alamat email atau kata sandi tidak sesuai.');
 
             return;
@@ -33,6 +33,6 @@ new #[Layout('layouts::authentication.app')] class extends Component
         $this->reset('form.password');
         request()->session()->regenerate();
 
-        $this->redirectIntended('/beranda', navigate: true);
+        $this->redirectIntended(route('beranda'), navigate: true);
     }
 };

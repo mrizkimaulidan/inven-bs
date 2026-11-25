@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Models\AuditLog;
@@ -9,6 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Stringable;
 
+/**
+ * Record structured audit log entries with sensitive field masking and subject label resolution.
+ */
 #[Singleton]
 readonly class LogService
 {
@@ -53,8 +58,17 @@ readonly class LogService
         $actor = $causer ?? auth()->user();
         $actorModel = $actor instanceof Model ? $actor : null;
 
-        /** @var string|null $causerName */
-        $causerName = $actorModel?->getAttribute('name');
+        $rawCauserName = $actorModel?->getAttribute('name');
+        $causerName = (is_scalar($rawCauserName) || $rawCauserName instanceof Stringable)
+            ? (string) $rawCauserName
+            : null;
+
+        $maskedDiff = $this->mask($diff);
+        $maskedProperties = $this->mask($properties);
+
+        $isConsole = app()->runningInConsole();
+        $userAgent = $isConsole ? null : Str::limit((string) request()->userAgent(), 500);
+        $requestUrl = $isConsole ? null : Str::limit(request()->fullUrl(), 2000);
 
         return AuditLog::create([
             'log_name' => $logName,
@@ -66,11 +80,11 @@ readonly class LogService
             'causer_type' => $actorModel?->getMorphClass(),
             'causer_id' => $actorModel?->getKey(),
             'causer_name' => $causerName,
-            'diff' => $this->mask($diff) ?: null,
-            'properties' => $this->mask($properties) ?: null,
-            'ip_address' => request()->ip(),
-            'user_agent' => Str::limit((string) request()->userAgent(), 500),
-            'request_url' => Str::limit(request()->fullUrl(), 2000),
+            'diff' => $maskedDiff !== [] ? $maskedDiff : null,
+            'properties' => $maskedProperties !== [] ? $maskedProperties : null,
+            'ip_address' => $isConsole ? null : request()->ip(),
+            'user_agent' => $userAgent,
+            'request_url' => $requestUrl,
             'created_at' => now(),
         ]);
     }
@@ -106,21 +120,23 @@ readonly class LogService
     /**
      * Recursively mask sensitive values within the given array.
      *
-     * @param  array<string, mixed>  $data
-     * @return array<string, mixed>
+     * @param  array<mixed, mixed>  $data
+     * @return array<mixed, mixed>
      */
     private function mask(array $data): array
     {
-        array_walk_recursive(
-            $data,
-            static function (mixed &$value, string|int $key): void {
-                if (is_string($key) && in_array(strtolower($key), self::SENSITIVE_KEYS, true)) {
-                    $value = '[REDACTED]';
-                }
-            },
-        );
+        $masked = [];
 
-        /** @var array<string, mixed> $data */
-        return $data;
+        foreach ($data as $key => $value) {
+            if (is_string($key) && in_array(strtolower($key), self::SENSITIVE_KEYS, true)) {
+                $masked[$key] = '[REDACTED]';
+
+                continue;
+            }
+
+            $masked[$key] = is_array($value) ? $this->mask($value) : $value;
+        }
+
+        return $masked;
     }
 }

@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Form;
+use RuntimeException;
 
 /**
  * Validate user changes and synchronize the user's assigned role.
@@ -17,7 +18,7 @@ class UpdateUserForm extends Form
     use AuthorizesModulePermissions;
 
     /**
-     * The user instance.
+     * The user model instance being updated.
      */
     public User $user;
 
@@ -27,7 +28,7 @@ class UpdateUserForm extends Form
     public int $role_id = 0;
 
     /**
-     * The user's name.
+     * The user's full name.
      */
     public string $name = '';
 
@@ -47,13 +48,14 @@ class UpdateUserForm extends Form
     public string $password_confirmation = '';
 
     /**
-     * Validate the input and persist the changes.
-     *
-     * @return User
+     * Validate the input and persist changes to the user record and role.
      */
     public function update(): User
     {
         $this->authorizeModuleAction('ubah', 'pengguna');
+
+        $this->name = trim($this->name);
+        $this->email = strtolower(trim($this->email));
 
         $validated = $this->validate();
 
@@ -66,15 +68,22 @@ class UpdateUserForm extends Form
         $roleToAssign = null;
 
         if ((int) $this->role_id !== (int) $currentRoleId) {
-            $roleToAssign = Role::with('permissions')->findOrFail($this->role_id);
+            $actor = auth()->user();
+
+            if (! $actor instanceof User) {
+                throw new RuntimeException('Authenticated user is not available.');
+            }
+
+            /** @var Role $roleToAssign */
+            $roleToAssign = Role::query()->with('permissions')->findOrFail($this->role_id);
             $rolePermissionNames = $roleToAssign->permissions->pluck('name');
-            $actorPermissionNames = auth()->user()->getAllPermissions()->pluck('name');
+            $actorPermissionNames = $actor->getAllPermissions()->pluck('name');
 
             abort_if($rolePermissionNames->diff($actorPermissionNames)->isNotEmpty(), 403);
         }
 
-        if (! empty($validated['password'])) {
-            $userData['password'] = $validated['password'];
+        if ($this->password !== '') {
+            $userData['password'] = $this->password;
         }
 
         $this->user->update($userData);
@@ -87,9 +96,9 @@ class UpdateUserForm extends Form
     }
 
     /**
-     * Get the validation rules for the form.
+     * Get the validation rules for the user update form.
      *
-     * @return array
+     * @return array<string, list<mixed>>
      */
     protected function rules(): array
     {
@@ -126,9 +135,9 @@ class UpdateUserForm extends Form
     }
 
     /**
-     * Get the custom validation messages.
+     * Get the custom validation messages in Indonesian.
      *
-     * @return array
+     * @return array<string, string>
      */
     protected function messages(): array
     {

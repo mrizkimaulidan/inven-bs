@@ -2,133 +2,61 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8" />
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" />
     <title>{{ $title ?? config('app.name') }} &mdash; {{ config('app.name') }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    @livewireStyles
 
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{ asset('modules/bootstrap/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('modules/fontawesome/css/all.min.css') }}" />
 
-    <!-- CSS Libraries -->
-    <link rel="stylesheet" href="{{ asset('modules/jqvmap/dist/jqvmap.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('modules/weather-icon/css/weather-icons.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('modules/weather-icon/css/weather-icons-wind.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('modules/summernote/summernote-bs4.css') }}" />
-
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/components.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}" />
-    <!-- Start GA -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
 
-        gtag('config', 'UA-94034622-3');
-    </script>
-    <!-- /END GA -->
+    @stack('styles')
+    @livewireStyles
 </head>
 
 <body>
+    @php
+        $currentUser = auth()->user();
+        $userName = is_string($currentUser?->name) && trim($currentUser->name) !== ''
+            ? trim($currentUser->name)
+            : 'Pengguna';
+        $appName = (string) config('app.name');
+        $shortAppName = \Illuminate\Support\Str::take($appName, 2);
+    @endphp
+
     <div id="app">
         <div class="main-wrapper main-wrapper-1">
             <div class="navbar-bg"></div>
+
             <nav class="navbar navbar-expand-lg main-navbar">
                 <ul class="navbar-nav mr-auto">
                     <li>
-                        <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a>
+                        <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg" aria-label="Toggle sidebar">
+                            <i class="fas fa-bars" aria-hidden="true"></i>
+                        </a>
                     </li>
                 </ul>
+
                 <ul class="navbar-nav navbar-right">
-                    <li class="dropdown dropdown-list-toggle">
-                        <a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep"
-                            ><i class="far fa-bell"></i
-                        ></a>
-                        <div class="dropdown-menu dropdown-list dropdown-menu-right">
-                            <div class="dropdown-header">
-                                Pemberitahuan
-                                <div class="float-right">
-                                    <a href="#">Tandai Semua Sudah Dibaca</a>
-                                </div>
-                            </div>
-                            <div class="dropdown-list-content dropdown-list-icons">
-                                <a href="#" class="dropdown-item dropdown-item-unread">
-                                    <div class="dropdown-item-icon bg-primary text-white">
-                                        <i class="fas fa-code"></i>
-                                    </div>
-                                    <div class="dropdown-item-desc">
-                                        Pembaruan templat tersedia.
-                                        <div class="time text-primary">2 menit lalu</div>
-                                    </div>
-                                </a>
-                                <a href="#" class="dropdown-item">
-                                    <div class="dropdown-item-icon bg-info text-white">
-                                        <i class="far fa-user"></i>
-                                    </div>
-                                    <div class="dropdown-item-desc">
-                                        <b>Anda</b> dan <b>Dedik Sugiharto</b> kini berteman.
-                                        <div class="time">10 jam lalu</div>
-                                    </div>
-                                </a>
-                                <a href="#" class="dropdown-item">
-                                    <div class="dropdown-item-icon bg-success text-white">
-                                        <i class="fas fa-check"></i>
-                                    </div>
-                                    <div class="dropdown-item-desc">
-                                        <b>Kusnaedi</b> memindahkan tugas <b>Perbaiki tajuk</b> ke <b>Selesai</b>.
-                                        <div class="time">12 jam lalu</div>
-                                    </div>
-                                </a>
-                                <a href="#" class="dropdown-item">
-                                    <div class="dropdown-item-icon bg-danger text-white">
-                                        <i class="fas fa-exclamation-triangle"></i>
-                                    </div>
-                                    <div class="dropdown-item-desc">
-                                        Ruang penyimpanan hampir habis. Segera bersihkan.
-                                        <div class="time">17 jam lalu</div>
-                                    </div>
-                                </a>
-                                <a href="#" class="dropdown-item">
-                                    <div class="dropdown-item-icon bg-info text-white">
-                                        <i class="fas fa-bell"></i>
-                                    </div>
-                                    <div class="dropdown-item-desc">
-                                        Selamat datang di aplikasi.
-                                        <div class="time">Kemarin</div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="dropdown-footer text-center">
-                                <a href="#">Lihat Semua <i class="fas fa-chevron-right"></i></a>
-                            </div>
-                        </div>
-                    </li>
                     <li class="dropdown">
                         <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                             <img
-                                alt="foto profil"
+                                alt="Foto profil {{ $userName }}"
                                 src="{{ asset('img/avatar/avatar-1.png') }}"
                                 class="rounded-circle mr-1"
                             />
-                            <div class="d-sm-none d-lg-inline-block">Halo, Ujang Maman</div></a>
+                            <div class="d-sm-none d-lg-inline-block">Halo, {{ $userName }}</div>
+                        </a>
+
                         <div class="dropdown-menu dropdown-menu-right">
-                            <div class="dropdown-title">Masuk 5 menit lalu</div>
-                            <a href="features-profile.html" class="dropdown-item has-icon">
-                                <i class="far fa-user"></i> Profil
-                            </a>
-                            <a href="features-activities.html" class="dropdown-item has-icon">
-                                <i class="fas fa-bolt"></i> Aktivitas
-                            </a>
-                            <a href="features-settings.html" class="dropdown-item has-icon">
-                                <i class="fas fa-cog"></i> Pengaturan
+                            <a href="{{ route('pengaturan.profil') }}" wire:navigate class="dropdown-item has-icon">
+                                <i class="far fa-user" aria-hidden="true"></i> Profil
                             </a>
                             <div class="dropdown-divider"></div>
                             @livewire('logout')
@@ -136,75 +64,96 @@
                     </li>
                 </ul>
             </nav>
+
             <div class="main-sidebar sidebar-style-2">
                 <aside id="sidebar-wrapper">
                     <div class="sidebar-brand">
-                        <a href="index.html">{{ config('app.name') }}</a>
+                        <a href="{{ route('beranda') }}" wire:navigate>{{ $appName }}</a>
                     </div>
                     <div class="sidebar-brand sidebar-brand-sm">
-                        <a href="index.html">{{ Str::take(config('app.name'), 2) }}</a>
+                        <a href="{{ route('beranda') }}" wire:navigate>{{ $shortAppName }}</a>
                     </div>
+
                     <ul class="sidebar-menu">
                         <li class="menu-header">Beranda</li>
                         <li @class(['active' => request()->routeIs('beranda')])>
-                            <a wire:navigate class="nav-link" href="/beranda"
-                                ><i class="fas fa-house"></i> <span>Beranda</span></a>
+                            <a wire:navigate class="nav-link" href="{{ route('beranda') }}">
+                                <i class="fas fa-house" aria-hidden="true"></i>
+                                <span>Beranda</span>
+                            </a>
                         </li>
 
                         <li class="menu-header">Manajemen</li>
                         @can('lihat barang')
                             <li @class(['active' => request()->routeIs('barang.*')])>
-                                <a wire:navigate class="nav-link" href="/barang"
-                                    ><i class="fas fa-boxes-stacked"></i> <span>Data Barang</span></a>
+                                <a wire:navigate class="nav-link" href="{{ route('barang.index') }}">
+                                    <i class="fas fa-boxes-stacked" aria-hidden="true"></i>
+                                    <span>Data Barang</span>
+                                </a>
                             </li>
                         @endcan
                         @can('lihat perolehan')
                             <li @class(['active' => request()->routeIs('perolehan.*')])>
-                                <a wire:navigate class="nav-link" href="/perolehan"
-                                    ><i class="fas fa-hand-holding"></i> <span>Data Perolehan</span></a>
+                                <a wire:navigate class="nav-link" href="{{ route('perolehan.index') }}">
+                                    <i class="fas fa-hand-holding" aria-hidden="true"></i>
+                                    <span>Data Perolehan</span>
+                                </a>
                             </li>
                         @endcan
                         @can('lihat ruangan')
                             <li @class(['active' => request()->routeIs('ruangan.*')])>
-                                <a wire:navigate class="nav-link" href="/ruangan"
-                                    ><i class="fas fa-map-location-dot"></i> <span>Data Ruangan</span></a>
+                                <a wire:navigate class="nav-link" href="{{ route('ruangan.index') }}">
+                                    <i class="fas fa-map-location-dot" aria-hidden="true"></i>
+                                    <span>Data Ruangan</span>
+                                </a>
                             </li>
                         @endcan
                         @can('lihat merek')
                             <li @class(['active' => request()->routeIs('merek.*')])>
-                                <a wire:navigate class="nav-link" href="/merek"
-                                    ><i class="fas fa-tag"></i> <span>Data Merek</span></a>
+                                <a wire:navigate class="nav-link" href="{{ route('merek.index') }}">
+                                    <i class="fas fa-tag" aria-hidden="true"></i>
+                                    <span>Data Merek</span>
+                                </a>
                             </li>
                         @endcan
                         @can('lihat bahan')
                             <li @class(['active' => request()->routeIs('bahan.*')])>
-                                <a wire:navigate class="nav-link" href="/bahan"
-                                    ><i class="fas fa-cube"></i> <span>Data Bahan</span></a>
+                                <a wire:navigate class="nav-link" href="{{ route('bahan.index') }}">
+                                    <i class="fas fa-cube" aria-hidden="true"></i>
+                                    <span>Data Bahan</span>
+                                </a>
                             </li>
                         @endcan
                         @can('lihat pengguna')
                             <li @class(['active' => request()->routeIs('pengguna.*')])>
-                                <a wire:navigate class="nav-link" href="/pengguna"
-                                    ><i class="fas fa-users"></i> <span>Data Pengguna</span></a>
+                                <a wire:navigate class="nav-link" href="{{ route('pengguna.index') }}">
+                                    <i class="fas fa-users" aria-hidden="true"></i>
+                                    <span>Data Pengguna</span>
+                                </a>
                             </li>
                         @endcan
 
                         <li class="menu-header">Pengaturan</li>
-                        <li @class(['active' => request()->routeIs('profil.index')])>
-                            <a wire:navigate class="nav-link" href="/pengaturan/profil"
-                                ><i class="fas fa-gear"></i> <span>Pengaturan Profil</span></a>
+                        <li @class(['active' => request()->routeIs('pengaturan.profil')])>
+                            <a wire:navigate class="nav-link" href="{{ route('pengaturan.profil') }}">
+                                <i class="fas fa-gear" aria-hidden="true"></i>
+                                <span>Pengaturan Profil</span>
+                            </a>
                         </li>
                         @can('lihat peran')
                             <li @class(['active' => request()->routeIs('peran-dan-hak-akses.*')])>
-                                <a wire:navigate class="nav-link" href="/peran-dan-hak-akses"
-                                    ><i class="fas fa-user-shield"></i> <span>Peran & Hak Akses</span></a>
+                                <a wire:navigate class="nav-link" href="{{ route('peran-dan-hak-akses.index') }}">
+                                    <i class="fas fa-user-shield" aria-hidden="true"></i>
+                                    <span>Peran &amp; Hak Akses</span>
+                                </a>
                             </li>
                         @endcan
-
                         @can('lihat log aktivitas')
                             <li @class(['active' => request()->routeIs('log-aktivitas.*')])>
-                                <a wire:navigate class="nav-link" href="/log-aktivitas"
-                                    ><i class="fas fa-clock-rotate-left"></i> <span>Log Aktivitas</span></a>
+                                <a wire:navigate class="nav-link" href="{{ route('log-aktivitas.index') }}">
+                                    <i class="fas fa-clock-rotate-left" aria-hidden="true"></i>
+                                    <span>Log Aktivitas</span>
+                                </a>
                             </li>
                         @endcan
                     </ul>
@@ -215,21 +164,21 @@
                 </aside>
             </div>
 
-            <!-- Page content -->
             <div class="main-content">
                 <section class="section">
                     <div class="section-header">
-                        <h1>{{ $title ?? config('app.name') }}</h1>
+                        <h1>{{ $title ?? $appName }}</h1>
                     </div>
 
                     {{ $slot }}
                 </section>
             </div>
+
             <footer class="main-footer">
                 <div class="footer-left">
-                    Copyright &copy; 2018
+                    Copyright &copy; {{ now()->year }}
                     <div class="bullet"></div>
-                    Design By <a href="https://nauval.in/">Muhamad Nauval Azhar</a>
+                    {{ $appName }}
                 </div>
                 <div class="footer-right"></div>
             </footer>
@@ -248,12 +197,7 @@
     <script src="{{ asset('js/stisla.js') }}" data-navigate-once></script>
 
     <!-- JS Libraies -->
-    <script src="{{ asset('modules/simple-weather/jquery.simpleWeather.min.js') }}" data-navigate-once></script>
     <script src="{{ asset('modules/chart.min.js') }}" data-navigate-once></script>
-    <script src="{{ asset('modules/jqvmap/dist/jquery.vmap.min.js') }}" data-navigate-once></script>
-    <script src="{{ asset('modules/jqvmap/dist/maps/jquery.vmap.world.js') }}" data-navigate-once></script>
-    <script src="{{ asset('modules/summernote/summernote-bs4.js') }}" data-navigate-once></script>
-    <script src="{{ asset('modules/chocolat/dist/js/jquery.chocolat.min.js') }}" data-navigate-once></script>
 
     <!-- Page Specific JS File -->
     <script src="{{ asset('js/page/index-0.js') }}" data-navigate-once></script>
@@ -261,5 +205,7 @@
     <!-- Template JS File -->
     <script src="{{ asset('js/scripts.js') }}" data-navigate-once></script>
     <script src="{{ asset('js/custom.js') }}" data-navigate-once></script>
+
+    @stack('scripts')
 </body>
 </html>

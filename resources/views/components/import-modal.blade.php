@@ -1,27 +1,27 @@
 <div>
     <x-modal :title="$modalTitle" submit="import">
         <x-slot:body>
-            {{-- Informasi Template --}}
             <div class="alert alert-info" role="alert">
                 <div class="d-flex align-items-start">
                     <i class="fas fa-info-circle mt-1 mr-2" aria-hidden="true"></i>
 
                     <div>
-                        <strong class="d-block mb-1"> Informasi Impor </strong>
+                        <strong class="d-block mb-1">Informasi Impor</strong>
 
                         <p class="mb-2">
                             Gunakan template yang tersedia agar nama dan urutan kolom sesuai dengan format impor.
                         </p>
 
-                        <a href="{{ $templateDownloadUrl }}" download class="alert-link font-weight-bold">
-                            <i class="fas fa-download mr-1" aria-hidden="true"></i>
-                            Unduh Template Impor
-                        </a>
+                        @if (filled($templateDownloadUrl))
+                            <a href="{{ $templateDownloadUrl }}" download class="alert-link font-weight-bold">
+                                <i class="fas fa-download mr-1" aria-hidden="true"></i>
+                                Unduh Template Impor
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>
 
-            {{-- Pemilihan Berkas --}}
             <x-input
                 type="file"
                 name="importForm.spreadsheetFile"
@@ -39,7 +39,13 @@
         </x-slot:body>
 
         <x-slot:footer>
-            <x-button type="submit" icon="fa-file-import" label="Impor Data" />
+            <x-button
+                type="submit"
+                icon="fa-file-import"
+                label="Impor Data"
+                wire:loading.attr="disabled"
+                wire:target="import"
+            />
         </x-slot:footer>
     </x-modal>
 </div>

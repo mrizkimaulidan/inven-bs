@@ -15,7 +15,7 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * Represent application users and define their model relationships.
+ * Represent application users, casts, search scope, and role audit logging.
  */
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
@@ -38,25 +38,18 @@ class User extends Authenticatable
     }
 
     /**
-     * Apply the search filter to the query.
+     * Apply the search filter to the user query.
      *
-     * @param  Builder  $query
-     * @param  string  $searchQuery
-     * @return void
+     * @param  Builder<static>  $query
      */
     #[Scope]
     public function search(Builder $query, string $searchQuery): void
     {
-        $query->whereAny(['name'], 'like', "%$searchQuery%");
+        $query->whereAny(['name'], 'like', '%'.$searchQuery.'%');
     }
 
     /**
-     * Sync role user sekaligus mencatat perubahannya ke audit log.
-     *
-     * @param  array<int, string|int|Role>|string|int|Role  $roles
-     */
-    /**
-     * Set satu role untuk user sekaligus mencatat perubahannya ke audit log.
+     * Synchronize the user's single role and record any changes in the audit log.
      */
     public function syncRoleWithLog(int|string|Role $role): static
     {

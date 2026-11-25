@@ -3,7 +3,7 @@
 namespace App\Imports;
 
 use App\Models\CommodityLocation;
-use Illuminate\Database\Eloquent\Model;
+use InvalidArgumentException;
 use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -14,16 +14,25 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 class CommodityLocationsImport implements SkipsEmptyRows, ToModel, WithHeadingRow
 {
     /**
-     * Create a model from an imported row.
+     * Build a commodity location model instance from an imported spreadsheet row.
      *
      * @param  array<string, mixed>  $spreadsheetRow
-     * @return Model|null
      */
-    public function model(array $spreadsheetRow): ?Model
+    public function model(array $spreadsheetRow): ?CommodityLocation
     {
+        $name = trim((string) ($spreadsheetRow['nama_ruangan'] ?? ''));
+
+        if ($name === '') {
+            throw new InvalidArgumentException('Kolom Nama Ruangan wajib diisi.');
+        }
+
+        $description = isset($spreadsheetRow['deskripsi'])
+            ? trim((string) $spreadsheetRow['deskripsi'])
+            : null;
+
         return new CommodityLocation([
-            'name' => $spreadsheetRow['nama_ruangan'],
-            'description' => $spreadsheetRow['deskripsi'] ?? null,
+            'name' => $name,
+            'description' => $description !== '' ? $description : null,
         ]);
     }
 }

@@ -2,23 +2,22 @@
 
 namespace App\Livewire;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 /**
- * Handle user logout.
+ * Handle user logout and session cleanup in Livewire.
  */
 class Logout extends Component
 {
     /**
-     * The logout button placement.
+     * The logout button placement identifier.
      */
     public string $placement = 'dropdown';
 
     /**
-     * Log out the user and invalidate the session.
-     *
-     * @return void
+     * Log out the user, invalidate the session, and redirect to login.
      */
     public function logout(): void
     {
@@ -30,7 +29,10 @@ class Logout extends Component
         $this->redirectRoute('login');
     }
 
-    public function render()
+    /**
+     * Render the logout component view.
+     */
+    public function render(): View
     {
         return view('livewire.logout');
     }

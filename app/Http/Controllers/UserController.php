@@ -6,14 +6,17 @@ use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Handle PDF reporting actions for user records.
+ */
 class UserController extends Controller
 {
     /**
-     * Generate and stream a PDF document for all users.
+     * Generate and stream a PDF document containing all users and their roles.
      */
     public function generateAllPdf(): Response
     {
-        $users = User::query()
+        $rows = User::query()
             ->with('roles')
             ->orderBy('name')
             ->get()
@@ -27,7 +30,7 @@ class UserController extends Controller
         return Pdf::loadView('print.catalog', [
             'title' => 'Daftar Pengguna',
             'headers' => ['Nama Pengguna', 'Alamat Email', 'Peran', 'Ditambahkan Pada'],
-            'rows' => $users,
+            'rows' => $rows,
             'printedAt' => now()->translatedFormat('d F Y H:i'),
         ])
             ->setPaper('a4', 'landscape')

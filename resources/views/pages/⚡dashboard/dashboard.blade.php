@@ -1,7 +1,12 @@
-@php($dashboardPageData = $this->dashboardPageData)
+@php
+    $dashboardPageData = is_array($this->dashboardPageData ?? null) ? $this->dashboardPageData : null;
+    $dashboardData = is_array($dashboardPageData['dashboard'] ?? null) ? $dashboardPageData['dashboard'] : [];
+    $summary = is_array($dashboardData['summary'] ?? null) ? $dashboardData['summary'] : [];
+    $charts = is_array($dashboardData['charts'] ?? null) ? $dashboardData['charts'] : [];
+    $recentItems = $dashboardData['recentItems'] ?? [];
+@endphp
 
 <div>
-    {{-- ===== START: Dashboard Header ===== --}}
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -15,10 +20,8 @@
             </div>
         </div>
     </div>
-    {{-- ===== END: Dashboard Header ===== --}}
 
     @if ($dashboardPageData === null)
-        {{-- ===== START: Dashboard Error State ===== --}}
         <div class="row">
             <div class="col-12">
                 <div
@@ -29,23 +32,31 @@
                         <i class="fas fa-exclamation-circle mr-2" aria-hidden="true"></i>
                         Gagal memuat data inventaris. Silakan coba lagi.
                     </span>
-                    <button type="button" class="btn btn-danger btn-sm mt-md-0 mt-2" wire:click="retryDashboard">
+                    <button
+                        type="button"
+                        class="btn btn-danger btn-sm mt-md-0 mt-2"
+                        wire:click="retryDashboard"
+                        wire:loading.attr="disabled"
+                        wire:target="retryDashboard"
+                    >
                         Coba Lagi
                     </button>
                 </div>
             </div>
         </div>
-        {{-- ===== END: Dashboard Error State ===== --}}
     @else
         @include('pages.⚡dashboard.partials.filters', ['pageData' => $dashboardPageData])
-        @include('pages.⚡dashboard.partials.metrics', ['summary' => $dashboardPageData['dashboard']['summary']])
-        @include('pages.⚡dashboard.partials.charts', ['charts' => $dashboardPageData['dashboard']['charts']])
-        @include('pages.⚡dashboard.partials.recent-items', ['items' => $dashboardPageData['dashboard']['recentItems']])
+        @include('pages.⚡dashboard.partials.metrics', ['summary' => $summary])
+        @include('pages.⚡dashboard.partials.charts', ['charts' => $charts])
+        @include('pages.⚡dashboard.partials.recent-items', ['items' => $recentItems])
 
         <script src="{{ asset('js/dashboard-charts.js') }}" data-navigate-once></script>
+
         @script
             <script>
-                window.InventoryDashboardCharts.mount($wire, @js($dashboardPageData['dashboard']['charts']));
+                if (window.InventoryDashboardCharts && typeof window.InventoryDashboardCharts.mount === 'function') {
+                    window.InventoryDashboardCharts.mount($wire, @js($charts));
+                }
             </script>
         @endscript
     @endif

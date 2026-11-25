@@ -22,8 +22,6 @@ new class extends Component
 
     /**
      * Get the total number of rows that will be exported.
-     *
-     * @return int
      */
     #[Computed]
     public function totalRows(): int
@@ -32,11 +30,11 @@ new class extends Component
     }
 
     /**
-     * Handle the export request.
+     * Handle the export request and download the generated file.
      *
      * @return BinaryFileResponse
      */
-    public function export()
+    public function export(): BinaryFileResponse
     {
         $this->authorizeModuleAction('ekspor', 'peran');
 
@@ -45,7 +43,7 @@ new class extends Component
         return (new RolesExport)
             ->download(
                 $this->form->filename('Data Peran'),
-                $this->form->formatEnum()->writerType()
+                $this->form->formatEnum()->writerType(),
             );
     }
 };

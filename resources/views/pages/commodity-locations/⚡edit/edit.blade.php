@@ -1,24 +1,31 @@
-<x-modal title="Ubah Data Ruangan" submit="edit">
-    <x-slot:body>
-        {{-- Form fields --}}
-        <x-input
-            wire:model="form.name"
-            name="form.name"
-            label="Nama Ruangan"
-            placeholder="Masukkan nama ruangan"
-            required
-        />
+<div>
+    <x-modal title="Ubah Data Ruangan" submit="edit">
+        <x-slot:body>
+            <x-input
+                wire:model="form.name"
+                name="form.name"
+                label="Nama Ruangan"
+                placeholder="Masukkan nama ruangan"
+                required
+            />
 
-        <x-textarea
-            wire:model="form.description"
-            label="Deskripsi Ruangan"
-            placeholder="Masukan deskripsi ruangan (opsional)"
-            name="form.description"
-        />
-    </x-slot:body>
+            <x-textarea
+                wire:model="form.description"
+                name="form.description"
+                label="Deskripsi Ruangan"
+                placeholder="Masukkan deskripsi ruangan (opsional)"
+            />
+        </x-slot:body>
 
-    <x-slot:footer>
-        {{-- Form actions --}}
-        <x-button type="submit" icon="fa-plus-circle" label="Simpan Data" class="btn-primary" />
-    </x-slot:footer>
-</x-modal>
+        <x-slot:footer>
+            <x-button
+                type="submit"
+                icon="fa-save"
+                label="Simpan Perubahan"
+                class="btn-primary"
+                wire:loading.attr="disabled"
+                wire:target="edit"
+            />
+        </x-slot:footer>
+    </x-modal>
+</div>

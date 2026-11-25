@@ -1,5 +1,11 @@
+@php
+    $rolePaginator = $this->roles;
+    $selectedRecords = $this->selectedRecords;
+    $selectedNames = $selectedRecords->pluck('name')->all();
+    $selectedKeys = implode('-', $selectedRecords->modelKeys());
+@endphp
+
 <div>
-    {{-- Modal dialogs --}}
     @if ($activeModal === 'export')
         @teleport('body')
             <livewire:pages::roles.export wire:key="modal-export" />
@@ -10,15 +16,13 @@
         @teleport('body')
             <livewire:bulk-destroy
                 resource-label="peran"
-                :records="$this->selectedRecords->pluck('name')->all()"
-                wire:key="modal-bulk-destroy-{{ implode('-', $this->selectedRecords->modelKeys()) }}"
+                :records="$selectedNames"
+                wire:key="modal-bulk-destroy-{{ $selectedKeys !== '' ? $selectedKeys : 'empty' }}"
             />
         @endteleport
     @endif
 
-    {{-- Listing page --}}
     <x-page :searchable="true">
-        {{-- Toolbar actions --}}
         <x-slot:toolbar>
             <div class="d-flex justify-content-between align-items-center flex-wrap">
                 <div class="d-flex flex-wrap">
@@ -31,6 +35,7 @@
                             class="mr-2 mb-2"
                         />
                     @endcan
+
                     @can('hapus peran')
                         <x-button
                             wire:click="$dispatch('showBulkDeleteConfirmationModal')"
@@ -41,6 +46,7 @@
                             :disabled="empty($selected)"
                         />
                     @endcan
+
                     @can('print peran')
                         <a
                             href="{{ route('peran-dan-hak-akses.pdf') }}"
@@ -53,6 +59,7 @@
                             Cetak
                         </a>
                     @endcan
+
                     <x-button
                         wire:click="$refresh"
                         icon="fa-sync-alt"
@@ -65,8 +72,13 @@
                         title="Muat Ulang"
                     />
                 </div>
+
                 @can('tambah peran')
-                    <a wire:navigate href="/peran-dan-hak-akses/tambah" class="btn btn-primary mb-2 ml-auto">
+                    <a
+                        wire:navigate
+                        href="{{ route('peran-dan-hak-akses.create') }}"
+                        class="btn btn-primary mb-2 ml-auto"
+                    >
                         <i class="fas fa-plus-circle" aria-hidden="true"></i>
                         Tambah Data
                     </a>
@@ -74,9 +86,7 @@
             </div>
         </x-slot:toolbar>
 
-        {{-- Data table --}}
-        <x-table :targets="[]" :paginator="$this->roles">
-            {{-- Table headings --}}
+        <x-table :targets="[]" :paginator="$rolePaginator">
             <x-slot:thead>
                 <tr>
                     <th scope="col" class="text-center" style="width: 40px">
@@ -95,11 +105,14 @@
                 </tr>
             </x-slot:thead>
 
-            {{-- Table rows --}}
             <x-slot:tbody>
-                @forelse ($this->roles as $role)
+                @forelse ($rolePaginator as $role)
+                    @php
+                        $permissionsCount = (int) ($role->permissions_count ?? 0);
+                        $usersCount = (int) ($role->users_count ?? 0);
+                    @endphp
+
                     <tr wire:key="role-{{ $role->id }}">
-                        {{-- Checkbox --}}
                         <td class="text-center align-middle">
                             <div class="custom-control custom-checkbox">
                                 <input
@@ -117,19 +130,18 @@
                             </div>
                         </td>
 
-                        {{-- Nama & badge informasi --}}
                         <td class="py-3 align-middle">
-                            <div class="font-weight-bold mb-2">{{ $role->name }}</div>
+                            <div class="font-weight-bold mb-2">{{ $role->name ?? '-' }}</div>
 
                             <div class="d-flex align-items-center flex-wrap">
                                 <x-badge
-                                    :label="'Hak Akses: '.$role->permissions_count"
+                                    :label="'Hak Akses: '.$permissionsCount"
                                     icon="fa-key"
                                     variant="primary"
                                     class="mr-1 mb-1"
                                 />
                                 <x-badge
-                                    :label="'Pengguna: '.$role->users_count"
+                                    :label="'Pengguna: '.$usersCount"
                                     icon="fa-users"
                                     variant="info"
                                     class="mb-1"
@@ -137,13 +149,12 @@
                             </div>
                         </td>
 
-                        {{-- Aksi --}}
                         <td class="text-center align-middle">
                             <div class="btn-group table-action-group" role="group" aria-label="Aksi peran">
                                 @can('ubah peran')
                                     <a
                                         wire:navigate
-                                        href="/peran-dan-hak-akses/{{ $role->id }}/ubah"
+                                        href="{{ route('peran-dan-hak-akses.edit', $role) }}"
                                         class="btn btn-sm btn-success"
                                         aria-label="Ubah peran"
                                         data-toggle="tooltip"
@@ -153,6 +164,7 @@
                                         <i class="fas fa-edit" aria-hidden="true"></i>
                                     </a>
                                 @endcan
+
                                 @can('hapus peran')
                                     <x-button
                                         label=""
@@ -162,7 +174,7 @@
                                         wire:click="destroy({{ $role->id }})"
                                         wire:confirm="Yakin ingin menghapus peran '{{ $role->name }}'?"
                                         wire:loading.attr="disabled"
-                                        wire:target="destroy"
+                                        wire:target="destroy({{ $role->id }})"
                                         aria-label="Hapus peran"
                                         data-toggle="tooltip"
                                         data-placement="top"

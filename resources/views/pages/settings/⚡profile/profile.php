@@ -16,12 +16,14 @@ new #[Title('Pengaturan Profil')] class extends Component
 
     /**
      * Load the signed-in user and populate the profile form.
-     *
-     * @return void
      */
     public function mount(): void
     {
         $user = auth()->user();
+
+        if (! $user) {
+            return;
+        }
 
         $this->form->fill([
             'user' => $user,
@@ -31,9 +33,7 @@ new #[Title('Pengaturan Profil')] class extends Component
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @return void
+     * Update the authenticated user's profile in storage.
      */
     public function edit(): void
     {
@@ -41,6 +41,6 @@ new #[Title('Pengaturan Profil')] class extends Component
 
         session()->flash('success', 'Profil berhasil diperbarui.');
 
-        $this->redirect('/pengaturan/profil', navigate: true);
+        $this->redirect(route('pengaturan.profil'), navigate: true);
     }
 };

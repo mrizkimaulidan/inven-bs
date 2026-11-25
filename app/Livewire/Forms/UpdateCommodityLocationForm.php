@@ -8,14 +8,14 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
 
 /**
- * Validate location fields and update the existing commodity location.
+ * Validate location fields and update an existing commodity location record.
  */
 class UpdateCommodityLocationForm extends Form
 {
     use AuthorizesModulePermissions;
 
     /**
-     * The commodity location instance.
+     * The commodity location model instance being updated.
      */
     public CommodityLocation $commodityLocation;
 
@@ -30,31 +30,33 @@ class UpdateCommodityLocationForm extends Form
     public ?string $description = null;
 
     /**
-     * Validate the input and persist the changes.
-     *
-     * @return void
+     * Validate the input and persist changes to the location record.
      */
     public function update(): void
     {
         $this->authorizeModuleAction('ubah', 'ruangan');
+
+        $this->name = trim($this->name);
+        $this->description = $this->description !== null ? trim($this->description) : null;
+
         $this->commodityLocation->update($this->validate());
     }
 
     /**
-     * Get the validation rules for the form.
+     * Get the validation rules for the location update form.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
     protected function rules(): array
     {
         return [
-            'name' => ['required', 'min:3', 'max:255'],
+            'name' => ['required', 'string', 'min:3', 'max:255'],
             'description' => ['nullable', 'string'],
         ];
     }
 
     /**
-     * Get the custom validation messages.
+     * Get the custom validation messages in Indonesian.
      *
      * @return array<string, string>
      */
@@ -65,7 +67,7 @@ class UpdateCommodityLocationForm extends Form
             'name.min' => 'Nama ruangan minimal :min karakter!',
             'name.max' => 'Nama ruangan maksimal :max karakter!',
 
-            'description.string' => 'Deskripsi ruangan harus berupa karakter!',
+            'description.string' => 'Deskripsi ruangan harus berupa teks!',
         ];
     }
 }

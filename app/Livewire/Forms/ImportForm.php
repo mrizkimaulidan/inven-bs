@@ -12,9 +12,7 @@ use Livewire\Form;
 class ImportForm extends Form
 {
     /**
-     * The spreadsheet uploaded by the user.
-     *
-     * @var TemporaryUploadedFile|null
+     * The spreadsheet file uploaded by the user.
      */
     public ?TemporaryUploadedFile $spreadsheetFile = null;
 

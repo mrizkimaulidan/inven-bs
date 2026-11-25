@@ -1,16 +1,20 @@
+@php
+    $iconClass = is_string($icon) ? trim($icon) : '';
+    $trimmedLabel = trim($label);
+@endphp
+
 <button
     {{
         $attributes->class([
             'btn',
             'btn-'.$variant,
-            'btn-icon' => (bool) $icon,
+            'btn-icon' => $iconClass !== '',
         ])
     }}
     type="{{ $type }}"
 >
-    {{-- Optional button icon --}}
-    @if ($icon)
-        <i class="fas {{ $icon }} {{ $label !== '' ? 'mr-1' : '' }}"></i>
+    @if ($iconClass !== '')
+        <i class="fas {{ $iconClass }} {{ $trimmedLabel !== '' ? 'mr-1' : '' }}" aria-hidden="true"></i>
     @endif
 
     {{ $label }}

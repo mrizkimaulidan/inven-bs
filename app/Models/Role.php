@@ -51,12 +51,22 @@ class Role extends SpatieRole
     public function syncPermissionsWithLog(array $permissions): void
     {
         /** @var list<string> $oldPermissions */
-        $oldPermissions = $this->permissions()->pluck('name')->sort()->values()->all();
+        $oldPermissions = $this->permissions()
+            ->pluck('name')
+            ->map(static fn (mixed $name): string => (string) $name)
+            ->sort()
+            ->values()
+            ->all();
 
         $this->syncPermissions($permissions);
 
         /** @var list<string> $newPermissions */
-        $newPermissions = $this->permissions()->pluck('name')->sort()->values()->all();
+        $newPermissions = $this->permissions()
+            ->pluck('name')
+            ->map(static fn (mixed $name): string => (string) $name)
+            ->sort()
+            ->values()
+            ->all();
 
         if ($oldPermissions !== $newPermissions) {
             app(LogService::class)->log(

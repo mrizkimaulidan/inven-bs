@@ -1,4 +1,3 @@
-{{-- ===== START: Recent Items Table ===== --}}
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -8,6 +7,7 @@
                     <span class="text-muted small">5 pencatatan terakhir</span>
                 </div>
             </div>
+
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table-striped table-hover mb-0 table">
@@ -27,23 +27,30 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($items as $item)
-                                <tr>
-                                    <td class="text-nowrap">{{ $item->item_code }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->brand?->name ?? '—' }} / {{ $item->material?->name ?? '—' }}</td>
-                                    <td>{{ $item->commodityLocation?->name ?? '—' }}</td>
-                                    <td class="text-center">{{ number_format($item->quantity, 0, ',', '.') }}</td>
+                            @forelse ($items ?? [] as $item)
+                                @php
+                                    $brandName = $item->brand?->name ?? '—';
+                                    $materialName = $item->material?->name ?? '—';
+                                    $locationName = $item->commodityLocation?->name ?? '—';
+                                    $quantity = (int) ($item->quantity ?? 0);
+                                    $conditionLabel = $item->condition?->label() ?? '—';
+                                    $conditionVariant = $item->condition !== null
+                                        ? $this->conditionVariant($item->condition)
+                                        : 'secondary';
+                                    $createdDate = $item->created_at?->locale('id')->translatedFormat('d M Y') ?? '—';
+                                @endphp
+
+                                <tr wire:key="recent-item-{{ $item->id ?? $loop->index }}">
+                                    <td class="text-nowrap">{{ $item->item_code ?? '—' }}</td>
+                                    <td>{{ $item->name ?? '—' }}</td>
+                                    <td>{{ $brandName }} / {{ $materialName }}</td>
+                                    <td>{{ $locationName }}</td>
+                                    <td class="text-center">{{ number_format($quantity, 0, ',', '.') }}</td>
                                     <td>
-                                        <x-badge
-                                            :label="$item->condition->label()"
-                                            :variant="$this->conditionVariant($item->condition)"
-                                        />
+                                        <x-badge :label="$conditionLabel" :variant="$conditionVariant" />
                                     </td>
-                                    <td>{{ $item->purchase_year }}</td>
-                                    <td class="text-nowrap">
-                                        {{ $item->created_at->locale('id')->translatedFormat('d M Y') }}
-                                    </td>
+                                    <td>{{ $item->purchase_year ?? '—' }}</td>
+                                    <td class="text-nowrap">{{ $createdDate }}</td>
                                 </tr>
                             @empty
                                 <tr>
@@ -59,4 +66,3 @@
         </div>
     </div>
 </div>
-{{-- ===== END: Recent Items Table ===== --}}

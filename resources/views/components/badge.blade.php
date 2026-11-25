@@ -1,3 +1,7 @@
+@php
+    $iconClass = is_string($icon) ? trim($icon) : '';
+@endphp
+
 <span {{
     $attributes->class([
         'badge',
@@ -5,11 +9,9 @@
         'badge-pill' => $pill,
     ])
 }}>
-    {{-- Optional badge icon --}}
-    @if ($icon)
-        <i class="fas {{ $icon }} mr-1"></i>
+    @if ($iconClass !== '')
+        <i class="fas {{ $iconClass }} mr-1" aria-hidden="true"></i>
     @endif
 
-    {{-- Badge text --}}
     {{ $label }}
 </span>

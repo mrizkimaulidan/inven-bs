@@ -1,7 +1,10 @@
+@php
+    $roleOptions = $this->roles ?? collect();
+@endphp
+
 <div>
     <x-modal title="Tambah Data Pengguna" submit="save">
         <x-slot:body>
-            {{-- Form fields --}}
             <x-input
                 wire:model="form.name"
                 name="form.name"
@@ -12,6 +15,7 @@
 
             <x-input
                 wire:model="form.email"
+                type="email"
                 name="form.email"
                 label="Alamat Email"
                 placeholder="Masukkan alamat email"
@@ -20,9 +24,8 @@
 
             <x-select name="form.role_id" label="Pilih Peran" wire:model="form.role_id" required>
                 <option value="">Pilih Peran</option>
-                {{-- Role assignment --}}
-                @foreach ($this->roles as $role)
-                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                @foreach ($roleOptions as $role)
+                    <option value="{{ $role->id }}" wire:key="role-option-{{ $role->id }}">{{ $role->name }}</option>
                 @endforeach
             </x-select>
 
@@ -39,15 +42,21 @@
                 wire:model="form.password_confirmation"
                 type="password"
                 name="form.password_confirmation"
-                label="Kata Sandi"
+                label="Konfirmasi Kata Sandi"
                 placeholder="Konfirmasi kata sandi"
                 required
             />
         </x-slot:body>
 
         <x-slot:footer>
-            {{-- Form actions --}}
-            <x-button type="submit" icon="fa-plus-circle" label="Simpan Data" class="btn-primary" />
+            <x-button
+                type="submit"
+                icon="fa-plus-circle"
+                label="Simpan Data"
+                class="btn-primary"
+                wire:loading.attr="disabled"
+                wire:target="save"
+            />
         </x-slot:footer>
     </x-modal>
 </div>

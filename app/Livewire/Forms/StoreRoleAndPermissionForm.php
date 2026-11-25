@@ -4,11 +4,13 @@ namespace App\Livewire\Forms;
 
 use App\Livewire\Concerns\AuthorizesModulePermissions;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Livewire\Form;
+use RuntimeException;
 
 /**
- * Validate role details and save the selected permission assignments.
+ * Validate role details and persist a new role with assigned permissions.
  */
 class StoreRoleAndPermissionForm extends Form
 {
@@ -27,20 +29,27 @@ class StoreRoleAndPermissionForm extends Form
     public array $permissions = [];
 
     /**
-     * Validate the input and persist a new role with its permissions.
-     *
-     * @return void
+     * Validate the input and persist a new role with its assigned permissions.
      */
     public function store(): void
     {
         $this->authorizeModuleAction('tambah', 'peran');
 
+        $this->name = trim($this->name);
         $validated = $this->validate();
-        $assignablePermissions = auth()->user()->getAllPermissions()->pluck('name');
+
+        $user = auth()->user();
+
+        if (! $user instanceof User) {
+            throw new RuntimeException('Authenticated user is not available.');
+        }
+
+        $assignablePermissions = $user->getAllPermissions()->pluck('name');
 
         abort_if(collect($validated['permissions'])->diff($assignablePermissions)->isNotEmpty(), 403);
 
-        $role = Role::create([
+        /** @var Role $role */
+        $role = Role::query()->create([
             'name' => $validated['name'],
             'guard_name' => 'web',
         ]);
@@ -49,7 +58,7 @@ class StoreRoleAndPermissionForm extends Form
     }
 
     /**
-     * Get the validation rules for the form.
+     * Get the validation rules for the role and permission form.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
@@ -63,7 +72,7 @@ class StoreRoleAndPermissionForm extends Form
     }
 
     /**
-     * Get the custom validation messages.
+     * Get the custom validation messages in Indonesian.
      *
      * @return array<string, string>
      */

@@ -8,14 +8,18 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\Eloquent\Builder;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Handle PDF reporting actions for brand records.
+ */
 class BrandController extends Controller
 {
     /**
-     * Generate and stream a PDF document for all brands.
+     * Generate and stream a PDF document containing all brands and commodity counts.
      */
     public function generateAllPdf(): Response
     {
-        $brands = Brand::query()
+        $rows = Brand::query()
+            ->select(['id', 'name'])
             ->withCount([
                 'commodities',
                 'commodities as good_conditions_count' => fn (Builder $query): Builder => $query
@@ -37,8 +41,14 @@ class BrandController extends Controller
 
         return Pdf::loadView('print.catalog', [
             'title' => 'Daftar Merek',
-            'headers' => ['Nama Merek', 'Total Barang', 'Kondisi Baik', 'Kurang Baik', 'Rusak Berat'],
-            'rows' => $brands,
+            'headers' => [
+                'Nama Merek',
+                'Total Barang',
+                CommodityCondition::GOOD->label(),
+                CommodityCondition::POOR->label(),
+                CommodityCondition::HEAVILY_DAMAGED->label(),
+            ],
+            'rows' => $rows,
             'printedAt' => now()->translatedFormat('d F Y H:i'),
         ])
             ->setPaper('a4', 'landscape')

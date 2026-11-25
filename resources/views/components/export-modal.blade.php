@@ -1,24 +1,26 @@
+@php
+    $rowCount = max(0, (int) $totalRows);
+@endphp
+
 <div>
     <x-modal :title="$title" submit="export">
         <x-slot:body>
-            {{-- Informasi Ekspor --}}
             <div class="alert alert-info" role="alert">
                 <div class="d-flex align-items-start">
                     <i class="fas fa-info-circle mt-1 mr-2" aria-hidden="true"></i>
 
                     <div>
-                        <strong class="d-block mb-1"> Informasi Ekspor </strong>
+                        <strong class="d-block mb-1">Informasi Ekspor</strong>
 
                         <p class="mb-0">
                             Terdapat
-                            <strong> {{ number_format($totalRows, 0, ',', '.') }} baris data </strong>
+                            <strong>{{ number_format($rowCount, 0, ',', '.') }} baris data</strong>
                             yang akan diekspor ke dalam file spreadsheet.
                         </p>
                     </div>
                 </div>
             </div>
 
-            {{-- Pemilihan Format --}}
             <x-select
                 name="form.format"
                 label="Format File Ekspor"

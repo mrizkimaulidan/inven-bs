@@ -1,6 +1,8 @@
 <?php
 
-/** Register application web routes. */
+/**
+ * Register application web routes.
+ */
 
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CommodityController;
@@ -10,25 +12,21 @@ use App\Http\Controllers\CommodityVerificationController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return auth()->check()
-        ? redirect('/beranda')
-        : redirect()->route('login');
-});
+Route::get('/', static fn (): RedirectResponse => auth()->check()
+    ? redirect()->route('beranda')
+    : redirect()->route('login'));
 
-// Guest
-Route::middleware('guest')->group(function () {
+Route::middleware('guest')->group(function (): void {
     Route::livewire('/login', 'pages::authentication.login')->name('login');
 });
 
-// Auth
-Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function (): void {
     Route::livewire('/beranda', 'pages::dashboard')->name('beranda');
 
-    // Commodities
-    Route::prefix('barang')->name('barang.')->group(function () {
+    Route::prefix('barang')->name('barang.')->group(function (): void {
         Route::livewire('/', 'pages::commodities.index')
             ->middleware('permission:lihat barang')
             ->name('index');
@@ -41,7 +39,6 @@ Route::middleware('auth')->group(function () {
             ->middleware('permission:ubah barang')
             ->name('edit');
 
-        // Static route first, then dynamic
         Route::get('/pdf', [CommodityController::class, 'generateAllPdf'])
             ->middleware('permission:print barang')
             ->name('pdf.all');
@@ -51,8 +48,7 @@ Route::middleware('auth')->group(function () {
             ->name('pdf');
     });
 
-    // Locations
-    Route::prefix('ruangan')->name('ruangan.')->group(function () {
+    Route::prefix('ruangan')->name('ruangan.')->group(function (): void {
         Route::livewire('/', 'pages::commodity-locations.index')
             ->middleware('permission:lihat ruangan')
             ->name('index');
@@ -62,8 +58,7 @@ Route::middleware('auth')->group(function () {
             ->name('pdf');
     });
 
-    // Brands
-    Route::prefix('merek')->name('merek.')->group(function () {
+    Route::prefix('merek')->name('merek.')->group(function (): void {
         Route::livewire('/', 'pages::brands.index')
             ->middleware('permission:lihat merek')
             ->name('index');
@@ -73,8 +68,7 @@ Route::middleware('auth')->group(function () {
             ->name('pdf');
     });
 
-    // Materials
-    Route::prefix('bahan')->name('bahan.')->group(function () {
+    Route::prefix('bahan')->name('bahan.')->group(function (): void {
         Route::livewire('/', 'pages::materials.index')
             ->middleware('permission:lihat bahan')
             ->name('index');
@@ -84,8 +78,7 @@ Route::middleware('auth')->group(function () {
             ->name('pdf');
     });
 
-    // Funding sources
-    Route::prefix('perolehan')->name('perolehan.')->group(function () {
+    Route::prefix('perolehan')->name('perolehan.')->group(function (): void {
         Route::livewire('/', 'pages::commodity-funding-sources.index')
             ->middleware('permission:lihat perolehan')
             ->name('index');
@@ -95,13 +88,14 @@ Route::middleware('auth')->group(function () {
             ->name('pdf');
     });
 
-    // Profile
-    Route::livewire('/pengaturan/profil', 'pages::settings.profile')->name('profil.index');
+    Route::livewire('/pengaturan/profil', 'pages::settings.profile')
+        ->name('pengaturan.profil');
 
-    Route::livewire('/log-aktivitas', 'pages::activity-logs.index')->middleware('permission:lihat log aktivitas')->name('log-aktivitas.index');
+    Route::livewire('/log-aktivitas', 'pages::activity-logs.index')
+        ->middleware('permission:lihat log aktivitas')
+        ->name('log-aktivitas.index');
 
-    // Roles and permissions
-    Route::prefix('peran-dan-hak-akses')->name('peran-dan-hak-akses.')->group(function () {
+    Route::prefix('peran-dan-hak-akses')->name('peran-dan-hak-akses.')->group(function (): void {
         Route::livewire('/', 'pages::roles.index')
             ->middleware('permission:lihat peran')
             ->name('index');
@@ -119,8 +113,7 @@ Route::middleware('auth')->group(function () {
             ->name('edit');
     });
 
-    // Users
-    Route::prefix('pengguna')->name('pengguna.')->group(function () {
+    Route::prefix('pengguna')->name('pengguna.')->group(function (): void {
         Route::livewire('/', 'pages::users.index')
             ->middleware('permission:lihat pengguna')
             ->name('index');
@@ -131,7 +124,6 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-// Public verification
 Route::get('/verifikasi/barang/{commodity:qr_code}', CommodityVerificationController::class)
     ->middleware('throttle:30,1')
     ->name('verifikasi.barang');

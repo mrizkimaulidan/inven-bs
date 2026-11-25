@@ -2,23 +2,21 @@
 
 namespace App\View\Components;
 
-use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 /**
- * Render the import modal and provide its title and selected file.
+ * Render the import modal and provide its title, template link, and uploaded file.
  */
 class ImportModal extends Component
 {
     /**
      * Create a new component instance.
      *
-     * @param  string  $modalTitle
-     * @param  string  $templateDownloadUrl
-     * @param  TemporaryUploadedFile|null  $uploadedFile
-     * @return void
+     * @param  string  $modalTitle  The modal dialog heading.
+     * @param  string  $templateDownloadUrl  URL to download the import template file.
+     * @param  TemporaryUploadedFile|null  $uploadedFile  Currently selected spreadsheet upload.
      */
     public function __construct(
         public string $modalTitle,
@@ -27,11 +25,9 @@ class ImportModal extends Component
     ) {}
 
     /**
-     * Get the view / contents that represent the component.
-     *
-     * @return View|Closure|string
+     * Get the view or contents that represent the component.
      */
-    public function render(): View|Closure|string
+    public function render(): View
     {
         return view('components.import-modal');
     }

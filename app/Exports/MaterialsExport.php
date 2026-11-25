@@ -14,7 +14,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumns;
 
 /**
- * Build spreadsheet columns for exporting material records.
+ * Export material records along with commodity condition counts.
  */
 class MaterialsExport implements FromCollection, WithColumns
 {
@@ -28,16 +28,16 @@ class MaterialsExport implements FromCollection, WithColumns
     public function collection(): Collection
     {
         return Material::query()
+            ->select(['id', 'name'])
             ->withCount([
                 'commodities',
-                'commodities as good_conditions_count' => fn (Builder $query) => $query->where('condition', CommodityCondition::GOOD),
-                'commodities as poor_conditions_count' => fn (Builder $query) => $query->where('condition', CommodityCondition::POOR),
-                'commodities as heavily_damaged_conditions_count' => fn (Builder $query) => $query->where('condition', CommodityCondition::HEAVILY_DAMAGED),
+                'commodities as good_conditions_count' => fn (Builder $query): Builder => $query->where('condition', CommodityCondition::GOOD),
+                'commodities as poor_conditions_count' => fn (Builder $query): Builder => $query->where('condition', CommodityCondition::POOR),
+                'commodities as heavily_damaged_conditions_count' => fn (Builder $query): Builder => $query->where('condition', CommodityCondition::HEAVILY_DAMAGED),
             ])
             ->orderBy('name')
-            ->get(['id', 'name'])
-            ->values()
-            ->map(function (Material $material, int $index) {
+            ->get()
+            ->map(function (Material $material, int $index): Material {
                 $material->row_number = $index + 1;
 
                 return $material;
@@ -45,9 +45,9 @@ class MaterialsExport implements FromCollection, WithColumns
     }
 
     /**
-     * Define the columns and their data types.
+     * Define the export columns and their data types.
      *
-     * @return array<int, Column>
+     * @return list<Column>
      */
     public function columns(): array
     {

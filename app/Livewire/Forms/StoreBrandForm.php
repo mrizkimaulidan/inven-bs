@@ -20,14 +20,15 @@ class StoreBrandForm extends Form
     public string $name = '';
 
     /**
-     * Validate the input and persist a new record.
-     *
-     * @return void
+     * Validate the input and persist a new brand record.
      */
     public function store(): void
     {
         $this->authorizeModuleAction('tambah', 'merek');
-        Brand::create($this->validate());
+
+        $this->name = trim($this->name);
+
+        Brand::query()->create($this->validate());
     }
 
     /**
@@ -38,7 +39,7 @@ class StoreBrandForm extends Form
     protected function rules(): array
     {
         return [
-            'name' => ['required', 'min:3', 'max:255'],
+            'name' => ['required', 'string', 'min:3', 'max:255'],
         ];
     }
 

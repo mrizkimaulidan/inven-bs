@@ -1,5 +1,3 @@
-
-
 <?php
 
 use App\Models\AuditLog;
@@ -15,9 +13,6 @@ new class extends Component
 
     /**
      * Load the selected audit log.
-     *
-     * @param  int  $auditLogId
-     * @return void
      */
     public function mount(int $auditLogId): void
     {
@@ -27,7 +22,7 @@ new class extends Component
     /**
      * Normalized diff rows ready for rendering.
      *
-     * @return array<int, array{field: string, old: string, new: string}>
+     * @return list<array{field: string, old: string, new: string}>
      */
     #[Computed]
     public function diffItems(): array
@@ -56,15 +51,13 @@ new class extends Component
 
     /**
      * Pretty-printed JSON string for additional properties.
-     *
-     * @return ?string
      */
     #[Computed]
     public function formattedProperties(): ?string
     {
         $properties = $this->decodeJsonField($this->auditLog?->properties);
 
-        if (empty($properties)) {
+        if (! is_array($properties) || $properties === []) {
             return null;
         }
 
@@ -75,9 +68,6 @@ new class extends Component
 
     /**
      * Decode array or JSON string field safely.
-     *
-     * @param  mixed  $value
-     * @return mixed
      */
     private function decodeJsonField(mixed $value): mixed
     {
@@ -96,13 +86,10 @@ new class extends Component
 
     /**
      * Format a diff value for display.
-     *
-     * @param  mixed  $val
-     * @return string
      */
     private function formatValue(mixed $val): string
     {
-        if (is_null($val)) {
+        if ($val === null) {
             return '-';
         }
 
@@ -114,6 +101,8 @@ new class extends Component
             return (string) $val;
         }
 
-        return json_encode($val, JSON_UNESCAPED_UNICODE) ?: '-';
+        $encoded = json_encode($val, JSON_UNESCAPED_UNICODE);
+
+        return $encoded !== false ? $encoded : '-';
     }
 };

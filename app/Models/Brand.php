@@ -21,7 +21,7 @@ class Brand extends Model
     /**
      * Get the commodities associated with the brand.
      *
-     * @return HasMany
+     * @return HasMany<Commodity, $this>
      */
     public function commodities(): HasMany
     {

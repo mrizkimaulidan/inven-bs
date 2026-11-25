@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Represent funding sources and define their commodity relationship.
+ * Represent funding sources and define their commodity relationship and search scope.
  */
 #[Fillable([
     'name',
@@ -22,9 +22,9 @@ class CommodityFundingSource extends Model
     use HasFactory, HasLogActivity;
 
     /**
-     * Get the commodities associated with the brand.
+     * Get the commodities associated with the funding source.
      *
-     * @return HasMany
+     * @return HasMany<Commodity, $this>
      */
     public function commodities(): HasMany
     {
@@ -32,15 +32,13 @@ class CommodityFundingSource extends Model
     }
 
     /**
-     * Apply the search filter to the query.
+     * Apply the search filter to the funding source query.
      *
-     * @param  Builder  $query
-     * @param  string  $searchQuery
-     * @return void
+     * @param  Builder<static>  $query
      */
     #[Scope]
     public function search(Builder $query, string $searchQuery): void
     {
-        $query->whereAny(['name', 'description'], 'like', "%$searchQuery%");
+        $query->whereAny(['name', 'description'], 'like', '%'.$searchQuery.'%');
     }
 }

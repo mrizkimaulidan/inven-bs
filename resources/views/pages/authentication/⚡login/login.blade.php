@@ -6,35 +6,26 @@
 
                 <div class="card-body">
                     <form wire:submit="authenticate">
-                        <div class="form-group">
-                            <label for="form.email">Alamat Email</label>
-                            <x-input
-                                wire:model="form.email"
-                                type="email"
-                                name="form.email"
-                                placeholder="Masukkan alamat email"
-                                autocomplete="email"
-                                required
-                                autofocus
-                            />
-                        </div>
+                        <x-input
+                            wire:model="form.email"
+                            type="email"
+                            name="form.email"
+                            label="Alamat Email"
+                            placeholder="Masukkan alamat email"
+                            autocomplete="email"
+                            required
+                            autofocus
+                        />
 
-                        <div class="form-group">
-                            <div class="d-block">
-                                <label for="form.password" class="control-label">Kata Sandi</label>
-                                {{-- <div class="float-right">
-                                    <a href="auth-forgot-password.html" class="text-small">Lupa kata sandi?</a>
-                                </div> --}}
-                            </div>
-                            <x-input
-                                wire:model="form.password"
-                                type="password"
-                                name="form.password"
-                                placeholder="Masukkan kata sandi"
-                                autocomplete="current-password"
-                                required
-                            />
-                        </div>
+                        <x-input
+                            wire:model="form.password"
+                            type="password"
+                            name="form.password"
+                            label="Kata Sandi"
+                            placeholder="Masukkan kata sandi"
+                            autocomplete="current-password"
+                            required
+                        />
 
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
@@ -50,7 +41,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mb-0">
                             <button
                                 type="submit"
                                 class="btn btn-primary btn-lg btn-block"
@@ -65,7 +56,8 @@
                     </form>
                 </div>
             </div>
-            <div class="simple-footer">Copyright &copy; Stisla 2018</div>
+
+            <div class="simple-footer">Copyright &copy; {{ now()->year }} {{ config('app.name') }}</div>
         </div>
     </div>
 </div>

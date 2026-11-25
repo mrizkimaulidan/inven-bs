@@ -8,14 +8,18 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\Eloquent\Builder;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Handle PDF reporting actions for commodity location records.
+ */
 class CommodityLocationController extends Controller
 {
     /**
-     * Generate and stream a PDF document for all locations.
+     * Generate and stream a PDF document containing all locations and commodity counts.
      */
     public function generateAllPdf(): Response
     {
-        $locations = CommodityLocation::query()
+        $rows = CommodityLocation::query()
+            ->select(['id', 'name', 'description'])
             ->withCount([
                 'commodities',
                 'commodities as good_conditions_count' => fn (Builder $query): Builder => $query
@@ -38,8 +42,15 @@ class CommodityLocationController extends Controller
 
         return Pdf::loadView('print.catalog', [
             'title' => 'Daftar Ruangan',
-            'headers' => ['Nama Ruangan', 'Deskripsi', 'Total Barang', 'Kondisi Baik', 'Kurang Baik', 'Rusak Berat'],
-            'rows' => $locations,
+            'headers' => [
+                'Nama Ruangan',
+                'Deskripsi',
+                'Total Barang',
+                CommodityCondition::GOOD->label(),
+                CommodityCondition::POOR->label(),
+                CommodityCondition::HEAVILY_DAMAGED->label(),
+            ],
+            'rows' => $rows,
             'printedAt' => now()->translatedFormat('d F Y H:i'),
         ])
             ->setPaper('a4', 'landscape')

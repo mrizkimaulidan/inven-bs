@@ -13,7 +13,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumns;
 
 /**
- * Build spreadsheet columns for exporting user records.
+ * Export user records along with their assigned roles and creation timestamps.
  */
 class UsersExport implements FromCollection, WithColumns
 {
@@ -30,8 +30,7 @@ class UsersExport implements FromCollection, WithColumns
             ->with('roles')
             ->orderBy('name')
             ->get()
-            ->values()
-            ->map(function (User $user, int $index) {
+            ->map(function (User $user, int $index): User {
                 $user->row_number = $index + 1;
 
                 return $user;
@@ -39,9 +38,9 @@ class UsersExport implements FromCollection, WithColumns
     }
 
     /**
-     * Define the columns and their data types.
+     * Define the export columns and their data types.
      *
-     * @return array<int, Column>
+     * @return list<Column>
      */
     public function columns(): array
     {
@@ -49,7 +48,7 @@ class UsersExport implements FromCollection, WithColumns
             Number::make('No', 'row_number'),
             Text::make('Nama Pengguna', 'name'),
             Text::make('Alamat Email', 'email'),
-            Text::make('Peran', fn (User $user) => $user->roles->pluck('name')->implode(', ')),
+            Text::make('Peran', fn (User $user): string => $user->roles->pluck('name')->implode(', ')),
             DateTime::make('Ditambahkan Pada', 'created_at'),
         ];
     }

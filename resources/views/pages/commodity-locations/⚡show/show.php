@@ -17,18 +17,15 @@ new class extends Component
 
     /**
      * Load the selected location and its related commodity statistics.
-     *
-     * @param  int  $commodityLocationId
-     * @return void
      */
     public function mount(int $commodityLocationId): void
     {
         $this->commodityLocation = CommodityLocation::query()
             ->withCount([
                 'commodities',
-                'commodities as good_conditions_count' => fn (Builder $query) => $query->where('condition', CommodityCondition::GOOD),
-                'commodities as poor_conditions_count' => fn (Builder $query) => $query->where('condition', CommodityCondition::POOR),
-                'commodities as heavily_damaged_conditions_count' => fn (Builder $query) => $query->where('condition', CommodityCondition::HEAVILY_DAMAGED),
+                'commodities as good_conditions_count' => static fn (Builder $query): Builder => $query->where('condition', CommodityCondition::GOOD),
+                'commodities as poor_conditions_count' => static fn (Builder $query): Builder => $query->where('condition', CommodityCondition::POOR),
+                'commodities as heavily_damaged_conditions_count' => static fn (Builder $query): Builder => $query->where('condition', CommodityCondition::HEAVILY_DAMAGED),
             ])
             ->findOrFail($commodityLocationId);
     }

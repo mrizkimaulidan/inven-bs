@@ -1,5 +1,13 @@
+@php
+    $materialPaginator = $this->materials;
+    $modalId = $modalParams['id'] ?? null;
+    $hasModalId = filled($modalId);
+    $selectedRecords = $this->selectedRecords;
+    $selectedNames = $selectedRecords->pluck('name')->all();
+    $selectedKeys = implode('-', $selectedRecords->modelKeys());
+@endphp
+
 <div>
-    {{-- Modal dialogs --}}
     @if ($activeModal === 'import')
         @teleport('body')
             <livewire:pages::materials.import wire:key="modal-import" />
@@ -18,21 +26,15 @@
         @endteleport
     @endif
 
-    @if ($activeModal === 'show')
+    @if ($activeModal === 'show' && $hasModalId)
         @teleport('body')
-            <livewire:pages::materials.show
-                :materialId="$modalParams['id']"
-                wire:key="modal-show-{{ $modalParams['id'] }}"
-            />
+            <livewire:pages::materials.show :materialId="$modalId" wire:key="modal-show-{{ $modalId }}" />
         @endteleport
     @endif
 
-    @if ($activeModal === 'edit')
+    @if ($activeModal === 'edit' && $hasModalId)
         @teleport('body')
-            <livewire:pages::materials.edit
-                :materialId="$modalParams['id']"
-                wire:key="modal-edit-{{ $modalParams['id'] }}"
-            />
+            <livewire:pages::materials.edit :materialId="$modalId" wire:key="modal-edit-{{ $modalId }}" />
         @endteleport
     @endif
 
@@ -40,15 +42,13 @@
         @teleport('body')
             <livewire:bulk-destroy
                 resource-label="bahan"
-                :records="$this->selectedRecords->pluck('name')->all()"
-                wire:key="modal-bulk-destroy-{{ implode('-', $this->selectedRecords->modelKeys()) }}"
+                :records="$selectedNames"
+                wire:key="modal-bulk-destroy-{{ $selectedKeys !== '' ? $selectedKeys : 'empty' }}"
             />
         @endteleport
     @endif
 
-    {{-- Listing page --}}
     <x-page :searchable="true">
-        {{-- Toolbar actions --}}
         <x-slot:toolbar>
             <div class="d-flex justify-content-between align-items-center flex-wrap">
                 <div class="d-flex flex-wrap">
@@ -61,6 +61,7 @@
                             class="mr-2 mb-2"
                         />
                     @endcan
+
                     @can('ekspor bahan')
                         <x-button
                             wire:click="$dispatch('showModal', {modalName: 'export'})"
@@ -70,6 +71,7 @@
                             class="mr-2 mb-2"
                         />
                     @endcan
+
                     @can('hapus bahan')
                         <x-button
                             wire:click="$dispatch('showBulkDeleteConfirmationModal')"
@@ -80,6 +82,7 @@
                             :disabled="empty($selected)"
                         />
                     @endcan
+
                     @can('print bahan')
                         <a
                             href="{{ route('bahan.pdf') }}"
@@ -92,6 +95,7 @@
                             Cetak
                         </a>
                     @endcan
+
                     <x-button
                         wire:click="$refresh"
                         icon="fa-sync-alt"
@@ -104,6 +108,7 @@
                         title="Muat Ulang"
                     />
                 </div>
+
                 @can('tambah bahan')
                     <x-button
                         wire:click="$dispatch('showModal', {modalName: 'create'})"
@@ -116,9 +121,7 @@
             </div>
         </x-slot:toolbar>
 
-        {{-- Data table --}}
-        <x-table :targets="[]" :paginator="$this->materials">
-            {{-- Table headings --}}
+        <x-table :targets="[]" :paginator="$materialPaginator">
             <x-slot:thead>
                 <tr>
                     <th scope="col" class="text-center" style="width: 40px">
@@ -137,11 +140,16 @@
                 </tr>
             </x-slot:thead>
 
-            {{-- Table rows --}}
             <x-slot:tbody>
-                @forelse ($this->materials as $material)
+                @forelse ($materialPaginator as $material)
+                    @php
+                        $commoditiesCount = (int) ($material->commodities_count ?? 0);
+                        $goodCount = (int) ($material->good_conditions_count ?? 0);
+                        $poorCount = (int) ($material->poor_conditions_count ?? 0);
+                        $damagedCount = (int) ($material->heavily_damaged_conditions_count ?? 0);
+                    @endphp
+
                     <tr wire:key="material-{{ $material->id }}">
-                        {{-- Checkbox --}}
                         <td class="text-center align-middle">
                             <div class="custom-control custom-checkbox">
                                 <input
@@ -159,42 +167,35 @@
                             </div>
                         </td>
 
-                        {{-- Nama & badge kondisi --}}
                         <td class="py-3 align-middle">
-                            <div class="font-weight-bold mb-2">{{ $material->name }}</div>
+                            <div class="font-weight-bold mb-2">{{ $material->name ?? '-' }}</div>
 
                             <div class="d-flex align-items-center flex-wrap">
                                 <x-badge
-                                    :label="$material->commodities_count"
+                                    :label="$commoditiesCount"
                                     icon="fa-boxes-alt"
                                     variant="primary"
                                     class="mr-1 mb-1"
                                 />
 
                                 <x-badge
-                                    :label="$material->good_conditions_count"
+                                    :label="$goodCount"
                                     icon="fa-check-circle"
                                     variant="success"
                                     class="text-dark mr-1 mb-1"
                                 />
 
                                 <x-badge
-                                    :label="$material->poor_conditions_count"
+                                    :label="$poorCount"
                                     icon="fa-exclamation-circle"
                                     variant="warning"
                                     class="text-dark mr-1 mb-1"
                                 />
 
-                                <x-badge
-                                    :label="$material->heavily_damaged_conditions_count"
-                                    icon="fa-circle-xmark"
-                                    variant="danger"
-                                    class="mb-1"
-                                />
+                                <x-badge :label="$damagedCount" icon="fa-circle-xmark" variant="danger" class="mb-1" />
                             </div>
                         </td>
 
-                        {{-- Aksi --}}
                         <td class="text-center align-middle">
                             <div class="btn-group table-action-group" role="group" aria-label="Aksi bahan">
                                 @can('detail bahan')
@@ -210,6 +211,7 @@
                                         title="Detail"
                                     />
                                 @endcan
+
                                 @can('ubah bahan')
                                     <x-button
                                         label=""
@@ -223,6 +225,7 @@
                                         title="Ubah"
                                     />
                                 @endcan
+
                                 @can('hapus bahan')
                                     <x-button
                                         label=""
@@ -232,7 +235,7 @@
                                         wire:click="destroy({{ $material->id }})"
                                         wire:confirm="Yakin ingin menghapus bahan '{{ $material->name }}'?"
                                         wire:loading.attr="disabled"
-                                        wire:target="destroy"
+                                        wire:target="destroy({{ $material->id }})"
                                         aria-label="Hapus bahan"
                                         data-toggle="tooltip"
                                         data-placement="top"

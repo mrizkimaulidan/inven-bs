@@ -2,22 +2,34 @@
 
 namespace App\View\Components;
 
-use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 /**
- * Render a reusable form input.
+ * Render a reusable form input with label, help text, and validation feedback.
  */
 class Input extends Component
 {
     /**
-     * List of supported input types.
+     * List of supported native input types.
+     *
+     * @var list<string>
      */
-    public const TYPES = [
-        'text', 'email', 'password', 'number', 'tel',
-        'url', 'search', 'date', 'datetime-local',
-        'time', 'month', 'week', 'color', 'file',
+    public const array TYPES = [
+        'text',
+        'email',
+        'password',
+        'number',
+        'tel',
+        'url',
+        'search',
+        'date',
+        'datetime-local',
+        'time',
+        'month',
+        'week',
+        'color',
+        'file',
     ];
 
     /**
@@ -30,7 +42,6 @@ class Input extends Component
      * @param  string|null  $help  The help text.
      * @param  string  $type  The native input type.
      * @param  string|null  $selectedFileName  The selected file name for file inputs.
-     * @return void
      */
     public function __construct(
         public string $name,
@@ -41,19 +52,16 @@ class Input extends Component
         public string $type = 'text',
         public ?string $selectedFileName = null,
     ) {
-        /**
-         * Fall back to text when the requested input type is unsupported.
-         */ if (! in_array($this->type, self::TYPES, true)) {
+        // Fall back to text when the requested input type is unsupported.
+        if (! in_array($this->type, self::TYPES, true)) {
             $this->type = 'text';
         }
     }
 
     /**
-     * Get the view / contents that represent the component.
-     *
-     * @return View|Closure|string
+     * Get the view or contents that represent the component.
      */
-    public function render(): View|Closure|string
+    public function render(): View
     {
         return view('components.input');
     }

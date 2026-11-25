@@ -1,85 +1,104 @@
 @if ($shouldShow())
+    @php
+        $current = $currentPage();
+        $last = $lastPage();
+        $isFirst = $onFirstPage();
+        $hasMore = $hasMorePages();
+        $resolvedPageName = trim($pageName) !== '' ? trim($pageName) : 'page';
+    @endphp
+
     <div class="{{ $wrapperClasses() }}">
         <div class="text-muted mb-md-0 mb-2">{{ $getInfoText() }}</div>
 
         @if ($hasPages())
             <nav class="d-inline-block" aria-label="Navigasi halaman">
                 <ul class="pagination mb-0">
-                    {{-- Previous --}}
-                    <li class="page-item {{ $onFirstPage() ? 'disabled' : '' }}">
+                    <li class="page-item {{ $isFirst ? 'disabled' : '' }}">
                         <button
                             type="button"
                             class="page-link"
-                            wire:click="previousPage('{{ $pageName }}')"
+                            aria-label="Halaman sebelumnya"
+                            wire:click="previousPage('{{ $resolvedPageName }}')"
                             wire:loading.attr="disabled"
-                            @disabled($onFirstPage())
+                            @disabled($isFirst)
                         >
-                            <i class="fas fa-chevron-left"></i>
+                            <i class="fas fa-chevron-left" aria-hidden="true"></i>
                         </button>
                     </li>
 
-                    {{-- First Page --}}
                     @if ($shouldShowFirstPage())
                         <li class="page-item">
-                            <button type="button" class="page-link" wire:click="gotoPage(1, '{{ $pageName }}')">
+                            <button
+                                type="button"
+                                class="page-link"
+                                aria-label="Ke halaman 1"
+                                wire:click="gotoPage(1, '{{ $resolvedPageName }}')"
+                            >
                                 1
                             </button>
                         </li>
+
                         @if ($shouldShowEllipsisStart())
-                            <li class="page-item disabled">
+                            <li class="page-item disabled" aria-hidden="true">
                                 <span class="page-link">...</span>
                             </li>
                         @endif
                     @endif
 
-                    {{-- Page Numbers --}}
                     @foreach ($pageRange() as $page)
-                        <li class="page-item {{ $page == $currentPage() ? 'active' : '' }}">
+                        @php
+                            $pageNumber = (int) $page;
+                            $isCurrent = $pageNumber === $current;
+                        @endphp
+
+                        <li class="page-item {{ $isCurrent ? 'active' : '' }}">
                             <button
                                 type="button"
                                 class="page-link"
-                                wire:click="gotoPage({{ $page }}, '{{ $pageName }}')"
-                                @if ($page == $currentPage())
+                                aria-label="Halaman {{ $pageNumber }}"
+                                wire:click="gotoPage({{ $pageNumber }}, '{{ $resolvedPageName }}')"
+                                @if ($isCurrent)
                                     disabled
                                     aria-current="page"
                                 @endif
                             >
-                                {{ $page }}
-                                @if ($page == $currentPage())
+                                {{ $pageNumber }}
+                                @if ($isCurrent)
                                     <span class="sr-only">(halaman saat ini)</span>
                                 @endif
                             </button>
                         </li>
                     @endforeach
 
-                    {{-- Last Page --}}
                     @if ($shouldShowLastPage())
                         @if ($shouldShowEllipsisEnd())
-                            <li class="page-item disabled">
+                            <li class="page-item disabled" aria-hidden="true">
                                 <span class="page-link">...</span>
                             </li>
                         @endif
+
                         <li class="page-item">
                             <button
                                 type="button"
                                 class="page-link"
-                                wire:click="gotoPage({{ $lastPage() }}, '{{ $pageName }}')"
+                                aria-label="Ke halaman {{ $last }}"
+                                wire:click="gotoPage({{ $last }}, '{{ $resolvedPageName }}')"
                             >
-                                {{ $lastPage() }}
+                                {{ $last }}
                             </button>
                         </li>
                     @endif
 
-                    {{-- Next --}}
-                    <li class="page-item {{ $hasMorePages() ? '' : 'disabled' }}">
+                    <li class="page-item {{ $hasMore ? '' : 'disabled' }}">
                         <button
                             type="button"
                             class="page-link"
-                            wire:click="nextPage('{{ $pageName }}')"
+                            aria-label="Halaman berikutnya"
+                            wire:click="nextPage('{{ $resolvedPageName }}')"
                             wire:loading.attr="disabled"
-                            @disabled(! $hasMorePages())
+                            @disabled(! $hasMore)
                         >
-                            <i class="fas fa-chevron-right"></i>
+                            <i class="fas fa-chevron-right" aria-hidden="true"></i>
                         </button>
                     </li>
                 </ul>

@@ -1,23 +1,45 @@
+@php
+    $commodityPaginator = $this->commodities;
+    $counts = is_array($this->conditionCounts ?? null) ? $this->conditionCounts : [];
+    $totalCount = (int) ($counts['total'] ?? 0);
+    $goodCount = (int) ($counts['good'] ?? 0);
+    $poorCount = (int) ($counts['poor'] ?? 0);
+    $damagedCount = (int) ($counts['heavily_damaged'] ?? 0);
+
+    $modalId = $modalParams['id'] ?? null;
+    $modalQrCode = $modalParams['qrcode'] ?? null;
+    $selectedRecords = $this->selectedRecords;
+    $selectedNames = $selectedRecords->pluck('name')->all();
+    $selectedKeys = implode('-', $selectedRecords->modelKeys());
+
+    $categories = [
+        'elektronik' => 'Elektronik',
+        'fashion' => 'Fashion',
+        'makanan' => 'Makanan',
+        'buku' => 'Buku',
+        'peralatan' => 'Peralatan',
+        'kendaraan' => 'Kendaraan',
+        'perabotan' => 'Perabotan',
+        'alat_tulis' => 'Alat Tulis',
+    ];
+@endphp
+
 <div>
-    {{-- Modal dialogs --}}
     @if ($activeModal === 'import')
         @teleport('body')
-            <livewire:pages::commodities.import />
+            <livewire:pages::commodities.import wire:key="modal-commodity-import" />
         @endteleport
     @endif
 
     @if ($activeModal === 'export')
         @teleport('body')
-            <livewire:pages::commodities.export />
+            <livewire:pages::commodities.export wire:key="modal-commodity-export" />
         @endteleport
     @endif
 
-    @if ($activeModal === 'show')
+    @if ($activeModal === 'show' && filled($modalId))
         @teleport('body')
-            <livewire:pages::commodities.show
-                :commodityId="$modalParams['id']"
-                wire:key="modal-show-{{ $modalParams['id'] }}"
-            />
+            <livewire:pages::commodities.show :commodityId="$modalId" wire:key="modal-show-{{ $modalId }}" />
         @endteleport
     @endif
 
@@ -25,60 +47,48 @@
         @teleport('body')
             <livewire:bulk-destroy
                 resource-label="barang"
-                :records="$this->selectedRecords->pluck('name')->all()"
-                wire:key="modal-bulk-destroy-{{ implode('-', $this->selectedRecords->modelKeys()) }}"
+                :records="$selectedNames"
+                wire:key="modal-bulk-destroy-{{ $selectedKeys !== '' ? $selectedKeys : 'empty' }}"
             />
         @endteleport
     @endif
 
-    @if ($activeModal === 'qrcode')
+    @if ($activeModal === 'qrcode' && filled($modalQrCode))
         @teleport('body')
-            <livewire:pages::commodities.qrcode
-                :qrcode="$modalParams['qrcode']"
-                wire:key="modal-qrcode-{{ $modalParams['qrcode'] }}"
-            />
+            <livewire:pages::commodities.qrcode :qrcode="$modalQrCode" wire:key="modal-qrcode-{{ $modalQrCode }}" />
         @endteleport
     @endif
 
-    {{-- Statistics Cards --}}
     <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-            <x-statistic-card
-                icon="fas fa-box"
-                bg-color="primary"
-                title="Total Barang"
-                :value="$this->conditionCounts['total']"
-            />
+            <x-statistic-card icon="fas fa-box" bg-color="primary" title="Total Barang" :value="$totalCount" />
         </div>
+
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-            <x-statistic-card
-                icon="fas fa-check-circle"
-                bg-color="success"
-                title="Kondisi Baik"
-                :value="$this->conditionCounts['good']"
-            />
+            <x-statistic-card icon="fas fa-check-circle" bg-color="success" title="Kondisi Baik" :value="$goodCount" />
         </div>
+
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <x-statistic-card
                 icon="fas fa-exclamation-circle"
                 bg-color="warning"
                 class="text-dark"
                 title="Kondisi Kurang Baik"
-                :value="$this->conditionCounts['poor']"
+                :value="$poorCount"
             />
         </div>
+
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <x-statistic-card
                 icon="fas fa-circle-xmark"
                 bg-color="danger"
                 title="Kondisi Rusak Berat"
-                :value="$this->conditionCounts['heavily_damaged']"
+                :value="$damagedCount"
             />
         </div>
     </div>
 
     <x-page :searchable="true">
-        {{-- Toolbar actions --}}
         <x-slot:toolbar>
             <div class="d-flex justify-content-between align-items-center flex-wrap pb-3">
                 <div class="d-flex flex-wrap">
@@ -91,6 +101,7 @@
                             class="mr-2 mb-2"
                         />
                     @endcan
+
                     @can('ekspor barang')
                         <x-button
                             wire:click="$dispatch('showModal', {modalName: 'export'})"
@@ -100,6 +111,7 @@
                             class="mr-2 mb-2"
                         />
                     @endcan
+
                     @can('hapus barang')
                         <x-button
                             wire:click="$dispatch('showBulkDeleteConfirmationModal')"
@@ -110,18 +122,20 @@
                             :disabled="empty($selected)"
                         />
                     @endcan
+
                     @can('print barang')
                         <a
-                            href="/barang/pdf"
+                            href="{{ route('barang.pdf.all') }}"
                             class="btn btn-secondary mr-2 mb-2"
                             title="Cetak"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <i class="fas fa-print"></i>
+                            <i class="fas fa-print mr-1" aria-hidden="true"></i>
                             Cetak
                         </a>
                     @endcan
+
                     <x-button
                         wire:click="$refresh"
                         icon="fa-sync-alt"
@@ -134,18 +148,17 @@
                         title="Muat Ulang"
                     />
                 </div>
+
                 @can('tambah barang')
-                    <a wire:navigate href="/barang/tambah" class="btn btn-primary mb-2">
-                        <i class="fas fa-plus-circle"></i>
+                    <a wire:navigate href="{{ route('barang.create') }}" class="btn btn-primary mb-2">
+                        <i class="fas fa-plus-circle mr-1" aria-hidden="true"></i>
                         Tambah Data
                     </a>
                 @endcan
             </div>
         </x-slot:toolbar>
 
-        {{-- Filter Accordion --}}
         <x-filter-accordion id="filter-accordion" title="Filter Data" :active-filters-count="$this->activeFiltersCount">
-            {{-- Filter: Select Inputs --}}
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
                     <x-select
@@ -155,14 +168,11 @@
                         wire:model.live="filters.category"
                     >
                         <option value="">Semua Kategori</option>
-                        <option value="elektronik">Elektronik</option>
-                        <option value="fashion">Fashion</option>
-                        <option value="makanan">Makanan</option>
-                        <option value="buku">Buku</option>
-                        <option value="peralatan">Peralatan</option>
-                        <option value="kendaraan">Kendaraan</option>
-                        <option value="perabotan">Perabotan</option>
-                        <option value="alat_tulis">Alat Tulis</option>
+                        @foreach ($categories as $categoryValue => $categoryLabel)
+                            <option value="{{ $categoryValue }}" wire:key="filter-category-{{ $categoryValue }}">
+                                {{ $categoryLabel }}
+                            </option>
+                        @endforeach
                     </x-select>
                 </div>
 
@@ -175,7 +185,7 @@
                     >
                         <option value="">Semua Kondisi</option>
                         @foreach ($this->conditions as $value => $label)
-                            <option value="{{ $value }}">{{ $label }}</option>
+                            <option value="{{ $value }}" wire:key="filter-condition-{{ $value }}">{{ $label }}</option>
                         @endforeach
                     </x-select>
                 </div>
@@ -189,7 +199,9 @@
                     >
                         <option value="">Semua Tahun</option>
                         @foreach ($this->purchaseYears as $purchaseYear)
-                            <option value="{{ $purchaseYear }}">{{ $purchaseYear }}</option>
+                            <option value="{{ $purchaseYear }}" wire:key="filter-year-{{ $purchaseYear }}">
+                                {{ $purchaseYear }}
+                            </option>
                         @endforeach
                     </x-select>
                 </div>
@@ -203,7 +215,9 @@
                     >
                         <option value="">Semua Perolehan</option>
                         @foreach ($this->commodityFundingSources as $fundingSource)
-                            <option value="{{ $fundingSource->id }}">{{ $fundingSource->name }}</option>
+                            <option value="{{ $fundingSource->id }}" wire:key="filter-funding-{{ $fundingSource->id }}">
+                                {{ $fundingSource->name }}
+                            </option>
                         @endforeach
                     </x-select>
                 </div>
@@ -212,7 +226,9 @@
                     <x-select name="filters.material" label="Bahan" icon="fa-cube" wire:model.live="filters.material">
                         <option value="">Semua Bahan</option>
                         @foreach ($this->materials as $material)
-                            <option value="{{ $material->id }}">{{ $material->name }}</option>
+                            <option value="{{ $material->id }}" wire:key="filter-material-{{ $material->id }}">
+                                {{ $material->name }}
+                            </option>
                         @endforeach
                     </x-select>
                 </div>
@@ -221,7 +237,9 @@
                     <x-select name="filters.brand" label="Merek" icon="fa-trademark" wire:model.live="filters.brand">
                         <option value="">Semua Merek</option>
                         @foreach ($this->brands as $brand)
-                            <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                            <option value="{{ $brand->id }}" wire:key="filter-brand-{{ $brand->id }}">
+                                {{ $brand->name }}
+                            </option>
                         @endforeach
                     </x-select>
                 </div>
@@ -235,7 +253,9 @@
                     >
                         <option value="">Semua Ruangan</option>
                         @foreach ($this->commodityLocations as $location)
-                            <option value="{{ $location->id }}">{{ $location->name }}</option>
+                            <option value="{{ $location->id }}" wire:key="filter-location-{{ $location->id }}">
+                                {{ $location->name }}
+                            </option>
                         @endforeach
                     </x-select>
                 </div>
@@ -249,16 +269,20 @@
                     >
                         <option value="">Semua Pengguna</option>
                         @foreach ($this->createdBy as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            <option value="{{ $user->id }}" wire:key="filter-user-{{ $user->id }}">
+                                {{ $user->name }}
+                            </option>
                         @endforeach
                     </x-select>
                 </div>
             </div>
 
-            {{-- Filter: Price & Quantity Range --}}
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                    <label class="font-weight-bold"> <i class="fas fa-dollar-sign mr-1"></i> Range Harga </label>
+                    <label class="font-weight-bold">
+                        <i class="fas fa-dollar-sign mr-1" aria-hidden="true"></i>
+                        Range Harga
+                    </label>
                     <div class="input-group">
                         <input
                             type="number"
@@ -285,7 +309,10 @@
                 </div>
 
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                    <label class="font-weight-bold"> <i class="fas fa-cubes mr-1"></i> Range Jumlah </label>
+                    <label class="font-weight-bold">
+                        <i class="fas fa-cubes mr-1" aria-hidden="true"></i>
+                        Range Jumlah
+                    </label>
                     <div class="input-group">
                         <input
                             type="number"
@@ -313,7 +340,6 @@
             </div>
         </x-filter-accordion>
 
-        {{-- Data table --}}
         <x-table
             :targets="[
                 'filters.condition',
@@ -324,12 +350,11 @@
                 'filters.location',
                 'filters.created_by',
             ]"
-            :paginator="$this->commodities"
+            :paginator="$commodityPaginator"
         >
-            {{-- Table headings --}}
             <x-slot:thead>
                 <tr>
-                    <th class="text-center" style="width: 40px">
+                    <th scope="col" class="text-center" style="width: 40px">
                         <div class="custom-control custom-checkbox">
                             <input
                                 type="checkbox"
@@ -340,20 +365,39 @@
                             <label for="checkbox-all" class="custom-control-label" aria-hidden="true"></label>
                         </div>
                     </th>
-                    <th>Nama Barang</th>
-                    <th>Merek &amp; Bahan</th>
-                    <th>Gambar</th>
-                    <th>Tahun</th>
-                    <th>Jumlah</th>
-                    <th>Harga</th>
-                    <th>Kondisi</th>
-                    <th class="text-center">Aksi</th>
+                    <th scope="col">Nama Barang</th>
+                    <th scope="col">Merek &amp; Bahan</th>
+                    <th scope="col">Gambar</th>
+                    <th scope="col">Tahun</th>
+                    <th scope="col">Jumlah</th>
+                    <th scope="col">Harga</th>
+                    <th scope="col">Kondisi</th>
+                    <th scope="col" class="text-center">Aksi</th>
                 </tr>
             </x-slot:thead>
 
-            {{-- Table rows --}}
             <x-slot:tbody>
-                @forelse ($this->commodities as $commodity)
+                @forelse ($commodityPaginator as $commodity)
+                    @php
+                        $imagePath = $commodity->image;
+                        $hasStoredImage = filled($imagePath) && Storage::disk('public')->exists($imagePath);
+                        $hasPublicImage = filled($imagePath) && file_exists(public_path($imagePath));
+                        $imageUrl = $hasStoredImage
+                            ? Storage::url($imagePath)
+                            : ($hasPublicImage ? asset($imagePath) : 'https://placehold.co/96x72?text=No+Picture');
+
+                        $quantity = (int) ($commodity->quantity ?? 0);
+                        $unitPrice = is_numeric($commodity->unit_price ?? null) ? (float) $commodity->unit_price : 0.0;
+                        $totalPrice = is_numeric($commodity->total_price ?? null)
+                            ? (float) $commodity->total_price
+                            : ($quantity * $unitPrice);
+
+                        $conditionStyle = $commodity->condition !== null
+                            ? $this->conditionStyle($commodity->condition)
+                            : ['icon' => 'fa-circle-question', 'badge' => 'badge-secondary'];
+                        $conditionLabel = $commodity->condition?->label() ?? '-';
+                    @endphp
+
                     <tr wire:key="commodity-{{ $commodity->id }}">
                         <td class="text-center align-middle">
                             <div class="custom-control custom-checkbox">
@@ -373,11 +417,11 @@
                         </td>
 
                         <td class="py-3 align-middle">
-                            <div class="font-weight-bold mb-2">{{ $commodity->name }}</div>
+                            <div class="font-weight-bold mb-2">{{ $commodity->name ?? '-' }}</div>
 
                             <div class="mb-2">
                                 <x-badge
-                                    :label="$commodity->commodityLocation->name"
+                                    :label="$commodity->commodityLocation?->name ?? '-'"
                                     icon="fa-map-marker-alt"
                                     variant="dark"
                                 />
@@ -385,14 +429,14 @@
 
                             <div class="d-flex align-items-center mb-3 flex-wrap">
                                 <x-badge
-                                    :label="$commodity->item_code"
+                                    :label="$commodity->item_code ?? '-'"
                                     icon="fa-code"
                                     variant="primary"
                                     class="mr-2 mb-1"
                                 />
 
                                 <x-badge
-                                    :label="$commodity->commodityFundingSource->name"
+                                    :label="$commodity->commodityFundingSource?->name ?? '-'"
                                     icon="fa-hand-holding"
                                     variant="primary"
                                     class="mb-1"
@@ -401,21 +445,21 @@
                         </td>
 
                         <td class="align-middle">
-                            <x-badge :label="$commodity->material->name" variant="light" class="d-block mb-2 py-1" />
-                            <x-badge :label="$commodity->brand->name" variant="light" class="d-block mb-2 py-1" />
+                            <x-badge
+                                :label="$commodity->material?->name ?? '-'"
+                                variant="light"
+                                class="d-block mb-2 py-1"
+                            />
+                            <x-badge
+                                :label="$commodity->brand?->name ?? '-'"
+                                variant="light"
+                                class="d-block mb-2 py-1"
+                            />
                         </td>
 
                         <td class="text-center align-middle">
-                            @php
-                                $imagePath = $commodity->image;
-                                $hasStoredImage = filled($imagePath) && Storage::disk('public')->exists($imagePath);
-                                $hasPublicImage = filled($imagePath) && file_exists(public_path($imagePath));
-                                $imageUrl = $hasStoredImage
-                                    ? Storage::url($imagePath)
-                                    : ($hasPublicImage ? asset($imagePath) : 'https://placehold.co/96x72?text=No+Picture');
-                            @endphp
                             <img
-                                alt="{{ $hasStoredImage || $hasPublicImage ? 'Foto '.$commodity->name : 'No Picture' }}"
+                                alt="{{ $hasStoredImage || $hasPublicImage ? 'Foto ' . ($commodity->name ?? 'Barang') : 'No Picture' }}"
                                 src="{{ $imageUrl }}"
                                 class="rounded border"
                                 width="96"
@@ -428,7 +472,7 @@
 
                         <td class="text-center align-middle">
                             <x-badge
-                                :label="$commodity->purchase_year"
+                                :label="$commodity->purchase_year ?? '-'"
                                 icon="fa-calendar-alt"
                                 variant="light"
                                 class="d-block"
@@ -436,30 +480,30 @@
                         </td>
 
                         <td class="text-center align-middle">
-                            <span class="font-weight-bold">{{ $commodity->quantity }}</span>
+                            <span class="font-weight-bold">{{ number_format($quantity, 0, ',', '.') }}</span>
                         </td>
 
                         <td class="text-right align-middle">
                             <div class="font-weight-bold text-primary">
-                                {{ Number::currency($commodity->total_price, in: 'IDR', locale: 'id') }}
+                                {{ \Illuminate\Support\Number::currency($totalPrice, in: 'IDR', locale: 'id') }}
                             </div>
-                            @if ($commodity->quantity > 1)
+                            @if ($quantity > 1)
                                 <small class="text-muted">
-                                    {{ $commodity->quantity }} × {{ Number::currency($commodity->unit_price, in: 'IDR', locale: 'id') }}
+                                    {{ $quantity }} &times; {{ \Illuminate\Support\Number::currency($unitPrice, in: 'IDR', locale: 'id') }}
                                 </small>
                             @endif
                         </td>
 
-                        @php $conditionStyle = $this->conditionStyle($commodity->condition) @endphp
                         <td class="text-center align-middle">
                             <span class="badge {{ $conditionStyle['badge'] }} px-3 py-2">
-                                <i class="fas {{ $conditionStyle['icon'] }} mr-1"></i>
-                                {{ $commodity->condition->label() }}
+                                <i class="fas {{ $conditionStyle['icon'] }} mr-1" aria-hidden="true"></i>
+                                {{ $conditionLabel }}
                             </span>
                         </td>
+
                         <td class="text-center align-middle">
                             <div class="btn-group table-action-group" role="group" aria-label="Aksi barang">
-                                @if ($commodity->qr_code)
+                                @if (filled($commodity->qr_code))
                                     @can('detail barang')
                                         <button
                                             type="button"
@@ -470,7 +514,7 @@
                                             data-placement="top"
                                             title="Kode QR"
                                         >
-                                            <i class="fas fa-qrcode"></i>
+                                            <i class="fas fa-qrcode" aria-hidden="true"></i>
                                         </button>
                                     @endcan
                                 @else
@@ -488,6 +532,7 @@
                                         >
                                             <i
                                                 class="fas fa-spinner"
+                                                aria-hidden="true"
                                                 wire:loading.class="fa-spin"
                                                 wire:target="generateQrCode({{ $commodity->id }})"
                                             ></i>
@@ -508,31 +553,38 @@
                                         title="Detail"
                                     />
                                 @endcan
+
                                 @can('ubah barang')
                                     <a
                                         wire:navigate
-                                        href="/barang/{{ $commodity->id }}/ubah"
+                                        href="{{ route('barang.edit', $commodity) }}"
                                         class="btn btn-sm btn-success"
+                                        aria-label="Ubah barang"
                                         data-toggle="tooltip"
                                         data-placement="top"
                                         title="Ubah"
                                     >
-                                        <i class="fas fa-edit"></i>
+                                        <i class="fas fa-edit" aria-hidden="true"></i>
                                     </a>
                                 @endcan
-                                @can('print barang')
-                                    <a
-                                        href="/barang/{{ $commodity->qr_code }}/pdf"
-                                        class="btn btn-sm btn-secondary"
-                                        data-toggle="tooltip"
-                                        data-placement="top"
-                                        title="Cetak"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <i class="fas fa-print"></i>
-                                    </a>
-                                @endcan
+
+                                @if (filled($commodity->qr_code))
+                                    @can('print barang')
+                                        <a
+                                            href="{{ route('barang.pdf', $commodity->qr_code) }}"
+                                            class="btn btn-sm btn-secondary"
+                                            aria-label="Cetak kode QR barang"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="Cetak"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <i class="fas fa-print" aria-hidden="true"></i>
+                                        </a>
+                                    @endcan
+                                @endif
+
                                 @can('hapus barang')
                                     <x-button
                                         label=""
@@ -542,7 +594,7 @@
                                         wire:click="destroy({{ $commodity->id }})"
                                         wire:confirm="Yakin ingin menghapus barang '{{ $commodity->name }}'?"
                                         wire:loading.attr="disabled"
-                                        wire:target="destroy"
+                                        wire:target="destroy({{ $commodity->id }})"
                                         aria-label="Hapus barang"
                                         data-toggle="tooltip"
                                         data-placement="top"

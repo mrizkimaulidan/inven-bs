@@ -14,12 +14,12 @@ use Livewire\Form;
 class UpdateProfileForm extends Form
 {
     /**
-     * The user instance.
+     * The user model instance being updated.
      */
-    public User $user;
+    public ?User $user = null;
 
     /**
-     * The user's name.
+     * The user's full name.
      */
     public string $name = '';
 
@@ -44,12 +44,17 @@ class UpdateProfileForm extends Form
     public string $password_confirmation = '';
 
     /**
-     * Validate the input and persist the changes.
-     *
-     * @return void
+     * Validate the input and persist changes to the user profile.
      */
     public function update(): void
     {
+        if (! $this->user instanceof User) {
+            return;
+        }
+
+        $this->name = trim($this->name);
+        $this->email = strtolower(trim($this->email));
+
         $validated = $this->validate();
 
         unset(
@@ -57,37 +62,40 @@ class UpdateProfileForm extends Form
             $validated['password_confirmation'],
         );
 
-        if (! empty($validated['password'])) {
-            $validated['password'] = Hash::make($validated['password']);
+        if ($validated['password'] !== '' && $validated['password'] !== null) {
+            $validated['password'] = Hash::make((string) $validated['password']);
         } else {
             unset($validated['password']);
         }
 
         $this->user->update($validated);
 
-        /**
-         * Clear password fields after a successful update.
-         */ $this->reset('current_password', 'password', 'password_confirmation');
+        // Clear sensitive password fields after a successful update.
+        $this->reset('current_password', 'password', 'password_confirmation');
     }
 
     /**
-     * Get the validation rules for the form.
+     * Get the validation rules for the profile form.
      *
-     * @return array
+     * @return array<string, list<mixed>>
      */
     protected function rules(): array
     {
+        $ignoreId = $this->user?->id;
+
         return [
             'name' => [
                 'required',
+                'string',
                 'min:3',
                 'max:255',
             ],
             'email' => [
                 'required',
+                'string',
                 'email',
                 'max:255',
-                Rule::unique('users', 'email')->ignore($this->user->id),
+                Rule::unique('users', 'email')->ignore($ignoreId),
             ],
             'current_password' => [
                 'nullable',
@@ -108,18 +116,20 @@ class UpdateProfileForm extends Form
     }
 
     /**
-     * Get the custom validation messages.
+     * Get the custom validation messages in Indonesian.
      *
-     * @return array
+     * @return array<string, string>
      */
     protected function messages(): array
     {
         return [
             'name.required' => 'Nama lengkap wajib diisi!',
+            'name.string' => 'Nama lengkap harus berupa teks!',
             'name.min' => 'Nama lengkap minimal :min karakter!',
             'name.max' => 'Nama lengkap maksimal :max karakter!',
 
             'email.required' => 'Alamat email wajib diisi!',
+            'email.string' => 'Alamat email harus berupa teks!',
             'email.email' => 'Format alamat email tidak valid!',
             'email.max' => 'Alamat email maksimal :max karakter!',
             'email.unique' => 'Alamat email sudah digunakan!',

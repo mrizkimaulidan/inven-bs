@@ -13,9 +13,17 @@ trait HasLogActivity
      */
     public static function bootHasLogActivity(): void
     {
-        static::created(static fn (self $model) => static::writeLog($model, 'created'));
-        static::updated(static fn (self $model) => static::writeLog($model, 'updated'));
-        static::deleted(static fn (self $model) => static::writeLog($model, 'deleted'));
+        static::created(static function (Model $model): void {
+            static::writeLog($model, 'created');
+        });
+
+        static::updated(static function (Model $model): void {
+            static::writeLog($model, 'updated');
+        });
+
+        static::deleted(static function (Model $model): void {
+            static::writeLog($model, 'deleted');
+        });
     }
 
     /**
@@ -24,13 +32,21 @@ trait HasLogActivity
      * Only loggable attributes that actually changed are recorded.
      * If no loggable attribute changed during an update, nothing is written.
      *
-     * @param  self  $model  The model instance being audited.
-     * @param  'created'|'updated'|'deleted'  $action  The Eloquent lifecycle action.
+     * @param  'created'|'updated'|'deleted'  $action
      */
     protected static function writeLog(Model $model, string $action): void
     {
-        $loggable = $model->getLoggableAttributes();
-        $excluded = $model->getLogExcludedAttributes();
+        $loggable = method_exists($model, 'getLoggableAttributes')
+            ? $model->getLoggableAttributes()
+            : $model->getFillable();
+
+        $excluded = method_exists($model, 'getLogExcludedAttributes')
+            ? $model->getLogExcludedAttributes()
+            : ['password', 'remember_token'];
+
+        $logName = method_exists($model, 'getLogName')
+            ? $model->getLogName()
+            : 'data';
 
         /**
          * Extract only tracked attributes, excluding sensitive fields.
@@ -46,16 +62,18 @@ trait HasLogActivity
         /** @var array<string, mixed> $rawOriginal */
         $rawOriginal = $model->getOriginal();
 
+        /** @var array<string, mixed> $currentAttributes */
+        $currentAttributes = $model->getAttributes();
+
         [$old, $new] = match ($action) {
-            'created' => [[], $filter($model->getAttributes())],
+            'created' => [[], $filter($currentAttributes)],
             'updated' => [
                 $filter($rawOriginal),
-                $filter($model->getAttributes()),
+                $filter($currentAttributes),
             ],
             'deleted' => [$filter($rawOriginal), []],
         };
 
-        // For updates, restrict to attributes that actually changed.
         if ($action === 'updated') {
             $changed = array_keys($model->getChanges());
 
@@ -69,10 +87,14 @@ trait HasLogActivity
 
         /** @var array<string, array{old: mixed, new: mixed}> $diff */
         $diff = [];
-        foreach (array_unique(array_merge(array_keys($old), array_keys($new))) as $field) {
-            $diff[$field] = [
-                'old' => $old[$field] ?? null,
-                'new' => $new[$field] ?? null,
+        $fields = array_unique(array_merge(array_keys($old), array_keys($new)));
+
+        foreach ($fields as $field) {
+            $fieldKey = (string) $field;
+
+            $diff[$fieldKey] = [
+                'old' => $old[$fieldKey] ?? null,
+                'new' => $new[$fieldKey] ?? null,
             ];
         }
 
@@ -81,7 +103,7 @@ trait HasLogActivity
             description: Str::headline(class_basename($model)." {$action}"),
             subject: $model,
             diff: $diff,
-            logName: $model->getLogName(),
+            logName: $logName,
         );
     }
 
@@ -129,7 +151,7 @@ trait HasLogActivity
      */
     public function getLogName(): string
     {
-        if (property_exists($this, 'logName') && is_string($this->logName)) {
+        if (property_exists($this, 'logName') && is_string($this->logName) && $this->logName !== '') {
             return $this->logName;
         }
 

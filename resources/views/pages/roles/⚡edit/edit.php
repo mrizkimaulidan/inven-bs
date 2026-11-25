@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use App\Livewire\Forms\UpdateRoleAndPermissionForm;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Collection;
@@ -18,7 +16,7 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
     /**
      * The role being updated.
      */
-    public Role $role;
+    public ?Role $role = null;
 
     /**
      * The form instance.
@@ -41,41 +39,38 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
     ];
 
     /**
-     * Module display metadata (label & icon).
+     * Module display metadata (label and icon).
      *
      * @var array<string, array{label: string, icon: string}>
      */
     private const MODULE_META = [
-        'barang' => ['label' => 'Barang',    'icon' => 'fa-boxes-stacked'],
+        'barang' => ['label' => 'Barang', 'icon' => 'fa-boxes-stacked'],
         'perolehan' => ['label' => 'Perolehan', 'icon' => 'fa-hand-holding'],
-        'ruangan' => ['label' => 'Ruangan',   'icon' => 'fa-map-location-dot'],
-        'merek' => ['label' => 'Merek',     'icon' => 'fa-tag'],
-        'bahan' => ['label' => 'Bahan',     'icon' => 'fa-cube'],
-        'pengguna' => ['label' => 'Pengguna',  'icon' => 'fa-users'],
+        'ruangan' => ['label' => 'Ruangan', 'icon' => 'fa-map-location-dot'],
+        'merek' => ['label' => 'Merek', 'icon' => 'fa-tag'],
+        'bahan' => ['label' => 'Bahan', 'icon' => 'fa-cube'],
+        'pengguna' => ['label' => 'Pengguna', 'icon' => 'fa-users'],
         'peran' => ['label' => 'Peran & Hak Akses', 'icon' => 'fa-user-shield'],
     ];
 
     /**
-     * Action display metadata (label, icon & badge color).
+     * Action display metadata (label, icon, and badge color).
      *
      * @var array<string, array{label: string, icon: string, badge: string}>
      */
     private const ACTION_META = [
-        'tambah' => ['label' => 'Tambah', 'icon' => 'fa-plus',        'badge' => 'success'],
-        'ubah' => ['label' => 'Ubah',   'icon' => 'fa-pen',         'badge' => 'warning'],
-        'hapus' => ['label' => 'Hapus',  'icon' => 'fa-trash',       'badge' => 'danger'],
-        'lihat' => ['label' => 'Lihat',  'icon' => 'fa-eye',         'badge' => 'primary'],
+        'tambah' => ['label' => 'Tambah', 'icon' => 'fa-plus', 'badge' => 'success'],
+        'ubah' => ['label' => 'Ubah', 'icon' => 'fa-pen', 'badge' => 'warning'],
+        'hapus' => ['label' => 'Hapus', 'icon' => 'fa-trash', 'badge' => 'danger'],
+        'lihat' => ['label' => 'Lihat', 'icon' => 'fa-eye', 'badge' => 'primary'],
         'detail' => ['label' => 'Detail', 'icon' => 'fa-info-circle', 'badge' => 'info'],
-        'impor' => ['label' => 'Impor',  'icon' => 'fa-download',    'badge' => 'secondary'],
-        'ekspor' => ['label' => 'Ekspor', 'icon' => 'fa-upload',      'badge' => 'secondary'],
-        'print' => ['label' => 'Print',  'icon' => 'fa-print',       'badge' => 'dark'],
+        'impor' => ['label' => 'Impor', 'icon' => 'fa-download', 'badge' => 'secondary'],
+        'ekspor' => ['label' => 'Ekspor', 'icon' => 'fa-upload', 'badge' => 'secondary'],
+        'print' => ['label' => 'Print', 'icon' => 'fa-print', 'badge' => 'dark'],
     ];
 
     /**
      * Load the role and populate its current name and permissions.
-     *
-     * @param  Role  $role
-     * @return void
      */
     public function mount(Role $role): void
     {
@@ -84,31 +79,39 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
         $this->form->fill([
             'role' => $role,
             'name' => $role->name,
-            'permissions' => $role->permissions->pluck('name')->toArray(),
+            'permissions' => $role->permissions->pluck('name')->all(),
         ]);
 
         $this->updatedFormPermissions();
     }
 
     /**
-     * Get all permissions from the database.
+     * Get permissions available to the current user combined with the role's existing permissions.
      *
      * @return Collection<int, Permission>
      */
     #[Computed]
     public function permissions(): Collection
     {
-        $assignablePermissions = auth()->user()->getAllPermissions()->pluck('name')
-            ->merge($this->role->permissions->pluck('name'))
-            ->unique();
+        $userPermissions = auth()->user()?->getAllPermissions()->pluck('name')->all() ?? [];
+        $rolePermissions = $this->role?->permissions?->pluck('name')->all() ?? [];
 
-        return Permission::whereIn('name', $assignablePermissions)->get();
+        $assignablePermissions = array_values(array_unique(array_merge(
+            $userPermissions,
+            $rolePermissions,
+        )));
+
+        if ($assignablePermissions === []) {
+            return new Collection;
+        }
+
+        return Permission::query()
+            ->whereIn('name', $assignablePermissions)
+            ->get();
     }
 
     /**
      * Get the total number of permissions available.
-     *
-     * @return int
      */
     #[Computed]
     public function totalPermissions(): int
@@ -138,9 +141,9 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
         $permissionsByModule = [];
 
         foreach ($this->permissions as $permission) {
-            [$actionKey, $moduleKey] = array_pad(explode(' ', $permission->name, 2), 2, '');
-            $actionKey = strtolower($actionKey);
-            $moduleKey = strtolower($moduleKey);
+            [$actionKey, $moduleKey] = array_pad(explode(' ', (string) $permission->name, 2), 2, '');
+            $actionKey = strtolower(trim($actionKey));
+            $moduleKey = strtolower(trim($moduleKey));
 
             if (! isset($permissionsByModule[$moduleKey])) {
                 $permissionsByModule[$moduleKey] = [
@@ -152,8 +155,8 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
             }
 
             $permissionsByModule[$moduleKey]['permissions'][] = [
-                'id' => $permission->id,
-                'name' => $permission->name,
+                'id' => (int) $permission->id,
+                'name' => (string) $permission->name,
                 'label' => self::ACTION_META[$actionKey]['label'] ?? ucfirst($actionKey),
                 'icon' => self::ACTION_META[$actionKey]['icon'] ?? 'fa-key',
                 'badge' => self::ACTION_META[$actionKey]['badge'] ?? 'secondary',
@@ -165,21 +168,15 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
 
     /**
      * Get the number of currently selected permissions.
-     *
-     * @return int
      */
     #[Computed]
     public function selectedPermissionsCount(): int
     {
-        return count($this->form->permissions);
+        return count($this->form->permissions ?? []);
     }
 
     /**
      * Handle updates to a module select-all checkbox.
-     *
-     * @param  mixed  $value
-     * @param  string  $key
-     * @return void
      */
     public function updatedSelectAll(mixed $value, string $key): void
     {
@@ -201,8 +198,6 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
 
     /**
      * Sync module select-all state after individual permission changes.
-     *
-     * @return void
      */
     public function updatedFormPermissions(): void
     {
@@ -216,8 +211,6 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
 
     /**
      * Select all available permissions.
-     *
-     * @return void
      */
     public function selectAllPermissions(): void
     {
@@ -230,8 +223,6 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
 
     /**
      * Reset all selected permissions.
-     *
-     * @return void
      */
     public function resetPermissions(): void
     {
@@ -243,9 +234,7 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
     }
 
     /**
-     * Persist the new role along with its assigned permissions.
-     *
-     * @return void
+     * Update the role along with its assigned permissions.
      */
     public function save(): void
     {
@@ -253,6 +242,6 @@ new #[Title('Halaman Ubah Data Peran & Hak Akses')] class extends Component
 
         session()->flash('success', 'Peran berhasil diperbarui.');
 
-        $this->redirect('/peran-dan-hak-akses', navigate: true);
+        $this->redirect(route('peran-dan-hak-akses.index'), navigate: true);
     }
 };

@@ -2,7 +2,6 @@
 
 namespace App\View\Components;
 
-use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
@@ -20,7 +19,6 @@ class Select extends Component
      * @param  bool  $required  Indicates whether the select is required.
      * @param  bool  $disabled  Indicates whether the select is disabled.
      * @param  string|null  $help  The help text.
-     * @return void
      */
     public function __construct(
         public string $name,
@@ -32,11 +30,9 @@ class Select extends Component
     ) {}
 
     /**
-     * Get the view / contents that represent the component.
-     *
-     * @return View|Closure|string
+     * Get the view or contents that represent the component.
      */
-    public function render(): View|Closure|string
+    public function render(): View
     {
         return view('components.select');
     }

@@ -24,7 +24,7 @@ class CommodityLocation extends Model
     /**
      * Get the commodities associated with the location.
      *
-     * @return HasMany
+     * @return HasMany<Commodity, $this>
      */
     public function commodities(): HasMany
     {
@@ -32,15 +32,13 @@ class CommodityLocation extends Model
     }
 
     /**
-     * Apply the search filter to the query.
+     * Apply the search filter to the location query.
      *
-     * @param  Builder  $query
-     * @param  string  $searchQuery
-     * @return void
+     * @param  Builder<static>  $query
      */
     #[Scope]
     public function search(Builder $query, string $searchQuery): void
     {
-        $query->whereAny(['name', 'description'], 'like', "%$searchQuery%");
+        $query->whereAny(['name', 'description'], 'like', '%'.$searchQuery.'%');
     }
 }

@@ -5,7 +5,7 @@ namespace App\Livewire\Forms;
 use Livewire\Form;
 
 /**
- * Validate login credentials.
+ * Validate login credentials submitted through the Livewire login form.
  */
 class LoginForm extends Form
 {
@@ -20,14 +20,14 @@ class LoginForm extends Form
     public string $password = '';
 
     /**
-     * Whether to remember the user.
+     * Whether to keep the user's session remembered.
      */
     public bool $remember = false;
 
     /**
-     * Get the validation rules for the form.
+     * Get the validation rules for the login form.
      *
-     * @return array
+     * @return array<string, list<string>>
      */
     protected function rules(): array
     {
@@ -39,15 +39,16 @@ class LoginForm extends Form
     }
 
     /**
-     * Get the custom validation messages.
+     * Get the custom validation messages in Indonesian.
      *
-     * @return array
+     * @return array<string, string>
      */
     protected function messages(): array
     {
         return [
             'email.required' => 'Alamat email wajib diisi!',
             'email.email' => 'Format alamat email tidak valid!',
+            'email.max' => 'Alamat email maksimal 255 karakter!',
             'password.required' => 'Kata sandi wajib diisi!',
         ];
     }

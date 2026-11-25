@@ -34,9 +34,6 @@ new class extends Component
 
     /**
      * Load the commodity and populate the edit form with its current values.
-     *
-     * @param  Commodity  $commodity
-     * @return void
      */
     public function mount(Commodity $commodity): void
     {
@@ -46,32 +43,30 @@ new class extends Component
 
     /**
      * Preview URL for the image.
-     * Priority: new upload (temporary) → persisted image → null.
-     *
-     * @return ?string
+     * Priority: new upload (temporary) -> persisted image -> null.
      */
     #[Computed]
     public function imagePreview(): ?string
     {
-        /**
-         * Use the temporary URL when the user has selected a replacement image.
-         */ if ($this->form->image) {
+        if ($this->form->image) {
             return $this->form->image->temporaryUrl();
         }
 
-        /**
-         * Otherwise, use the persisted image when available.
-         */ $path = $this->commodity->image;
+        $path = $this->commodity->image;
 
-        return $path
-            ? (Storage::disk('public')->exists($path) ? Storage::url($path) : 'https://placehold.co/96x72?text=No+Picture')
-            : null;
+        if (! is_string($path) || trim($path) === '') {
+            return null;
+        }
+
+        return Storage::disk('public')->exists($path)
+            ? Storage::url($path)
+            : 'https://placehold.co/96x72?text=No+Picture';
     }
 
     /**
      * Get a listing of the commodity funding sources.
      *
-     * @return Collection
+     * @return Collection<int, CommodityFundingSource>
      */
     #[Computed]
     public function commodityFundingSources(): Collection
@@ -82,7 +77,7 @@ new class extends Component
     /**
      * Get a listing of the materials.
      *
-     * @return Collection
+     * @return Collection<int, Material>
      */
     #[Computed]
     public function materials(): Collection
@@ -93,7 +88,7 @@ new class extends Component
     /**
      * Get a listing of the brands.
      *
-     * @return Collection
+     * @return Collection<int, Brand>
      */
     #[Computed]
     public function brands(): Collection
@@ -104,7 +99,7 @@ new class extends Component
     /**
      * Get a listing of the commodity locations.
      *
-     * @return Collection
+     * @return Collection<int, CommodityLocation>
      */
     #[Computed]
     public function commodityLocations(): Collection
@@ -115,7 +110,7 @@ new class extends Component
     /**
      * Get a listing of the unique commodity purchase years.
      *
-     * @return array
+     * @return array<int, mixed>
      */
     #[Computed]
     public function purchaseYears(): array
@@ -130,7 +125,7 @@ new class extends Component
     /**
      * Get a listing of the commodity condition options.
      *
-     * @return array
+     * @return array<string, string>
      */
     #[Computed]
     public function conditions(): array
@@ -140,8 +135,6 @@ new class extends Component
 
     /**
      * Get the total price formatted as Indonesian Rupiah.
-     *
-     * @return string
      */
     #[Computed]
     public function totalPriceFormatted(): string
@@ -151,8 +144,6 @@ new class extends Component
 
     /**
      * Get the total price spelled out in Indonesian words.
-     *
-     * @return string
      */
     #[Computed]
     public function totalInWords(): string
@@ -161,24 +152,34 @@ new class extends Component
             return '';
         }
 
-        return Number::withLocale('id', fn () => ucfirst(Number::spell($this->totalPrice)));
+        return Number::withLocale('id', function (): string {
+            return ucfirst(Number::spell($this->totalPrice));
+        });
     }
 
     /**
      * Get the raw total price.
-     *
-     * @return float
      */
     #[Computed]
     public function totalPrice(): float
     {
-        return (float) (($this->form->quantity ?? 0) * ($this->form->unit_price ?? 0));
+        $quantity = is_numeric($this->form->quantity ?? null) ? (float) $this->form->quantity : 0.0;
+        $unitPrice = is_numeric($this->form->unit_price ?? null) ? (float) $this->form->unit_price : 0.0;
+
+        return max(0.0, $quantity) * max(0.0, $unitPrice);
+    }
+
+    /**
+     * Reset form fields back to the current commodity values.
+     */
+    public function resetForm(): void
+    {
+        $this->form->fillFromModel($this->commodity);
+        $this->resetValidation();
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @return void
      */
     public function edit(): void
     {
@@ -186,13 +187,11 @@ new class extends Component
 
         session()->flash('success', 'Data barang berhasil diubah!');
 
-        $this->redirect('/barang', navigate: true);
+        $this->redirect(route('barang.index'), navigate: true);
     }
 
     /**
-     * Render the component.
-     *
-     * @return View
+     * Render the component with a dynamic page title.
      */
     public function render(): View
     {

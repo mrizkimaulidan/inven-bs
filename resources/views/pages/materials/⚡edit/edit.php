@@ -16,9 +16,6 @@ new class extends Component
 
     /**
      * Load the selected material and populate the edit form.
-     *
-     * @param  int  $materialId
-     * @return void
      */
     public function mount(int $materialId): void
     {
@@ -32,8 +29,6 @@ new class extends Component
 
     /**
      * Update the specified resource in storage.
-     *
-     * @return void
      */
     public function edit(): void
     {
@@ -41,6 +36,6 @@ new class extends Component
 
         session()->flash('success', 'Data bahan berhasil diperbarui.');
 
-        $this->redirect('/bahan', navigate: true);
+        $this->redirect(route('bahan.index'), navigate: true);
     }
 };

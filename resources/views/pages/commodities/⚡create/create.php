@@ -28,13 +28,13 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
 
     /**
      * The available commodity condition options.
+     *
+     * @var array<string, string>
      */
-    public array $conditions;
+    public array $conditions = [];
 
     /**
      * Load the available condition options for the form.
-     *
-     * @return void
      */
     public function mount(): void
     {
@@ -44,7 +44,7 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
     /**
      * Get a listing of the commodity funding sources.
      *
-     * @return Collection
+     * @return Collection<int, CommodityFundingSource>
      */
     #[Computed]
     public function commodityFundingSources(): Collection
@@ -55,7 +55,7 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
     /**
      * Get a listing of the materials.
      *
-     * @return Collection
+     * @return Collection<int, Material>
      */
     #[Computed]
     public function materials(): Collection
@@ -66,7 +66,7 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
     /**
      * Get a listing of the brands.
      *
-     * @return Collection
+     * @return Collection<int, Brand>
      */
     #[Computed]
     public function brands(): Collection
@@ -77,7 +77,7 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
     /**
      * Get a listing of the commodity locations.
      *
-     * @return Collection
+     * @return Collection<int, CommodityLocation>
      */
     #[Computed]
     public function commodityLocations(): Collection
@@ -88,7 +88,7 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
     /**
      * Get a listing of the users.
      *
-     * @return Collection
+     * @return Collection<int, User>
      */
     #[Computed]
     public function createdBy(): Collection
@@ -98,8 +98,6 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
 
     /**
      * Get the total price formatted as Indonesian Rupiah.
-     *
-     * @return string
      */
     #[Computed]
     public function totalPriceFormatted(): string
@@ -109,8 +107,6 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
 
     /**
      * Get the total price spelled out in Indonesian words.
-     *
-     * @return string
      */
     #[Computed]
     public function totalInWords(): string
@@ -119,27 +115,25 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
             return '';
         }
 
-        return Number::withLocale('id', function () {
+        return Number::withLocale('id', function (): string {
             return ucfirst(Number::spell($this->totalPrice));
         });
     }
 
     /**
      * Get the raw total price.
-     *
-     * @return float
      */
     #[Computed]
     public function totalPrice(): float
     {
-        return (float) (($this->form->quantity ?? 0) * ($this->form->unit_price ?? 0));
+        $quantity = is_numeric($this->form->quantity ?? null) ? (float) $this->form->quantity : 0.0;
+        $unitPrice = is_numeric($this->form->unit_price ?? null) ? (float) $this->form->unit_price : 0.0;
+
+        return max(0.0, $quantity) * max(0.0, $unitPrice);
     }
 
     /**
-     * Preview URL for the image.
-     * Priority: new upload (temporary) → persisted image → null.
-     *
-     * @return ?string
+     * Preview URL for the uploaded image.
      */
     #[Computed]
     public function imagePreview(): ?string
@@ -148,9 +142,16 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
     }
 
     /**
+     * Reset form fields and clear validation errors.
+     */
+    public function resetForm(): void
+    {
+        $this->form->reset();
+        $this->resetValidation();
+    }
+
+    /**
      * Store a newly created resource in storage.
-     *
-     * @return void
      */
     public function save(): void
     {
@@ -158,6 +159,6 @@ new #[Title('Halaman Tambah Data Barang')] class extends Component
 
         session()->flash('success', 'Data barang berhasil ditambahkan!');
 
-        $this->redirect('/barang', navigate: true);
+        $this->redirect(route('barang.index'), navigate: true);
     }
 };

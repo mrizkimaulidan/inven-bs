@@ -12,6 +12,9 @@ use App\Models\Material;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Orchestrate filtered inventory queries, dashboard summary metrics, filter options, and chart payloads.
+ */
 class InventoryDashboardService
 {
     public function __construct(
@@ -20,6 +23,8 @@ class InventoryDashboardService
     ) {}
 
     /**
+     * Build dashboard summary cards, chart datasets, and recent commodities for the given filters.
+     *
      * @param  array{search: string, brandId: string, materialId: string, locationId: string, condition: string, purchaseYear: string}  $filters
      * @return array<string, mixed>
      */
@@ -35,9 +40,9 @@ class InventoryDashboardService
 
         return [
             'summary' => [
-                'totalItems' => (int) $summary->total_items,
-                'totalUnits' => (int) $summary->total_units,
-                'inventoryValue' => (float) $summary->inventory_value,
+                'totalItems' => (int) ($summary?->total_items ?? 0),
+                'totalUnits' => (int) ($summary?->total_units ?? 0),
+                'inventoryValue' => (float) ($summary?->inventory_value ?? 0.0),
                 'totalLocations' => (int) (clone $query)
                     ->distinct()
                     ->count('commodities.commodity_location_id'),
@@ -53,6 +58,8 @@ class InventoryDashboardService
     }
 
     /**
+     * Retrieve available filter options for the inventory dashboard.
+     *
      * @return array{brands: Collection<int, Brand>, materials: Collection<int, Material>, locations: Collection<int, CommodityLocation>, conditions: array<int, string>, purchaseYears: list<string>}
      */
     public function getFilterOptions(): array
@@ -72,45 +79,49 @@ class InventoryDashboardService
     }
 
     /**
+     * Build a filtered Eloquent query for commodities based on active dashboard filters.
+     *
      * @param  array{search: string, brandId: string, materialId: string, locationId: string, condition: string, purchaseYear: string}  $filters
      * @return Builder<Commodity>
      */
     private function filteredQuery(array $filters): Builder
     {
+        $search = trim($filters['search']);
+
         return Commodity::query()
             ->when(
-                $filters['search'] !== '',
-                fn (Builder $query): Builder => $query->where(function (Builder $query) use ($filters): void {
+                $search !== '',
+                static fn (Builder $query): Builder => $query->where(static function (Builder $query) use ($search): void {
                     $query
-                        ->where('commodities.item_code', 'like', '%'.$filters['search'].'%')
-                        ->orWhere('commodities.name', 'like', '%'.$filters['search'].'%');
+                        ->where('commodities.item_code', 'like', '%'.$search.'%')
+                        ->orWhere('commodities.name', 'like', '%'.$search.'%');
                 }),
             )
             ->when(
                 $filters['brandId'] !== '',
-                fn (Builder $query): Builder => $query->where('commodities.brand_id', (int) $filters['brandId']),
+                static fn (Builder $query): Builder => $query->where('commodities.brand_id', (int) $filters['brandId']),
             )
             ->when(
                 $filters['materialId'] !== '',
-                fn (Builder $query): Builder => $query->where('commodities.material_id', (int) $filters['materialId']),
+                static fn (Builder $query): Builder => $query->where('commodities.material_id', (int) $filters['materialId']),
             )
             ->when(
                 $filters['locationId'] !== '',
-                fn (Builder $query): Builder => $query->where(
+                static fn (Builder $query): Builder => $query->where(
                     'commodities.commodity_location_id',
                     (int) $filters['locationId'],
                 ),
             )
             ->when(
                 $filters['condition'] !== '',
-                fn (Builder $query): Builder => $query->where(
+                static fn (Builder $query): Builder => $query->where(
                     'commodities.condition',
                     (int) $filters['condition'],
                 ),
             )
             ->when(
                 $filters['purchaseYear'] !== '',
-                fn (Builder $query): Builder => $query->where(
+                static fn (Builder $query): Builder => $query->where(
                     'commodities.purchase_year',
                     (int) $filters['purchaseYear'],
                 ),

@@ -2,11 +2,14 @@
     'title' => 'Filter Inventaris',
 ])
 
-{{-- ===== START: Dashboard Filter Bar ===== --}}
+@php
+    $heading = is_string($title) && trim($title) !== '' ? trim($title) : 'Filter Inventaris';
+@endphp
+
 <div class="card">
     <div class="card-header">
-        <h4>{{ $title }}</h4>
+        <h4>{{ $heading }}</h4>
     </div>
+
     <div class="card-body">{{ $slot }}</div>
 </div>
-{{-- ===== END: Dashboard Filter Bar ===== --}}

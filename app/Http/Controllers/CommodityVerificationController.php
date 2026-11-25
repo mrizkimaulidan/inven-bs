@@ -14,18 +14,17 @@ class CommodityVerificationController extends Controller
 {
     /**
      * Find the commodity by QR code and render its verification page or a not-found response.
-     *
-     * @param  string  $qrcode
-     * @return Response|View
      */
-    public function __invoke(string $qrcode)
+    public function __invoke(string $qrcode): Response|View
     {
-        $commodity = Commodity::with([
-            'brand',
-            'material',
-            'commodityLocation',
-            'commodityFundingSource',
-        ])->firstWhere('qr_code', $qrcode);
+        $commodity = Commodity::query()
+            ->with([
+                'brand',
+                'material',
+                'commodityLocation',
+                'commodityFundingSource',
+            ])
+            ->firstWhere('qr_code', $qrcode);
 
         if (! $commodity) {
             return response()->view('verifications.404', [
@@ -45,12 +44,11 @@ class CommodityVerificationController extends Controller
     }
 
     /**
-     * Resolve the icon and badge styling for the given condition.
+     * Resolve the icon and badge styling for the given commodity condition.
      *
-     * @param  CommodityCondition  $condition
-     * @return array
+     * @return array{icon: string, badge: string, label?: string}
      */
-    private function conditionStyle(CommodityCondition $condition): array
+    private function conditionStyle(?CommodityCondition $condition): array
     {
         return match ($condition) {
             CommodityCondition::GOOD => [
@@ -65,7 +63,7 @@ class CommodityVerificationController extends Controller
                 'icon' => 'fa-circle-xmark',
                 'badge' => 'badge-danger',
             ],
-            default => [
+            null => [
                 'icon' => 'fa-question-circle',
                 'badge' => 'badge-secondary',
                 'label' => 'Tidak Diketahui',

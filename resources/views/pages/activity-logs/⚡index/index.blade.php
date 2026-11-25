@@ -1,17 +1,17 @@
+@php
+    $logs = $this->activityLogs;
+    $showDetailModal = $activeModal === 'show' && filled($modalParams['id'] ?? null);
+    $detailLogId = $modalParams['id'] ?? null;
+@endphp
+
 <div>
-    {{-- Modal dialogs --}}
-    @if ($activeModal === 'show')
+    @if ($showDetailModal)
         @teleport('body')
-            <livewire:pages::activity-logs.show
-                :auditLogId="$modalParams['id']"
-                wire:key="modal-show-{{ $modalParams['id'] }}"
-            />
+            <livewire:pages::activity-logs.show :auditLogId="$detailLogId" wire:key="modal-show-{{ $detailLogId }}" />
         @endteleport
     @endif
 
-    {{-- Listing page --}}
     <x-page :searchable="true">
-        {{-- Toolbar actions --}}
         <x-slot:toolbar>
             <div class="d-flex justify-content-between align-items-center flex-wrap">
                 <div class="d-flex flex-wrap">
@@ -30,9 +30,7 @@
             </div>
         </x-slot:toolbar>
 
-        {{-- Data table --}}
-        <x-table :targets="[]" :paginator="$this->activityLogs">
-            {{-- Table headings --}}
+        <x-table :targets="[]" :paginator="$logs">
             <x-slot:thead>
                 <tr>
                     <th scope="col" style="width: 180px">Waktu</th>
@@ -43,38 +41,40 @@
                 </tr>
             </x-slot:thead>
 
-            {{-- Table rows --}}
             <x-slot:tbody>
-                @forelse ($this->activityLogs as $log)
+                @forelse ($logs as $log)
+                    @php
+                        $eventLabel = ucfirst((string) ($log->event ?? $log->action ?? 'Aktivitas'));
+                        $causerName = $log->causer?->name ?? 'Sistem';
+                        $causerEmail = $log->causer?->email;
+                        $formattedDate = $log->created_at?->translatedFormat('d M Y') ?? '-';
+                        $formattedTime = $log->created_at?->format('H:i:s') ?? '-';
+                    @endphp
+
                     <tr wire:key="audit-log-{{ $log->id }}">
-                        {{-- Waktu --}}
                         <td class="align-middle text-nowrap">
-                            <div>{{ $log->created_at->translatedFormat('d M Y') }}</div>
-                            <small class="text-muted">{{ $log->created_at->format('H:i:s') }}</small>
+                            <div>{{ $formattedDate }}</div>
+                            <small class="text-muted">{{ $formattedTime }}</small>
                         </td>
 
-                        {{-- Pengguna --}}
                         <td class="align-middle">
-                            <div class="font-weight-bold">{{ $log->causer->name ?? 'Sistem' }}</div>
-                            @if ($log->causer?->email)
-                                <small class="text-muted">{{ $log->causer->email }}</small>
+                            <div class="font-weight-bold">{{ $causerName }}</div>
+                            @if (filled($causerEmail))
+                                <small class="text-muted">{{ $causerEmail }}</small>
                             @endif
                         </td>
 
-                        {{-- Aktivitas / Event & Deskripsi --}}
                         <td class="py-3 align-middle">
                             <div class="mb-1">
-                                <x-badge :label="ucfirst($log->event ?? $log->action ?? 'Aktivitas')" variant="info" />
+                                <x-badge :label="$eventLabel" variant="info" />
                             </div>
                             <div class="text-dark">{{ $log->description ?? '-' }}</div>
                         </td>
 
-                        {{-- IP Address --}}
                         <td class="align-middle text-nowrap">
                             <code>{{ $log->ip_address ?? '-' }}</code>
                         </td>
 
-                        {{-- Aksi (Detail Only) --}}
                         <td class="text-center align-middle">
                             <div class="btn-group table-action-group" role="group" aria-label="Aksi log aktivitas">
                                 @can('detail log aktivitas')

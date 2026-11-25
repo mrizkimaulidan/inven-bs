@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Attributes\WithoutTimestamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
+/**
+ * Represent a recorded audit log entry for model changes and actor actions.
+ */
 #[Guarded('')]
 #[WithoutTimestamps]
 class AuditLog extends Model

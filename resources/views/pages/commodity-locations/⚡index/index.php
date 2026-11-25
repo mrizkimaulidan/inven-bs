@@ -34,29 +34,30 @@ new #[Title('Halaman Daftar Ruangan')] class extends Component
     /**
      * Get a listing of the resource with pagination.
      *
-     * @return LengthAwarePaginator
+     * @return LengthAwarePaginator<int, CommodityLocation>
      */
     #[Computed]
     public function commodityLocations(): LengthAwarePaginator
     {
+        $perPage = max(1, $this->perPage);
+        $keyword = trim($this->search);
+
         $query = CommodityLocation::query()->withCount([
             'commodities',
-            'commodities as good_conditions_count' => fn (Builder $query) => $query->where('condition', CommodityCondition::GOOD),
-            'commodities as poor_conditions_count' => fn (Builder $query) => $query->where('condition', CommodityCondition::POOR),
-            'commodities as heavily_damaged_conditions_count' => fn (Builder $query) => $query->where('condition', CommodityCondition::HEAVILY_DAMAGED),
+            'commodities as good_conditions_count' => static fn (Builder $query): Builder => $query->where('condition', CommodityCondition::GOOD),
+            'commodities as poor_conditions_count' => static fn (Builder $query): Builder => $query->where('condition', CommodityCondition::POOR),
+            'commodities as heavily_damaged_conditions_count' => static fn (Builder $query): Builder => $query->where('condition', CommodityCondition::HEAVILY_DAMAGED),
         ]);
 
-        $query->when(filled($this->search), function (Builder $query) {
-            $query->search($this->search);
+        $query->when($keyword !== '', static function (Builder $query) use ($keyword): void {
+            $query->search($keyword);
         });
 
-        return $query->paginate($this->perPage);
+        return $query->paginate($perPage);
     }
 
     /**
      * The name of the computed property used by WithBulkDelete.
-     *
-     * @return string
      */
     protected function bulkPaginatorName(): string
     {
@@ -65,14 +66,15 @@ new #[Title('Halaman Daftar Ruangan')] class extends Component
 
     /**
      * Get the destination after a successful bulk delete.
-     *
-     * @return ?string
      */
     protected function bulkRedirectPath(): ?string
     {
-        return '/ruangan';
+        return route('ruangan.index');
     }
 
+    /**
+     * Get the permission module name used by bulk delete actions.
+     */
     protected function bulkPermissionModule(): string
     {
         return 'ruangan';
@@ -80,9 +82,6 @@ new #[Title('Halaman Daftar Ruangan')] class extends Component
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  CommodityLocation  $commodityLocation
-     * @return void
      */
     public function destroy(CommodityLocation $commodityLocation): void
     {
@@ -92,18 +91,15 @@ new #[Title('Halaman Daftar Ruangan')] class extends Component
 
         session()->flash('success', 'Data ruangan berhasil dihapus.');
 
-        $this->redirect('/ruangan', navigate: true);
+        $this->redirect(route('ruangan.index'), navigate: true);
     }
 
     /**
-     * Called after updating a property.
-     *
-     * @param  string  $property
-     * @return void
+     * Reset pagination and selection state when filter or page-size properties change.
      */
     public function updated(string $property): void
     {
-        if (in_array($property, ['search', 'perPage'])) {
+        if (in_array($property, ['search', 'perPage'], true)) {
             $this->resetPage();
         }
 

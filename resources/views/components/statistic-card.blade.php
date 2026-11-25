@@ -1,10 +1,8 @@
-<div class="card card-statistic-1">
-    {{-- Statistic icon --}}
+<div {{ $attributes->class(['card', 'card-statistic-1']) }}>
     <div class="card-icon bg-{{ $bgColor }}">
         <i class="fas {{ $icon }}" aria-hidden="true"></i>
     </div>
 
-    {{-- Statistic title and value --}}
     <div class="card-wrap">
         <div class="card-header">
             <h4>{{ $title }}</h4>

@@ -12,20 +12,15 @@ use Maatwebsite\Excel\Facades\Excel;
  */
 new class extends Component
 {
-    use AuthorizesModulePermissions;
-    use WithFileUploads;
+    use AuthorizesModulePermissions, WithFileUploads;
 
     /**
      * The import form state.
-     *
-     * @var ImportForm
      */
     public ImportForm $importForm;
 
     /**
-     * Import the uploaded spreadsheet.
-     *
-     * @return void
+     * Import the uploaded spreadsheet and redirect to the listing.
      */
     public function import(): void
     {
@@ -37,6 +32,6 @@ new class extends Component
 
         session()->flash('success', 'Data ruangan berhasil diimpor!');
 
-        $this->redirect('/ruangan', navigate: true);
+        $this->redirect(route('ruangan.index'), navigate: true);
     }
 };

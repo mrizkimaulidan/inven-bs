@@ -1,4 +1,7 @@
+@php
+    $rowCount = (int) ($this->totalRows ?? 0);
+@endphp
+
 <div>
-    {{-- Export options modal --}}
-    <x-export-modal title="Ekspor Data Ruangan" :totalRows="$this->totalRows" />
+    <x-export-modal title="Ekspor Data Ruangan" :total-rows="$rowCount" />
 </div>

@@ -6,33 +6,29 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
+use LogicException;
+use RuntimeException;
 
 /**
- * Provides bulk delete functionality driven by checkbox selection.
+ * Provide bulk delete functionality driven by checkbox selection in Livewire components.
  *
- * The consuming component only needs to:
- * 1. Use this trait.
- * 2. Define a #[Computed] method that returns a LengthAwarePaginator
- *    and expose its name by overriding bulkPaginatorName().
- * 3. Use the WithModal trait to provide the shared confirmation flow.
- * 4. Optionally override bulkModelClass() to specify the model class
- *    (defaults to the paginator's model).
+ * Requirements & usage:
+ * 1. Use this trait alongside `Livewire\WithPagination` and `WithModal`.
+ * 2. Define a `#[Computed]` property returning a paginator and expose its name via `bulkPaginatorName()`.
+ * 3. Implement `bulkPermissionModule()` to define the permission module name.
+ * 4. Optionally override `bulkModelClass()`, `bulkRedirectPath()`, or `bulkRecordLabelColumn()`.
  *
- * Note: this trait assumes the host component uses Livewire\WithPagination.
- * It does NOT assume a $search property — reset the selection from the
- * component's own `updated()` hook when a filter property changes.
- *
- * Configuration is exposed via methods, not properties: Livewire only
- * hydrates public properties between requests, so protected properties
- * assigned once in mount() would silently reset to their declared
- * default on every subsequent request.
+ * Configuration is exposed via methods rather than properties so values are not reset
+ * between Livewire requests.
  */
 trait WithBulkDelete
 {
     use AuthorizesModulePermissions;
 
     /**
-     * The IDs of the selected records.
+     * The IDs of the currently selected records.
+     *
+     * @var list<string>
      */
     public array $selected = [];
 
@@ -42,12 +38,7 @@ trait WithBulkDelete
     public bool $selectAll = false;
 
     /**
-     * The name of the computed property that returns the paginator.
-     *
-     * Override this in the consuming component if your paginator
-     * is not named "items".
-     *
-     * @return string
+     * Get the name of the computed property that returns the paginator.
      */
     protected function bulkPaginatorName(): string
     {
@@ -55,11 +46,7 @@ trait WithBulkDelete
     }
 
     /**
-     * The model class used for the bulk delete.
-     *
-     * Override this if the model differs from the paginator's model.
-     *
-     * @return ?string
+     * Get the model class used for bulk delete operations.
      */
     protected function bulkModelClass(): ?string
     {
@@ -67,9 +54,7 @@ trait WithBulkDelete
     }
 
     /**
-     * The URL to visit after a successful bulk delete.
-     *
-     * @return ?string
+     * Get the URL to redirect to after a successful bulk delete.
      */
     protected function bulkRedirectPath(): ?string
     {
@@ -77,17 +62,23 @@ trait WithBulkDelete
     }
 
     /**
-     * Get the permission module used to authorize bulk actions.
+     * Get the column name used when fetching summary labels for selected records.
+     */
+    protected function bulkRecordLabelColumn(): string
+    {
+        return 'name';
+    }
+
+    /**
+     * Get the permission module name used to authorize bulk delete actions.
      */
     protected function bulkPermissionModule(): string
     {
-        throw new \LogicException('The bulk permission module must be defined by the consuming component.');
+        throw new LogicException('The bulk permission module must be defined by the consuming component.');
     }
 
     /**
      * Get the paginator instance for the current page.
-     *
-     * @return mixed
      */
     protected function bulkPaginator(): mixed
     {
@@ -95,20 +86,21 @@ trait WithBulkDelete
     }
 
     /**
-     * Get the IDs available on the current page.
+     * Get all record IDs available on the current paginator page.
      *
-     * @return array<int, string>
+     * @return list<string>
      */
     protected function bulkPageIds(): array
     {
         return $this->bulkPaginator()
             ->pluck('id')
-            ->map(fn ($recordId) => (string) $recordId)
-            ->toArray();
+            ->map(static fn (mixed $recordId): string => (string) $recordId)
+            ->values()
+            ->all();
     }
 
     /**
-     * Get the selected records from the current page for confirmation.
+     * Get the selected records from the current page for confirmation display.
      *
      * @return Collection<int, Model>
      */
@@ -117,40 +109,43 @@ trait WithBulkDelete
     {
         $selectedRecordIds = array_intersect($this->selected, $this->bulkPageIds());
 
-        if (empty($selectedRecordIds)) {
+        if ($selectedRecordIds === []) {
             return new Collection;
         }
 
         $modelClass = $this->bulkModel();
+        $labelColumn = $this->bulkRecordLabelColumn();
 
-        return $modelClass::query()->whereIn('id', $selectedRecordIds)->get(['id', 'name']);
+        return $modelClass::query()
+            ->whereIn('id', $selectedRecordIds)
+            ->get(['id', $labelColumn]);
     }
 
     /**
-     * Resolve the model class used for the bulk delete.
+     * Resolve the Eloquent model class used for bulk delete operations.
      *
-     * @return string
+     * @return class-string<Model>
      */
     protected function bulkModel(): string
     {
-        if ($this->bulkModelClass()) {
-            return $this->bulkModelClass();
+        $configuredModel = $this->bulkModelClass();
+
+        if ($configuredModel !== null) {
+            /** @var class-string<Model> $configuredModel */
+            return $configuredModel;
         }
 
         $firstModel = $this->bulkPaginator()->getCollection()->first();
 
-        if ($firstModel === null) {
-            throw new \RuntimeException('Unable to resolve bulk model: the current page is empty.');
+        if (! $firstModel instanceof Model) {
+            throw new RuntimeException('Unable to resolve bulk model: the current page is empty.');
         }
 
         return $firstModel::class;
     }
 
     /**
-     * Handle the "select all" checkbox toggle.
-     *
-     * @param  bool  $value
-     * @return void
+     * Handle toggling the "select all" checkbox for the current page.
      */
     public function updatedSelectAll(bool $value): void
     {
@@ -158,38 +153,27 @@ trait WithBulkDelete
     }
 
     /**
-     * Sync the "select all" state when an individual checkbox is toggled.
-     *
-     * @return void
+     * Synchronize the "select all" state when individual checkboxes change.
      */
     public function updatedSelected(): void
     {
         $pageIds = $this->bulkPageIds();
+        $selectedOnPage = array_intersect($pageIds, $this->selected);
 
-        $this->selectAll = count($this->selected) > 0
-            && empty(array_diff($pageIds, $this->selected));
+        $this->selectAll = $pageIds !== []
+            && count($selectedOnPage) === count($pageIds);
     }
 
     /**
-     * Reset the selection whenever any paginator's page changes.
-     *
-     * Using the generic hook (rather than updatingPage()) so this
-     * also works correctly if the host component ever uses a named
-     * paginator (multiple paginators on one page).
-     *
-     * @param  mixed  $page
-     * @param  string  $pageName
-     * @return void
+     * Reset selection whenever any paginator page changes.
      */
-    public function updatingPaginators($page, $pageName): void
+    public function updatingPaginators(mixed $page, string $pageName): void
     {
         $this->resetSelection();
     }
 
     /**
-     * Clear the current selection.
-     *
-     * @return void
+     * Clear the current record selection and "select all" flag.
      */
     public function resetSelection(): void
     {
@@ -198,9 +182,7 @@ trait WithBulkDelete
     }
 
     /**
-     * Open the shared bulk-delete confirmation modal.
-     *
-     * @return void
+     * Open the shared bulk-delete confirmation modal after authorizing the action.
      */
     #[On('showBulkDeleteConfirmationModal')]
     public function showBulkDeleteConfirmation(): void
@@ -209,7 +191,7 @@ trait WithBulkDelete
 
         $this->selected = array_values(array_intersect($this->selected, $this->bulkPageIds()));
 
-        if (empty($this->selected)) {
+        if ($this->selected === []) {
             return;
         }
 
@@ -217,9 +199,7 @@ trait WithBulkDelete
     }
 
     /**
-     * Handle confirmation from the shared bulk-delete modal.
-     *
-     * @return void
+     * Confirm and execute bulk deletion from the confirmation modal.
      */
     #[On('confirmBulkDelete')]
     public function confirmBulkDelete(): void
@@ -231,9 +211,7 @@ trait WithBulkDelete
     }
 
     /**
-     * Remove the selected resources from storage.
-     *
-     * @return void
+     * Delete the currently selected records on the active page.
      */
     public function destroySelected(): void
     {
@@ -241,11 +219,13 @@ trait WithBulkDelete
 
         $selectedRecordIds = array_intersect($this->selected, $this->bulkPageIds());
 
-        if (empty($selectedRecordIds)) {
+        if ($selectedRecordIds === []) {
             return;
         }
 
-        $deletedCount = $this->bulkModel()::whereIn('id', $selectedRecordIds)->delete();
+        $deletedCount = $this->bulkModel()::query()
+            ->whereIn('id', $selectedRecordIds)
+            ->delete();
 
         $this->resetSelection();
 

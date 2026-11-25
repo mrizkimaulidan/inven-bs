@@ -6,15 +6,18 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Spatie\Permission\Models\Role;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Handle PDF reporting actions for role records.
+ */
 class RoleController extends Controller
 {
     /**
-     * Generate and stream a PDF document for all roles.
+     * Generate and stream a PDF document containing all roles and relation counts.
      */
     public function generateAllPdf(): Response
     {
-        $roles = Role::query()
-            ->withCount('permissions', 'users')
+        $rows = Role::query()
+            ->withCount(['permissions', 'users'])
             ->orderBy('name')
             ->get()
             ->map(static fn (Role $role): array => [
@@ -26,7 +29,7 @@ class RoleController extends Controller
         return Pdf::loadView('print.catalog', [
             'title' => 'Daftar Peran dan Hak Akses',
             'headers' => ['Nama Peran', 'Jumlah Hak Akses', 'Jumlah Pengguna'],
-            'rows' => $roles,
+            'rows' => $rows,
             'printedAt' => now()->translatedFormat('d F Y H:i'),
         ])
             ->setPaper('a4', 'landscape')

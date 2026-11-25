@@ -14,7 +14,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumns;
 
 /**
- * Build spreadsheet columns for exporting brand records.
+ * Export brand records along with commodity counts grouped by condition.
  */
 class BrandsExport implements FromCollection, WithColumns
 {
@@ -28,16 +28,16 @@ class BrandsExport implements FromCollection, WithColumns
     public function collection(): Collection
     {
         return Brand::query()
+            ->select(['id', 'name'])
             ->withCount([
                 'commodities',
-                'commodities as good_conditions_count' => fn (Builder $query) => $query->where('condition', CommodityCondition::GOOD),
-                'commodities as poor_conditions_count' => fn (Builder $query) => $query->where('condition', CommodityCondition::POOR),
-                'commodities as heavily_damaged_conditions_count' => fn (Builder $query) => $query->where('condition', CommodityCondition::HEAVILY_DAMAGED),
+                'commodities as good_conditions_count' => fn (Builder $query): Builder => $query->where('condition', CommodityCondition::GOOD),
+                'commodities as poor_conditions_count' => fn (Builder $query): Builder => $query->where('condition', CommodityCondition::POOR),
+                'commodities as heavily_damaged_conditions_count' => fn (Builder $query): Builder => $query->where('condition', CommodityCondition::HEAVILY_DAMAGED),
             ])
             ->orderBy('name')
-            ->get(['id', 'name'])
-            ->values()
-            ->map(function (Brand $brand, int $index) {
+            ->get()
+            ->map(function (Brand $brand, int $index): Brand {
                 $brand->row_number = $index + 1;
 
                 return $brand;
@@ -45,9 +45,9 @@ class BrandsExport implements FromCollection, WithColumns
     }
 
     /**
-     * Define the columns and their data types.
+     * Define the export columns and their data types.
      *
-     * @return array<int, Column>
+     * @return list<Column>
      */
     public function columns(): array
     {

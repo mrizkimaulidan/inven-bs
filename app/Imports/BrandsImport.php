@@ -3,7 +3,6 @@
 namespace App\Imports;
 
 use App\Models\Brand;
-use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -15,12 +14,11 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 class BrandsImport implements SkipsEmptyRows, ToModel, WithHeadingRow
 {
     /**
-     * Create a brand from an imported row.
+     * Build a brand model instance from an imported spreadsheet row.
      *
      * @param  array<string, mixed>  $spreadsheetRow
-     * @return Model|null
      */
-    public function model(array $spreadsheetRow): ?Model
+    public function model(array $spreadsheetRow): ?Brand
     {
         $brandName = trim((string) ($spreadsheetRow['nama_merek'] ?? ''));
 
@@ -28,6 +26,8 @@ class BrandsImport implements SkipsEmptyRows, ToModel, WithHeadingRow
             throw new InvalidArgumentException('Kolom Nama Merek wajib diisi.');
         }
 
-        return new Brand(['name' => $brandName]);
+        return new Brand([
+            'name' => $brandName,
+        ]);
     }
 }

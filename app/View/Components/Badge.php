@@ -2,7 +2,6 @@
 
 namespace App\View\Components;
 
-use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
@@ -13,10 +12,18 @@ class Badge extends Component
 {
     /**
      * List of supported Bootstrap badge variants.
+     *
+     * @var list<string>
      */
-    public const VARIANTS = [
-        'primary', 'secondary', 'success', 'danger',
-        'warning', 'info', 'light', 'dark',
+    public const array VARIANTS = [
+        'primary',
+        'secondary',
+        'success',
+        'danger',
+        'warning',
+        'info',
+        'light',
+        'dark',
     ];
 
     /**
@@ -26,7 +33,6 @@ class Badge extends Component
      * @param  string|null  $icon  The Font Awesome icon class.
      * @param  string  $variant  The Bootstrap badge variant.
      * @param  bool  $pill  Whether to render the badge as a pill.
-     * @return void
      */
     public function __construct(
         public string $label,
@@ -34,19 +40,16 @@ class Badge extends Component
         public string $variant = 'primary',
         public bool $pill = false,
     ) {
-        /**
-         * Fall back to the default style when the requested variant is unsupported.
-         */ if (! in_array($this->variant, self::VARIANTS, true)) {
+        // Fall back to the default style when the requested variant is unsupported.
+        if (! in_array($this->variant, self::VARIANTS, true)) {
             $this->variant = 'primary';
         }
     }
 
     /**
-     * Get the view / contents that represent the component.
-     *
-     * @return View|Closure|string
+     * Get the view or contents that represent the component.
      */
-    public function render(): View|Closure|string
+    public function render(): View
     {
         return view('components.badge');
     }
